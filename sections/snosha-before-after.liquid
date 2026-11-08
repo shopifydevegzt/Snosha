@@ -1,0 +1,165 @@
+{%- comment -%}
+  Snosha — Before / After (homepage section #8).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3903, mobile 190:4222.
+
+  Thin container for native Horizon theme blocks: the native comparison-slider block (drag, touch,
+  keyboard, intro animation stay native) and a native group with text / group / button blocks;
+  benefit icons use the project snosha-icon block. Kept as its own section (like snosha-collections)
+  because the generic "section" can't express this two-column geometry, mobile-only padding and a
+  stable scope without adding a design-specific mode to a shared section.
+  Static styles: assets/dev1.css (.snosha-before-after).
+{%- endcomment -%}
+{%- assign custom_class = section.settings.custom_class | strip | escape -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-before-after {
+    --snosha-ba-padding-start: {{ section.settings.padding_top }}px;
+    --snosha-ba-padding-end: {{ section.settings.padding_bottom }}px;
+    --snosha-ba-padding-start-mobile: {{ section.settings.padding_top_mobile }}px;
+    --snosha-ba-padding-end-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --snosha-ba-label-text: {{ section.settings.label_text_color }};
+    --snosha-ba-grip: {{ section.settings.grip_color }};
+    --snosha-ba-shadow: {{ section.settings.shadow_color }};
+  }
+{% endstyle %}
+
+<div class="section section--page-width snosha-before-after{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="snosha-before-after__layout">
+    {%- content_for 'blocks' -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha before / after",
+  "tag": "section",
+  "class": "snosha-before-after-section",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Layout: comparison slider first, then a group with heading, text, benefits and button. On desktop the group sits at the start side and the slider at the end side."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Comparison slider"
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Before / after label text",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "grip_color",
+      "label": "Handle grip lines",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Handle and label shadow",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha before / after",
+      "category": "Snosha",
+      "blocks": {
+        "comparison": {
+          "type": "comparison-slider",
+          "settings": {
+            "show_text": true,
+            "before_text": "قبل",
+            "after_text": "بعد",
+            "text_background": true,
+            "text_corner_radius": 10,
+            "border_radius": 18
+          }
+        },
+        "content": {
+          "type": "group",
+          "settings": { "gap": 20 },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": { "text": "<h2>روتينك اليومي ممكن يغير شكل ابتسامتك.</h2>", "type_preset": "h2", "width": "100%", "max_width": "none" }
+            },
+            "body": {
+              "type": "text",
+              "settings": { "text": "<p>التنظيف المنتظم مع فرشاة SNOSHA يساعدك على إزالة بقايا الطعام والتصبغات السطحية التي تتراكم مع الوقت ، لابتسامة تبدو أنظف وأكثر انتعاشًا.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none" }
+            },
+            "button": {
+              "type": "button",
+              "settings": { "label": "اكتشف SNOSHA N2", "style_class": "button-secondary" }
+            }
+          },
+          "block_order": ["heading", "body", "button"]
+        }
+      },
+      "block_order": ["comparison", "content"]
+    }
+  ]
+}
+{% endschema %}

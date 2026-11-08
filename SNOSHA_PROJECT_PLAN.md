@@ -92,7 +92,7 @@ Styles: `assets/main.css` | High | Hero product image (merchant upload pending);
 | 5 | Featured collection (best sellers) | `190:3844` | `190:4149` | **Implemented (branch `dev1`) on the existing native `product-list` instance `product_list_fa6P9H`** (layout `carousel`, static `_product-card` with `_product-card-gallery`, `product-title`, `custom-liquid` description, `review`, `price`, `custom-liquid` product link; native quick add). Opt-in section setting "Snosha featured collection style" adds the `.snosha-featured-collection` scope; styles in `assets/dev1.css`; mobile progress = the CSS scroll-timeline bar shared with #4 (`assets/snosha-carousel-progress.js` is only a fallback for browsers without scroll-driven animations) | Medium–High | Only 1 product in the store (no compare-at price, no review metafields), so discount badge and stars were checked with sample DOM only; quick-add label comes from the locale ("إضافة", Figma "أضف إلى السلة") | `IMPLEMENTED` |
 | 6 | F1 banner | `190:3851` | `190:4167` | `media-with-content` or `hero`; spec chips via `group` / `icon` / `text` | High | Decorative waves, bubbles and watermark (assets/CSS); product image | `NOT_STARTED` |
 | 7 | Featured collection · 2 (bundles title) | `190:3896` | `190:4204` | Second `product-list` instance; same card configuration as #5 | Low (after #5) | #5 card configuration; products | `NOT_STARTED` |
-| 8 | Before / After | `190:3903` | `190:4222` | `media-with-content` + `comparison-slider` block + benefit list (`group` / `icon` / `text`) + `button` | Medium | Before/after images (merchant); `comparison-slider` RTL drag behavior | `NOT_STARTED` |
+| 8 | Before / After | `190:3903` | `190:4222` | **Implemented (branch `dev1`) as `sections/snosha-before-after.liquid`**: thin container for native blocks: `comparison-slider` (drag, touch, keyboard and intro animation stay native), `group` / `text` / `button`, and the new project block `blocks/snosha-icon.liquid` for the Figma benefit icons. Instance `snosha_before_after` in `index.json`, after `product_list_fa6P9H` (#6 and #7 not built yet; they go before it). Styles in `assets/dev1.css` (`.snosha-before-after`, `.snosha-icon-block`) | Medium | Before/after photos (merchant); **browser validation not done** (user chose static checks only); the RTL fix to the native slider is still to be tested by hand; the slider starts at a fixed 50 % (Figma 48.3 % desktop, 49.6 % mobile); CTA link set to `/collections/all` until the N2 product exists | `IMPLEMENTED` |
 | 9 | Reels | `190:3935` | `190:4254` | `carousel` section with `video` blocks, or `product-list` carousel. Reel cards may link products | Medium–High | Video files/URLs (merchant); autoplay/performance policy. *Open: card content and links not inspected.* | `NOT_STARTED` |
 | 10 | Choose Your Care | `190:3943` | `190:4265` | `product-list` / `featured-product` / `section` + `_card` | High | Featured middle card differs in size; products. *Open: native fit unclear.* | `NOT_STARTED` |
 | 11 | Bundle | `190:3987` | `190:4318` | `product-hotspots` (mobile hotspots) + bundle list. Selectable items and a bundle total likely need an app or custom logic | High | **Bundle pricing logic / app (unknown)**; products. *Open: commerce behavior undecided; may become `BLOCKED`.* | `NOT_STARTED` |
@@ -357,6 +357,66 @@ The template was re-saved once because Shopify validated it before the new schem
 **Remaining**
 - When a carousel has nothing to scroll, the bar shows the Figma starting width (CSS can't detect "not scrollable" from the bar's element).
 - The fallback path was tested by simulation in Edge, not in a real Safari < 26 or Firefox. |
+| 2026-11-08 | **#8 Before / After → `IMPLEMENTED`** (branch `dev1`; Figma `190:3903` desktop, `190:4222` mobile; both nodes inspected with `get_design_context`).
+
+**Native architecture**
+- Evaluated:
+  - `media-with-content`: its media slot only takes image/video, so the comparison slider can't go there.
+  - Generic `section`: hosts any theme block, but would need a design-specific mode (scope, mobile-only padding, column geometry) on a section shared with the collection and contact templates.
+  - Native `icon` block: no tooth / sparkle artwork; its heart and stopwatch differ from Figma.
+- Chosen: new thin container `sections/snosha-before-after.liquid` (same pattern as #4) hosting native blocks only, plus the new project block `snosha-icon`.
+- Block tree (26 blocks, all merchant-editable):
+  - `comparison-slider`: 2 image pickers, labels "قبل" / "بعد", label background, radius 18.
+  - `group` Content, containing:
+    - `text` H2 "روتينك اليومي ممكن يغير شكل ابتسامتك." (H2 preset, color6);
+    - `text` body (Paragraph preset, color1);
+    - `group` Benefits: 4 × `group` row (`snosha-icon` tile + `group` with `text` title (H5 preset) and `text` description (Paragraph preset));
+    - `button` "اكتشف SNOSHA N2" (secondary style; link editable, set to `/collections/all` for now).
+- Benefits can be reordered, removed or duplicated in the Theme Editor. Exact Figma copy, punctuation included. Section preset includes the slider, heading, body and button.
+- `snippets/snosha-icon.liquid`: added `tooth`, `sparkle_detail`, `timer`, `heart` (Figma geometry, `currentColor` strokes, `--snosha-icon-fill` at 20 %).
+- `blocks/snosha-icon.liquid`: icon select, image-picker override, tile toggle, 5 color settings (palette defaults).
+- Section settings: desktop and mobile top/bottom padding (60/60, 56/40), label text, grip and shadow colors, `custom_class`.
+
+**CSS (`assets/dev1.css`, `.snosha-before-after`)**
+- ≥ 990: grid `557fr / 774fr`, gap 27, 20px start inset, −2px end overhang. At 1480 this should give content 851–1408 and slider 50–824 × 535, vertically centered (+8.5). Computed from CSS, not measured.
+- < 990: stacked (slider, then content), gap 20; slider 342 / 248.38, radius 24 (< 750) or 18 (≥ 750); content gap 14 below 750.
+- 990 is Horizon's secondary breakpoint, used because the two Figma columns don't fit side by side at 750–989.
+- Slider: images `object-fit: cover` in one shared viewport; divider 3px; handle 34 × 58 (mobile 29 × 48), radius 17, 3 grip lines; label chips 13/18 with 16px insets (mobile 45 × 21, radius 20, 12/18, "قبل" 3px from the edge as in Figma); Soft shadow from a section color setting; visible focus ring on the handle.
+- **RTL fix (scoped CSS, no JS):** the native slider places the divider and clips the layers with physical left/right, but its range input runs right-to-left in RTL and its labels follow the inline direction. Fix: the input stays `direction: ltr` so the divider follows the pointer, and in RTL the two layers are mirrored so "before" sits on the right under its label, as in Figma. LTR is unchanged. Native drag, touch, keyboard and intro animation are untouched; no JS added.
+- CTA: secondary-button tokens, scoped `--button-border-width: 1.5px`, padding 13 × 28, 16/26.
+
+**Checks run**
+- Schema JSON valid; no duplicate IDs; ranges ≤ 101 steps.
+- Template tree: 26 blocks, all ordered, all types exist.
+- Theme Check: only the 9 baseline offenses.
+- `git diff --check` clean.
+- New CSS: no hex/rgb, no `!important`, no physical left/right properties; breakpoints 750 / 990 only. No Figma URLs.
+
+**Not run (user chose static checks only):** browser geometry at 1480/390/320/750/990/1024; drag, touch, keyboard and RTL behavior; screenshots. The dev1 preview on 9293 shows a stale upload-error page: a temp file from `sed -i` was briefly in `sections/` and was rejected. The file is gone, and the section and template uploaded afterwards. The page clears when that server restarts.
+
+**Pending / known differences**
+- Before/after photos (merchant): image framing can only be judged with real photos.
+- Initial divider: Horizon fixes it at 50 % (no setting; the intro animation also ends at 50). Figma has 48.26 % from the right (desktop, 6.7px) and 49.56 % (mobile, 1.5px).
+- Icons drawn at 24px centered in the tile (Figma: a 24px vector in a 22px frame, about 1px offset for the sparkle).
+- Manual QA: geometry at 1480/390, drag, touch and keyboard in RTL and LTR, 750–989 stacked layout, Theme Editor block editing, CTA link to the N2 product. |
+| 2026-11-08 | **Homepage container + H2 max-width audit** (no code changes; statuses unchanged). Measured on the dev1 preview (port 9292), RTL and LTR, at 390 / 1024 / 1480 / 1920.
+
+**H2 `--max-width: var(--max-width--body-none)`: works as intended, not a bug**
+- `snippets/text.liquid` writes `--max-width: var(--max-width--{type}-{max_width})`. `theme-styles-variables.liquid` defines only `-normal` / `-narrow` (and `display-tight`), so for "None" the variable is undefined by design.
+- The undefined `var()` makes `--max-width` invalid; it computes to `""`.
+- The only consumer is `.text-block > * { max-inline-size: min(100%, var(--max-width, 100%)) }`, which falls back to `100%`: no limit.
+- Measured: every H2 / body text block set to "None" has `max-inline-size: 100%` and fills its parent exactly (collections H2 1376, best-sellers H2 1336, before/after H2 557). Product titles use "Normal" (`min(100%, 520px)`, no effect in 292px cards).
+- `type` comes from the block's custom `font_size` setting, so preset headings resolve to `body-*`; this doesn't matter for "None".
+
+**Global container** (`page_width = custom_1376` → `<body class="page-width-custom_1376">` → `--page-content-width: 86rem`, `--page-margin` 24 → 52px in `custom-design-tokens.liquid`; Horizon's `.section` 3-column grid)
+- Every homepage section, plus the header and footer groups, uses `.section section--page-width`. Center column: 52/1376 at 1480, 272/1376 at 1920, 40.3/943.4 at 1024, 24/342 at 390. No double padding, no horizontal overflow, backgrounds full width (hero band, best-sellers background 0–viewport).
+
+**Intentional Figma offsets inside the container (kept)**
+- Hero: content 821–1408 (20px inset); trust card 119/1242 (3px frame + 20px inset); mobile trust 24/346 (Figma 4px overhang).
+- Collections: heading 52/1376; cards from 1408 (20px inset); carousel full-bleed with peek and arrows; mobile card gutter 20.
+- Best sellers: header 52/1376; cards 72–1408, clipped at the container on desktop.
+- Before/after: content 851/557; slider 50/774. The layout box is 1378 wide because Figma's slider overhangs the 1376 container by 2px at the inline end; kept as in Figma.
+- LTR mirrors all of the above. |
 
 ---
 
