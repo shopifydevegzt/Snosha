@@ -770,3 +770,255 @@
     inline-size: calc(100% - 2 * var(--snosha-progress-inset));
   }
 }
+
+/* =========================================================================
+   SNOSHA — BEFORE / AFTER  (sections/snosha-before-after.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3903 (1480), mobile 190:4222 (390).
+   Native blocks inside: comparison-slider (drag / touch / keyboard / intro animation stay native),
+   group + text + button; benefit icons = snosha-icon block (styles further below).
+   - >= 990px  Figma desktop: content (557) at the inline start, slider (774 x 535) at the inline
+                end, 27px gap, 20px inset at the start, slider overhangs the container by 2px.
+   - <  990px  stacked like the Figma mobile frame (slider, then content); Figma mobile metrics
+                below 750px. 990 is Horizon's secondary layout breakpoint: the two Figma columns
+                don't fit side by side in 750–989.
+   ========================================================================= */
+
+.snosha-before-after {
+  padding-block: var(--snosha-ba-padding-start-mobile) var(--snosha-ba-padding-end-mobile);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-ba-padding-start) var(--snosha-ba-padding-end);
+  }
+
+  /* ---------------- Layout ---------------- */
+  .snosha-before-after__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @media screen and (min-width: 990px) {
+      display: grid;
+      grid-template-columns: minmax(0, 557fr) minmax(0, 774fr);
+      column-gap: 27px;
+      align-items: center;
+      padding-inline-start: 20px;
+      margin-inline-end: -2px;
+
+      > comparison-slider-component {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      > .group-block {
+        grid-column: 1;
+        grid-row: 1;
+      }
+    }
+  }
+
+  /* ---------------- Comparison slider (native block) ---------------- */
+  .comparison-slider {
+    aspect-ratio: 342 / 248.38;
+    border-radius: 24px;
+
+    @media screen and (min-width: 750px) {
+      border-radius: 18px;
+    }
+
+    @media screen and (min-width: 990px) {
+      aspect-ratio: 774 / 535;
+    }
+  }
+
+  /* Both images share the slider's exact viewport and framing */
+  :is(.before-image, .after-image, .comparison-slider__placeholder) {
+    aspect-ratio: auto;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Divider: Figma 3px, no shadow */
+  .comparison-slider__media-wrapper[data-orientation='horizontal']::after {
+    width: 3px;
+    box-shadow: none;
+  }
+
+  /* Handle: Figma 34 x 58 (mobile 29 x 48), radius 17, three 2 x 16 grip lines 4px apart */
+  .cs-slider__handle {
+    width: 34px;
+    height: 58px;
+    padding: 0;
+    gap: 0;
+    border-radius: 17px;
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
+
+    @media screen and (max-width: 749px) {
+      width: 29px;
+      height: 48px;
+    }
+
+    &::before {
+      content: '';
+      inline-size: 14px;
+      block-size: 16px;
+      background: repeating-linear-gradient(
+        to right,
+        color-mix(in srgb, var(--snosha-ba-grip) 85%, transparent) 0 2px,
+        transparent 2px 6px
+      );
+    }
+
+    .cs-slider__chevron {
+      display: none;
+    }
+  }
+
+  /* The range input is invisible: show keyboard focus on the handle */
+  .comparison-slider__media-wrapper:has(.cs-slider:focus-visible) .cs-slider__handle {
+    outline: 2px solid var(--snosha-ba-label-text);
+    outline-offset: 2px;
+  }
+
+  /* Labels (native "text on images"): Figma chips */
+  [data-orientation='horizontal'] .comparison-slider__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inset-block-start: 16px;
+    padding: 6px 16px;
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
+
+    > * {
+      margin: 0;
+      color: var(--snosha-ba-label-text);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 13px;
+      line-height: 18px;
+      white-space: nowrap;
+    }
+
+    @media screen and (max-width: 749px) {
+      inset-block-start: 12px;
+      inline-size: 45px;
+      block-size: 21px;
+      padding: 0;
+      border-radius: 20px;
+
+      > * {
+        font-size: 12px;
+      }
+    }
+  }
+
+  [data-orientation='horizontal'] .comparison-slider__text--before {
+    inset-inline-start: 16px;
+
+    @media screen and (max-width: 749px) {
+      inset-inline-start: 3px; /* Figma mobile: "قبل" chip 3px from the edge */
+    }
+  }
+
+  [data-orientation='horizontal'] .comparison-slider__text--after {
+    inset-inline-end: 16px;
+  }
+
+  /* RTL: Horizon positions the divider and clips the layers with physical left/right, but the range
+     input runs right-to-left in RTL and the labels follow the inline direction. Keep the input
+     physical so the divider follows the pointer, and mirror the layers so the "before" image sits
+     at the inline start (right), under its label, as in Figma. LTR keeps the native layout. */
+  .cs-slider {
+    direction: ltr;
+  }
+
+  [data-orientation='horizontal']:dir(rtl) {
+    .comparison-slider__layer--before {
+      clip-path: inset(0 0 0 calc(var(--compare) * 1%));
+    }
+
+    .comparison-slider__layer--after {
+      clip-path: inset(0 calc((100 - var(--compare)) * 1%) 0 0);
+    }
+  }
+
+  /* ---------------- Content (native group / text / button) ---------------- */
+  .snosha-before-after__layout > .group-block > .group-block-content {
+    @media screen and (max-width: 749px) {
+      gap: 14px; /* Figma mobile content gap */
+    }
+  }
+
+  :is(h2, p) {
+    margin: 0;
+  }
+
+  /* Body: Paragraph preset, Figma 18 / 32 */
+  .text-block.paragraph {
+    font-size: 18px;
+    line-height: 32px;
+
+    & p {
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  /* Benefit rows: a group whose first block is a snosha-icon tile */
+  .group-block-content:has(> .snosha-icon-block) {
+    .text-block.h5 {
+      &,
+      & > * {
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 16px;
+        line-height: 27px;
+        text-transform: none;
+      }
+    }
+
+    .text-block.paragraph {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+
+  /* CTA: native secondary button (palette tokens); Figma 1.5px border, 13 x 28 padding, 16 / 26 */
+  .button-secondary {
+    --button-border-width: 1.5px;
+    --button-padding-block: 13px;
+    --button-padding-inline: 28px;
+
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Snosha icon block (blocks/snosha-icon.liquid) — reusable; colors are block settings.
+   Figma Icon Tile: 40 x 40, radius 13, 1px border, white → tinted vertical gradient, 24px icon.
+   ------------------------------------------------------------------------- */
+.snosha-icon-block {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--snosha-icon-color);
+
+  .snosha-icon-block__icon,
+  .snosha-icon-block__image {
+    display: block;
+    inline-size: 24px;
+    block-size: 24px;
+    object-fit: contain;
+  }
+}
+
+.snosha-icon-block--tile {
+  box-sizing: border-box;
+  inline-size: 40px;
+  block-size: 40px;
+  border: 1px solid var(--snosha-icon-tile-border);
+  border-radius: 13px;
+  background: linear-gradient(to bottom, var(--snosha-icon-tile-start), var(--snosha-icon-tile-end));
+}
