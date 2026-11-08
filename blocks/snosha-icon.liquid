@@ -1,0 +1,111 @@
+{%- comment -%}
+  Snosha icon (theme block): one icon from snippets/snosha-icon.liquid (Figma "Icon / *" set),
+  optionally on the Figma light-gradient tile. Horizon's native icon block has no tooth / sparkle /
+  timer artwork matching the design; an uploaded image replaces the built-in icon.
+  Styles: assets/dev1.css (.snosha-icon-block). Colors are per-block settings.
+{%- endcomment -%}
+{%- assign block_settings = block.settings -%}
+<div
+  class="snosha-icon-block{% if block_settings.show_tile %} snosha-icon-block--tile{% endif %}"
+  style="
+    --snosha-icon-color: {{ block_settings.icon_color }};
+    --snosha-icon-fill: {{ block_settings.icon_fill_color }};
+    --snosha-icon-tile-start: {{ block_settings.tile_start_color }};
+    --snosha-icon-tile-end: {{ block_settings.tile_end_color }};
+    --snosha-icon-tile-border: {{ block_settings.tile_border_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if block_settings.image != blank -%}
+    {{
+      block_settings.image
+      | image_url: width: 96
+      | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'snosha-icon-block__image'
+    }}
+  {%- else -%}
+    {%- render 'snosha-icon', icon: block_settings.icon, uid: block.id, class: 'snosha-icon-block__icon' -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Snosha icon",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "tooth", "label": "Tooth" },
+        { "value": "sparkle_detail", "label": "Sparkle" },
+        { "value": "timer", "label": "Timer" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "package", "label": "Package" },
+        { "value": "exchange", "label": "Exchange" },
+        { "value": "sonic", "label": "Sonic" },
+        { "value": "battery", "label": "Battery" },
+        { "value": "sliders", "label": "Modes" }
+      ],
+      "default": "tooth"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom icon image",
+      "info": "Replaces the built-in icon. Square, about 24 px."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tile",
+      "label": "Show tile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_fill_color",
+      "label": "Icon inner fill",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_start_color",
+      "label": "Tile gradient top",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ block.settings.show_tile }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_end_color",
+      "label": "Tile gradient bottom",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ block.settings.show_tile }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_border_color",
+      "label": "Tile border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ block.settings.show_tile }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha icon",
+      "category": "Snosha"
+    }
+  ]
+}
+{% endschema %}

@@ -9,150 +9,39 @@
  */
 {
   "sections": {
-    "snosha_hero": {
-      "type": "snosha-hero",
+    "snosha_before_after": {
+      "type": "snosha-before-after",
       "blocks": {
-        "spec_chip_sonic": {
-          "type": "spec_chip",
+        "comparison": {
+          "type": "comparison-slider",
+          "name": "Before / after images",
           "settings": {
-            "text": "حتى 42,000 حركة/دقيقة",
-            "icon": "sonic",
-            "desktop_x": 428,
-            "desktop_y": 122,
-            "mobile_x": 251,
-            "mobile_y": 37
-          }
-        },
-        "spec_chip_battery": {
-          "type": "spec_chip",
-          "settings": {
-            "text": "بطارية حتى 120 يوم",
-            "icon": "battery",
-            "desktop_x": -29,
-            "desktop_y": 156,
-            "mobile_x": 70.5,
-            "mobile_y": 287
-          }
-        },
-        "spec_chip_modes": {
-          "type": "spec_chip",
-          "settings": {
-            "text": "5 أوضاع تنظيف",
-            "icon": "sliders",
-            "desktop_x": -18,
-            "desktop_y": 316,
-            "mobile_x": 47.5,
-            "mobile_y": 150
-          }
-        },
-        "spec_chip_dupont": {
-          "type": "spec_chip",
-          "settings": {
-            "text": "8 رؤوس DuPont",
-            "icon": "brush_head",
-            "desktop_x": 428,
-            "desktop_y": 257,
-            "mobile_x": 275.5,
-            "mobile_y": 155
-          }
-        },
-        "trust_item_warranty": {
-          "type": "trust_item",
-          "settings": {
-            "icon": "shield_check",
-            "title": "ضمان لمدة سنة",
-            "subtitle": "علي الأجهزة",
-            "subtitle_mobile": ""
-          }
-        },
-        "trust_item_returns": {
-          "type": "trust_item",
-          "settings": {
-            "icon": "exchange",
-            "title": "استبدال واسترجاع",
-            "subtitle": "خلال 7 أيام",
-            "subtitle_mobile": ""
-          }
-        },
-        "trust_item_shipping": {
-          "type": "trust_item",
-          "settings": {
-            "icon": "package",
-            "title": "شحن مجاني",
-            "subtitle": "للطلبات من 2000 جنيه فأكثر",
-            "subtitle_mobile": "للطلبات من 2000 جنيه"
-          }
-        },
-        "trust_item_delivery": {
-          "type": "trust_item",
-          "settings": {
-            "icon": "truck",
-            "title": "توصيل سريع",
-            "subtitle": "لجميع أنحاء مصر",
-            "subtitle_mobile": ""
-          }
-        }
-      },
-      "block_order": [
-        "spec_chip_sonic",
-        "spec_chip_battery",
-        "spec_chip_modes",
-        "spec_chip_dupont",
-        "trust_item_warranty",
-        "trust_item_returns",
-        "trust_item_shipping",
-        "trust_item_delivery"
-      ],
-      "name": "Snosha hero",
-      "settings": {
-        "eyebrow": "عناية ذكية بالفم  تكنولوجيا وتصميم مدروس",
-        "show_eyebrow_icon": true,
-        "heading": "العناية <em>الذكية</em> بصحة الفم والأسنان",
-        "text": "حلول ذكية للعناية بالفم تجمع بين التكنولوجيا والتصميم العملي لتجعل روتينك اليومي أسهل.",
-        "button_label": "تسوّق الآن",
-        "button_link": "shopify://collections/all",
-        "image": "shopify://shop_images/36ca2f3a97861d7a5e52eaad601f402e982e7c01.png",
-        "desktop_height": 500,
-        "padding_block_end": 0,
-        "gradient_start": "#63cdff",
-        "gradient_middle": "{{ settings.color_palette.color3 }}",
-        "gradient_end": "#0f64a8",
-        "text_color": "{{ settings.color_palette.background }}",
-        "highlight_color": "#63cdff",
-        "chip_text_color": "{{ settings.color_palette.color6 }}",
-        "button_background": "{{ settings.color_palette.background }}",
-        "trust_background": "{{ settings.color_palette.background }}",
-        "trust_title_color": "{{ settings.color_palette.foreground }}",
-        "trust_text_color": "{{ settings.color_palette.color1 }}",
-        "trust_border_color": "{{ settings.color_palette.color2 }}",
-        "trust_tile_color": "{{ settings.color_palette.color5 }}",
-        "trust_icon_color": "{{ settings.color_palette.color3 }}",
-        "trust_icon_accent_color": "{{ settings.color_palette.color4 }}",
-        "custom_class": ""
-      }
-    },
-    "snosha_collections": {
-      "type": "snosha-collections",
-      "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "Heading",
-          "settings": {
-            "text": "<h2>مجموعات SNOSHA</h2>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
+            "before_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
+            "after_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
+            "slider_style": "horizontal",
+            "show_text": true,
+            "before_text": "قبل",
+            "after_text": "بعد",
+            "text_preset": "",
+            "text_position_horizontal": "start",
+            "text_position_vertical": "start",
+            "text_background": true,
+            "text_background_color": "{{ settings.color_palette.background }}",
+            "text_corner_radius": 10,
             "text_color": "{{ settings.color_palette.color6 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "image_ratio": "landscape",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "slider_bg_color": "",
+            "slider_handle_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 18,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -160,112 +49,18 @@
           },
           "blocks": {}
         },
-        "static-collection-card": {
-          "type": "_collection-card",
-          "name": "t:names.collection_card",
-          "static": true,
-          "settings": {
-            "placement": "below_image",
-            "horizontal_alignment": "center",
-            "vertical_alignment": "flex-start",
-            "collection_card_gap": 18,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0
-          },
-          "blocks": {
-            "collection-title": {
-              "type": "collection-title",
-              "name": "t:names.collection_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "h3",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "{{ settings.color_palette.background }}",
-                "text_color": "{{ settings.color_palette.color6 }}",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 4,
-                "padding-inline-end": 4
-              },
-              "blocks": {}
-            },
-            "collection-card-image": {
-              "type": "_collection-card-image",
-              "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "image_ratio": "square",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 12
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "collection-title"
-          ]
-        }
-      },
-      "block_order": [
-        "heading"
-      ],
-      "name": "Snosha collections",
-      "settings": {
-        "collection_list": [
-          "فرشاة-الأسنان-الكهربائية",
-          "الأكسسوارات",
-          "منتجات-العناية-بالفم",
-          "باندل",
-          "الرؤوس-البديلة"
-        ],
-        "layout_type": "carousel",
-        "icons_style": "chevron",
-        "arrow_background": "{{ settings.color_palette.background }}",
-        "arrow_border": "{{ settings.color_palette.color2 }}",
-        "arrow_icon": "{{ settings.color_palette.color3 }}",
-        "arrow_shadow": "#0d4080",
-        "progress_track": "{{ settings.color_palette.color2 }}",
-        "progress_start": "#63cdff",
-        "progress_end": "#0f64a8",
-        "custom_class": ""
-      }
-    },
-    "product_list_fa6P9H": {
-      "type": "product-list",
-      "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
+        "content": {
+          "type": "group",
+          "name": "Content",
           "settings": {
             "content_direction": "column",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 6,
+            "gap": 20,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -276,25 +71,31 @@
             "background_color": "",
             "video_position": "cover",
             "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
             "border_color": "",
             "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
+            "heading": {
+              "type": "text",
               "settings": {
-                "text": "<h2>الأكثر مبيعًا</h2>",
+                "text": "<h2>روتينك اليومي ممكن يغير شكل ابتسامتك.</h2>",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "h2",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
@@ -313,14 +114,13 @@
               },
               "blocks": {}
             },
-            "product_list_text_subtitle": {
-              "type": "_product-list-text",
-              "name": "Subtitle",
+            "body": {
+              "type": "text",
               "settings": {
-                "text": "<p>منتجات SNOSHA الأكثر مبيعًا</p>",
+                "text": "<p>التنظيف المنتظم مع فرشاة SNOSHA يساعدك على إزالة بقايا الطعام والتصبغات السطحية التي تتراكم مع الوقت ، لابتسامة تبدو أنظف وأكثر انتعاشًا.</p>",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center",
+                "alignment": "left",
                 "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
@@ -339,14 +139,681 @@
               },
               "blocks": {}
             },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
+            "benefits": {
+              "type": "group",
+              "name": "Benefits",
               "settings": {
-                "always_show": true,
-                "label": "عرض الكل",
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 14,
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "background_color": "",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
-                "style_class": "button-unstyled",
+                "placeholder": "",
+                "padding-block-start": 6,
+                "padding-block-end": 8,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "benefit_1": {
+                  "type": "group",
+                  "name": "Benefit 1",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "flex-start",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "benefit_1_icon": {
+                      "type": "snosha-icon",
+                      "settings": {
+                        "icon": "tooth",
+                        "show_tile": true,
+                        "icon_color": "{{ settings.color_palette.color3 }}",
+                        "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                        "tile_start_color": "{{ settings.color_palette.background }}",
+                        "tile_end_color": "{{ settings.color_palette.color5 }}",
+                        "tile_border_color": "{{ settings.color_palette.color2 }}"
+                      },
+                      "blocks": {}
+                    },
+                    "benefit_1_text": {
+                      "type": "group",
+                      "name": "Benefit text",
+                      "settings": {
+                        "content_direction": "column",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 2,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "benefit_1_title": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>تنظيف يومي أعمق</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "h5",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.foreground }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        },
+                        "benefit_1_description": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>يساعد على إزالة بقايا الطعام والتراكمات التي تتجمع مع الوقت.</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.color1 }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "benefit_1_title",
+                        "benefit_1_description"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "benefit_1_icon",
+                    "benefit_1_text"
+                  ]
+                },
+                "benefit_2": {
+                  "type": "group",
+                  "name": "Benefit 2",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "flex-start",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "benefit_2_icon": {
+                      "type": "snosha-icon",
+                      "settings": {
+                        "icon": "sparkle_detail",
+                        "show_tile": true,
+                        "icon_color": "{{ settings.color_palette.color3 }}",
+                        "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                        "tile_start_color": "{{ settings.color_palette.background }}",
+                        "tile_end_color": "{{ settings.color_palette.color5 }}",
+                        "tile_border_color": "{{ settings.color_palette.color2 }}"
+                      },
+                      "blocks": {}
+                    },
+                    "benefit_2_text": {
+                      "type": "group",
+                      "name": "Benefit text",
+                      "settings": {
+                        "content_direction": "column",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 2,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "benefit_2_title": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>إزالة التصبغات السطحية</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "h5",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.foreground }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        },
+                        "benefit_2_description": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>وضع White مصمم للمساعدة في تنظيف التصبغات السطحية والحفاظ على مظهر أكثر إشراقًا.</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.color1 }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "benefit_2_title",
+                        "benefit_2_description"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "benefit_2_icon",
+                    "benefit_2_text"
+                  ]
+                },
+                "benefit_3": {
+                  "type": "group",
+                  "name": "Benefit 3",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "flex-start",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "benefit_3_icon": {
+                      "type": "snosha-icon",
+                      "settings": {
+                        "icon": "timer",
+                        "show_tile": true,
+                        "icon_color": "{{ settings.color_palette.color3 }}",
+                        "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                        "tile_start_color": "{{ settings.color_palette.background }}",
+                        "tile_end_color": "{{ settings.color_palette.color5 }}",
+                        "tile_border_color": "{{ settings.color_palette.color2 }}"
+                      },
+                      "blocks": {}
+                    },
+                    "benefit_3_text": {
+                      "type": "group",
+                      "name": "Benefit text",
+                      "settings": {
+                        "content_direction": "column",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 2,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "benefit_3_title": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>روتين منتظم</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "h5",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.foreground }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        },
+                        "benefit_3_description": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>مؤقت دقيقتين يساعدك تكملي وقت التنظيف الموصى به في كل مرة.</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.color1 }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "benefit_3_title",
+                        "benefit_3_description"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "benefit_3_icon",
+                    "benefit_3_text"
+                  ]
+                },
+                "benefit_4": {
+                  "type": "group",
+                  "name": "Benefit 4",
+                  "settings": {
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "flex-start",
+                    "vertical_alignment": "flex-start",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 12,
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 0,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "benefit_4_icon": {
+                      "type": "snosha-icon",
+                      "settings": {
+                        "icon": "heart",
+                        "show_tile": true,
+                        "icon_color": "{{ settings.color_palette.color3 }}",
+                        "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                        "tile_start_color": "{{ settings.color_palette.background }}",
+                        "tile_end_color": "{{ settings.color_palette.color5 }}",
+                        "tile_border_color": "{{ settings.color_palette.color2 }}"
+                      },
+                      "blocks": {}
+                    },
+                    "benefit_4_text": {
+                      "type": "group",
+                      "name": "Benefit text",
+                      "settings": {
+                        "content_direction": "column",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 2,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "benefit_4_title": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>تنظيف يناسبك</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "h5",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.foreground }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        },
+                        "benefit_4_description": {
+                          "type": "text",
+                          "settings": {
+                            "text": "<p>اختاري الوضع المناسب لاحتياجك، من التنظيف اليومي إلى Sensitive للعناية اللطيفة.</p>",
+                            "width": "100%",
+                            "max_width": "none",
+                            "alignment": "left",
+                            "type_preset": "paragraph",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "{{ settings.color_palette.color1 }}",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "benefit_4_title",
+                        "benefit_4_description"
+                      ]
+                    }
+                  },
+                  "block_order": [
+                    "benefit_4_icon",
+                    "benefit_4_text"
+                  ]
+                }
+              },
+              "block_order": [
+                "benefit_1",
+                "benefit_2",
+                "benefit_3",
+                "benefit_4"
+              ]
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "اكتشف SNOSHA N2",
+                "link": "shopify://collections/all",
+                "open_in_new_tab": false,
+                "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
                 "custom_button_border": "{{ settings.color_palette.background }}",
@@ -360,435 +827,31 @@
             }
           },
           "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_text_subtitle",
-            "product_list_button_MWeP9V"
-          ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 6,
-            "background_color": "",
-            "border": "solid",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "#efeded",
-            "border_radius": 20,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "portrait",
-                "custom_badge_text": "الأكثر مبيعًا",
-                "custom_badge_tag": "",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h5",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "card_description": {
-              "type": "custom-liquid",
-              "name": "Short description",
-              "settings": {
-                "custom_liquid": "{%- assign card_text = closest.product.description | strip_html | strip -%}{%- if card_text != blank -%}<p class=\"snosha-card__description\">{{ card_text | truncatewords: 24 }}</p>{%- endif -%}"
-              },
-              "blocks": {}
-            },
-            "card_rating": {
-              "type": "review",
-              "name": "Rating",
-              "settings": {
-                "stars_style": "outline",
-                "show_number": false,
-                "label": "التقييمات",
-                "text_color": "",
-                "type_preset": "paragraph",
-                "width": "100%",
-                "alignment": "left"
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_discount_badge": true,
-                "discount_badge_label": "خصم [percent]%",
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "card_cta": {
-              "type": "custom-liquid",
-              "name": "Product link",
-              "settings": {
-                "custom_liquid": "<a class=\"snosha-card__cta\"{% if closest.product != blank %} href=\"{{ closest.product.url }}\"{% endif %} tabindex=\"-1\" aria-hidden=\"true\">عرض المنتج</a>"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "card_description",
-            "card_rating",
-            "price_JQzVV4",
-            "card_cta"
-          ]
-        }
-      },
-      "name": "t:names.product_list",
-      "settings": {
-        "collection": "all",
-        "layout_type": "carousel",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 24,
-        "rows_gap": 24,
-        "icons_style": "none",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 40,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 60,
-        "padding-block-end": 91,
-        "custom_class": "",
-        "snosha_style": true,
-        "snosha_mobile_padding_top": 56,
-        "snosha_mobile_padding_bottom": 56,
-        "snosha_title_color": "{{ settings.color_palette.color6 }}",
-        "snosha_text_color": "{{ settings.color_palette.color1 }}",
-        "snosha_accent_color": "{{ settings.color_palette.color3 }}",
-        "snosha_accent_text_color": "{{ settings.color_palette.background }}",
-        "snosha_star_color": "{{ settings.color_palette.color4 }}",
-        "snosha_discount_background": "{{ settings.color_palette.color5 }}",
-        "snosha_discount_border": "{{ settings.color_palette.color2 }}",
-        "snosha_progress_track": "{{ settings.color_palette.color2 }}",
-        "snosha_gradient_start": "#63cdff",
-        "snosha_gradient_end": "#0f64a8"
-      }
-    },
-    "snosha_f1_banner": {
-      "type": "snosha-f1-banner",
-      "blocks": {
-        "spec_tank": {
-          "type": "spec",
-          "settings": {
-            "text": "خزان ماء 330 مل",
-            "icon": "tank"
-          }
-        },
-        "spec_modes": {
-          "type": "spec",
-          "settings": {
-            "text": "4 أوضاع تنظيف",
-            "icon": "sliders"
-          }
-        },
-        "spec_pressure": {
-          "type": "spec",
-          "settings": {
-            "text": "ضغط 30–120 PSI",
-            "icon": "gauge"
-          }
-        },
-        "spec_heads": {
-          "type": "spec",
-          "settings": {
-            "text": "4 رؤوس متخصصة",
-            "icon": "brush_head"
-          }
-        }
-      },
-      "block_order": [
-        "spec_tank",
-        "spec_modes",
-        "spec_pressure",
-        "spec_heads"
-      ],
-      "settings": {
-        "tag": "SNOSHA F1",
-        "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
-        "text": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول.",
-        "button_label": "عرض المنتج",
-        "product": "",
-        "button_link": "",
-        "image": "shopify://shop_images/ce3a9d782ccce2c0f43df794cac8294fc07edd36.png",
-        "watermark": "F1",
-        "background_start": "{{ settings.color_palette.background }}",
-        "background_end": "{{ settings.color_palette.color5 }}",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "highlight_color": "{{ settings.color_palette.color3 }}",
-        "text_color": "{{ settings.color_palette.color1 }}",
-        "accent_start": "#63cdff",
-        "accent_end": "#0f64a8",
-        "on_accent_color": "{{ settings.color_palette.background }}",
-        "spec_background": "{{ settings.color_palette.background }}",
-        "spec_border": "{{ settings.color_palette.color2 }}",
-        "spec_text": "{{ settings.color_palette.color6 }}",
-        "decor_color": "{{ settings.color_palette.color3 }}",
-        "custom_class": ""
-      }
-    },
-    "snosha_choose_care": {
-      "type": "snosha-choose-care",
-      "blocks": {
-        "care_tongue": {
-          "type": "_snosha-care-card",
-          "settings": {
-            "featured": false,
-            "title": "منظف اللسان SNOSHA",
-            "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
-            "badge": "",
-            "discount_label": "خصم",
-            "button_label": "عرض المنتج",
-            "image_fit": "contain"
-          },
-          "blocks": {
-            "tongue_spec_1": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "يزيل مصدر 90% من رائحة الفم",
-                "icon": "sparkle_detail"
-              }
-            },
-            "tongue_spec_2": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "فولاذ مقاوم للصدأ 420J2",
-                "icon": "shield_check"
-              }
-            },
-            "tongue_spec_3": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "تصميم مزدوج: فرشاة + مكشطة",
-                "icon": "brush_head"
-              }
-            },
-            "tongue_spec_4": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "حافظة سفر + ضمان سنة",
-                "icon": "package"
-              }
-            }
-          },
-          "block_order": [
-            "tongue_spec_1",
-            "tongue_spec_2",
-            "tongue_spec_3",
-            "tongue_spec_4"
-          ]
-        },
-        "care_n2": {
-          "type": "_snosha-care-card",
-          "settings": {
-            "featured": true,
-            "title": "SNOSHA N2",
-            "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
-            "badge": "الأكثر مبيعًا",
-            "discount_label": "خصم",
-            "button_label": "عرض المنتج",
-            "image_fit": "cover"
-          },
-          "blocks": {
-            "n2_spec_1": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "حتى 42,000 حركة/دقيقة",
-                "icon": "sonic"
-              }
-            },
-            "n2_spec_2": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "5 أوضاع تنظيف",
-                "icon": "sliders"
-              }
-            },
-            "n2_spec_3": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "بطارية حتى 120 يوم بالشحنة",
-                "icon": "battery"
-              }
-            },
-            "n2_spec_4": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "مقاوم للماء IPX7",
-                "icon": "drop"
-              }
-            },
-            "n2_spec_5": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "8 رؤوس DuPont",
-                "icon": "brush_head"
-              }
-            },
-            "n2_spec_6": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "مؤقت ذكي دقيقتان",
-                "icon": "timer"
-              }
-            }
-          },
-          "block_order": [
-            "n2_spec_1",
-            "n2_spec_2",
-            "n2_spec_3",
-            "n2_spec_4",
-            "n2_spec_5",
-            "n2_spec_6"
-          ]
-        },
-        "care_f1": {
-          "type": "_snosha-care-card",
-          "settings": {
-            "featured": false,
-            "title": "SNOSHA F1",
-            "description": "جهاز تنظيف الأسنان بالماء — تنظيف بين الأسنان… بخطوة أسهل",
-            "badge": "",
-            "discount_label": "خصم",
-            "button_label": "عرض المنتج",
-            "image_fit": "cover"
-          },
-          "blocks": {
-            "f1_spec_1": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "خزان ماء 330 مل",
-                "icon": "tank"
-              }
-            },
-            "f1_spec_2": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "4 أوضاع تنظيف",
-                "icon": "sliders"
-              }
-            },
-            "f1_spec_3": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "4 رؤوس متخصصة",
-                "icon": "brush_head"
-              }
-            },
-            "f1_spec_4": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "ضغط ماء 30–120 PSI",
-                "icon": "gauge"
-              }
-            }
-          },
-          "block_order": [
-            "f1_spec_1",
-            "f1_spec_2",
-            "f1_spec_3",
-            "f1_spec_4"
+            "heading",
+            "body",
+            "benefits",
+            "button"
           ]
         }
       },
       "block_order": [
-        "care_tongue",
-        "care_n2",
-        "care_f1"
+        "comparison",
+        "content"
       ],
+      "name": "Snosha before / after",
       "settings": {
-        "heading": "اختار العناية المناسبة لاحتياجاتك",
-        "subtitle": "ثلاث منتجات لروتين متكامل , اختار اللي يناسب احتياجك.",
-        "background_start": "#f7fbfe",
-        "background_end": "{{ settings.color_palette.color2 }}",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "subtitle_color": "{{ settings.color_palette.color1 }}",
-        "progress_track": "{{ settings.color_palette.background }}",
-        "card_background": "{{ settings.color_palette.background }}",
-        "title_color": "{{ settings.color_palette.foreground }}",
-        "text_color": "{{ settings.color_palette.color1 }}",
-        "border_color": "{{ settings.color_palette.color2 }}",
-        "icon_color": "{{ settings.color_palette.color3 }}",
-        "icon_accent_color": "{{ settings.color_palette.color4 }}",
-        "accent_color": "{{ settings.color_palette.color3 }}",
-        "accent_hover_color": "{{ settings.color_palette.color6 }}",
-        "on_accent_color": "{{ settings.color_palette.background }}",
-        "outline_color": "{{ settings.color_palette.color4 }}",
-        "tint_color": "{{ settings.color_palette.color5 }}",
-        "glow_start": "#63cdff",
-        "glow_end": "#0f64a8",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 40,
+        "label_text_color": "{{ settings.color_palette.color6 }}",
+        "grip_color": "{{ settings.color_palette.foreground }}",
+        "shadow_color": "#0f64a8",
         "custom_class": ""
       }
     }
   },
   "order": [
-    "snosha_hero",
-    "snosha_collections",
-    "product_list_fa6P9H",
-    "snosha_f1_banner",
-    "snosha_choose_care"
+    "snosha_before_after"
   ]
 }
