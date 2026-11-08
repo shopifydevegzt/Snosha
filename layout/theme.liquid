@@ -22,7 +22,10 @@
     {%- render 'card-hover-effect-styles' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
+    {%- render 'custom-font' -%}
     {%- render 'color-palette' -%}
+    {%- render 'custom-design-tokens' -%}
+    {{ 'main.css' | asset_url | stylesheet_tag }}
 
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}

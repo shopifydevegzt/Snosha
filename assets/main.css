@@ -1,0 +1,660 @@
+/* =========================================================================
+   SNOSHA — PROJECT STYLES
+   Custom section/component CSS for the Snosha theme (Horizon v4.4.0).
+   Loaded in layout/theme.liquid after Horizon's base.css and the global token
+   snippets, so plain scoped selectors win without !important.
+
+   Global tokens are NOT defined here; they live in:
+   - snippets/custom-font.liquid           (Cairo)
+   - snippets/custom-design-tokens.liquid  (type line heights, gutters, page width, hover)
+   Merchant-editable values are bridged per instance with {% style %} in each section.
+   Breakpoints: Horizon native only — 750px and 990px.
+   ========================================================================= */
+
+/* =========================================================================
+   SNOSHA — HERO + TRUST STRIP  (sections/snosha-hero.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: hero 190:3790 / 382:4563, trust 190:4081 / 382:4564.
+   Reference widths: desktop 1480px, mobile 390px.
+   - < 750px     Figma mobile spec
+   - 750–989px   stacked layout (no Figma frame) with the desktop type sizes
+   - >= 990px    Figma desktop split layout
+   Colors come from section settings: --snosha-hero-* (see the section's {% style %}).
+   ========================================================================= */
+
+.snosha-hero {
+  padding-block-end: var(--snosha-hero-padding-end, 0px);
+
+  /* ---------- Hero band: full-bleed gradient, clips oversized media (Figma clips content) ---------- */
+  .snosha-hero__band {
+    position: relative;
+    overflow: clip;
+    padding-block: 6px 87px; /* Figma mobile Hero 335:3960: pt 6, pb 87 */
+    background-image: linear-gradient(
+      83.14deg,
+      var(--snosha-hero-start) 7.84%,
+      var(--snosha-hero-mid) 50%,
+      var(--snosha-hero-end) 92.16%
+    );
+    color: var(--snosha-hero-text);
+  }
+
+  /* Figma mobile Hero Container 382:4563: column, gap 12; the stage is shown above the content.
+     The content stays first in the DOM so the heading comes first for assistive technology. */
+  .snosha-hero__inner {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* ---------- Content column (Figma Hero Content 382:4562 / 190:3821) ---------- */
+  .snosha-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    inline-size: 100%;
+    text-align: center;
+  }
+
+  /* Overline pill 275 x 34: padding 5 / 14 (text side) / 10 (icon side), gap 8 */
+  .snosha-hero__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding-block: 5px;
+    padding-inline: 10px 14px;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--snosha-hero-text) 10%, transparent);
+    font-family: var(--font-subheading--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0;
+    white-space: pre-wrap;
+  }
+
+  .snosha-hero__eyebrow-icon {
+    position: relative;
+    flex: none;
+    inline-size: 24px;
+    block-size: 24px;
+    --snosha-icon-gradient-start: color-mix(in srgb, var(--snosha-hero-text) 90%, var(--snosha-hero-start));
+    --snosha-icon-gradient-end: var(--snosha-hero-mid);
+  }
+
+  /* Figma Mobile/H1: Cairo Bold 28 / 44 */
+  .snosha-hero__heading {
+    margin: 0;
+    font-family: var(--font-h1--family);
+    font-style: var(--font-h1--style, normal);
+    font-weight: var(--font-h1--weight); /* 700 = Figma Bold */
+    font-size: 28px;
+    line-height: 44px;
+    letter-spacing: 0;
+    color: var(--snosha-hero-text);
+    text-wrap: balance; /* reproduces the Figma line break "… بصحة / الفم والأسنان" */
+
+    & em,
+    & i {
+      font-style: normal;
+      color: var(--snosha-hero-highlight);
+    }
+  }
+
+  /* Figma Desktop/Body Small: Cairo Regular 14 / 24 */
+  .snosha-hero__text {
+    margin: 0;
+    font-family: var(--font-paragraph--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    color: color-mix(in srgb, var(--snosha-hero-text) 86%, transparent);
+  }
+
+  /* Figma Button 335:3998 / 190:3827: h 48, radius 10, 1px inside stroke, Button CTA 16 / 26 SemiBold */
+  .snosha-hero__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    block-size: 48px;
+    padding-inline: 24px;
+    border: 1px solid color-mix(in srgb, var(--snosha-hero-text) 86%, transparent);
+    border-radius: 10px;
+    background-color: var(--snosha-hero-button-bg);
+    text-decoration: none;
+    transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--snosha-hero-button-bg) 90%, var(--snosha-hero-start));
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-hero-text);
+      outline-offset: 3px;
+    }
+
+    &[aria-disabled='true'] {
+      cursor: default;
+    }
+  }
+
+  .snosha-hero__button-label {
+    font-family: var(--button-font-family-primary, var(--font-body--family));
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: 0;
+    white-space: nowrap;
+    color: var(--snosha-hero-mid);
+
+    @supports ((background-clip: text) or (-webkit-background-clip: text)) {
+      background-image: linear-gradient(160.14deg, var(--snosha-hero-start) 0%, var(--snosha-hero-end) 70.71%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /* ---------- Media stage. Physical (LTR) geometry on purpose: chips and rings are pinned to
+     fixed points of the product photo, exactly as in Figma, in both RTL and LTR. ---------- */
+  .snosha-hero__stage {
+    position: relative;
+    inline-size: min(100%, 480px);
+    aspect-ratio: 342 / 330; /* Figma mobile Hero Stage 335:3961 */
+    direction: ltr;
+    container-type: inline-size; /* lets chips measure the stage (cqw) to stay on screen */
+  }
+
+  .snosha-hero__decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Highlight ellipse 240 x 180 at (51, 79) of 342 x 330, white 35 %, blur 55 */
+  .snosha-hero__highlight {
+    position: absolute;
+    left: 50%;
+    top: 51.2121%;
+    width: 70.1754%;
+    height: 54.5455%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--snosha-hero-text) 35%, transparent);
+    filter: blur(55px);
+  }
+
+  /* Rings 240 / 348 / 456, centred at (171, 175), 1.5px white 18 / 12 / 8 % */
+  .snosha-hero__ring {
+    position: absolute;
+    left: 50%;
+    top: 53.0303%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--snosha-hero-text) 18%, transparent);
+    transform: translate(-50%, -50%);
+  }
+
+  .snosha-hero__ring--1 {
+    width: 70.1754%;
+  }
+
+  .snosha-hero__ring--2 {
+    width: 101.7544%;
+    border-color: color-mix(in srgb, var(--snosha-hero-text) 12%, transparent);
+  }
+
+  .snosha-hero__ring--3 {
+    width: 133.3333%;
+    border-color: color-mix(in srgb, var(--snosha-hero-text) 8%, transparent);
+  }
+
+  /* Product photo area: Figma image fill 97.2 % x 88.22 % inset (7.31 %, 5.94 %) of the 348 x 284.4 frame */
+  .snosha-hero__media {
+    position: absolute;
+    left: 6.5426%;
+    top: 16.3333%;
+    width: 98.9123%;
+    height: 76.0291%;
+
+    & picture {
+      display: contents;
+    }
+  }
+
+  .snosha-hero__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 50px color-mix(in srgb, var(--snosha-hero-end) 45%, transparent));
+  }
+
+  .snosha-hero__image--placeholder {
+    fill: color-mix(in srgb, var(--snosha-hero-text) 45%, transparent);
+    filter: none;
+  }
+
+  /* Spec chip. Block settings hold Figma pixels on the reference stage (mobile 342 x 330: chip
+     centre + top; desktop 749 x 500: left edge + top) and are converted to % so chips scale with
+     the stage. (Shopify keeps number settings to one decimal, so pixels stay exact; percentages
+     would not.)
+     Mobile: the centring shift (-50%) is clamped so the whole chip stays inside the viewport.
+     --chip-offset = space between the stage and the viewport edge (the stage is centred).
+     At 390px and wider no chip reaches the edge, so the clamp leaves the Figma positions untouched. */
+  .snosha-hero__chip {
+    --chip-center: calc(var(--chip-mobile-x) / 342 * 100cqw);
+    --chip-offset: calc((100vw - 100cqw) / 2);
+
+    position: absolute;
+    left: calc(var(--chip-mobile-x) / 342 * 100%);
+    top: calc(var(--chip-mobile-y) / 330 * 100%);
+    display: flex;
+    align-items: center;
+    transform: translateX(
+      clamp(
+        calc(-1 * (var(--chip-center) + var(--chip-offset))),
+        -50%,
+        calc(100cqw - var(--chip-center) + var(--chip-offset) - 100%)
+      )
+    );
+    white-space: nowrap;
+  }
+
+  /* Label: 34px tall, padding 7 / 20 / 7 / 14 with a 1px inside stroke (so 6 / 19 / 6 / 13 + 1px border) */
+  .snosha-hero__chip-label {
+    margin-right: -9px;
+    padding: 6px 19px 6px 13px;
+    border: 1px solid color-mix(in srgb, var(--snosha-hero-text) 95%, transparent);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--snosha-hero-text) 78%, transparent);
+    backdrop-filter: blur(9px);
+    font-family: var(--font-subheading--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: var(--snosha-hero-chip-text);
+  }
+
+  /* Badge 32 x 32 (1.5px inside stroke), pulse ring 44 x 44 at -6 */
+  .snosha-hero__chip-badge {
+    position: relative;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid color-mix(in srgb, var(--snosha-hero-text) 90%, transparent);
+    border-radius: 50%;
+    background-image: linear-gradient(to bottom, var(--snosha-hero-start), var(--snosha-hero-end));
+    color: var(--snosha-hero-text);
+    filter: drop-shadow(0 6px 7px color-mix(in srgb, var(--snosha-hero-end) 35%, transparent));
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -7.5px;
+      border: 1.5px solid color-mix(in srgb, var(--snosha-hero-start) 55%, transparent);
+      border-radius: 50%;
+    }
+
+    & .snosha-icon {
+      width: 24px;
+      height: auto;
+    }
+  }
+
+  .snosha-hero__chip-icon-image {
+    width: 17px;
+    height: 17px;
+    object-fit: contain;
+  }
+
+  /* ---------- Trust strip (overlaps the hero band) ---------- */
+  .snosha-hero__trust-grid {
+    position: relative;
+    z-index: 1;
+    margin-block-start: -49px; /* Figma mobile: trust at y 640 of a 689px hero */
+  }
+
+  /* Figma mobile 335:4229: 346 x 100 card at x 24 of 390 (24px gutter on the left, 20px on the right).
+     In RTL the narrower side is inline-start. */
+  .snosha-hero__trust {
+    position: relative;
+    overflow: clip;
+    margin-inline-start: -4px;
+    padding: 2px;
+    border-radius: 20px;
+    background-image: conic-gradient(
+      from 90deg at 50% calc(50% + 6px),
+      transparent 0 42%,
+      color-mix(in srgb, var(--snosha-hero-start) 65%, transparent) 46.5%,
+      var(--snosha-hero-trust-bg) 50%,
+      color-mix(in srgb, var(--snosha-hero-start) 65%, transparent) 53.5%,
+      transparent 58% 100%
+    );
+  }
+
+  /* Figma mobile card: 342 x 96, padding 10, four 79px cells with 2px gaps; cells are 82px tall,
+     so the card ends 4px below them. */
+  .snosha-hero__trust-list {
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    padding: 10px 10px 4px;
+    list-style: none;
+    border-radius: 18px;
+    background-color: var(--snosha-hero-trust-bg);
+    box-shadow: 0 16px 34px color-mix(in srgb, var(--snosha-hero-end) 18%, transparent);
+  }
+
+  .snosha-hero__trust-item {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    min-inline-size: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    text-align: center;
+  }
+
+  .snosha-hero__trust-tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--snosha-hero-trust-border);
+    border-radius: 12px;
+    background-image: linear-gradient(to bottom, var(--snosha-hero-trust-bg), var(--snosha-hero-trust-tile));
+    color: var(--snosha-hero-trust-icon);
+    filter: drop-shadow(0 8px 9px color-mix(in srgb, var(--snosha-hero-end) 10%, transparent));
+    --snosha-icon-accent: var(--snosha-hero-trust-icon-accent);
+    --snosha-icon-fill: var(--snosha-hero-trust-bg);
+
+    & .snosha-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .snosha-hero__trust-icon-image {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  .snosha-hero__trust-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    min-inline-size: 0;
+  }
+
+  .snosha-hero__trust-title {
+    font-family: var(--font-subheading--family);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 19px;
+    color: var(--snosha-hero-trust-title);
+  }
+
+  .snosha-hero__trust-text {
+    font-family: var(--font-paragraph--family);
+    font-size: 8px;
+    font-weight: 400;
+    line-height: 19px;
+    color: var(--snosha-hero-trust-text);
+  }
+
+  .snosha-hero__trust-text--desktop {
+    display: none;
+  }
+
+  /* ---------- >= 750px: desktop type sizes (layout stays stacked until 990px) ---------- */
+  @media screen and (min-width: 750px) {
+    /* Figma Desktop/Display Hero: Cairo Bold 56 / 84 */
+    .snosha-hero__heading {
+      font-size: 56px;
+      line-height: 84px;
+    }
+
+    /* Figma Desktop/Body Large: Cairo Regular 18 / 32, text box 500 wide */
+    .snosha-hero__text {
+      max-inline-size: 500px;
+      font-size: 18px;
+      line-height: 32px;
+    }
+
+    /* Figma desktop button: 122 x 48 */
+    .snosha-hero__button {
+      inline-size: auto;
+      min-inline-size: 122px;
+    }
+
+    .snosha-hero__trust {
+      margin-inline-start: 0;
+    }
+  }
+
+  /* ---------- >= 990px: Figma desktop split layout (Hero 190:3790, 1480 x 500) ---------- */
+  @media screen and (min-width: 990px) {
+    .snosha-hero__band {
+      min-block-size: var(--snosha-hero-min-height);
+      padding-block: 0;
+      background-image: linear-gradient(
+        57.82deg,
+        var(--snosha-hero-start) 7.84%,
+        var(--snosha-hero-mid) 50%,
+        var(--snosha-hero-end) 92.16%
+      );
+    }
+
+    .snosha-hero__band-grid,
+    .snosha-hero__inner {
+      min-block-size: var(--snosha-hero-min-height);
+    }
+
+    /* Hero Container 347:4611: 1376 wide, padding-inline 20, items-start (content is top-aligned) */
+    .snosha-hero__inner {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 0;
+      padding-inline: 20px;
+    }
+
+    /* Hero Content 190:3821: fills the remaining 587px; padding 34 / 40 (start) / 96 / 48 (end); gap 16 */
+    .snosha-hero__content {
+      flex: 1 1 0;
+      min-inline-size: 0;
+      align-items: flex-start;
+      gap: 16px;
+      padding-block: 34px 96px;
+      padding-inline: 40px 48px;
+      text-align: start;
+      container-type: inline-size;
+    }
+
+    /* Figma: 56 / 84 in a 499px text column. Below 1480px the split column is narrower, so the
+       heading keeps that ratio (56 / 499 of the column) and keeps Figma's two lines.
+       At 1480px and wider the column is 499px, so this is exactly 56px / 84px. */
+    .snosha-hero__heading {
+      font-size: min(56px, calc(100cqi * 56 / 499));
+      line-height: 1.5;
+    }
+
+    /* The visible sparkle (190:3828) sits 3px toward the text from its icon slot (190:3824) */
+    .snosha-hero__eyebrow-icon {
+      inset-inline-start: 3px;
+    }
+
+    /* Subtitle 190:3826 is 500px wide, 1px wider than the 499px heading box */
+    .snosha-hero__text {
+      inline-size: calc(100% + 1px);
+    }
+
+    /* Hero Stage 190:3791: 749 of the 1336px row, as tall as the hero (500). It keeps that height
+       when longer content makes the band taller, so chips and rings stay in place. */
+    .snosha-hero__stage {
+      flex: 0 0 calc(749 / 1336 * 100%);
+      block-size: var(--snosha-hero-min-height);
+      inline-size: auto;
+      aspect-ratio: auto;
+      container-type: normal; /* desktop chips don't use cqw */
+    }
+
+    /* Highlight 380 x 300 at (60, 40) of 749 x 500 */
+    .snosha-hero__highlight {
+      left: 33.3778%;
+      top: 38%;
+      width: 50.7343%;
+      height: 60%;
+    }
+
+    /* Rings 440 / 600 / 760 centred at (324, 250) */
+    .snosha-hero__ring {
+      left: 43.2577%;
+      top: 50%;
+    }
+
+    .snosha-hero__ring--1 {
+      width: 58.7450%;
+    }
+
+    .snosha-hero__ring--2 {
+      width: 80.1068%;
+    }
+
+    .snosha-hero__ring--3 {
+      width: 101.4686%;
+    }
+
+    /* Product photo frame 728 x 594 at (-9, -50); image fill inset (7.31 %, 5.94 %), 97.2 % x 88.22 % */
+    .snosha-hero__media {
+      left: 5.9031%;
+      top: -2.9431%;
+      width: 94.4734%;
+      height: 104.8054%;
+    }
+
+    .snosha-hero__chip {
+      left: calc(var(--chip-x) / 749 * 100%);
+      top: calc(var(--chip-y) / 500 * 100%);
+      transform: none;
+    }
+
+    .snosha-hero__trust-grid {
+      margin-block-start: -58px; /* Figma: strip at y 442 of the 500px hero */
+    }
+
+    /* Figma desktop 190:4081: card 1236 x 102 inside a 3px frame (1242px), centered.
+       inline-size: 100% is required: a grid item with auto inline margins otherwise shrinks
+       to its content width. */
+    .snosha-hero__trust {
+      inline-size: 100%;
+      max-inline-size: 1242px;
+      margin-inline: auto;
+      padding: 3px;
+      border-radius: 25px;
+      background-image: none;
+      filter: drop-shadow(0 14px 16px color-mix(in srgb, var(--snosha-hero-end) 10%, transparent));
+
+      /* Glint: Figma ellipse 170 x 22 at x 880, y -10 of the 1480 strip = centre at 846 / 1242 of this frame */
+      &::before {
+        content: '';
+        position: absolute;
+        left: 68.12%;
+        top: -10px;
+        width: 170px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: color-mix(in srgb, var(--snosha-hero-start) 90%, transparent);
+        filter: blur(7px);
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Padding 22 / 36, four 290.25px cells separated by 1px dividers (in the 1px column gap).
+       The 1.5px Figma stroke is an inside stroke, so it's drawn as an inset shadow. */
+    .snosha-hero__trust-list {
+      position: relative;
+      gap: 0 1px;
+      align-items: center;
+      padding: 22px 36px;
+      border-radius: 22px;
+      box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--snosha-hero-start) 40%, transparent);
+    }
+
+    .snosha-hero__trust-item {
+      flex-direction: row;
+      justify-content: center;
+      gap: 14px;
+      text-align: start;
+
+      & + .snosha-hero__trust-item::before {
+        content: '';
+        position: absolute;
+        inset-inline-start: -1px;
+        top: 50%;
+        width: 1px;
+        height: 52px;
+        background-color: var(--snosha-hero-trust-border);
+        transform: translateY(-50%);
+      }
+    }
+
+    .snosha-hero__trust-tile {
+      width: 58px;
+      height: 58px;
+      border-radius: 17px;
+
+      & .snosha-icon {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .snosha-hero__trust-icon-image {
+      width: 30px;
+      height: 30px;
+    }
+
+    .snosha-hero__trust-copy {
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .snosha-hero__trust-title {
+      font-size: 16px;
+      line-height: 27px;
+    }
+
+    .snosha-hero__trust-text {
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    .snosha-hero__trust-text--desktop {
+      display: inline;
+    }
+
+    .snosha-hero__trust-text--mobile {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .snosha-hero__button {
+      transition: none;
+    }
+  }
+}

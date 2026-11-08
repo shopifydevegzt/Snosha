@@ -1,0 +1,71 @@
+{%- comment -%}
+  Snosha global design tokens (Figma file 1fqyznLFgS65tTjGvBYPBm).
+  Only covers Figma values that Horizon has no native setting for.
+  Overrides Horizon's own CSS variables; no component selectors, no !important.
+
+  Must render in layout/theme.liquid AFTER 'theme-styles-variables' and 'color-palette',
+  so these :root values replace the generated ones (same selector, later wins).
+  See FIGMA_THEME_SETTINGS_REPORT.md §9 for sources and measurements.
+{%- endcomment -%}
+<style>
+  :root {
+    /* Heading line heights from Figma text styles (line height / font size).
+       Desktop/H1 40/64, H2 32/52, H3 24/40, H4 20/34. */
+    --font-h1--line-height: calc(64 / 40);
+    --font-h2--line-height: calc(52 / 32);
+    --font-h3--line-height: calc(40 / 24);
+    --font-h4--line-height: calc(34 / 20);
+
+    /* Primary button hover = Figma --color-state-hover (palette color6).
+       Normal state, secondary buttons and disabled styles keep Horizon's values. */
+    --color-primary-button-hover-background: {{ settings.color_palette.color6 }};
+    --color-primary-button-hover-border: {{ settings.color_palette.color6 }};
+  }
+
+  /* Disabled primary buttons keep Horizon's computed hover color (the value before this override). */
+  {%- capture native_primary_hover -%}
+    {%- render 'util-palette-hover-shift', color: settings.palette_primary_button_background -%}
+  {%- endcapture %}
+  .button:is(:disabled, [aria-disabled='true']),
+  .button-custom:is(:disabled, [aria-disabled='true']) {
+    --color-primary-button-hover-background: {{ native_primary_hover | strip }};
+    --color-primary-button-hover-border: {{ native_primary_hover | strip }};
+  }
+
+  /* Horizon's mobile breakpoint. Figma Mobile/H1 28/44, Mobile/H2 24/38. */
+  @media screen and (max-width: 749px) {
+    :root {
+      --font-size--h1: 1.75rem;
+      --font-size--h2: 1.5rem;
+      --font-h1--line-height: calc(44 / 28);
+      --font-h2--line-height: calc(38 / 24);
+    }
+  }
+
+  /* Page margins: Figma 24px gutter at 390px, 52px at 1480px (1480 - 1376 container = 2 x 52),
+     linear in between: 24 + (100vw - 390px) * 28 / 1090. Keeps Horizon's safe-area handling.
+     Replaces the 16px / 40px margins from assets/base.css; full-width sections are unaffected. */
+  .page-width-wide,
+  .page-width-normal,
+  .page-width-narrow,
+  .page-width-custom_1376,
+  .page-width-content {
+    --page-margin: max(
+      clamp(24px, calc(13.98px + 2.569vw), 52px),
+      var(--safe-area-inset-left, 0px),
+      var(--safe-area-inset-right, 0px)
+    );
+  }
+
+  /* Page width option "Custom — 1376px" (settings.page_width = 'custom_1376').
+     Same structure as Horizon's .page-width-narrow/normal/wide in assets/base.css:
+     content is capped at 86rem (1376px) and centred by the .section grid. */
+  :root {
+    --custom-1376-page-width: 86rem;
+  }
+
+  .page-width-custom_1376 {
+    --page-content-width: var(--custom-1376-page-width);
+    --page-width: calc(var(--page-content-width) + (var(--page-margin) * 2));
+  }
+</style>

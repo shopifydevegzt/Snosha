@@ -8,8 +8,116 @@
  * ------------------------------------------------------------
  */{
   "sections": {
+    "snosha_hero": {
+      "type": "snosha-hero",
+      "blocks": {
+        "spec_chip_sonic": {
+          "type": "spec_chip",
+          "settings": {
+            "text": "حتى 42,000 حركة/دقيقة",
+            "icon": "sonic",
+            "desktop_x": 428,
+            "desktop_y": 122,
+            "mobile_x": 251,
+            "mobile_y": 37
+          }
+        },
+        "spec_chip_battery": {
+          "type": "spec_chip",
+          "settings": {
+            "text": "بطارية حتى 120 يوم",
+            "icon": "battery",
+            "desktop_x": -29,
+            "desktop_y": 156,
+            "mobile_x": 70.5,
+            "mobile_y": 287
+          }
+        },
+        "spec_chip_modes": {
+          "type": "spec_chip",
+          "settings": {
+            "text": "5 أوضاع تنظيف",
+            "icon": "sliders",
+            "desktop_x": -18,
+            "desktop_y": 316,
+            "mobile_x": 47.5,
+            "mobile_y": 150
+          }
+        },
+        "spec_chip_dupont": {
+          "type": "spec_chip",
+          "settings": {
+            "text": "8 رؤوس DuPont",
+            "icon": "brush_head",
+            "desktop_x": 428,
+            "desktop_y": 257,
+            "mobile_x": 275.5,
+            "mobile_y": 155
+          }
+        },
+        "trust_item_warranty": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "shield_check",
+            "title": "ضمان لمدة سنة",
+            "subtitle": "علي الأجهزة",
+            "subtitle_mobile": ""
+          }
+        },
+        "trust_item_returns": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "exchange",
+            "title": "استبدال واسترجاع",
+            "subtitle": "خلال 7 أيام",
+            "subtitle_mobile": ""
+          }
+        },
+        "trust_item_shipping": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "package",
+            "title": "شحن مجاني",
+            "subtitle": "للطلبات من 2000 جنيه فأكثر",
+            "subtitle_mobile": "للطلبات من 2000 جنيه"
+          }
+        },
+        "trust_item_delivery": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "truck",
+            "title": "توصيل سريع",
+            "subtitle": "لجميع أنحاء مصر",
+            "subtitle_mobile": ""
+          }
+        }
+      },
+      "block_order": [
+        "spec_chip_sonic",
+        "spec_chip_battery",
+        "spec_chip_modes",
+        "spec_chip_dupont",
+        "trust_item_warranty",
+        "trust_item_returns",
+        "trust_item_shipping",
+        "trust_item_delivery"
+      ],
+      "name": "Snosha hero",
+      "settings": {
+        "eyebrow": "عناية ذكية بالفم  تكنولوجيا وتصميم مدروس",
+        "show_eyebrow_icon": true,
+        "heading": "العناية <em>الذكية</em> بصحة الفم والأسنان",
+        "text": "حلول ذكية للعناية بالفم تجمع بين التكنولوجيا والتصميم العملي لتجعل روتينك اليومي أسهل.",
+        "button_label": "تسوّق الآن",
+        "button_link": "shopify://collections/all",
+        "desktop_height": 500,
+        "padding_block_end": 0,
+        "custom_class": ""
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
+      "disabled": true,
       "blocks": {
         "text_YLPk4p": {
           "type": "text",
@@ -176,10 +284,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 4,
-            "border": "none",
+            "border": "solid",
             "border_width": 1,
             "border_opacity": 100,
-            "border_radius": 0,
+            "border_color": "#efeded",
+            "border_radius": 20,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -221,8 +330,8 @@
                 "corner_radius": 0,
                 "padding-block-start": 4,
                 "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-start": 12,
+                "padding-inline-end": 12
               },
               "blocks": {}
             },
@@ -242,9 +351,9 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-block-end": 12,
+                "padding-inline-start": 12,
+                "padding-inline-end": 12
               },
               "blocks": {}
             }
@@ -279,6 +388,7 @@
     }
   },
   "order": [
+    "snosha_hero",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]

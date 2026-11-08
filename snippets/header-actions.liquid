@@ -77,8 +77,7 @@
           when 'accent'
             assign font_obj = settings.type_accent_font
         endcase
-        assign font_family = font_obj.family | append: ', ' | append: font_obj.fallback_families
-        assign font_family_safe = font_family | replace: '"', "'"
+        assign font_family_safe = 'var(--font-[font]--family)' | replace: '[font]', actions_font
         assign account_actions_style = '--header-actions-font-family: ' | append: font_family_safe | append: '; --header-actions-font-weight: ' | append: font_obj.weight | append: ';'
       endif
     %}

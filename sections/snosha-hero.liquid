@@ -1,0 +1,599 @@
+{%- comment -%}
+  Snosha — Hero + Trust Strip (homepage section #3).
+  Figma 1fqyznLFgS65tTjGvBYPBm: hero 190:3790 / 335:3960, trust strip 190:4081 / 382:4564.
+  New isolated section: the native `hero` cannot anchor spec chips to a positioned product
+  image, draw the rings, or overlap a trust card (see SNOSHA_PROJECT_PLAN.md, section #3).
+  Static styles live in assets/main.css (.snosha-hero); this file keeps the markup, the per-instance
+  color bridge (style tag below) and the schema. Breakpoints: < 750 mobile, 750–989 stacked, >= 990 split.
+{%- endcomment -%}
+{%- liquid
+  assign chips = section.blocks | where: 'type', 'spec_chip'
+  assign trust_items = section.blocks | where: 'type', 'trust_item'
+  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign custom_class = section.settings.custom_class | strip | escape
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --snosha-hero-start: {{ section.settings.gradient_start }};
+    --snosha-hero-mid: {{ section.settings.gradient_middle }};
+    --snosha-hero-end: {{ section.settings.gradient_end }};
+    --snosha-hero-text: {{ section.settings.text_color }};
+    --snosha-hero-highlight: {{ section.settings.highlight_color }};
+    --snosha-hero-chip-text: {{ section.settings.chip_text_color }};
+    --snosha-hero-button-bg: {{ section.settings.button_background }};
+    --snosha-hero-trust-bg: {{ section.settings.trust_background }};
+    --snosha-hero-trust-title: {{ section.settings.trust_title_color }};
+    --snosha-hero-trust-text: {{ section.settings.trust_text_color }};
+    --snosha-hero-trust-border: {{ section.settings.trust_border_color }};
+    --snosha-hero-trust-tile: {{ section.settings.trust_tile_color }};
+    --snosha-hero-trust-icon: {{ section.settings.trust_icon_color }};
+    --snosha-hero-trust-icon-accent: {{ section.settings.trust_icon_accent_color }};
+    --snosha-hero-min-height: {{ section.settings.desktop_height }}px;
+    --snosha-hero-padding-end: {{ section.settings.padding_block_end }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-hero{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="snosha-hero__band">
+    <div class="section section--page-width snosha-hero__band-grid">
+      <div class="snosha-hero__inner">
+        <div class="snosha-hero__content">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="snosha-hero__eyebrow">
+              {%- if section.settings.show_eyebrow_icon -%}
+                {%- render 'snosha-icon', icon: 'sparkle', uid: section.id, class: 'snosha-hero__eyebrow-icon' -%}
+              {%- endif -%}
+              <span dir="auto">{{ section.settings.eyebrow | escape }}</span>
+            </p>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h1 class="snosha-hero__heading" dir="auto">{{ section.settings.heading }}</h1>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <p class="snosha-hero__text" dir="auto">{{ section.settings.text | escape }}</p>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            {%- if section.settings.button_link != blank -%}
+              <a class="snosha-hero__button" href="{{ section.settings.button_link }}">
+                <span class="snosha-hero__button-label" dir="auto">{{ section.settings.button_label | escape }}</span>
+              </a>
+            {%- else -%}
+              <a class="snosha-hero__button" role="link" aria-disabled="true">
+                <span class="snosha-hero__button-label" dir="auto">{{ section.settings.button_label | escape }}</span>
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+        </div>
+
+        <div class="snosha-hero__stage">
+          <div class="snosha-hero__decor" aria-hidden="true">
+            <span class="snosha-hero__highlight"></span>
+            <span class="snosha-hero__ring snosha-hero__ring--1"></span>
+            <span class="snosha-hero__ring snosha-hero__ring--2"></span>
+            <span class="snosha-hero__ring snosha-hero__ring--3"></span>
+          </div>
+
+          <div class="snosha-hero__media">
+            {%- if image != blank -%}
+              {%- liquid
+                assign alt = image.alt | default: section.settings.heading | strip_html | escape
+                assign sizes = '(min-width: 990px) min(48vw, 710px), min(100vw, 480px)'
+                assign widths = '360, 480, 640, 720, 960, 1200, 1440'
+              -%}
+              <picture>
+                {%- if image_mobile != blank -%}
+                  <source
+                    media="(max-width: 989px)"
+                    srcset="{%- for w in (1..4) -%}{%- assign px = w | times: 240 -%}{{ image_mobile | image_url: width: px }} {{ px }}w{%- unless forloop.last -%}, {% endunless -%}{%- endfor -%}"
+                    sizes="min(100vw, 480px)"
+                    width="{{ image_mobile.width }}"
+                    height="{{ image_mobile.height }}"
+                  >
+                {%- endif -%}
+                {{
+                  image
+                  | image_url: width: 1440
+                  | image_tag:
+                    class: 'snosha-hero__image',
+                    alt: alt,
+                    widths: widths,
+                    sizes: sizes,
+                    loading: 'eager',
+                    fetchpriority: 'high'
+                }}
+              </picture>
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'snosha-hero__image snosha-hero__image--placeholder' }}
+            {%- endif -%}
+          </div>
+
+          {%- for block in chips -%}
+            {%- if block.settings.text != blank -%}
+              <div
+                class="snosha-hero__chip"
+                style="--chip-x: {{ block.settings.desktop_x }}; --chip-y: {{ block.settings.desktop_y }}; --chip-mobile-x: {{ block.settings.mobile_x }}; --chip-mobile-y: {{ block.settings.mobile_y }};"
+                {{ block.shopify_attributes }}
+              >
+                <span class="snosha-hero__chip-label" dir="auto">{{ block.settings.text | escape }}</span>
+                <span class="snosha-hero__chip-badge" aria-hidden="true">
+                  {%- if block.settings.icon_image != blank -%}
+                    {{ block.settings.icon_image | image_url: width: 48 | image_tag: alt: '', class: 'snosha-hero__chip-icon-image', loading: 'lazy' }}
+                  {%- elsif block.settings.icon != 'none' -%}
+                    {%- render 'snosha-icon', icon: block.settings.icon, uid: block.id -%}
+                  {%- endif -%}
+                </span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if trust_items.size > 0 -%}
+    <div class="section section--page-width snosha-hero__trust-grid">
+      <div class="snosha-hero__trust">
+        <ul class="snosha-hero__trust-list" role="list">
+          {%- for block in trust_items -%}
+            <li class="snosha-hero__trust-item" {{ block.shopify_attributes }}>
+              <span class="snosha-hero__trust-tile" aria-hidden="true">
+                {%- if block.settings.icon_image != blank -%}
+                  {{ block.settings.icon_image | image_url: width: 64 | image_tag: alt: '', class: 'snosha-hero__trust-icon-image', loading: 'lazy' }}
+                {%- elsif block.settings.icon != 'none' -%}
+                  {%- render 'snosha-icon', icon: block.settings.icon, uid: block.id -%}
+                {%- endif -%}
+              </span>
+              <span class="snosha-hero__trust-copy">
+                {%- if block.settings.title != blank -%}
+                  <span class="snosha-hero__trust-title" dir="auto">{{ block.settings.title | escape }}</span>
+                {%- endif -%}
+                {%- if block.settings.subtitle != blank -%}
+                  {%- if block.settings.subtitle_mobile != blank -%}
+                    <span class="snosha-hero__trust-text snosha-hero__trust-text--desktop" dir="auto">{{ block.settings.subtitle | escape }}</span>
+                    <span class="snosha-hero__trust-text snosha-hero__trust-text--mobile" dir="auto">{{ block.settings.subtitle_mobile | escape }}</span>
+                  {%- else -%}
+                    <span class="snosha-hero__trust-text" dir="auto">{{ block.settings.subtitle | escape }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Snosha hero",
+  "tag": "section",
+  "class": "snosha-hero-section",
+  "limit": 1,
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "عناية ذكية بالفم  تكنولوجيا وتصميم مدروس"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_eyebrow_icon",
+      "label": "Show eyebrow icon",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Italic text uses the highlight color.",
+      "default": "العناية <em>الذكية</em> بصحة الفم والأسنان"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Description",
+      "default": "حلول ذكية للعناية بالفم تجمع بين التكنولوجيا والتصميم العملي لتجعل روتينك اليومي أسهل."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "تسوّق الآن"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image",
+      "info": "Transparent PNG recommended. Spec chips are positioned over this image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile product image",
+      "info": "Optional. Used below 990px; falls back to the product image."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop hero height",
+      "min": 400,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Hero colors"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Gradient start / accent",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "gradient_middle",
+      "label": "Gradient middle",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Gradient end",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Heading highlight",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "chip_text_color",
+      "label": "Spec chip text",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "header",
+      "content": "Trust strip colors"
+    },
+    {
+      "type": "color",
+      "id": "trust_background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_title_color",
+      "label": "Title",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_text_color",
+      "label": "Subtitle",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_border_color",
+      "label": "Dividers and tile border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_tile_color",
+      "label": "Icon tile tint",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_accent_color",
+      "label": "Icon accent",
+      "default": "{{ settings.color_palette.color4 }}"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_chip",
+      "name": "Spec chip",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "ميزة المنتج"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "sonic",
+              "label": "Sonic"
+            },
+            {
+              "value": "battery",
+              "label": "Battery"
+            },
+            {
+              "value": "sliders",
+              "label": "Modes"
+            },
+            {
+              "value": "brush_head",
+              "label": "Brush head"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            }
+          ],
+          "default": "sonic"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Overrides the icon above."
+        },
+        {
+          "type": "header",
+          "content": "Position on desktop (≥ 990px)"
+        },
+        {
+          "type": "number",
+          "id": "desktop_x",
+          "label": "Left edge (px)",
+          "info": "Position on the 749 × 500 px desktop reference stage (Figma pixels); scales with the stage.",
+          "default": 300
+        },
+        {
+          "type": "number",
+          "id": "desktop_y",
+          "label": "Top (px)",
+          "info": "Position on the 749 × 500 px desktop reference stage.",
+          "default": 233
+        },
+        {
+          "type": "header",
+          "content": "Position on mobile (< 990px)"
+        },
+        {
+          "type": "number",
+          "id": "mobile_x",
+          "label": "Center (px)",
+          "info": "Position on the 342 × 330 px mobile reference stage (Figma pixels); scales with the stage.",
+          "default": 171
+        },
+        {
+          "type": "number",
+          "id": "mobile_y",
+          "label": "Top (px)",
+          "info": "Position on the 342 × 330 px mobile reference stage.",
+          "default": 148
+        }
+      ]
+    },
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "package",
+              "label": "Package"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "shield_check",
+              "label": "Shield"
+            }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Overrides the icon above."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "عنوان الميزة"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "subtitle_mobile",
+          "label": "Subtitle on mobile",
+          "info": "Optional shorter text below 990px."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha hero",
+      "blocks": [
+        {
+          "type": "spec_chip",
+          "settings": {
+            "text": "حتى 42,000 حركة/دقيقة",
+            "icon": "sonic",
+            "desktop_x": 428,
+            "desktop_y": 122,
+            "mobile_x": 251,
+            "mobile_y": 37
+          }
+        },
+        {
+          "type": "spec_chip",
+          "settings": {
+            "text": "بطارية حتى 120 يوم",
+            "icon": "battery",
+            "desktop_x": -29,
+            "desktop_y": 156,
+            "mobile_x": 70.5,
+            "mobile_y": 287
+          }
+        },
+        {
+          "type": "spec_chip",
+          "settings": {
+            "text": "5 أوضاع تنظيف",
+            "icon": "sliders",
+            "desktop_x": -18,
+            "desktop_y": 316,
+            "mobile_x": 47.5,
+            "mobile_y": 150
+          }
+        },
+        {
+          "type": "spec_chip",
+          "settings": {
+            "text": "8 رؤوس DuPont",
+            "icon": "brush_head",
+            "desktop_x": 428,
+            "desktop_y": 257,
+            "mobile_x": 275.5,
+            "mobile_y": 155
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "shield_check",
+            "title": "ضمان لمدة سنة",
+            "subtitle": "علي الأجهزة"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "exchange",
+            "title": "استبدال واسترجاع",
+            "subtitle": "خلال 7 أيام"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "package",
+            "title": "شحن مجاني",
+            "subtitle": "للطلبات من 2000 جنيه فأكثر",
+            "subtitle_mobile": "للطلبات من 2000 جنيه"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "truck",
+            "title": "توصيل سريع",
+            "subtitle": "لجميع أنحاء مصر"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

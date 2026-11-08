@@ -401,7 +401,8 @@
     class="header__underlay header__underlay-open"
   ></div>
   {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
+    {%- comment -%} Snosha: the homepage hero (sections/snosha-hero.liquid) renders the page's visible <h1>. {%- endcomment -%}
+    <p class="visually-hidden">{{ shop.name }}</p>
   {%- endif -%}
   {% for row in rows %}
     {% liquid

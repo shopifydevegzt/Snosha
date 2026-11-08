@@ -94,6 +94,9 @@
             when 'wide'
               # Wide: max 150rem (2400px)
               assign sizes = '(min-width: 2400px) 2400px, 100vw'
+            when 'custom_1376'
+              # Custom: max 86rem (1376px)
+              assign sizes = '(min-width: 1376px) 1376px, 100vw'
             else
               # Fallback to full width
               assign sizes = '100vw'
