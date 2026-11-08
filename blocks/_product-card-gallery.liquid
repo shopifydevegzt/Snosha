@@ -2,9 +2,31 @@
 
 {% assign product = closest.product %}
 
+{% liquid
+  # Optional merchant badge (e.g. "Best seller"); off while the text is blank.
+  # With a tag, it only shows on products carrying that tag; without one, on every product in this list.
+  assign show_custom_badge = false
+  assign custom_badge_text = block.settings.custom_badge_text | strip
+  assign custom_badge_tag = block.settings.custom_badge_tag | strip
+  if custom_badge_text != blank
+    if custom_badge_tag == blank
+      assign show_custom_badge = true
+    elsif product.tags contains custom_badge_tag
+      assign show_custom_badge = true
+    endif
+  endif
+%}
+
 {% capture children %}
+  {%- if product == blank and show_custom_badge -%}
+    <div class="product-badges product-badges--{{ settings.badge_position }}">
+      <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--custom">
+        {{- custom_badge_text | escape -}}
+      </div>
+    </div>
+  {%- endif -%}
   {% unless product == blank %}
-    {%- if product.available == false or product.compare_at_price > product.price -%}
+    {%- if product.available == false or product.compare_at_price > product.price or show_custom_badge -%}
       <div
         class="product-badges product-badges--{{ settings.badge_position }}"
         style="
@@ -12,6 +34,12 @@
             --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
         "
       >
+        {%- if show_custom_badge -%}
+          <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--custom">
+            {{- custom_badge_text | escape -}}
+          </div>
+        {%- endif -%}
+        {%- if product.available == false or product.compare_at_price > product.price -%}
         <div
           class="
             product-badges__badge product-badges__badge--rectangle
@@ -24,6 +52,7 @@
             {{ 'content.product_badge_sale' | t }}
           {%- endif -%}
         </div>
+        {%- endif -%}
       </div>
     {%- endif -%}
     {% if product.available and settings.quick_add or settings.mobile_quick_add %}
@@ -79,6 +108,22 @@
       "default": "portrait",
       "label": "t:settings.aspect_ratio",
       "info": "t:info.aspect_ratio_adjusted"
+    },
+    {
+      "type": "header",
+      "content": "Custom badge"
+    },
+    {
+      "type": "text",
+      "id": "custom_badge_text",
+      "label": "Badge text",
+      "info": "For example \"Best seller\". Leave blank to hide the badge."
+    },
+    {
+      "type": "text",
+      "id": "custom_badge_tag",
+      "label": "Only on products tagged",
+      "info": "Leave blank to show the badge on every product in this list."
     },
     {
       "type": "header",

@@ -67,6 +67,9 @@
         </symbol>
       </defs>
     </svg>
+    {%- if block_settings.label != blank -%}
+      <span class="rating-label">{{ block_settings.label | escape }}</span>
+    {%- endif -%}
     <div
       class="rating"
       style="--star-size: calc(var(--font-{{ block_settings.type_preset }}--size) * 1.1);"
@@ -201,6 +204,12 @@
       "id": "show_number",
       "label": "t:settings.review_count",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "info": "Optional text shown before the stars, only when the product has a rating."
     },
     {
       "type": "color",

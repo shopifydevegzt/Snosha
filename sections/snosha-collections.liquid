@@ -1,0 +1,254 @@
+{%- comment -%}
+  Snosha — Collections carousel (homepage section #4).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3830, mobile 190:4133.
+
+  Thin wrapper around Horizon's native collection list (sections/collection-list.liquid):
+  same render path (content_for 'blocks' heading, static _collection-card blocks,
+  resource-list → resource-list-carousel → slideshow). Carousel, arrows, RTL and Theme Editor
+  behaviour stay native. Kept separate so the shared native section doesn't need new settings
+  (custom_class, colors). Static styles: assets/dev1.css (.snosha-collections).
+{%- endcomment -%}
+{%- liquid
+  if section.settings.collection_list != blank
+    assign section_collections = section.settings.collection_list
+    assign max_items = section.settings.collection_list.count
+  else
+    assign max_items = 5
+  endif
+  assign custom_class = section.settings.custom_class | strip | escape
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --snosha-collections-arrow-bg: {{ section.settings.arrow_background }};
+    --snosha-collections-arrow-border: {{ section.settings.arrow_border }};
+    --snosha-collections-arrow-icon: {{ section.settings.arrow_icon }};
+    --snosha-collections-arrow-shadow: {{ section.settings.arrow_shadow }};
+    --snosha-collections-progress-track: {{ section.settings.progress_track }};
+    --snosha-collections-progress-start: {{ section.settings.progress_start }};
+    --snosha-collections-progress-end: {{ section.settings.progress_end }};
+  }
+{% endstyle %}
+
+<div class="snosha-collections{% if custom_class != blank %} {{ custom_class }}{% endif %}" data-snosha-carousel-progress>
+  <div class="section section--page-width section-resource-list">
+    <div class="section-resource-list__content snosha-collections__heading">
+      {%- content_for 'blocks' -%}
+    </div>
+
+    {%- if section_collections == null -%}
+      {%- for i in (1..max_items) -%}
+        {%- assign section_collections = section_collections | append: ', ' -%}
+      {%- endfor -%}
+      {%- assign section_collections = section_collections | split: ',' -%}
+    {%- endif -%}
+
+    {%- capture list_items -%}
+      {%- for collection in section_collections limit: max_items -%}
+        <div class="resource-list__item">
+          {% content_for 'block', type: '_collection-card', id: 'static-collection-card', closest.collection: collection %}
+        </div>
+        {%- unless forloop.last -%}
+          <!--@list/split-->
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- liquid
+      assign list_items_array = list_items | strip | split: '<!--@list/split-->'
+    -%}
+    {% render 'resource-list',
+      list_items: list_items,
+      list_items_array: list_items_array,
+      settings: section.settings,
+      carousel_ref: 'snoshaCollections',
+      slide_count: max_items,
+      content_type: 'collections',
+      test_id: 'snosha-collections'
+    %}
+  </div>
+  {%- comment -%} The mobile progress bar is CSS (assets/dev1.css); this module is only a fallback for browsers without scroll-driven animations. {%- endcomment -%}
+  <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha collections",
+  "tag": "section",
+  "class": "snosha-collections-section",
+  "limit": 1,
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "text"
+    },
+    {
+      "type": "group"
+    }
+  ],
+  "settings": [
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "Collections",
+      "info": "Order here is the carousel order (first = start side; right in RTL)."
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "carousel",
+          "label": "Carousel"
+        }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "Desktop arrows",
+      "options": [
+        {
+          "value": "chevron",
+          "label": "Show"
+        },
+        {
+          "value": "none",
+          "label": "Hide"
+        }
+      ],
+      "default": "chevron"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border",
+      "label": "Arrow border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_icon",
+      "label": "Arrow icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_shadow",
+      "label": "Arrow shadow",
+      "default": "#0D4080"
+    },
+    {
+      "type": "color",
+      "id": "progress_track",
+      "label": "Mobile progress track",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_start",
+      "label": "Mobile progress gradient start",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "progress_end",
+      "label": "Mobile progress gradient end",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha collections",
+      "settings": {
+        "layout_type": "carousel",
+        "icons_style": "chevron"
+      },
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>مجموعات SNOSHA</h2>",
+            "type_preset": "h2",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "text_color": "#12568D"
+          }
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "static": true,
+          "settings": {
+            "placement": "below_image",
+            "horizontal_alignment": "center",
+            "vertical_alignment": "flex-start",
+            "collection_card_gap": 18,
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "static": true,
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_radius": 12
+              }
+            },
+            "collection-title": {
+              "type": "collection-title",
+              "settings": {
+                "type_preset": "h3",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "text_color": "#12568D",
+                "padding-inline-start": 4,
+                "padding-inline-end": 4
+              }
+            }
+          },
+          "block_order": [
+            "collection-title"
+          ]
+        }
+      },
+      "block_order": [
+        "heading"
+      ]
+    }
+  ]
+}
+{% endschema %}

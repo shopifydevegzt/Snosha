@@ -88,8 +88,8 @@ Section order matches between the desktop and mobile frames. Node IDs are top-le
 - live-preview measurements at 1480 and 390 match the Figma geometry.
 
 Styles: `assets/main.css` | High | Hero product image (merchant upload pending); real Arabic/RTL storefront | `IMPLEMENTED` |
-| 4 | Collections carousel | `190:3830` | `190:4133` | `collection-list` (carousel layout) + `collection-card` | Medium | Collections must exist in Admin; carousel arrows (desktop), progress bar (mobile) | `NOT_STARTED` |
-| 5 | Featured collection (best sellers) | `190:3844` | `190:4149` | `product-list` (instance `product_list_fa6P9H` exists) with carousel on mobile; card blocks `product-title`, `product-description`, `review`, `price`, button/link | Medium–High | **Real products**; review data/app for stars; badges ("best seller" is not a native badge type) | `NOT_STARTED` |
+| 4 | Collections carousel | `190:3830` | `190:4133` | **Implemented (branch `dev1`) as `sections/snosha-collections.liquid`**: thin wrapper over Horizon's native collection list (same `resource-list` → `resource-list-carousel` → `slideshow` path, static `_collection-card` blocks, native arrows/RTL/swipe). Styles in `assets/dev1.css` (`.snosha-collections`). Instance `snosha_collections` in `index.json` between `snosha_hero` and `product_list_fa6P9H` | Medium | **No collections assigned** (placeholders shown; the merchant picks collections in the Theme Editor); collection images; mobile progress = shared CSS scroll-timeline bar (see #5 / log), with the shared `assets/snosha-carousel-progress.js` as a fallback only for browsers without scroll-driven animations | `IMPLEMENTED` |
+| 5 | Featured collection (best sellers) | `190:3844` | `190:4149` | **Implemented (branch `dev1`) on the existing native `product-list` instance `product_list_fa6P9H`** (layout `carousel`, static `_product-card` with `_product-card-gallery`, `product-title`, `custom-liquid` description, `review`, `price`, `custom-liquid` product link; native quick add). Opt-in section setting "Snosha featured collection style" adds the `.snosha-featured-collection` scope; styles in `assets/dev1.css`; mobile progress = the CSS scroll-timeline bar shared with #4 (`assets/snosha-carousel-progress.js` is only a fallback for browsers without scroll-driven animations) | Medium–High | Only 1 product in the store (no compare-at price, no review metafields), so discount badge and stars were checked with sample DOM only; quick-add label comes from the locale ("إضافة", Figma "أضف إلى السلة") | `IMPLEMENTED` |
 | 6 | F1 banner | `190:3851` | `190:4167` | `media-with-content` or `hero`; spec chips via `group` / `icon` / `text` | High | Decorative waves, bubbles and watermark (assets/CSS); product image | `NOT_STARTED` |
 | 7 | Featured collection · 2 (bundles title) | `190:3896` | `190:4204` | Second `product-list` instance; same card configuration as #5 | Low (after #5) | #5 card configuration; products | `NOT_STARTED` |
 | 8 | Before / After | `190:3903` | `190:4222` | `media-with-content` + `comparison-slider` block + benefit list (`group` / `icon` / `text`) + `button` | Medium | Before/after images (merchant); `comparison-slider` RTL drag behavior | `NOT_STARTED` |
@@ -268,6 +268,95 @@ The template was re-saved once because Shopify validated it before the new schem
 - Trust card 1236×102 at 1480, 342×96 at 390.
 - 1480 / 390 reference geometry unchanged.
 - Screenshots in `docs/figma-validation/hero/responsive/`. |
+| 2026-11-08 | **#4 Collections carousel → `IMPLEMENTED`** (branch/worktree `dev1`; Figma `190:3830` / `190:4133`).
+
+**Architecture**
+- New `sections/snosha-collections.liquid`: a thin wrapper reproducing the native `collection-list` render path. The wrapper exists so the shared native section needs no new settings (`custom_class`, colors).
+- Settings: `collection_list` (merchant picks and orders collections), desktop arrows show/hide, 7 color settings (palette defaults where the color exists), `custom_class`.
+- Heading: native `text` block, H2 preset ("مجموعات SNOSHA", `<h2>`).
+- Cards: static `_collection-card` (image below, centered, 18px gap) → `_collection-card-image` (square, radius 12) + `collection-title` (H3 preset, centered, 4px inline padding).
+- Preset colors use hex (Shopify rejects palette references inside section presets); the template keeps palette references.
+
+**Styles** (`assets/dev1.css`, new, linked once after `main.css` in `layout/theme.liquid`)
+- Figma gutters (72 desktop / 20 mobile, derived from `--util-page-margin-offset`), card widths 292/97, gaps 24/10, card heights 368/152 (the mobile title clips to one line as in Figma), mobile title 11/40.
+- Arrows: 44px white circles, 1px border, shadow, Figma chevron via CSS mask, at 50px from the edges; a disabled arrow stays visible at 40 % opacity.
+- Mobile progress: track + fill as pseudo-elements; the fill is a CSS scroll-driven animation (40 % → 100 %, RTL-aware). **No JavaScript.**
+- Selectors repeat the native parent chain because Horizon's compiled section CSS loads after `dev1.css`.
+
+**Preview**
+- The existing `theme dev` (port 9292) serves the `main` worktree. With user approval, the live theme was duplicated as unpublished **"Snosha dev1 preview" #168071135448** (not GitHub-connected), and `theme dev` runs from `dev1` on port **9293**.
+
+**Measured on 9293 (RTL)**
+- 1480: section 611, heading 52,50 1376×52, cards x 1116/800/484/168/−148 (292×368), images 292², titles y 452, arrows x 50/1386 y 304 (44×44). All equal to Figma.
+- 390: section 294, heading y 35 h 38, cards x 273/166/59/−48/−155 (97×152), titles y 216, progress at y 281 inset 20, fill 140 → 244 → 350 px while scrolling. All equal to Figma.
+- Arrows: next/previous scroll and disable at the ends.
+- No overflow at 320–1480 in RTL or LTR; LTR mirrors correctly.
+- Images in `docs/figma-validation/collections/`.
+
+**Pending**
+- Assign real collections and images.
+- Manual Theme Editor QA.
+- Another session works on #5 in the same worktree (`product-list`, `snosha-carousel-progress.js`, also `dev1.css`); its mobile progress uses a JS thumb, while #4 uses a CSS fill, so align them if both bars should behave the same. |
+| 2026-11-08 | **#5 Featured collection → `IMPLEMENTED`** (branch `dev1`; Figma `190:3844` desktop, `190:4149` mobile).
+
+**Architecture (native first)**
+- Reused `product_list_fa6P9H` (no new section): layout `carousel`, `columns_gap` 24, `icons_style` none (Figma has no arrows), `gap` 40, padding 60 / 91, `max_products` kept at 8.
+- Header: existing `_product-list-text` → `<h2>الأكثر مبيعًا</h2>` (H2 preset, color6); new subtitle text block (Paragraph preset, color1); `_product-list-button` "عرض الكل" (Link style) → the selected collection's URL.
+- Card: gallery `square`; title H5 preset; `custom-liquid` short description (`product.description`, stripped, 2-line clamp; nothing if empty); `review` (outline stars, no count, label "التقييمات"); `price` with discount badge; `custom-liquid` "عرض المنتج" link (`tabindex=-1`; the title link is the keyboard path).
+
+**Additive, off-by-default extensions** (product lists on cart and 404 templates checked unchanged)
+- `sections/product-list.liquid`: `custom_class`, `snosha_style` (adds the scope + progress element), mobile padding, 10 color settings bridged by a scoped `{% style %}`.
+- `_product-list-button`: `always_show` (the native link hides when the collection has ≤ max products).
+- `_product-card-gallery`: `custom_badge_text` + optional `custom_badge_tag` (blank text = no badge; blank tag = every product in this list, not store-wide).
+- `price` block + `snippets/price.liquid`: `show_discount_badge` + `discount_badge_label` (`[percent]` computed from variant price / compare-at in cents; only when on sale).
+- `review`: optional `label`, rendered only when a rating exists.
+- `assets/snosha-carousel-progress.js` (custom element, loaded only by this section): thumb size = visible / scroll width, offset = |scrollLeft| / max; RTL safe; Horizon still owns drag, snap and keyboard.
+- Icons: `assets/snosha-arrow-left.svg`, `snosha-cart.svg`, `snosha-cart-16.svg` (Figma geometry) used as CSS masks in `currentColor`.
+
+**Measured on a dev1 preview** (`theme dev` on 9294 → dev theme #168066810072, stopped afterwards; the storefront now renders `lang="ar" dir="rtl"`)
+- 1480: section 840.98 (Figma 841.1; the padding setting is an integer, 91 vs 91.1); heading 72/60 1336×52; subtitle y 118 ×32; View All 78/118.09 (= Figma); cards 316 at 1092/752/412/72 (RTL mirror of Figma), y 190; image 316×316, top radius 16; badge +13/+16.23; text stack title 520, description 553, rating 607, price 635.89, link 673.89; card 541.89 (Figma 541.9); hover add-to-cart 288×50 at 14px insets, radius 12; hover shadow 0 12 32 @10 %.
+- 390: section 573 (= Figma); h2 y 59 ×38; subtitle 114 ×26; cards 165×283 at 201/24/−153/−330, y 165 (= Figma track); image 165×165; badge 7.83 / 8.93; FAB 32×32 at 7/7; text stack within 0.06px of Figma; progress 24/473 342×4; View All y 491.
+- Rating row and discount badge were measured with **sample DOM injected in the browser** (no store data); everything else comes from the real render (1 real product, earlier placeholders).
+- Sweep 320/375/390/749/750/989/990/1024/1376/1480/1920, RTL and LTR: no horizontal overflow; 316 / 165 cards stable; desktop carousel clipped at the container (no gutter peek), mobile peek as in Figma.
+- Native quick add on the real product: cart 0 → 1 and the cart bubble updates (1480 and 390). The bar shows on hover and on keyboard focus.
+- Progress follows real scroll in RTL (offset 0 → 0.5 → 1, thumb right → left); hidden when nothing scrolls.
+- Theme Check: only the 9 baseline offenses. `git diff --check` clean. No `!important`, hex colors or physical left/right in the new CSS; 750px breakpoint only.
+- Screenshots: `docs/figma-validation/featured-collection/`.
+
+**Known differences / pending (user QA)**
+- Quick-add label is the locale string "إضافة" (locales not edited); Figma says "أضف إلى السلة".
+- Stars use Horizon's native star glyph sized to the Figma glyph, not the Figma star path.
+- Mobile progress thumb width depends on product count (Figma's 4 products → 49 %; 8 → 27 %).
+- 750–989: Horizon's spacing scale (0.7) applies to padding and gap.
+- The mobile FAB shows even though the global "mobile quick add" setting is off (design requirement, scoped to this style).
+- Needs real data: compare-at prices (discount badge), review metafields/app (stars), more products (scroll, progress), a multi-variant product (Choose → quick-add modal), a sold-out product.
+- Theme Editor: new settings, block selection, color independence. |
+| 2026-11-08 | **#4 + #5 carousel progress unified** (status of both stays `IMPLEMENTED`). User decision: keep Horizon's native carousels and avoid extra JavaScript unless strictly needed.
+
+**Finding: is JavaScript needed?**
+- Both Figma bars are a fill growing from the inline start (#4 starts at 40 %, #5 at 168/342 = 49.12 %). CSS scroll-driven animations bind that fill to the real scroll position of Horizon's own scroller, RTL included, in Chrome/Edge 115+, Samsung Internet and Safari 26+. No JS needed there.
+- In browsers without scroll-driven animations (Safari < 26, Firefox) CSS alone would leave the bar frozen at its starting width, so a JS fallback is still needed for those browsers. It exits immediately when the CSS feature is supported.
+
+**Changes**
+- `assets/dev1.css`: new shared block "CAROUSEL PROGRESS" for `.snosha-collections` and `.snosha-featured-collection`. Track and fill are `::before` / `::after` of the native `slideshow-component`; a named `scroll-timeline` sits on the native scroller (direct-child chain) and its `timeline-scope` on the outer `.resource-list` wrapper. Each section only sets `--snosha-progress-inset / -space / -initial / -track / -start / -end`.
+- #4 block: removed its private timeline, pseudo-element bar and keyframes. It no longer replaces Horizon's `timeline-scope` on `slideshow-component` (Horizon's per-slide timelines are intact again). Figma values unchanged (inset = gutter, 20px gap, 40 %).
+- #5 block: removed the `<snosha-carousel-progress>` element rules. Its bar now uses the same "fill from the start" behavior as #4 and Figma (49.12 % → 100 %), instead of the earlier thumb whose width depended on product count.
+- #5 fix found during review: the gutter and desktop `clip-path` rules also matched nested product-image slideshows inside the cards (the clip would have hidden multi-image product photos on desktop). Both now use the direct-child chain.
+- `assets/snosha-carousel-progress.js`: rewritten as one shared fallback (about 30 lines). It does nothing when `animation-timeline: scroll()` is supported. Otherwise one delegated capture-phase scroll listener writes `--snosha-carousel-progress` (0–1, `|scrollLeft|` so RTL works) on the carousel's `slideshow-component`. No custom element, no per-instance state, no carousel logic; it survives Theme Editor re-renders.
+- `sections/product-list.liquid`: progress element removed; `data-snosha-carousel-progress` on the section when the Snosha style is on; fallback script kept.
+- `sections/snosha-collections.liquid` (#4, other session's file; edit limited to this): `data-snosha-carousel-progress` on the wrapper + the same script tag (modules load once).
+
+**Validated on the dev1 preview (9293, theme #168071135448, RTL storefront)**
+- 390, CSS path: #4 track 20/350, fill 40 → 69.8 → 100 % at scroll 0 / 50 / 100 %, bar 20px under the carousel; #5 track 24/342, fill 49.12 → 74.6 → 100 %, 25px under the cards. Fill grows from the right in RTL and from the left in LTR. The JS variable stays unset, so the JS is idle.
+- 390, fallback simulated (feature test forced false, CSS animation disabled): identical widths, driven by the JS variable.
+- Geometry unchanged: #4 section 294 / 611, cards 273/166/59 (97×152) and 1116/800/484 (292×368), as logged for #4; #5 section 573, cards 201/24/−153 (165×283), View All y 491; desktop cards 316 at 1092/752/412.
+- Native behavior kept: `scroll-snap-type: x mandatory`; the desktop #4 arrow scrolls the native scroller (0 → −220) and disables at the end; no bar at ≥ 750.
+- 320–1920: no horizontal overflow; card sizes stable.
+- Theme Check: only the 9 baseline offenses; `git diff --check` clean.
+
+**Remaining**
+- When a carousel has nothing to scroll, the bar shows the Figma starting width (CSS can't detect "not scrollable" from the bar's element).
+- The fallback path was tested by simulation in Edge, not in a real Safari < 26 or Firefox. |
 
 ---
 
