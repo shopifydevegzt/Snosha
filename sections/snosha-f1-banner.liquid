@@ -1,0 +1,440 @@
+{%- comment -%}
+  Snosha — F1 banner (homepage section #6).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3851 (1480 x 520), mobile 190:4167 (390 x 714).
+  Isolated section (same pattern as snosha-hero): the native `media-with-content` / `hero` sections
+  can't layer the full-width waves between the dotted arc and the product image, or position the
+  decorative stage, without changing those shared sections.
+  Static styles: assets/main.css (.snosha-f1-banner). This file keeps the markup, the per-instance
+  color bridge (style tag below) and the schema.
+  Decorative assets (local theme files, Figma exports): snosha-f1-arc(.png | -mobile.png),
+  snosha-f1-wave-back.svg, snosha-f1-wave-front.svg. Sparkles and badge icons: snippets/snosha-icon.liquid.
+{%- endcomment -%}
+{%- liquid
+  assign specs = section.blocks | where: 'type', 'spec'
+  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign custom_class = section.settings.custom_class | strip | escape
+  assign button_url = section.settings.button_link
+  if section.settings.product != blank
+    assign button_url = section.settings.product.url
+  endif
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --snosha-f1-bg-start: {{ section.settings.background_start }};
+    --snosha-f1-bg-end: {{ section.settings.background_end }};
+    --snosha-f1-heading: {{ section.settings.heading_color }};
+    --snosha-f1-highlight: {{ section.settings.highlight_color }};
+    --snosha-f1-text: {{ section.settings.text_color }};
+    --snosha-f1-accent-start: {{ section.settings.accent_start }};
+    --snosha-f1-accent-end: {{ section.settings.accent_end }};
+    --snosha-f1-on-accent: {{ section.settings.on_accent_color }};
+    --snosha-f1-spec-bg: {{ section.settings.spec_background }};
+    --snosha-f1-spec-border: {{ section.settings.spec_border }};
+    --snosha-f1-spec-text: {{ section.settings.spec_text }};
+    --snosha-f1-decor: {{ section.settings.decor_color }};
+  }
+{% endstyle %}
+
+<div class="snosha-f1-banner{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="snosha-f1-banner__backdrop" aria-hidden="true">
+    <span class="snosha-f1-banner__glow snosha-f1-banner__glow--mobile"></span>
+    <img
+      class="snosha-f1-banner__wave snosha-f1-banner__wave--back"
+      src="{{ 'snosha-f1-wave-back.svg' | asset_url }}"
+      alt=""
+      width="1480"
+      height="170"
+      loading="lazy"
+    >
+    <img
+      class="snosha-f1-banner__wave snosha-f1-banner__wave--front"
+      src="{{ 'snosha-f1-wave-front.svg' | asset_url }}"
+      alt=""
+      width="1480"
+      height="407"
+      loading="lazy"
+    >
+    {%- if section.settings.watermark != blank -%}
+      <span class="snosha-f1-banner__watermark snosha-f1-banner__watermark--mobile" dir="ltr">
+        {{- section.settings.watermark | escape -}}
+      </span>
+    {%- endif -%}
+  </div>
+
+  <div class="section section--page-width snosha-f1-banner__grid">
+    <div class="snosha-f1-banner__layout">
+      <div class="snosha-f1-banner__content">
+        <div class="snosha-f1-banner__info">
+          <div class="snosha-f1-banner__copy">
+            {%- if section.settings.tag != blank -%}
+              <p class="snosha-f1-banner__tag" dir="auto">{{ section.settings.tag | escape }}</p>
+            {%- endif -%}
+
+            {%- if section.settings.heading != blank -%}
+              <h2 class="snosha-f1-banner__heading" dir="auto">{{ section.settings.heading }}</h2>
+            {%- endif -%}
+
+            {%- if section.settings.text != blank -%}
+              <p class="snosha-f1-banner__text" dir="auto">{{ section.settings.text | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if specs.size > 0 -%}
+            <ul class="snosha-f1-banner__specs" role="list">
+              {%- for block in specs -%}
+                {%- if block.settings.text != blank -%}
+                  <li class="snosha-f1-banner__spec" {{ block.shopify_attributes }}>
+                    <span class="snosha-f1-banner__spec-tile" aria-hidden="true">
+                      {%- if block.settings.icon_image != blank -%}
+                        {{
+                          block.settings.icon_image
+                          | image_url: width: 48
+                          | image_tag: alt: '', class: 'snosha-f1-banner__spec-icon-image', loading: 'lazy'
+                        }}
+                      {%- elsif block.settings.icon != 'none' -%}
+                        {%- render 'snosha-icon', icon: block.settings.icon, uid: block.id -%}
+                      {%- endif -%}
+                    </span>
+                    <span class="snosha-f1-banner__spec-label" dir="auto">{{ block.settings.text | escape }}</span>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.button_label != blank -%}
+          {%- if button_url != blank -%}
+            <a class="snosha-f1-banner__button" href="{{ button_url }}">
+              <span dir="auto">{{ section.settings.button_label | escape }}</span>
+            </a>
+          {%- else -%}
+            <a class="snosha-f1-banner__button" role="link" aria-disabled="true">
+              <span dir="auto">{{ section.settings.button_label | escape }}</span>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      <div class="snosha-f1-banner__stage">
+        <div class="snosha-f1-banner__canvas">
+          <span class="snosha-f1-banner__glow snosha-f1-banner__glow--desktop" aria-hidden="true"></span>
+          <picture class="snosha-f1-banner__arc" aria-hidden="true">
+            <source media="(max-width: 989px)" srcset="{{ 'snosha-f1-arc-mobile.png' | asset_url }}" width="640" height="640">
+            <img src="{{ 'snosha-f1-arc.png' | asset_url }}" alt="" width="1020" height="1020" loading="lazy">
+          </picture>
+          {%- if section.settings.watermark != blank -%}
+            <span class="snosha-f1-banner__watermark-box" aria-hidden="true">
+              <span class="snosha-f1-banner__watermark snosha-f1-banner__watermark--desktop" dir="ltr">
+                {{- section.settings.watermark | escape -}}
+              </span>
+            </span>
+          {%- endif -%}
+
+          <div class="snosha-f1-banner__media">
+            {%- if image != blank -%}
+              {%- liquid
+                assign alt = image.alt | default: section.settings.heading | strip_html | escape
+              -%}
+              <picture>
+                {%- if image_mobile != blank -%}
+                  <source
+                    media="(max-width: 989px)"
+                    srcset="{{ image_mobile | image_url: width: 400 }} 400w, {{ image_mobile | image_url: width: 600 }} 600w, {{ image_mobile | image_url: width: 800 }} 800w"
+                    sizes="400px"
+                    width="{{ image_mobile.width }}"
+                    height="{{ image_mobile.height }}"
+                  >
+                {%- endif -%}
+                {{
+                  image
+                  | image_url: width: 1116
+                  | image_tag:
+                    class: 'snosha-f1-banner__image',
+                    alt: alt,
+                    widths: '400, 558, 800, 1116',
+                    sizes: '(min-width: 990px) 558px, 400px',
+                    loading: 'lazy'
+                }}
+              </picture>
+            {%- elsif request.design_mode -%}
+              {{ 'product-1' | placeholder_svg_tag: 'snosha-f1-banner__image snosha-f1-banner__image--placeholder' }}
+            {%- endif -%}
+          </div>
+
+          <span class="snosha-f1-banner__decor" aria-hidden="true">
+            {%- render 'snosha-icon', icon: 'sparkle', uid: 'f1-1', class: 'snosha-f1-banner__sparkle snosha-f1-banner__sparkle--1' -%}
+            {%- render 'snosha-icon', icon: 'sparkle', uid: 'f1-2', class: 'snosha-f1-banner__sparkle snosha-f1-banner__sparkle--2' -%}
+            {%- render 'snosha-icon', icon: 'sparkle', uid: 'f1-3', class: 'snosha-f1-banner__sparkle snosha-f1-banner__sparkle--3' -%}
+            {%- for i in (1..9) -%}
+              <span class="snosha-f1-banner__bubble snosha-f1-banner__bubble--{{ i }}"></span>
+            {%- endfor -%}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha F1 banner",
+  "tag": "section",
+  "class": "snosha-f1-banner-section",
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Product tag",
+      "default": "SNOSHA F1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Italic text uses the highlight color.",
+      "default": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "عرض المنتج"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Button product",
+      "info": "The button links to this product."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Used only when no product is selected."
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image",
+      "info": "Transparent PNG, square. Fills a 558 × 558 px box (the Figma image bounds, including the glow around the product)."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile product image",
+      "info": "Optional. Used below 990px (400 × 400 px box); falls back to the product image."
+    },
+    {
+      "type": "text",
+      "id": "watermark",
+      "label": "Background watermark",
+      "default": "F1"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_start",
+      "label": "Background gradient start",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "background_end",
+      "label": "Background gradient end",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Heading highlight",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_start",
+      "label": "Accent gradient start",
+      "info": "Tag, button and icon tiles. Also the glow and bubbles.",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_end",
+      "label": "Accent gradient end",
+      "info": "Also the tag and button shadow.",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "color",
+      "id": "on_accent_color",
+      "label": "Tag, button and icon",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "spec_background",
+      "label": "Spec background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "spec_border",
+      "label": "Spec border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "spec_text",
+      "label": "Spec text",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "decor_color",
+      "label": "Sparkles and watermark",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Spec",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "ميزة المنتج"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "tank",
+              "label": "Water tank"
+            },
+            {
+              "value": "sliders",
+              "label": "Modes"
+            },
+            {
+              "value": "gauge",
+              "label": "Pressure"
+            },
+            {
+              "value": "brush_head",
+              "label": "Brush head"
+            },
+            {
+              "value": "sonic",
+              "label": "Sonic"
+            },
+            {
+              "value": "battery",
+              "label": "Battery"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            }
+          ],
+          "default": "tank"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Custom icon",
+          "info": "Overrides the icon above."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha F1 banner",
+      "blocks": [
+        {
+          "type": "spec",
+          "settings": {
+            "text": "خزان ماء 330 مل",
+            "icon": "tank"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "text": "4 أوضاع تنظيف",
+            "icon": "sliders"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "text": "ضغط 30–120 PSI",
+            "icon": "gauge"
+          }
+        },
+        {
+          "type": "spec",
+          "settings": {
+            "text": "4 رؤوس متخصصة",
+            "icon": "brush_head"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -527,11 +527,72 @@
         "snosha_gradient_start": "#63cdff",
         "snosha_gradient_end": "#0f64a8"
       }
+    },
+    "snosha_f1_banner": {
+      "type": "snosha-f1-banner",
+      "blocks": {
+        "spec_tank": {
+          "type": "spec",
+          "settings": {
+            "text": "خزان ماء 330 مل",
+            "icon": "tank"
+          }
+        },
+        "spec_modes": {
+          "type": "spec",
+          "settings": {
+            "text": "4 أوضاع تنظيف",
+            "icon": "sliders"
+          }
+        },
+        "spec_pressure": {
+          "type": "spec",
+          "settings": {
+            "text": "ضغط 30–120 PSI",
+            "icon": "gauge"
+          }
+        },
+        "spec_heads": {
+          "type": "spec",
+          "settings": {
+            "text": "4 رؤوس متخصصة",
+            "icon": "brush_head"
+          }
+        }
+      },
+      "block_order": [
+        "spec_tank",
+        "spec_modes",
+        "spec_pressure",
+        "spec_heads"
+      ],
+      "settings": {
+        "tag": "SNOSHA F1",
+        "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
+        "text": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول.",
+        "button_label": "عرض المنتج",
+        "button_link": "",
+        "watermark": "F1",
+        "background_start": "{{ settings.color_palette.background }}",
+        "background_end": "{{ settings.color_palette.color5 }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "highlight_color": "{{ settings.color_palette.color3 }}",
+        "text_color": "{{ settings.color_palette.color1 }}",
+        "accent_start": "#63cdff",
+        "accent_end": "#0f64a8",
+        "on_accent_color": "{{ settings.color_palette.background }}",
+        "spec_background": "{{ settings.color_palette.background }}",
+        "spec_border": "{{ settings.color_palette.color2 }}",
+        "spec_text": "{{ settings.color_palette.color6 }}",
+        "decor_color": "{{ settings.color_palette.color3 }}",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "snosha_hero",
     "snosha_collections",
-    "product_list_fa6P9H"
+    "product_list_fa6P9H",
+    "snosha_f1_banner"
   ]
 }

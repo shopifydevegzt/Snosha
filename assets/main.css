@@ -658,3 +658,580 @@
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — F1 BANNER  (sections/snosha-f1-banner.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3851 (1480 x 520), mobile 190:4167 (390 x 714).
+   - < 990px   Figma mobile structure: stage (330px) above the copy. Mobile type < 750px,
+               desktop type sizes from 750px.
+   - >= 990px  Figma desktop split: copy column (584) + stage column (752), Figma ratio.
+   Stacking follows Figma: glow, back wave, arc, front wave, watermark, product, sparkles/bubbles,
+   copy. The waves are full-width layers of the section, so the stage must not be a stacking
+   context (no z-index/containment on .__stage/.__canvas).
+   Decor coordinates are Figma reference pixels: desktop --x/--y on the 752 x 520 stage (Figma
+   x - 72), scaled as % of the stage; mobile --mx (offset of the centre from the stage centre) and
+   --my in fixed px. Colors: --snosha-f1-* from the section's {% style %}.
+   ========================================================================= */
+.snosha-f1-banner {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-image: linear-gradient(85.61deg, var(--snosha-f1-bg-start) 5.73%, var(--snosha-f1-bg-end) 94.27%);
+
+  /* ---------- Section-wide layers (full width) ---------- */
+  .snosha-f1-banner__backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .snosha-f1-banner__glow {
+    position: absolute;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--snosha-f1-accent-start) 20%, transparent);
+    filter: blur(75px);
+  }
+
+  /* Figma mobile: 260 x 220 ellipse at right -70, top -90 */
+  .snosha-f1-banner__glow--mobile {
+    top: -90px;
+    right: -70px;
+    width: 260px;
+    height: 220px;
+  }
+
+  .snosha-f1-banner__wave {
+    position: absolute;
+    display: block;
+    max-width: none;
+  }
+
+  /* Same Figma wave on both frames (the mobile one is the desktop path scaled to 390 x 44.8) */
+  .snosha-f1-banner__wave--back {
+    z-index: 2;
+    right: -1px;
+    bottom: -0.24px;
+    left: 1px;
+    width: auto;
+    height: 44.8px;
+  }
+
+  .snosha-f1-banner__wave--front {
+    display: none;
+  }
+
+  .snosha-f1-banner__watermark {
+    color: color-mix(in srgb, var(--snosha-f1-decor) 5%, transparent);
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    line-height: normal;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .snosha-f1-banner__watermark--mobile {
+    position: absolute;
+    z-index: 3;
+    top: 354px;
+    left: -20px;
+    font-size: 210px;
+    letter-spacing: -4.2px;
+  }
+
+  /* ---------- Layout ---------- */
+  .snosha-f1-banner__layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .snosha-f1-banner__content {
+    position: relative;
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    padding-block-end: 36px;
+  }
+
+  .snosha-f1-banner__info,
+  .snosha-f1-banner__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+  }
+
+  .snosha-f1-banner__info {
+    gap: 18px;
+  }
+
+  .snosha-f1-banner__copy {
+    gap: 12px;
+  }
+
+  .snosha-f1-banner__tag {
+    margin: 0;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background-image: linear-gradient(to right, var(--snosha-f1-accent-start), var(--snosha-f1-accent-end));
+    box-shadow: 0 8px 18px color-mix(in srgb, var(--snosha-f1-accent-end) 30%, transparent);
+    color: var(--snosha-f1-on-accent);
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .snosha-f1-banner__heading {
+    margin: 0;
+    color: var(--snosha-f1-heading);
+    font-family: var(--font-heading--family);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: 0;
+    text-transform: none;
+
+    & em {
+      color: var(--snosha-f1-highlight);
+      font-style: normal;
+    }
+  }
+
+  .snosha-f1-banner__text {
+    margin: 0;
+    color: var(--snosha-f1-text);
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+
+  /* Figma lays the specs out as a left-to-right row packed to the right (justify-end), which gives
+     3 + 1 on desktop and 2 + 2 on mobile. row-reverse reproduces that in RTL and mirrors it in LTR. */
+  .snosha-f1-banner__specs {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    align-self: stretch;
+    gap: 8px 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* 38px tall like Figma (Figma strokes don't take layout space): padding = Figma padding - 1px border.
+     Icon side (inline-start in RTL) 10px, text side 12px. */
+  .snosha-f1-banner__spec {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    padding-block: 5px;
+    padding-inline: 9px 11px;
+    border: 1px solid var(--snosha-f1-spec-border);
+    border-radius: 12px;
+    background-color: var(--snosha-f1-spec-bg);
+  }
+
+  .snosha-f1-banner__spec-tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    overflow: clip;
+    border-radius: 8px;
+    background-image: linear-gradient(to bottom, var(--snosha-f1-accent-start), var(--snosha-f1-accent-end));
+    color: var(--snosha-f1-on-accent);
+
+    & .snosha-icon {
+      flex: none;
+      width: 24px;
+      height: auto;
+      translate: 0.5px 0.5px;
+    }
+  }
+
+  .snosha-f1-banner__spec-icon-image {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+  }
+
+  .snosha-f1-banner__spec-label {
+    color: var(--snosha-f1-spec-text);
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .snosha-f1-banner__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: 157px;
+    padding: 14px 32px;
+    border-radius: 10px;
+    background-image: linear-gradient(to right, var(--snosha-f1-accent-start), var(--snosha-f1-accent-end));
+    box-shadow: 0 10px 22px color-mix(in srgb, var(--snosha-f1-accent-end) 35%, transparent);
+    color: var(--snosha-f1-on-accent);
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      box-shadow 0.2s ease,
+      translate 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 12px 26px color-mix(in srgb, var(--snosha-f1-accent-end) 45%, transparent);
+      translate: 0 -1px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-f1-accent-end);
+      outline-offset: 3px;
+    }
+
+    &[aria-disabled="true"] {
+      cursor: default;
+    }
+  }
+
+  /* ---------- Stage (mobile: 330px tall, decor centred on the stage) ---------- */
+  .snosha-f1-banner__stage {
+    order: -1;
+  }
+
+  .snosha-f1-banner__canvas {
+    position: relative;
+    height: 330px;
+  }
+
+  .snosha-f1-banner__glow--desktop,
+  .snosha-f1-banner__watermark-box {
+    display: none;
+  }
+
+  .snosha-f1-banner__arc,
+  .snosha-f1-banner__media,
+  .snosha-f1-banner__sparkle,
+  .snosha-f1-banner__bubble {
+    position: absolute;
+    top: calc(var(--my) * 1px);
+    left: calc(50% + var(--mx) * 1px);
+    width: calc(var(--s) * 1px);
+    aspect-ratio: 1;
+    translate: -50% 0;
+  }
+
+  .snosha-f1-banner__arc {
+    --mx: 0;
+    --my: 20;
+    --s: 320;
+    z-index: 4;
+    opacity: 0.5;
+
+    & img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  /* Image box = Figma image bounds: the 280 frame + 60 / 30 / 60 / 90 of glow around the product */
+  .snosha-f1-banner__media {
+    --mx: 0;
+    --my: 10;
+    --s: 400;
+    z-index: 7;
+  }
+
+  .snosha-f1-banner__media picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .snosha-f1-banner__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .snosha-f1-banner__decor {
+    position: absolute;
+    z-index: 8;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .snosha-f1-banner__sparkle {
+    height: auto;
+    color: var(--snosha-f1-decor);
+  }
+
+  .snosha-f1-banner__bubble {
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--snosha-f1-accent-start) 22%, transparent);
+  }
+
+  /* Ring bubbles: 1.5px stroke inside the circle */
+  .snosha-f1-banner__bubble--3,
+  .snosha-f1-banner__bubble--4,
+  .snosha-f1-banner__bubble--6,
+  .snosha-f1-banner__bubble--7,
+  .snosha-f1-banner__bubble--9 {
+    border: 1.5px solid color-mix(in srgb, var(--snosha-f1-accent-start) 30%, transparent);
+    background-color: transparent;
+  }
+
+  /* Decor: --x/--y desktop stage px, --mx/--my mobile px, --s size */
+  .snosha-f1-banner__sparkle--1 {
+    --x: 568;
+    --y: 90;
+    --mx: 146;
+    --my: 44;
+    --s: 22;
+    opacity: 0.7;
+  }
+
+  .snosha-f1-banner__sparkle--2 {
+    --x: 78;
+    --y: 400;
+    --mx: -147;
+    --my: 300;
+    --s: 16;
+    opacity: 0.5;
+  }
+
+  .snosha-f1-banner__sparkle--3 {
+    --x: 83;
+    --y: 63;
+    --s: 22;
+    opacity: 0.7;
+  }
+
+  .snosha-f1-banner__bubble--1 {
+    --x: 634;
+    --y: 352;
+    --mx: 144;
+    --my: 300;
+    --s: 18;
+  }
+
+  .snosha-f1-banner__bubble--2 {
+    --x: 690;
+    --y: 296;
+    --mx: 162;
+    --my: 250;
+    --s: 10;
+  }
+
+  .snosha-f1-banner__bubble--3 {
+    --x: 616;
+    --y: 232;
+    --mx: 127;
+    --my: 210;
+    --s: 8;
+  }
+
+  .snosha-f1-banner__bubble--4 {
+    --x: 670;
+    --y: 168;
+    --s: 14;
+  }
+
+  .snosha-f1-banner__bubble--5 {
+    --x: 149;
+    --y: 325;
+    --mx: -156;
+    --my: 220;
+    --s: 18;
+  }
+
+  .snosha-f1-banner__bubble--6 {
+    --x: 131;
+    --y: 205;
+    --s: 8;
+  }
+
+  .snosha-f1-banner__bubble--7 {
+    --x: 185;
+    --y: 141;
+    --s: 14;
+  }
+
+  .snosha-f1-banner__bubble--8 {
+    --x: 592;
+    --y: 120;
+    --s: 6;
+  }
+
+  .snosha-f1-banner__bubble--9 {
+    --x: 48;
+    --y: 140;
+    --s: 12;
+  }
+
+  /* Desktop-only decor */
+  .snosha-f1-banner__sparkle--3,
+  .snosha-f1-banner__bubble--4,
+  .snosha-f1-banner__bubble--6,
+  .snosha-f1-banner__bubble--7,
+  .snosha-f1-banner__bubble--8,
+  .snosha-f1-banner__bubble--9 {
+    display: none;
+  }
+
+  /* ---------- 750–989: stacked, desktop type sizes ---------- */
+  @media screen and (min-width: 750px) {
+    .snosha-f1-banner__heading {
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 64px;
+    }
+
+    .snosha-f1-banner__text {
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+
+  /* ---------- >= 990: Figma desktop split ---------- */
+  @media screen and (min-width: 990px) {
+    background-image: linear-gradient(68.2deg, var(--snosha-f1-bg-start) 5.73%, var(--snosha-f1-bg-end) 94.27%);
+
+    .snosha-f1-banner__glow--mobile,
+    .snosha-f1-banner__watermark--mobile {
+      display: none;
+    }
+
+    /* Figma: back wave 1480 x 170 at y 390, front wave 1480 x 407 at y 203 (stretched to the width) */
+    .snosha-f1-banner__wave--back {
+      top: 390px;
+      right: 0;
+      bottom: auto;
+      left: 0;
+      height: 170px;
+    }
+
+    .snosha-f1-banner__wave--front {
+      z-index: 5;
+      top: 203px;
+      right: 0;
+      left: 0;
+      display: block;
+      height: 407px;
+    }
+
+    /* F1 Container: 1376 wide with 20px padding; copy 584 (incl. 24px padding on its start side) */
+    .snosha-f1-banner__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 584fr) minmax(0, 752fr);
+      align-items: center;
+      min-height: 520px;
+      padding-inline: 20px;
+    }
+
+    .snosha-f1-banner__content,
+    .snosha-f1-banner__info,
+    .snosha-f1-banner__copy {
+      gap: 18px;
+    }
+
+    .snosha-f1-banner__content {
+      padding-block: 0;
+      padding-inline-start: 24px;
+    }
+
+    .snosha-f1-banner__specs {
+      gap: 10px;
+    }
+
+    .snosha-f1-banner__stage {
+      display: flex;
+      order: 0;
+      align-items: center;
+      align-self: stretch;
+    }
+
+    .snosha-f1-banner__canvas {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 752 / 520;
+    }
+
+    .snosha-f1-banner__glow--desktop {
+      top: calc(-140 / 520 * 100%);
+      left: calc(448 / 752 * 100%);
+      display: block;
+      width: calc(320 / 752 * 100%);
+      height: calc(280 / 520 * 100%);
+    }
+
+    .snosha-f1-banner__arc,
+    .snosha-f1-banner__media,
+    .snosha-f1-banner__sparkle,
+    .snosha-f1-banner__bubble {
+      top: calc(var(--y) / 520 * 100%);
+      left: calc(var(--x) / 752 * 100%);
+      width: calc(var(--s) / 752 * 100%);
+      translate: none;
+    }
+
+    .snosha-f1-banner__arc {
+      --x: 93;
+      --y: 5;
+      --s: 510;
+    }
+
+    /* 438 frame at 141 / 22 plus 60 / 30 / 60 / 90 of glow = 558 box at 81 / -8 */
+    .snosha-f1-banner__media {
+      --x: 81;
+      --y: -8;
+      --s: 558;
+    }
+
+    .snosha-f1-banner__sparkle--3,
+    .snosha-f1-banner__bubble--4,
+    .snosha-f1-banner__bubble--6,
+    .snosha-f1-banner__bubble--7,
+    .snosha-f1-banner__bubble--8,
+    .snosha-f1-banner__bubble--9 {
+      display: block;
+    }
+
+    /* Watermark: 465 x 663 text box at -41 / -100. Its own container, so the type scales with the stage */
+    .snosha-f1-banner__watermark-box {
+      position: absolute;
+      z-index: 6;
+      top: calc(-100 / 520 * 100%);
+      left: calc(-41 / 752 * 100%);
+      display: block;
+      width: calc(465 / 752 * 100%);
+      container-type: inline-size;
+      pointer-events: none;
+    }
+
+    .snosha-f1-banner__watermark--desktop {
+      display: block;
+      font-size: calc(100cqi * 380 / 465);
+      letter-spacing: calc(100cqi * -7.6 / 465);
+    }
+  }
+}

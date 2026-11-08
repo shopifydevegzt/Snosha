@@ -90,7 +90,7 @@ Section order matches between the desktop and mobile frames. Node IDs are top-le
 Styles: `assets/main.css` | High | Hero product image (merchant upload pending); real Arabic/RTL storefront | `IMPLEMENTED` |
 | 4 | Collections carousel | `190:3830` | `190:4133` | **Implemented (branch `dev1`) as `sections/snosha-collections.liquid`**: thin wrapper over Horizon's native collection list (same `resource-list` → `resource-list-carousel` → `slideshow` path, static `_collection-card` blocks, native arrows/RTL/swipe). Styles in `assets/dev1.css` (`.snosha-collections`). Instance `snosha_collections` in `index.json` between `snosha_hero` and `product_list_fa6P9H` | Medium | **No collections assigned** (placeholders shown; the merchant picks collections in the Theme Editor); collection images; mobile progress = shared CSS scroll-timeline bar (see #5 / log), with the shared `assets/snosha-carousel-progress.js` as a fallback only for browsers without scroll-driven animations | `IMPLEMENTED` |
 | 5 | Featured collection (best sellers) | `190:3844` | `190:4149` | **Implemented (branch `dev1`) on the existing native `product-list` instance `product_list_fa6P9H`** (layout `carousel`, static `_product-card` with `_product-card-gallery`, `product-title`, `custom-liquid` description, `review`, `price`, `custom-liquid` product link; native quick add). Opt-in section setting "Snosha featured collection style" adds the `.snosha-featured-collection` scope; styles in `assets/dev1.css`; mobile progress = the CSS scroll-timeline bar shared with #4 (`assets/snosha-carousel-progress.js` is only a fallback for browsers without scroll-driven animations) | Medium–High | Only 1 product in the store (no compare-at price, no review metafields), so discount badge and stars were checked with sample DOM only; quick-add label comes from the locale ("إضافة", Figma "أضف إلى السلة") | `IMPLEMENTED` |
-| 6 | F1 banner | `190:3851` | `190:4167` | `media-with-content` or `hero`; spec chips via `group` / `icon` / `text` | High | Decorative waves, bubbles and watermark (assets/CSS); product image | `NOT_STARTED` |
+| 6 | F1 banner | `190:3851` | `190:4167` | **Implemented (branch `main`) as `sections/snosha-f1-banner.liquid`**: isolated section (same pattern as #3), section settings for copy/CTA/images/colors, repeatable `spec` blocks. Styles in `assets/main.css` (`.snosha-f1-banner`). Decorative assets from Figma in `assets/snosha-f1-*`. Instance `snosha_f1_banner` in `index.json` after `product_list_fa6P9H` | High | **Not checked in a browser** (no preview serves `main`; user chose to skip); product image (merchant upload pending); CTA product not selected | `IMPLEMENTED` |
 | 7 | Featured collection · 2 (bundles title) | `190:3896` | `190:4204` | Second `product-list` instance; same card configuration as #5 | Low (after #5) | #5 card configuration; products | `NOT_STARTED` |
 | 8 | Before / After | `190:3903` | `190:4222` | `media-with-content` + `comparison-slider` block + benefit list (`group` / `icon` / `text`) + `button` | Medium | Before/after images (merchant); `comparison-slider` RTL drag behavior | `NOT_STARTED` |
 | 9 | Reels | `190:3935` | `190:4254` | `carousel` section with `video` blocks, or `product-list` carousel. Reel cards may link products | Medium–High | Video files/URLs (merchant); autoplay/performance policy. *Open: card content and links not inspected.* | `NOT_STARTED` |
@@ -357,6 +357,28 @@ The template was re-saved once because Shopify validated it before the new schem
 **Remaining**
 - When a carousel has nothing to scroll, the bar shows the Figma starting width (CSS can't detect "not scrollable" from the bar's element).
 - The fallback path was tested by simulation in Edge, not in a real Safari < 26 or Firefox. |
+
+| 2026-11-08 | **#6 F1 banner → `IMPLEMENTED`** (branch `main`; Figma `190:3851` desktop 1480 × 520, `190:4167` mobile 390 × 714; both nodes read in full via Figma MCP).
+
+**Architecture.** New isolated section `sections/snosha-f1-banner.liquid` (like #3). Native `media-with-content` / `hero` can't put the full-width front wave *between* the dotted arc and the product (Figma stacking), position the decorative stage, or lay out the spec badges without changing those shared sections.
+
+**Files**
+- New: `sections/snosha-f1-banner.liquid`; `assets/snosha-f1-arc.png` (1020², desktop), `assets/snosha-f1-arc-mobile.png` (640², different dash count), `assets/snosha-f1-wave-back.svg` (1480 × 170, also used on mobile: the mobile wave is the same path scaled to 390 × 44.8), `assets/snosha-f1-wave-front.svg` (1480 × 407). All unmodified Figma exports.
+- `snippets/snosha-icon.liquid`: additive `tank` and `gauge` icons (Figma `Icon / tank`, `Icon / gauge`, converted to `currentColor`). `sliders`, `brush_head` and `sparkle` were already exact matches and are reused.
+- `assets/main.css`: new `.snosha-f1-banner` block (native nesting, no `!important`, colors only from section variables).
+- `templates/index.json`: targeted insertion of `snosha_f1_banner` (4 `spec` blocks with the Figma copy) and its id at the end of `order`. Other sections untouched.
+
+**Implementation notes**
+- Layout: < 990 Figma mobile structure (330px stage above the copy; mobile type < 750, desktop type 750–989); ≥ 990 Figma split, grid `584fr / 752fr` inside the 1376 container with 20px padding, 520px min height, content centered (copy y 46).
+- Stage decor uses Figma reference pixels: desktop as % of a 752 × 520 stage (Figma x − 72), so it scales between 990 and 1480; mobile as fixed px offsets from the stage center. The desktop watermark has its own small size container so the 380px "F1" scales with the stage; the stage itself is deliberately not a container (that would create a stacking context and break the wave layering).
+- Product image box = Figma image bounds (558² at stage 81 / −8 desktop, 400² mobile), not the 438 / 280 frame, because the Figma render includes its glow. No image is embedded; empty picker shows Horizon's placeholder in the Theme Editor only.
+- Spec badges reproduce Figma's left-to-right, right-packed auto layout (`row-reverse` + `flex-end`), which gives 3 + 1 on desktop and 2 + 2 on mobile with one block order (tank, modes, pressure, heads). In LTR the whole row mirrors.
+- Glow and bubbles are CSS shapes with the Figma geometry (ellipse + 75px blur; circles with 22 % fill or 1.5px 30 % ring) so their color follows the accent setting. Waves and arcs stay Figma assets (their gradient colors are fixed in the files).
+- CTA: product picker → `product.url`; URL setting as fallback; neither → non-navigating link with `aria-disabled`.
+
+**Checks run:** Theme Check (only the 9 baseline offenses), `index.json` and schema parse, unknown/duplicate setting ids, CSS brace balance, no `!important`.
+
+**Not run (user chose to skip browser validation: no running preview serves `main`):** browser measurements against Figma at 1480 / 390, overflow at 320–1480, RTL/LTR rendering, Theme Editor behavior, rendered font, watermark baseline. Section stays `IMPLEMENTED` until these and user QA are done. |
 
 ---
 
