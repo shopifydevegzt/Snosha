@@ -5,6 +5,8 @@
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
+  @param {boolean} [show_discount_badge] - Whether to show a discount badge when the variant is on sale
+  @param {string} [discount_badge_label] - Badge text; [percent] is replaced with the rounded discount percentage
 {%- enddoc -%}
 
 {% render 'price-styles' %}
@@ -19,6 +21,15 @@
   assign show_compare_price = false
   if compare_at_price > price
     assign show_compare_price = true
+  endif
+
+  # Discount badge: computed from the variant's money values (in cents), before they are formatted below.
+  assign discount_badge = ''
+  if show_discount_badge and show_compare_price
+    assign discount_percent = compare_at_price | minus: price | times: 100.0 | divided_by: compare_at_price | round
+    if discount_percent > 0
+      assign discount_badge = discount_badge_label | default: '-[percent]%' | replace: '[percent]', discount_percent
+    endif
   endif
 
   if product_resource == blank
@@ -114,6 +125,9 @@
         ><bdi>{{ price | default: '&nbsp;' }}</bdi></span
       >
     {% endif %}
+    {%- if discount_badge != blank -%}
+      <span class="price-discount-badge">{{ discount_badge | escape }}</span>
+    {%- endif -%}
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid

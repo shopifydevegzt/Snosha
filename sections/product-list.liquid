@@ -5,7 +5,29 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
+
+  # Snosha: opt-in design (off by default, so other product lists are unchanged). Styles live in assets/dev1.css.
+  assign snosha_style = section.settings.snosha_style
 %}
+
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-featured-collection {
+      --snosha-fc-title: {{ section.settings.snosha_title_color }};
+      --snosha-fc-text: {{ section.settings.snosha_text_color }};
+      --snosha-fc-accent: {{ section.settings.snosha_accent_color }};
+      --snosha-fc-on-accent: {{ section.settings.snosha_accent_text_color }};
+      --snosha-fc-star: {{ section.settings.snosha_star_color }};
+      --snosha-fc-discount-bg: {{ section.settings.snosha_discount_background }};
+      --snosha-fc-discount-border: {{ section.settings.snosha_discount_border }};
+      --snosha-fc-progress-track: {{ section.settings.snosha_progress_track }};
+      --snosha-fc-gradient-start: {{ section.settings.snosha_gradient_start }};
+      --snosha-fc-gradient-end: {{ section.settings.snosha_gradient_end }};
+      --snosha-fc-mobile-padding-start: {{ section.settings.snosha_mobile_padding_top }}px;
+      --snosha-fc-mobile-padding-end: {{ section.settings.snosha_mobile_padding_bottom }}px;
+    }
+  {% endstyle %}
+{%- endif -%}
 
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
@@ -19,11 +41,16 @@
     section-resource-list
     spacing-style
     gap-style
+    {% if snosha_style %}snosha-featured-collection{% endif %}
+    {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
     {% render 'gap-style', value: section.settings.gap %}
   "
+  {% if snosha_style %}
+    data-snosha-carousel-progress
+  {% endif %}
 >
   <div class="section-resource-list__header">
     {%- content_for 'block', type: '_product-list-content', id: 'static-header' -%}
@@ -77,6 +104,11 @@
     content_type: 'products',
     test_id: 'resource-list-grid'
   %}
+
+  {%- if snosha_style and section.settings.layout_type == 'carousel' -%}
+    {%- comment -%} The mobile progress bar is CSS (assets/dev1.css); this module is only a fallback for browsers without scroll-driven animations. {%- endcomment -%}
+    <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+  {%- endif -%}
 
   <div
     class="section-resource-list__content"
@@ -346,6 +378,114 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha featured collection style",
+      "info": "Applies the Snosha best-sellers design (cards, mobile carousel progress bar). Off by default.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_title_color",
+      "label": "Product title and price",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_text_color",
+      "label": "Secondary text",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_color",
+      "label": "Accent (links, badge, add to cart)",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_text_color",
+      "label": "Text on accent",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_star_color",
+      "label": "Rating stars",
+      "default": "{{ settings.color_palette.color4 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_discount_background",
+      "label": "Discount badge background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_discount_border",
+      "label": "Discount badge border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_progress_track",
+      "label": "Progress bar track",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_start",
+      "label": "Progress bar gradient start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_end",
+      "label": "Progress bar gradient end / card shadow",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.snosha_style }}"
     }
   ],
   "presets": [

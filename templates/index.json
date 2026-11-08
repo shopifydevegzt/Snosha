@@ -9,6 +9,76 @@
  */
 {
   "sections": {
+    "snosha_collections": {
+      "type": "snosha-collections",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Heading",
+          "settings": {
+            "text": "<h2>مجموعات SNOSHA</h2>",
+            "type_preset": "h2",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "text_color": "{{ settings.color_palette.color6 }}"
+          },
+          "blocks": {}
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "name": "t:names.collection_card",
+          "static": true,
+          "settings": {
+            "placement": "below_image",
+            "horizontal_alignment": "center",
+            "vertical_alignment": "flex-start",
+            "collection_card_gap": 18,
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "settings": {
+                "image_ratio": "square",
+                "border": "none",
+                "border_radius": 12
+              },
+              "blocks": {}
+            },
+            "collection-title": {
+              "type": "collection-title",
+              "name": "t:names.collection_title",
+              "settings": {
+                "type_preset": "h3",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "padding-inline-start": 4,
+                "padding-inline-end": 4
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection-title"
+          ]
+        }
+      },
+      "block_order": [
+        "heading"
+      ],
+      "name": "Snosha collections",
+      "settings": {
+        "layout_type": "carousel",
+        "icons_style": "chevron",
+        "custom_class": ""
+      }
+    },
     "snosha_hero": {
       "type": "snosha-hero",
       "blocks": {
@@ -139,14 +209,14 @@
           "name": "t:names.header",
           "static": true,
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "flex-end",
             "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
+            "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "gap": 6,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -172,21 +242,38 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
+                "text": "<h2>الأكثر مبيعًا</h2>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h2",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "",
+                "text_color": "{{ settings.color_palette.color6 }}",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "product_list_text_subtitle": {
+              "type": "_product-list-text",
+              "name": "Subtitle",
+              "settings": {
+                "text": "<p>منتجات SNOSHA الأكثر مبيعًا</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "text_color": "{{ settings.color_palette.color1 }}",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -198,9 +285,10 @@
               "type": "_product-list-button",
               "name": "t:names.product_list_button",
               "settings": {
-                "label": "View all",
+                "label": "عرض الكل",
+                "always_show": true,
                 "open_in_new_tab": false,
-                "style_class": "link",
+                "style_class": "button-unstyled",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
                 "custom_button_text": "{{ settings.color_palette.background }}",
                 "custom_button_border": "{{ settings.color_palette.background }}",
@@ -215,6 +303,7 @@
           },
           "block_order": [
             "product_list_text_YFtzcL",
+            "product_list_text_subtitle",
             "product_list_button_MWeP9V"
           ]
         },
@@ -223,7 +312,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 4,
+            "product_card_gap": 6,
             "background_color": "",
             "border": "solid",
             "border_width": 1,
@@ -240,7 +329,9 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
+                "custom_badge_text": "الأكثر مبيعًا",
+                "custom_badge_tag": "",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -260,7 +351,7 @@
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "h5",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -271,10 +362,10 @@
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 4,
+                "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 12,
-                "padding-inline-end": 12
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -283,6 +374,8 @@
               "name": "t:names.product_price",
               "settings": {
                 "show_sale_price_first": true,
+                "show_discount_badge": true,
+                "discount_badge_label": "خصم [percent]%",
                 "show_installments": false,
                 "show_tax_info": false,
                 "type_preset": "h6",
@@ -295,9 +388,36 @@
                 "case": "none",
                 "text_color": "",
                 "padding-block-start": 0,
-                "padding-block-end": 12,
-                "padding-inline-start": 12,
-                "padding-inline-end": 12
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "card_description": {
+              "type": "custom-liquid",
+              "name": "Short description",
+              "settings": {
+                "custom_liquid": "{%- assign card_text = closest.product.description | strip_html | strip -%}{%- if card_text != blank -%}<p class=\"snosha-card__description\">{{ card_text | truncatewords: 24 }}</p>{%- endif -%}"
+              },
+              "blocks": {}
+            },
+            "card_rating": {
+              "type": "review",
+              "name": "Rating",
+              "settings": {
+                "stars_style": "outline",
+                "show_number": false,
+                "label": "التقييمات",
+                "type_preset": "paragraph"
+              },
+              "blocks": {}
+            },
+            "card_cta": {
+              "type": "custom-liquid",
+              "name": "Product link",
+              "settings": {
+                "custom_liquid": "<a class=\"snosha-card__cta\"{% if closest.product != blank %} href=\"{{ closest.product.url }}\"{% endif %} tabindex=\"-1\" aria-hidden=\"true\">عرض المنتج</a>"
               },
               "blocks": {}
             }
@@ -305,34 +425,52 @@
           "block_order": [
             "product_card_gallery_677WP3",
             "product_title_YXxMTj",
-            "price_JQzVV4"
+            "card_description",
+            "card_rating",
+            "price_JQzVV4",
+            "card_cta"
           ]
         }
       },
       "name": "t:names.product_list",
       "settings": {
         "collection": "all",
-        "layout_type": "grid",
+        "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 8,
         "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
-        "columns_gap": 8,
+        "columns_gap": 24,
         "rows_gap": 24,
-        "icons_style": "arrow",
+        "icons_style": "none",
         "icons_shape": "none",
         "section_width": "page-width",
         "horizontal_alignment": "flex-start",
-        "gap": 28,
+        "gap": 40,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 60,
+        "padding-block-end": 91,
+        "custom_class": "",
+        "snosha_style": true,
+        "snosha_mobile_padding_top": 56,
+        "snosha_mobile_padding_bottom": 56,
+        "snosha_title_color": "{{ settings.color_palette.color6 }}",
+        "snosha_text_color": "{{ settings.color_palette.color1 }}",
+        "snosha_accent_color": "{{ settings.color_palette.color3 }}",
+        "snosha_accent_text_color": "{{ settings.color_palette.background }}",
+        "snosha_star_color": "{{ settings.color_palette.color4 }}",
+        "snosha_discount_background": "{{ settings.color_palette.color5 }}",
+        "snosha_discount_border": "{{ settings.color_palette.color2 }}",
+        "snosha_progress_track": "{{ settings.color_palette.color2 }}",
+        "snosha_gradient_start": "#63cdff",
+        "snosha_gradient_end": "#0f64a8"
       }
     }
   },
   "order": [
     "snosha_hero",
+    "snosha_collections",
     "product_list_fa6P9H"
   ]
 }
