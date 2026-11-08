@@ -94,7 +94,7 @@ Styles: `assets/main.css` | High | Hero product image (merchant upload pending);
 | 7 | Featured collection · 2 (bundles title) | `190:3896` | `190:4204` | Second `product-list` instance; same card configuration as #5 | Low (after #5) | #5 card configuration; products | `NOT_STARTED` |
 | 8 | Before / After | `190:3903` | `190:4222` | `media-with-content` + `comparison-slider` block + benefit list (`group` / `icon` / `text`) + `button` | Medium | Before/after images (merchant); `comparison-slider` RTL drag behavior | `NOT_STARTED` |
 | 9 | Reels | `190:3935` | `190:4254` | `carousel` section with `video` blocks, or `product-list` carousel. Reel cards may link products | Medium–High | Video files/URLs (merchant); autoplay/performance policy. *Open: card content and links not inspected.* | `NOT_STARTED` |
-| 10 | Choose Your Care | `190:3943` | `190:4265` | `product-list` / `featured-product` / `section` + `_card` | High | Featured middle card differs in size; products. *Open: native fit unclear.* | `NOT_STARTED` |
+| 10 | Choose Your Care | `190:3943` | `190:4265` | **Implemented (branch `main`) as `sections/snosha-choose-care.liquid`** with private theme blocks `blocks/_snosha-care-card.liquid` (product picker, "Featured card" toggle, title/description/badge/button overrides, optional image) and nested `blocks/_snosha-care-spec.liquid` (text + icon). Static row when the section is ≥ 1440px wide, native CSS scroll-snap carousel below; mobile cards are the desktop cards zoomed like Figma (user decision). Styles in `assets/main.css` (`.snosha-choose-care`). Instance `snosha_choose_care` at the end of `index.json` (#7–#9 not on this branch) | High | **Not checked in a browser** (no preview serves `main`); no products selected (placeholder images, no prices, CTA disabled until a product is picked); mobile text is Figma's scaled 7.9–9.2px | `IMPLEMENTED` |
 | 11 | Bundle | `190:3987` | `190:4318` | `product-hotspots` (mobile hotspots) + bundle list. Selectable items and a bundle total likely need an app or custom logic | High | **Bundle pricing logic / app (unknown)**; products. *Open: commerce behavior undecided; may become `BLOCKED`.* | `NOT_STARTED` |
 | 12 | Blog | `190:4018` | `190:4349` | `featured-blog-posts` + `_featured-blog-posts-card` (carousel on mobile) | Medium | Blog posts must exist | `NOT_STARTED` |
 | 13 | Why SNOSHA | `190:4024` | `190:4361` | `section` + `group` / `icon` / `text` (4 columns desktop, 2×2 mobile) | Low–Medium | Icons | `NOT_STARTED` |
@@ -379,6 +379,29 @@ The template was re-saved once because Shopify validated it before the new schem
 **Checks run:** Theme Check (only the 9 baseline offenses), `index.json` and schema parse, unknown/duplicate setting ids, CSS brace balance, no `!important`.
 
 **Not run (user chose to skip browser validation: no running preview serves `main`):** browser measurements against Figma at 1480 / 390, overflow at 320–1480, RTL/LTR rendering, Theme Editor behavior, rendered font, watermark baseline. Section stays `IMPLEMENTED` until these and user QA are done. |
+
+| 2026-11-08 | **#10 Choose Your Care → `IMPLEMENTED`** (branch `main`; Figma `190:3943` desktop 1480 × 1072, `190:4265` mobile 390 × 695; both read in full, plus metadata of every card instance).
+
+**Architecture.** Native `product-list` renders all products through one shared `_product-card` template: it can't give one card the featured layout or give each product its own spec rows without changing the shared card (6 templates). So: an isolated section whose cards are private theme blocks. Each `_snosha-care-card` picks a real product; nested `_snosha-care-spec` blocks give per-product rows that can be added, removed, reordered and hidden in the Theme Editor.
+
+**Product data.** Price, compare-at price, discount % (computed, shown only when compare-at > price), sold-out label (`content.product_badge_sold_out`) and the button URL come from the selected product; prices use the shop's `money` format (Figma shows "EGP  2499"). No product → placeholder image, no price, non-navigating button with `aria-disabled`. Title falls back to the product title when the override is blank; the template keeps Figma's short names as overrides. Nothing from Figma's prices or the "20%" is hardcoded.
+
+**Files**
+- New: `sections/snosha-choose-care.liquid`, `blocks/_snosha-care-card.liquid`, `blocks/_snosha-care-spec.liquid`.
+- `snippets/snosha-icon.liquid`: additive `timer`, `drop`, `sparkle_detail` (Figma icons → `currentColor`). Reused exact matches: tank, sliders, brush_head, gauge, sonic, battery, shield_check, package (the last two are Figma 20px components: drawn at 20px with the Figma 1.7px stroke).
+- `assets/main.css`: new `.snosha-choose-care` block.
+- `templates/index.json`: `snosha_choose_care` added at the end of `order` (Reels #9 / Bundle #11 not on this branch), 3 cards with the Figma copy and specs.
+
+**Layout decisions**
+- Card order tongue cleaner → N2 → F1 so RTL shows Figma's desktop arrangement (F1 left, N2 centre, tongue cleaner right).
+- Desktop (section ≥ 1440px, container query): row 400 / 462 / 400 with 40px gaps, centred; side cards vertically centred (y 67). Side card: 24/24/13 padding, `space-between` like the Figma component (min-height 672, so longer content grows instead of clipping). Featured: 3px conic-gradient ring (Figma angular gradient, stretched to the card's 462 × 806 proportions, stops derived from the glow colors), radius 27/24, two shadows; image 300, title 32/52, price row with compare-at + discount badge, filled button.
+- 750–1439px: three desktop cards don't fit, so the same cards scroll in the native carousel (40px block padding to keep most of the glow).
+- < 750px (user decision: Figma-exact scale): cards use `zoom` 0.655 / 0.5671, giving 262 × 440.16 and 262 × ~457 (Figma 460.89; Figma's featured internals aren't uniformly scaled, e.g. its 5.15px button label — rendered at the consistent 9.07px). Carousel 469px tall, 12px gaps, 24px gutters, snap start / centre / end; Figma's frame shows the middle snap position (N2 centred, 52px peeks), the page loads at the start position (first card at the right).
+- Progress: same model as #4/#5 (fill grows from the inline start, Figma 168/342 = 49.12 % at rest → 100 %) as a CSS scroll-driven animation of this section's scroller. The shared #4/#5 rules and JS fallback are bound to Horizon's slideshow markup (and owned by dev1), so they weren't reused or edited; browsers without scroll-driven animations (Firefox) show a static 49.12 % fill.
+
+**Checks run:** Theme Check (only the 9 baseline offenses), template/schema parse, settings and icon values cross-checked against the schemas and snippet, CSS brace balance, no `!important`, `git diff --check`.
+
+**Not run (no preview serves `main`):** browser measurements at 1480 / 390, overflow at 320–1480, swipe/snap/progress behavior, RTL/LTR rendering, `zoom` and conic border rendering, Theme Editor behavior. Section stays `IMPLEMENTED` until these and user QA are done. |
 
 ---
 

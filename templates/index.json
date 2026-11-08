@@ -589,12 +589,206 @@
         "decor_color": "{{ settings.color_palette.color3 }}",
         "custom_class": ""
       }
+    },
+    "snosha_choose_care": {
+      "type": "snosha-choose-care",
+      "blocks": {
+        "care_tongue": {
+          "type": "_snosha-care-card",
+          "settings": {
+            "featured": false,
+            "title": "منظف اللسان SNOSHA",
+            "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
+            "badge": "",
+            "discount_label": "خصم",
+            "button_label": "عرض المنتج",
+            "image_fit": "contain"
+          },
+          "blocks": {
+            "tongue_spec_1": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "يزيل مصدر 90% من رائحة الفم",
+                "icon": "sparkle_detail"
+              }
+            },
+            "tongue_spec_2": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "فولاذ مقاوم للصدأ 420J2",
+                "icon": "shield_check"
+              }
+            },
+            "tongue_spec_3": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "تصميم مزدوج: فرشاة + مكشطة",
+                "icon": "brush_head"
+              }
+            },
+            "tongue_spec_4": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "حافظة سفر + ضمان سنة",
+                "icon": "package"
+              }
+            }
+          },
+          "block_order": [
+            "tongue_spec_1",
+            "tongue_spec_2",
+            "tongue_spec_3",
+            "tongue_spec_4"
+          ]
+        },
+        "care_n2": {
+          "type": "_snosha-care-card",
+          "settings": {
+            "featured": true,
+            "title": "SNOSHA N2",
+            "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
+            "badge": "الأكثر مبيعًا",
+            "discount_label": "خصم",
+            "button_label": "عرض المنتج",
+            "image_fit": "cover"
+          },
+          "blocks": {
+            "n2_spec_1": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "حتى 42,000 حركة/دقيقة",
+                "icon": "sonic"
+              }
+            },
+            "n2_spec_2": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "5 أوضاع تنظيف",
+                "icon": "sliders"
+              }
+            },
+            "n2_spec_3": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "بطارية حتى 120 يوم بالشحنة",
+                "icon": "battery"
+              }
+            },
+            "n2_spec_4": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "مقاوم للماء IPX7",
+                "icon": "drop"
+              }
+            },
+            "n2_spec_5": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "8 رؤوس DuPont",
+                "icon": "brush_head"
+              }
+            },
+            "n2_spec_6": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "مؤقت ذكي دقيقتان",
+                "icon": "timer"
+              }
+            }
+          },
+          "block_order": [
+            "n2_spec_1",
+            "n2_spec_2",
+            "n2_spec_3",
+            "n2_spec_4",
+            "n2_spec_5",
+            "n2_spec_6"
+          ]
+        },
+        "care_f1": {
+          "type": "_snosha-care-card",
+          "settings": {
+            "featured": false,
+            "title": "SNOSHA F1",
+            "description": "جهاز تنظيف الأسنان بالماء — تنظيف بين الأسنان… بخطوة أسهل",
+            "badge": "",
+            "discount_label": "خصم",
+            "button_label": "عرض المنتج",
+            "image_fit": "cover"
+          },
+          "blocks": {
+            "f1_spec_1": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "خزان ماء 330 مل",
+                "icon": "tank"
+              }
+            },
+            "f1_spec_2": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "4 أوضاع تنظيف",
+                "icon": "sliders"
+              }
+            },
+            "f1_spec_3": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "4 رؤوس متخصصة",
+                "icon": "brush_head"
+              }
+            },
+            "f1_spec_4": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "ضغط ماء 30–120 PSI",
+                "icon": "gauge"
+              }
+            }
+          },
+          "block_order": [
+            "f1_spec_1",
+            "f1_spec_2",
+            "f1_spec_3",
+            "f1_spec_4"
+          ]
+        }
+      },
+      "block_order": [
+        "care_tongue",
+        "care_n2",
+        "care_f1"
+      ],
+      "settings": {
+        "heading": "اختار العناية المناسبة لاحتياجاتك",
+        "subtitle": "ثلاث منتجات لروتين متكامل , اختار اللي يناسب احتياجك.",
+        "background_start": "#f7fbfe",
+        "background_end": "{{ settings.color_palette.color2 }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "subtitle_color": "{{ settings.color_palette.color1 }}",
+        "progress_track": "{{ settings.color_palette.background }}",
+        "card_background": "{{ settings.color_palette.background }}",
+        "title_color": "{{ settings.color_palette.foreground }}",
+        "text_color": "{{ settings.color_palette.color1 }}",
+        "border_color": "{{ settings.color_palette.color2 }}",
+        "icon_color": "{{ settings.color_palette.color3 }}",
+        "icon_accent_color": "{{ settings.color_palette.color4 }}",
+        "accent_color": "{{ settings.color_palette.color3 }}",
+        "accent_hover_color": "{{ settings.color_palette.color6 }}",
+        "on_accent_color": "{{ settings.color_palette.background }}",
+        "outline_color": "{{ settings.color_palette.color4 }}",
+        "tint_color": "{{ settings.color_palette.color5 }}",
+        "glow_start": "#63cdff",
+        "glow_end": "#0f64a8",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "snosha_hero",
     "snosha_collections",
     "product_list_fa6P9H",
-    "snosha_f1_banner"
+    "snosha_f1_banner",
+    "snosha_choose_care"
   ]
 }

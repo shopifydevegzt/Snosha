@@ -1,0 +1,102 @@
+{%- comment -%}
+  Snosha — Choose Your Care: one spec row inside a care card (blocks/_snosha-care-card.liquid).
+  Figma: "Spec Row" (190:3943 / 190:4265). Styles: assets/main.css (.snosha-choose-care).
+{%- endcomment -%}
+{%- if block.settings.text != blank -%}
+  <li class="snosha-care-card__spec" {{ block.shopify_attributes }}>
+    <span class="snosha-care-card__spec-icon" aria-hidden="true">
+      {%- if block.settings.icon_image != blank -%}
+        {{
+          block.settings.icon_image
+          | image_url: width: 48
+          | image_tag: alt: '', class: 'snosha-care-card__spec-icon-image', loading: 'lazy'
+        }}
+      {%- elsif block.settings.icon != 'none' -%}
+        {%- render 'snosha-icon', icon: block.settings.icon, uid: block.id -%}
+      {%- endif -%}
+    </span>
+    <span class="snosha-care-card__spec-label" dir="auto">{{ block.settings.text | escape }}</span>
+  </li>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Spec",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "ميزة المنتج"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "tank",
+          "label": "Water tank"
+        },
+        {
+          "value": "sliders",
+          "label": "Modes"
+        },
+        {
+          "value": "brush_head",
+          "label": "Brush head"
+        },
+        {
+          "value": "gauge",
+          "label": "Pressure"
+        },
+        {
+          "value": "sonic",
+          "label": "Sonic"
+        },
+        {
+          "value": "battery",
+          "label": "Battery"
+        },
+        {
+          "value": "drop",
+          "label": "Water drop"
+        },
+        {
+          "value": "timer",
+          "label": "Timer"
+        },
+        {
+          "value": "sparkle_detail",
+          "label": "Sparkle"
+        },
+        {
+          "value": "shield_check",
+          "label": "Shield"
+        },
+        {
+          "value": "package",
+          "label": "Package"
+        }
+      ],
+      "default": "sliders"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon",
+      "info": "Overrides the icon above."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spec"
+    }
+  ]
+}
+{% endschema %}

@@ -1235,3 +1235,513 @@
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — CHOOSE YOUR CARE  (sections/snosha-choose-care.liquid,
+   blocks/_snosha-care-card.liquid, blocks/_snosha-care-spec.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3943 (1480 x 1072), mobile 190:4265 (390 x 695).
+   - Section >= 1440px wide (container query): Figma desktop row — 400 x 672 side cards and the
+     462 x 806 featured card, 40px apart, centred (the row is 1342 wide, 3px wider than Figma's
+     1336 container on each side, as in Figma).
+   - 750px – 1439px: the same desktop-size cards in a native scroll-snap carousel (3 cards don't fit).
+   - < 750px: Figma mobile. Figma scales the desktop cards (side x 0.655 -> 262 x 440.16, featured
+     x 0.5671 -> 262 x ~461), so the cards use CSS zoom with the desktop values; 12px gaps, 24px
+     gutters, progress bar 342 x 4 that follows the real scroll (CSS scroll-driven animation).
+   Card values below are Figma desktop pixels. Colors: --snosha-care-* from the section's {% style %}.
+   ========================================================================= */
+.snosha-choose-care {
+  container: snosha-care / inline-size;
+  timeline-scope: --snosha-care-scroll;
+  padding-block: 56px 40px;
+  background-image: linear-gradient(to bottom, var(--snosha-care-bg-start), var(--snosha-care-bg-end));
+
+  .snosha-choose-care__grid {
+    row-gap: 22px;
+  }
+
+  /* ---------- Heading ---------- */
+  .snosha-choose-care__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .snosha-choose-care__title {
+    margin: 0;
+    color: var(--snosha-care-heading);
+    font-family: var(--font-heading--family);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .snosha-choose-care__subtitle {
+    margin: 0;
+    color: var(--snosha-care-subtitle);
+    font-family: var(--font-body--family);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 38px;
+  }
+
+  /* ---------- Carousel (native scroll-snap; full bleed, 24px gutter at 390) ---------- */
+  .snosha-choose-care__carousel {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    min-block-size: 469px;
+    box-sizing: border-box;
+    padding-block: 4.054px;
+    overflow-x: auto;
+    overflow-y: clip;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--util-page-margin-offset);
+    scroll-timeline: --snosha-care-scroll inline;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .snosha-choose-care__track {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 12px;
+    box-sizing: content-box;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: var(--util-page-margin-offset);
+    list-style: none;
+  }
+
+  /* ---------- Progress (mobile only): fill grows from the inline start, Figma 168 / 342 at rest ---------- */
+  .snosha-choose-care__progress {
+    position: relative;
+    block-size: 4px;
+    overflow: clip;
+    border-radius: 99px;
+    background-color: var(--snosha-care-progress-track);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      inline-size: 49.12%;
+      border-radius: 99px;
+      background-image: linear-gradient(to right, var(--snosha-care-glow-start), var(--snosha-care-glow-end));
+    }
+
+    @supports (animation-timeline: scroll()) {
+      &::after {
+        animation: snosha-care-progress linear both;
+        animation-timeline: --snosha-care-scroll;
+      }
+    }
+  }
+
+  /* ---------- Card (side variant = Figma "Care Card", 400 x 672) ---------- */
+  .snosha-care-card {
+    flex: none;
+    inline-size: 400px;
+    scroll-snap-align: center;
+
+    &:first-child {
+      scroll-snap-align: start;
+    }
+
+    &:last-child {
+      scroll-snap-align: end;
+    }
+  }
+
+  .snosha-care-card__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Figma: Purchase pinned to the bottom (SPACE_BETWEEN) */
+    gap: 16px;
+    box-sizing: border-box;
+    min-block-size: 672px;
+    padding: 24px 24px 13px;
+    overflow: clip;
+    border-radius: 24px;
+    background-color: var(--snosha-care-card-bg);
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-care-glow-end) 10%, transparent);
+  }
+
+  .snosha-care-card__info,
+  .snosha-care-card__purchase {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .snosha-care-card__image {
+    position: relative;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 240px;
+    overflow: clip;
+    border: 1px solid var(--snosha-care-border);
+    border-radius: 16px;
+    background-color: var(--snosha-care-card-bg);
+
+    & img,
+    & .snosha-care-card__placeholder {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+
+    & .snosha-care-card__placeholder {
+      fill: var(--snosha-care-border);
+    }
+  }
+
+  .snosha-care-card__image--contain img {
+    object-fit: contain;
+  }
+
+  .snosha-care-card__badge {
+    position: absolute;
+    inset-block-start: 13px;
+    inset-inline-start: 13px;
+    padding: 4px 12px;
+    border-radius: 8px;
+    background-color: var(--snosha-care-accent);
+    color: var(--snosha-care-on-accent);
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .snosha-care-card__title {
+    margin: 0;
+    color: var(--snosha-care-title);
+    font-family: var(--font-heading--family);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 40px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .snosha-care-card__text {
+    margin: 0;
+    color: var(--snosha-care-text);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .snosha-care-card__specs {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    gap: 10px;
+    margin: 0;
+    padding: 4px 0 0;
+    list-style: none;
+  }
+
+  .snosha-care-card__spec {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Figma: 20px icon slot; the 24px icon vectors overflow it, centred */
+  .snosha-care-card__spec-icon {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 20px;
+    block-size: 20px;
+    color: var(--snosha-care-icon);
+    --snosha-icon-fill: var(--snosha-care-card-bg);
+    --snosha-icon-accent: var(--snosha-care-icon-accent);
+
+    & .snosha-icon {
+      flex: none;
+      inline-size: 24px;
+      block-size: auto;
+    }
+
+    /* Figma's shield-check and package are 20px components with a 1.7px stroke */
+    & .snosha-icon--shield_check,
+    & .snosha-icon--package {
+      inline-size: 20px;
+
+      & path {
+        stroke-width: 2.04px;
+      }
+    }
+  }
+
+  .snosha-care-card__spec-icon-image {
+    inline-size: 20px;
+    block-size: 20px;
+    object-fit: contain;
+  }
+
+  .snosha-care-card__spec-label {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    color: var(--snosha-care-title);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .snosha-care-card__prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .snosha-care-card__price {
+    color: var(--snosha-care-title);
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    white-space: nowrap;
+  }
+
+  .snosha-care-card__compare {
+    color: var(--snosha-care-text);
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    white-space: nowrap;
+  }
+
+  /* 1px border inside the Figma box: padding = Figma 4 / 12 - 1 */
+  .snosha-care-card__discount {
+    padding: 3px 11px;
+    border: 1px solid var(--snosha-care-border);
+    border-radius: 8px;
+    background-color: var(--snosha-care-tint);
+    color: var(--snosha-care-accent);
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .snosha-care-card__sold-out {
+    color: var(--snosha-care-text);
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+  }
+
+  /* Outline button (side cards): 52px tall, 1.5px border inside the Figma box */
+  .snosha-care-card__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    box-sizing: border-box;
+    min-block-size: 52px;
+    padding: 11.5px 26.5px;
+    border: 1.5px solid var(--snosha-care-outline);
+    border-radius: 12px;
+    background-color: var(--snosha-care-card-bg);
+    color: var(--snosha-care-accent);
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--snosha-care-tint);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-care-accent);
+      outline-offset: 3px;
+    }
+
+    &[aria-disabled='true'] {
+      cursor: default;
+    }
+  }
+
+  /* ---------- Featured variant (Figma "Featured · SNOSHA N2", 462 x 806) ---------- */
+  .snosha-care-card--featured {
+    position: relative;
+    isolation: isolate;
+    inline-size: 462px;
+    box-sizing: border-box;
+    padding: 3px;
+    overflow: clip;
+    border-radius: 27px;
+    box-shadow:
+      0 24px 48px color-mix(in srgb, var(--snosha-care-glow-end) 18%, transparent),
+      0 0 36px color-mix(in srgb, var(--snosha-care-glow-start) 45%, transparent);
+
+    /* Figma's angular gradient border: a conic gradient drawn on a square and stretched to the card
+       (Figma maps it to the 462 x 806 box, so the angles follow the card's proportions). */
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset-block-start: 50%;
+      inset-inline: 0;
+      aspect-ratio: 1;
+      translate: 0 -50%;
+      scale: 1 calc(806 / 462);
+      background-image: conic-gradient(
+        from 90deg,
+        var(--snosha-care-glow-start) 0%,
+        color-mix(in srgb, var(--snosha-care-glow-start), var(--snosha-care-glow-end)) 17.5%,
+        color-mix(in srgb, var(--snosha-care-glow-start) 25%, var(--snosha-care-glow-end)) 26.25%,
+        var(--snosha-care-glow-end) 35%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 12.5%) 37.5%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 25%) 40%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 37.5%) 42.5%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 50%) 45%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 75%) 50%,
+        var(--snosha-care-card-bg) 55%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 75%) 60%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 50%) 65%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 37.5%) 67.5%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 25%) 70%,
+        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 12.5%) 72.5%,
+        var(--snosha-care-glow-end) 75%,
+        color-mix(in srgb, var(--snosha-care-glow-start) 25%, var(--snosha-care-glow-end)) 81.25%,
+        color-mix(in srgb, var(--snosha-care-glow-start), var(--snosha-care-glow-end)) 87.5%,
+        var(--snosha-care-glow-start) 100%
+      );
+    }
+
+    /* One column, 16px gaps, 24px padding (no pinned purchase block) */
+    & .snosha-care-card__inner {
+      justify-content: flex-start;
+      min-block-size: 0;
+      padding: 24px;
+      box-shadow: none;
+    }
+
+    & .snosha-care-card__image {
+      block-size: 300px;
+    }
+
+    & .snosha-care-card__title {
+      font-size: 32px;
+      line-height: 52px;
+    }
+
+    & .snosha-care-card__prices {
+      padding-block-start: 6px;
+    }
+
+    & .snosha-care-card__price {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 40px;
+    }
+
+    & .snosha-care-card__button {
+      padding: 13px 28px;
+      border: 0;
+      background-color: var(--snosha-care-accent);
+      color: var(--snosha-care-on-accent);
+
+      &:hover {
+        background-color: var(--snosha-care-accent-hover);
+      }
+    }
+  }
+
+  /* ---------- < 750px: Figma mobile (desktop cards scaled like Figma) ---------- */
+  @media screen and (max-width: 749px) {
+    .snosha-care-card {
+      zoom: 0.655; /* 400 x 672 -> 262 x 440.16 */
+    }
+
+    .snosha-care-card--featured {
+      zoom: 0.5671; /* 462 -> 262 */
+    }
+  }
+
+  /* ---------- >= 750px ---------- */
+  @media screen and (min-width: 750px) {
+    padding-block: 60px;
+
+    .snosha-choose-care__grid {
+      row-gap: 56px;
+    }
+
+    .snosha-choose-care__title {
+      font-size: 32px;
+      line-height: 52px;
+    }
+
+    .snosha-choose-care__subtitle {
+      font-size: 18px;
+      line-height: 32px;
+    }
+
+    /* Desktop-size cards in the carousel; extra block padding keeps most of the featured glow */
+    .snosha-choose-care__carousel {
+      min-block-size: 0;
+      margin-block: -40px;
+      padding-block: 40px;
+    }
+
+    .snosha-choose-care__track {
+      gap: 40px;
+    }
+
+    .snosha-choose-care__progress {
+      display: none;
+    }
+  }
+
+  /* ---------- Section >= 1440px: static Figma desktop row ---------- */
+  @container snosha-care (min-width: 1440px) {
+    .snosha-choose-care__carousel {
+      justify-content: center;
+      margin-block: 0;
+      padding-block: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+    }
+
+    .snosha-choose-care__track {
+      padding-inline: 0;
+    }
+  }
+}
+
+@keyframes snosha-care-progress {
+  from {
+    inline-size: 49.12%;
+  }
+
+  to {
+    inline-size: 100%;
+  }
+}
