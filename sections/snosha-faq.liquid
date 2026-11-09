@@ -1,0 +1,299 @@
+{%- comment -%}
+  Snosha — FAQ (homepage section #14).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 217:14604, mobile 217:14813.
+
+  Thin container for native Horizon blocks:
+  - heading and subtitle are static native text blocks;
+  - each column is a native `accordion` block whose rows are native `_accordion-row` blocks
+    (<details>/<summary> + accordion-custom), with the answer as a native text block.
+  Two accordion columns sit side by side on desktop (first column on the left, as in Figma) and stack
+  on mobile, which gives the Figma mobile order (column 1 rows, then column 2 rows) from one set of
+  blocks. Rows keep "Open row by default" off, so every question loads closed.
+  Static styles: assets/dev1.css (.snosha-faq).
+{%- endcomment -%}
+{%- assign custom_class = section.settings.custom_class | strip | escape -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-faq {
+    --snosha-faq-background: {{ section.settings.background_color }};
+    --snosha-faq-heading: {{ section.settings.heading_color }};
+    --snosha-faq-subtitle: {{ section.settings.subtitle_color }};
+    --snosha-faq-question: {{ section.settings.question_color }};
+    --snosha-faq-answer: {{ section.settings.answer_color }};
+    --snosha-faq-item-background: {{ section.settings.item_background_color }};
+    --snosha-faq-item-background-open: {{ section.settings.item_open_background_color }};
+    --snosha-faq-border: {{ section.settings.border_color }};
+    --snosha-faq-chevron: {{ section.settings.chevron_color }};
+    --snosha-faq-padding-start: {{ section.settings.padding_top }}px;
+    --snosha-faq-padding-end: {{ section.settings.padding_bottom }}px;
+    --snosha-faq-padding-start-mobile: {{ section.settings.padding_top_mobile }}px;
+    --snosha-faq-padding-end-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-faq{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-faq__inner">
+      <div class="snosha-faq__heading">
+        {% content_for 'block', type: 'text', id: 'heading' %}
+        {% content_for 'block', type: 'text', id: 'subtitle' %}
+      </div>
+
+      <div class="snosha-faq__columns">
+        {%- content_for 'blocks' -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha FAQ",
+  "tag": "section",
+  "class": "snosha-faq-section",
+  "blocks": [
+    { "type": "accordion" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Each Accordion block is one column (first column on the left on desktop). On mobile the columns stack in order. Questions are the rows inside each Accordion; the answer is the Text block inside each row."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "info": "A color set on the Heading block overrides this.",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "info": "A color set on the Subtitle block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer",
+      "info": "A color set on an answer Text block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "chevron_color",
+      "label": "Chevron",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "header",
+      "content": "Question cards"
+    },
+    {
+      "type": "color",
+      "id": "item_background_color",
+      "label": "Background (closed)",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "item_open_background_color",
+      "label": "Background (open)",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "header",
+      "content": "Padding — desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Padding — mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class",
+      "info": "Optional class added to the section wrapper."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha FAQ",
+      "category": "Snosha",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>الأسئلة الشائعة</h2>",
+            "type_preset": "h2",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          }
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
+            "type_preset": "paragraph",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          }
+        },
+        "column_1": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "dividers": false,
+            "type_preset": ""
+          },
+          "blocks": {
+            "faq_payment_methods": {
+              "type": "_accordion-row",
+              "settings": { "heading": "ما طرق الدفع المتاحة؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": { "type": "text", "settings": { "width": "100%", "max_width": "none", "alignment": "left" } }
+              },
+              "block_order": ["answer"]
+            },
+            "faq_cash_on_delivery": {
+              "type": "_accordion-row",
+              "settings": { "heading": "هل يوجد دفع عند الاستلام؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": { "type": "text", "settings": { "width": "100%", "max_width": "none", "alignment": "left" } }
+              },
+              "block_order": ["answer"]
+            },
+            "faq_authentic": {
+              "type": "_accordion-row",
+              "settings": { "heading": "هل منتجات SNOSHA أصلية ومعتمدة؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": { "type": "text", "settings": { "width": "100%", "max_width": "none", "alignment": "left" } }
+              },
+              "block_order": ["answer"]
+            }
+          },
+          "block_order": ["faq_payment_methods", "faq_cash_on_delivery", "faq_authentic"]
+        },
+        "column_2": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "dividers": false,
+            "type_preset": ""
+          },
+          "blocks": {
+            "faq_warranty": {
+              "type": "_accordion-row",
+              "settings": { "heading": "هل يوجد ضمان على المنتجات؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  }
+                }
+              },
+              "block_order": ["answer"]
+            },
+            "faq_returns": {
+              "type": "_accordion-row",
+              "settings": { "heading": "ما مدة الاستبدال والاسترجاع؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": { "type": "text", "settings": { "width": "100%", "max_width": "none", "alignment": "left" } }
+              },
+              "block_order": ["answer"]
+            },
+            "faq_free_shipping": {
+              "type": "_accordion-row",
+              "settings": { "heading": "هل يوجد شحن مجاني؟", "open_by_default": false, "icon": "none" },
+              "blocks": {
+                "answer": { "type": "text", "settings": { "width": "100%", "max_width": "none", "alignment": "left" } }
+              },
+              "block_order": ["answer"]
+            }
+          },
+          "block_order": ["faq_warranty", "faq_returns", "faq_free_shipping"]
+        }
+      },
+      "block_order": ["column_1", "column_2"]
+    }
+  ]
+}
+{% endschema %}

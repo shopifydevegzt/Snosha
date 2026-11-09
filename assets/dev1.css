@@ -1432,3 +1432,169 @@
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — FAQ  (sections/snosha-faq.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 217:14604 (1480), mobile 217:14813 (390).
+   Native blocks: static text blocks (heading, subtitle); each column is a native `accordion` block
+   with native `_accordion-row` rows (<details>/<summary>), answers are native text blocks.
+   - >= 750px  Figma desktop: 60 / 60 padding, 20px inset inside the 1376 container (1336 inner),
+                heading → columns 61, 2 columns with a 24px gap (656px at 1480), rows 12px apart.
+   - <  750px  Figma mobile: 56 / 40 padding, 20px side padding (350 at 390), heading → list 12,
+                columns stack into one list with 12px gaps.
+   Column order: Figma puts the first column (payment questions) on the left on desktop and first
+   on mobile, so the columns flow left to right (text inside each column keeps the page direction).
+   ========================================================================= */
+
+.snosha-faq {
+  background-color: var(--snosha-faq-background);
+  padding-block: var(--snosha-faq-padding-start-mobile) var(--snosha-faq-padding-end-mobile);
+
+  /* Figma mobile uses a 20px side padding (350 at 390) instead of the global page margin */
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-faq-padding-start) var(--snosha-faq-padding-end);
+  }
+
+  .snosha-faq__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @media screen and (min-width: 750px) {
+      gap: 61px;
+      padding-inline: 20px;
+    }
+  }
+
+  /* ---------------- Heading ---------------- */
+  .snosha-faq__heading {
+    display: flex;
+    flex-direction: column;
+
+    /* Figma default colors; a color set on the Heading / Subtitle block overrides them */
+    .text-block.h2 {
+      --color: var(--snosha-faq-heading);
+    }
+
+    .text-block.paragraph {
+      --color: var(--snosha-faq-subtitle);
+
+      margin-block-start: 6px;
+      font-size: 18px;
+      line-height: 32px;
+
+      & > * {
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      @media screen and (max-width: 749px) {
+        font-size: 13px;
+        line-height: 22px;
+      }
+    }
+
+    :is(h2, p) {
+      margin: 0;
+    }
+  }
+
+  /* ---------------- Columns ---------------- */
+  .snosha-faq__columns {
+    display: grid;
+    gap: 12px;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      column-gap: 24px;
+      direction: ltr;
+    }
+  }
+
+  &:dir(rtl) .snosha-faq__columns > .accordion {
+    direction: rtl;
+  }
+
+  .snosha-faq__columns > .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-inline-size: 0;
+  }
+
+  /* ---------------- Question card (native <details>) ---------------- */
+  .accordion .details {
+    padding-inline: 20px;
+    border: 1px solid var(--snosha-faq-border);
+    border-radius: 14px;
+    background-color: var(--snosha-faq-item-background);
+    transition: background-color var(--animation-speed) var(--animation-easing);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: 16px;
+    }
+
+    &[open] {
+      background-color: var(--snosha-faq-item-background-open);
+    }
+  }
+
+  /* Question: Figma 16 / 27 SemiBold; the whole row (incl. 14px card padding) is the toggle */
+  .accordion .details__header {
+    gap: 12px;
+    padding-block: 14px;
+    font-family: var(--font-accent--family);
+    font-style: normal;
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 27px;
+    text-transform: none;
+    color: var(--snosha-faq-question);
+  }
+
+  /* Figma: question → answer 10px */
+  .accordion .details[open] > .details__header {
+    padding-block-end: 10px;
+  }
+
+  /* Chevron: native caret element, painted with the Figma chevron (18px, rotates when open) */
+  .accordion .details__header .icon-caret {
+    flex-shrink: 0;
+    inline-size: 18px;
+    block-size: 18px;
+    background-color: var(--snosha-faq-chevron);
+    mask: url('snosha-chevron-down.svg') center / contain no-repeat;
+    transition: rotate var(--animation-speed) var(--animation-easing);
+
+    & > svg {
+      display: none;
+    }
+  }
+
+  .accordion .details[open] > .details__header .icon-caret {
+    rotate: 180deg;
+  }
+
+  /* Answer: Figma 16 / 28; card grows with the answer (no fixed height) */
+  .accordion .details[open] > .details-content {
+    padding-block: 0 14px;
+  }
+
+  .details-content .text-block {
+    --color: var(--snosha-faq-answer);
+
+    font-size: 16px;
+    line-height: 28px;
+
+    & > * {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+}

@@ -393,10 +393,234 @@
         "padding_bottom_mobile": 48,
         "custom_class": ""
       }
+    },
+    "snosha_faq": {
+      "type": "snosha-faq",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>الأسئلة الشائعة</h2>",
+            "type_preset": "h2",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
+            "type_preset": "paragraph",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          },
+          "blocks": {}
+        },
+        "column_1": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "dividers": false,
+            "type_preset": "",
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "faq_payment_methods": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما طرق الدفع المتاحة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            },
+            "faq_cash_on_delivery": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد دفع عند الاستلام؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            },
+            "faq_authentic": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل منتجات SNOSHA أصلية ومعتمدة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            }
+          },
+          "block_order": [
+            "faq_payment_methods",
+            "faq_cash_on_delivery",
+            "faq_authentic"
+          ]
+        },
+        "column_2": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "dividers": false,
+            "type_preset": "",
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "faq_warranty": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد ضمان على المنتجات؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            },
+            "faq_returns": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما مدة الاستبدال والاسترجاع؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            },
+            "faq_free_shipping": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد شحن مجاني؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20
+              },
+              "blocks": {
+                "answer": {
+                  "type": "text",
+                  "settings": {
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "answer"
+              ]
+            }
+          },
+          "block_order": [
+            "faq_warranty",
+            "faq_returns",
+            "faq_free_shipping"
+          ]
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2"
+      ],
+      "name": "Snosha FAQ",
+      "settings": {
+        "background_color": "{{ settings.color_palette.background }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "subtitle_color": "{{ settings.color_palette.color1 }}",
+        "question_color": "{{ settings.color_palette.foreground }}",
+        "answer_color": "{{ settings.color_palette.color1 }}",
+        "chevron_color": "{{ settings.color_palette.color3 }}",
+        "item_background_color": "{{ settings.color_palette.background }}",
+        "item_open_background_color": "{{ settings.color_palette.color5 }}",
+        "border_color": "{{ settings.color_palette.color2 }}",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 56,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "snosha_blog",
-    "snosha_why"
+    "snosha_why",
+    "snosha_faq"
   ]
 }

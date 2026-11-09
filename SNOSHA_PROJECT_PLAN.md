@@ -98,7 +98,7 @@ Styles: `assets/main.css` | High | Hero product image (merchant upload pending);
 | 11 | Bundle | `190:3987` | `190:4318` | `product-hotspots` (mobile hotspots) + bundle list. Selectable items and a bundle total likely need an app or custom logic | High | **Bundle pricing logic / app (unknown)**; products. *Open: commerce behavior undecided; may become `BLOCKED`.* | `NOT_STARTED` |
 | 12 | Blog | `190:4018` | `190:4349` | **Implemented (branch `dev1`) on the native `featured-blog-posts` section** (instance `snosha_blog` in `index.json`, after `snosha_before_after`; blog `news`, layout `carousel`, 3 posts). Native blocks: rich-text title (H2 + subtitle), `_featured-blog-posts-card` with image, `_heading`, `_blog-post-info-text` (date only) and `_blog-post-description`. Opt-in "Snosha blog style" adds the `.snosha-blog` scope; styles in `assets/dev1.css`; mobile progress = the shared CSS progress bar (#4 / #5) | Medium | **Blog `news` has no articles** (placeholders only); **browser validation not done**. Bugfix 2026-11-09 (date before title in the DOM, inline-SVG arrows, explicit Figma color defaults, image height/crop settings, progress toggle, "Snosha blog" preset) is checked by static analysis only | `IMPLEMENTED` |
 | 13 | Why SNOSHA | `190:4024` | `190:4361` | **Implemented (branch `dev1`) as `sections/snosha-why.liquid`**: thin container for native blocks (static `text` heading and subtitle) and 4 `_snosha-why-item` blocks (existing `snosha-icon` block, new "Large" size, with the Figma illustration + native `text` title and description). Instance `snosha_why` in `index.json`, after `snosha_blog`. 6 Figma SVGs stored as `assets/snosha-illustration-*.svg` / `snosha-sparkle-*.svg`. Styles in `assets/dev1.css` (`.snosha-why`, `.snosha-icon-block--large`) | Low–Medium | **Browser validation not done** (static checks only; no dev1 preview running) | `IMPLEMENTED` |
-| 14 | FAQ | `217:14604` | `217:14813` | `section` + `accordion` / `_accordion-row` (2 columns desktop, 1 column mobile) | Low–Medium | — | `NOT_STARTED` |
+| 14 | FAQ | `217:14604` | `217:14813` | **Implemented (branch `dev1`) as `sections/snosha-faq.liquid`**: thin container for native blocks (static `text` heading and subtitle) and 2 native `accordion` blocks (one per desktop column) holding native `_accordion-row` rows with native `text` answers. All rows closed by default. Instance `snosha_faq` in `index.json`, after `snosha_why`. Figma chevron stored as `assets/snosha-chevron-down.svg`. Styles in `assets/dev1.css` (`.snosha-faq`). 5 of 6 answers blank (no approved copy found) | Low–Medium | **Browser validation not done** (static checks + local static harness only; no dev1 preview running) | `IMPLEMENTED` |
 | 15 | Footer | `190:4048` | `190:14491` | `footer` + `email-signup`, `menu`, `logo`, `text`; `footer-utilities` (copyright, policies) (exists in `footer-group.json`) | Medium | Menus in Admin; mobile column order differs from desktop | `NOT_STARTED` |
 
 **Totals:** 15 homepage sections, all `NOT_STARTED`. Every section's boundaries are clear in both frames, so none needed `NEEDS_VERIFICATION`. Open questions about native fit (#9, #10, #11) are noted in their rows.
@@ -521,6 +521,27 @@ The template was re-saved once because Shopify validated it before the new schem
 - 1480: background full width, container 52–1428, inner 72–1408, columns 310 at 72 / 414 / 756 / 1098, section 426.
 - 390: 342 grid at 24, columns 165, section 606, subtitle aligned to the start.
 - Tile border, gradient and shadow; 320 / 375 wrapping; RTL / LTR order; sparkle toggle; Theme Editor add, reorder and remove of benefits. |
+| 2026-11-09 | **#14 FAQ → `IMPLEMENTED`** (branch `dev1`; Figma `217:14604` desktop, `217:14813` mobile, inspected with `get_design_context` through the design-plugin Figma server).
+
+**Figma**
+- Desktop: padding 60 / 60, white background; container 1376 with 20px inner padding (1336); heading 90 (H2 32/52 color6 + 6 + subtitle 18/32 color1, centered); heading → columns 61; 2 independent columns, gap 24 (656 each), rows 12 apart. Left column: payment methods, cash on delivery, authenticity; right column: warranty, returns, free shipping.
+- Mobile: padding 56 / 40, 20px side padding (350 at 390); heading 24/38 + 6 + 13/22, centered; heading → list 12; one list, gaps 12, order payment → shipping (left column first, then right column).
+- Card: 1px color2 border, radius 14, white closed / color5 open; padding 14 block, 16 inline desktop / 20 mobile; question 16/27 SemiBold foreground; chevron 18 (Figma `Icon / chevron-down`, color3, 1.6 stroke on 24 grid) on the inline end; question → chevron 12; question → answer 10; answer 16/28 color1.
+- Figma shows the warranty row open as an example; per the brief every row ships closed.
+
+**Architecture**
+- Native reuse: `accordion` + `_accordion-row` (native `<details>`/`<summary>`, `accordion-custom`, keyboard and editor support) with native `text` answers. No new JS, no core files edited.
+- `sections/snosha-faq.liquid`, a thin container (same pattern as #13): static `text` `heading` / `subtitle`; `{% content_for 'blocks' %}` accepting `accordion`. Each accordion block is one desktop column; on mobile they stack, which reproduces the Figma mobile order from one set of blocks (no duplicated content). The column grid flows physically left to right (as in #13) so column 1 sits on the left as in Figma; each column restores RTL.
+- Rows: `open_by_default: false`, `icon: none`; accordion `dividers: false`, `icon: caret`.
+- Chevron: the native caret element, painted with the unmodified Figma SVG via `mask` (`assets/snosha-chevron-down.svg`), rotated 180° when open. Native caret path differs in proportion and stroke.
+- Section settings: background, heading, subtitle, question, answer, chevron colors; card background closed / open and border; desktop and mobile padding; `custom_class`. Section preset ships the 6 questions.
+- Mobile 20px side padding: scoped `--page-margin: 20px` on `.snosha-faq` below 750px (global token untouched).
+
+**Content source:** no FAQ section or answers existed in dev1, the main checkout, dev2, locales or project docs (only the hero chips "ضمان لمدة سنة" / "شحن مجاني" and the announcement bar "شحن مجاني للطلبات من 2000 جنيه فأكثر", which are not FAQ answers). The only answer in Figma is the warranty one, which is used. The other 5 answers are left blank for the merchant.
+
+**Checks run:** browser-engine CSS parse; schema settings all rendered; template keys match the schema; no row has `open_by_default: true`; Theme Check: only the 9 baseline offenses; `git diff --check` clean. Local static harness (native markup + `base.css` + native accordion CSS + `dev1.css`, fallback font, not a Shopify preview): all 6 closed on load; 1480 columns 656 at x 72 / 752, cards 57, section 466 collapsed; 390 cards 350 at x 20, section 576; warranty opened 95 tall, color5 background, chevron rotated, closes again; no horizontal overflow at 320 / 749 / 750 / 990 / 1920.
+
+**Pending (manual browser QA, not run):** initial load closed; open / close; Cairo typography and colors; 1480 columns; 390 list; long questions and answers wrapping; Theme Editor question / answer editing, add / remove / reorder rows (including dragging a row between columns); RTL chevron side; keyboard focus. |
 
 ---
 
