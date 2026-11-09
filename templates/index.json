@@ -183,30 +183,6 @@
     "snosha_why": {
       "type": "snosha-why",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "static": true,
-          "settings": {
-            "text": "<h2>لماذا SNOSHA؟</h2>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "h2"
-          },
-          "blocks": {}
-        },
-        "subtitle": {
-          "type": "text",
-          "static": true,
-          "settings": {
-            "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "paragraph"
-          },
-          "blocks": {}
-        },
         "benefit_simple_routine": {
           "type": "_snosha-why-item",
           "settings": {},
@@ -217,7 +193,12 @@
               "settings": {
                 "icon": "illustration_simple_routine",
                 "size": "large",
-                "show_tile": true
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}"
               },
               "blocks": {}
             },
@@ -229,7 +210,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "h4"
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -241,7 +236,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "paragraph"
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
@@ -258,7 +267,12 @@
               "settings": {
                 "icon": "illustration_details",
                 "size": "large",
-                "show_tile": true
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}"
               },
               "blocks": {}
             },
@@ -270,7 +284,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "h4"
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -282,7 +310,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "paragraph"
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
@@ -299,7 +341,12 @@
               "settings": {
                 "icon": "illustration_your_needs",
                 "size": "large",
-                "show_tile": true
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}"
               },
               "blocks": {}
             },
@@ -311,7 +358,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "h4"
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -323,7 +384,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "paragraph"
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
@@ -340,7 +415,12 @@
               "settings": {
                 "icon": "illustration_smart_tech",
                 "size": "large",
-                "show_tile": true
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}"
               },
               "blocks": {}
             },
@@ -352,7 +432,21 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "h4"
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
@@ -364,12 +458,78 @@
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
-                "type_preset": "paragraph"
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
           },
           "block_order": []
+        },
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>لماذا SNOSHA؟</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -397,38 +557,24 @@
     "snosha_faq": {
       "type": "snosha-faq",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "static": true,
-          "settings": {
-            "text": "<h2>الأسئلة الشائعة</h2>",
-            "type_preset": "h2",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center"
-          },
-          "blocks": {}
-        },
-        "subtitle": {
-          "type": "text",
-          "static": true,
-          "settings": {
-            "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
-            "type_preset": "paragraph",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center"
-          },
-          "blocks": {}
-        },
         "column_1": {
           "type": "accordion",
           "settings": {
             "icon": "caret",
             "dividers": false,
+            "divider_color": "",
             "type_preset": "",
+            "background_color": "",
+            "text_color": "",
             "border": "none",
-            "border_radius": 0
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "faq_payment_methods": {
@@ -443,9 +589,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
-                    "alignment": "left"
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -466,9 +628,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
-                    "alignment": "left"
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -489,9 +667,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
-                    "alignment": "left"
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -512,9 +706,19 @@
           "settings": {
             "icon": "caret",
             "dividers": false,
+            "divider_color": "",
             "type_preset": "",
+            "background_color": "",
+            "text_color": "",
             "border": "none",
-            "border_radius": 0
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {
             "faq_warranty": {
@@ -529,10 +733,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>"
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -553,9 +772,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
-                    "alignment": "left"
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -576,9 +811,25 @@
                 "answer": {
                   "type": "text",
                   "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
                     "width": "100%",
                     "max_width": "none",
-                    "alignment": "left"
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
                   },
                   "blocks": {}
                 }
@@ -593,6 +844,58 @@
             "faq_returns",
             "faq_free_shipping"
           ]
+        },
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>الأسئلة الشائعة</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
