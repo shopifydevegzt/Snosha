@@ -1247,3 +1247,188 @@
     text-decoration: none;
   }
 }
+
+/* Snosha icon block — "Large" size (Figma Why SNOSHA tile): 96 x 96 tile, radius 26, 64px
+   illustration, soft drop shadow + inset top highlight. Shadow color comes from the hosting
+   section (--snosha-icon-tile-shadow); without it the tile has no drop shadow. */
+.snosha-icon-block--large {
+  .snosha-icon-block__icon,
+  .snosha-icon-block__image {
+    inline-size: 64px;
+    block-size: 64px;
+  }
+
+  &.snosha-icon-block--tile {
+    inline-size: 96px;
+    block-size: 96px;
+    border-radius: 26px;
+    box-shadow:
+      0 10px 11px color-mix(in srgb, var(--snosha-icon-tile-shadow, transparent) 8%, transparent),
+      inset 0 2px 2px color-mix(in srgb, var(--snosha-icon-tile-start) 90%, transparent);
+  }
+}
+
+/* =========================================================================
+   SNOSHA — WHY SNOSHA  (sections/snosha-why.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:4024 (1480), mobile 190:4361 (390).
+   Native blocks: static text blocks (heading, subtitle); _snosha-why-item = snosha-icon (large
+   illustration tile) + native text title / description.
+   - >= 750px  Figma desktop: 60 / 60 padding, 20px inset inside the 1376 container (1336 inner),
+                heading → grid 26, 4 equal columns with 32px gaps (310px at 1480).
+   - <  750px  Figma mobile: 60 / 48 padding, page margin only (342 at 390), heading → grid 18,
+                2 x 2 grid with 12px gaps (165px columns), subtitle aligned to the start.
+   Grid order: Figma places the benefits in the same physical left-to-right order on desktop and
+   mobile, so the grid flows left to right (text inside each item keeps the page direction).
+   ========================================================================= */
+
+.snosha-why {
+  --snosha-icon-tile-shadow: var(--snosha-why-shadow);
+
+  background-color: var(--snosha-why-background);
+  padding-block: var(--snosha-why-padding-start-mobile) var(--snosha-why-padding-end-mobile);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-why-padding-start) var(--snosha-why-padding-end);
+  }
+
+  .snosha-why__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    @media screen and (min-width: 750px) {
+      gap: 26px;
+      padding-inline: 20px;
+    }
+  }
+
+  /* ---------------- Heading ---------------- */
+  .snosha-why__heading {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    /* Figma default colors; a color set on the Heading / Subtitle block overrides them */
+    .text-block.h2 {
+      --color: var(--snosha-why-heading);
+    }
+
+    .text-block.paragraph {
+      --color: var(--snosha-why-subtitle);
+
+      margin-block-start: 6px;
+      font-size: 18px;
+      line-height: 32px;
+
+      & > * {
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      @media screen and (max-width: 749px) {
+        font-size: 13px;
+        line-height: 22px;
+
+        /* Figma mobile: subtitle aligned to the start (right in RTL) */
+        & > * {
+          text-align: start;
+        }
+      }
+    }
+
+    :is(h2, p) {
+      margin: 0;
+    }
+  }
+
+  /* Decorative sparkles (off by default; hidden in the Figma frames). Figma desktop positions,
+     measured from the centre of the heading: large at +109 / −52, small at +128 / −33 (the SVGs
+     carry 4.8 % / 10 % stroke bleed on each side). */
+  .snosha-why__sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .snosha-why__sparkle {
+    position: absolute;
+    display: block;
+  }
+
+  .snosha-why__sparkle--large {
+    left: calc(50% + 107.8px);
+    top: -53.2px;
+    inline-size: 27.4px;
+    block-size: 27.4px;
+  }
+
+  .snosha-why__sparkle--small {
+    left: calc(50% + 126.8px);
+    top: -34.2px;
+    inline-size: 14.4px;
+    block-size: 14.4px;
+  }
+
+  /* ---------------- Benefit grid ---------------- */
+  .snosha-why__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    align-items: start;
+    direction: ltr;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+
+  &:dir(rtl) .snosha-why__item {
+    direction: rtl;
+  }
+
+  .snosha-why__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    min-inline-size: 0;
+  }
+
+  .snosha-why__text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    inline-size: 100%;
+    text-align: center;
+  }
+
+  /* Benefit title: Figma 18 / 30, SemiBold */
+  .snosha-why__title .text-block {
+    --color: var(--snosha-why-title);
+
+    &,
+    & > * {
+      margin: 0;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 18px;
+      line-height: 30px;
+      text-transform: none;
+    }
+  }
+
+  /* Benefit description: Figma 13 / 22 */
+  .snosha-why__description .text-block {
+    --color: var(--snosha-why-description);
+
+    font-size: 13px;
+    line-height: 22px;
+
+    & > * {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+}

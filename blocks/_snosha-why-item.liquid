@@ -1,0 +1,52 @@
+{%- comment -%}
+  Why SNOSHA benefit (private theme block of sections/snosha-why.liquid).
+  Composes existing blocks as static children: the snosha-icon block (large illustration tile,
+  image-picker override) and two native text blocks (title, description). Styles: assets/dev1.css
+  (.snosha-why).
+{%- endcomment -%}
+<div class="snosha-why__item" {{ block.shopify_attributes }}>
+  {% content_for 'block', type: 'snosha-icon', id: 'illustration' %}
+  <div class="snosha-why__text">
+    <div class="snosha-why__title">
+      {% content_for 'block', type: 'text', id: 'title' %}
+    </div>
+    <div class="snosha-why__description">
+      {% content_for 'block', type: 'text', id: 'description' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Benefit",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Edit the illustration, title and description in the nested blocks."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefit",
+      "blocks": {
+        "illustration": {
+          "type": "snosha-icon",
+          "static": true,
+          "settings": { "icon": "illustration_smart_tech", "size": "large", "show_tile": true }
+        },
+        "title": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<p>عنوان الميزة</p>", "type_preset": "h4", "width": "100%", "max_width": "none", "alignment": "center" }
+        },
+        "description": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<p>وصف قصير للميزة.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" }
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

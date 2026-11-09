@@ -97,7 +97,7 @@ Styles: `assets/main.css` | High | Hero product image (merchant upload pending);
 | 10 | Choose Your Care | `190:3943` | `190:4265` | `product-list` / `featured-product` / `section` + `_card` | High | Featured middle card differs in size; products. *Open: native fit unclear.* | `NOT_STARTED` |
 | 11 | Bundle | `190:3987` | `190:4318` | `product-hotspots` (mobile hotspots) + bundle list. Selectable items and a bundle total likely need an app or custom logic | High | **Bundle pricing logic / app (unknown)**; products. *Open: commerce behavior undecided; may become `BLOCKED`.* | `NOT_STARTED` |
 | 12 | Blog | `190:4018` | `190:4349` | **Implemented (branch `dev1`) on the native `featured-blog-posts` section** (instance `snosha_blog` in `index.json`, after `snosha_before_after`; blog `news`, layout `carousel`, 3 posts). Native blocks: rich-text title (H2 + subtitle), `_featured-blog-posts-card` with image, `_heading`, `_blog-post-info-text` (date only) and `_blog-post-description`. Opt-in "Snosha blog style" adds the `.snosha-blog` scope; styles in `assets/dev1.css`; mobile progress = the shared CSS progress bar (#4 / #5) | Medium | **Blog `news` has no articles** (placeholders only); **browser validation not done**. Bugfix 2026-11-09 (date before title in the DOM, inline-SVG arrows, explicit Figma color defaults, image height/crop settings, progress toggle, "Snosha blog" preset) is checked by static analysis only | `IMPLEMENTED` |
-| 13 | Why SNOSHA | `190:4024` | `190:4361` | `section` + `group` / `icon` / `text` (4 columns desktop, 2×2 mobile) | Low–Medium | Icons | `NOT_STARTED` |
+| 13 | Why SNOSHA | `190:4024` | `190:4361` | **Implemented (branch `dev1`) as `sections/snosha-why.liquid`**: thin container for native blocks (static `text` heading and subtitle) and 4 `_snosha-why-item` blocks (existing `snosha-icon` block, new "Large" size, with the Figma illustration + native `text` title and description). Instance `snosha_why` in `index.json`, after `snosha_blog`. 6 Figma SVGs stored as `assets/snosha-illustration-*.svg` / `snosha-sparkle-*.svg`. Styles in `assets/dev1.css` (`.snosha-why`, `.snosha-icon-block--large`) | Low–Medium | **Browser validation not done** (static checks only; no dev1 preview running) | `IMPLEMENTED` |
 | 14 | FAQ | `217:14604` | `217:14813` | `section` + `accordion` / `_accordion-row` (2 columns desktop, 1 column mobile) | Low–Medium | — | `NOT_STARTED` |
 | 15 | Footer | `190:4048` | `190:14491` | `footer` + `email-signup`, `menu`, `logo`, `text`; `footer-utilities` (copyright, policies) (exists in `footer-group.json`) | Medium | Menus in Admin; mobile column order differs from desktop | `NOT_STARTED` |
 
@@ -488,6 +488,39 @@ The template was re-saved once because Shopify validated it before the new schem
 **Checks run:** browser-engine CSS parse; schema JSON (section 35 settings, card 16; range steps and defaults valid); every new setting wired in Liquid and every bridge variable used in CSS; template keys match the schemas; Theme Check: only the 9 baseline offenses; `git diff --check` clean; no hex, `!important`, physical left/right or masks in the Blog CSS; #4 / #5 progress code untouched.
 
 **Pending (browser / data, not run):** 1480 / 390 geometry and colors; image cropping at 320–1920; RTL swipe and progress bar; Theme Editor controls; real articles (blog `news` is empty: links, dates, excerpts, images). |
+| 2026-11-09 | **#13 Why SNOSHA → `IMPLEMENTED`** (branch `dev1`; Figma `190:4024` desktop, `190:4361` mobile, inspected with `get_design_context` through the design-plugin Figma server).
+
+**Figma**
+- Desktop: section 426 (60 / 306 / 60), background color5; container 1376 with 20px inner padding (1336); heading 90 (H2 32/52 + 6 + subtitle 18/32, centered); heading → grid 26; 4 equal columns, gap 32 (310 each); items 168 or 190 tall.
+- Mobile: section 606 (60 / 498 / 48); 24px gutter (342); heading 88 (24/38 + 6 + subtitle 13/22 aligned to the start, 2 lines); heading → grid 18; 2 × 2 grid, gaps 12 (165 columns).
+- Item: tile 96 × 96, radius 26, 1px color2 border, white → color5 gradient, drop shadow 0 10 11 #0F64A8 @ 8 %, inset top highlight white @ 90 %; illustration 64; tile → text 14; title 18/30 SemiBold color6; description 13/22 color1; title → description 6.
+- Order: Figma places the benefits in the same physical left-to-right order on both frames (روتين أبسط, تفاصيل تصنع الفرق, مصممة لاحتياجاتك, تقنية أذكى). A reading-order RTL grid can't reproduce both, so the grid flows LTR physically and each item restores RTL text.
+- Sparkles `190:4030/4031` (`190:4367/4368`) sit 52px above the heading inside a frame with overflow clipped, so they're invisible in both frames (mobile copies the desktop x 777).
+
+**Architecture**
+- Evaluated: the generic `section` + `group` (needs a design mode on a shared section for the grid, mobile padding and scope); the native image block (`image_picker` can't ship bundled SVG defaults); native icon (no matching artwork).
+- Chosen: `sections/snosha-why.liquid`, a thin container (same pattern as #4 / #8):
+  - static native `text` blocks `heading` (H2) and `subtitle`;
+  - `{% content_for 'blocks' %}` with new private block `blocks/_snosha-why-item.liquid`, made of static children: `snosha-icon` `illustration`, native `text` `title`, native `text` `description`.
+- `blocks/snosha-icon.liquid` extended additively:
+  - `size` (small default = 40 / 24, unchanged for Before / After; large = 96 / 64);
+  - 4 illustration options rendered as `<img src="{{ … | asset_url }}">`;
+  - the image picker overrides them.
+- Section settings: background, heading / subtitle / benefit title / description colors (Figma defaults inherited through `--color`, overridden by colors set on the native text blocks), tile shadow color, "Show heading sparkles" (off), desktop and mobile padding, `custom_class`. Section preset ships all 4 benefits.
+
+**Assets added (original Figma SVGs, unmodified, 64 × 64):** `snosha-illustration-simple-routine.svg`, `-details.svg`, `-your-needs.svg`, `-smart-tech.svg`; `snosha-sparkle-large.svg` (27.4), `snosha-sparkle-small.svg` (14.4). Mapping confirmed by rendering them locally.
+
+**CSS (`assets/dev1.css`):** `.snosha-icon-block--large`; `.snosha-why`:
+- background on the full-width wrapper; `.section` page-width grid for the container (no new width system);
+- grid `repeat(4 | 2, minmax(0, 1fr))`, 750px breakpoint only;
+- no `nth-child`, transforms or negative margins; physical `left` only for the decorative sparkles.
+
+**Checks run:** browser-engine CSS parse; schemas (section 12 settings, item 0, icon 9); template keys match the schemas; each benefit's icon option is valid and its asset file exists; Theme Check: only the 9 baseline offenses; `git diff --check` clean; no hex, `!important` or global selectors in the new CSS.
+
+**Pending (manual browser QA, not run):**
+- 1480: background full width, container 52–1428, inner 72–1408, columns 310 at 72 / 414 / 756 / 1098, section 426.
+- 390: 342 grid at 24, columns 165, section 606, subtitle aligned to the start.
+- Tile border, gradient and shadow; 320 / 375 wrapping; RTL / LTR order; sparkle toggle; Theme Editor add, reorder and remove of benefits. |
 
 ---
 

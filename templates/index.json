@@ -179,9 +179,220 @@
         "snosha_gradient_start": "#63cdff",
         "snosha_gradient_end": "#0f64a8"
       }
+    },
+    "snosha_why": {
+      "type": "snosha-why",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>لماذا SNOSHA؟</h2>",
+            "type_preset": "h2",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>",
+            "type_preset": "paragraph",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          },
+          "blocks": {}
+        },
+        "benefit_simple_routine": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "static": true,
+              "settings": {
+                "icon": "illustration_simple_routine",
+                "size": "large",
+                "show_tile": true
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>روتين أبسط</p>",
+                "type_preset": "h4",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            },
+            "description": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "benefit_details": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "static": true,
+              "settings": {
+                "icon": "illustration_details",
+                "size": "large",
+                "show_tile": true
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>تفاصيل تصنع الفرق</p>",
+                "type_preset": "h4",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            },
+            "description": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "benefit_your_needs": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "static": true,
+              "settings": {
+                "icon": "illustration_your_needs",
+                "size": "large",
+                "show_tile": true
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>مصممة لاحتياجاتك</p>",
+                "type_preset": "h4",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            },
+            "description": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "benefit_smart_tech": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "static": true,
+              "settings": {
+                "icon": "illustration_smart_tech",
+                "size": "large",
+                "show_tile": true
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>تقنية أذكى</p>",
+                "type_preset": "h4",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            },
+            "description": {
+              "type": "text",
+              "static": true,
+              "settings": {
+                "text": "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>",
+                "type_preset": "paragraph",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        }
+      },
+      "block_order": [
+        "benefit_simple_routine",
+        "benefit_details",
+        "benefit_your_needs",
+        "benefit_smart_tech"
+      ],
+      "name": "Snosha why",
+      "settings": {
+        "background_color": "{{ settings.color_palette.color5 }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "subtitle_color": "{{ settings.color_palette.color1 }}",
+        "title_color": "{{ settings.color_palette.color6 }}",
+        "description_color": "{{ settings.color_palette.color1 }}",
+        "shadow_color": "#0f64a8",
+        "show_sparkles": false,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 60,
+        "padding_bottom_mobile": 48,
+        "custom_class": ""
+      }
     }
   },
   "order": [
-    "snosha_blog"
+    "snosha_blog",
+    "snosha_why"
   ]
 }
