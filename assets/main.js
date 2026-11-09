@@ -12,28 +12,48 @@
    ========================================================================= */
 
 /* -------------------------------------------------------------------------
-   <snosha-care-carousel> — Choose Your Care (sections/snosha-choose-care.liquid)
+   SnoshaSnapCarousel — shared base for Snosha's native scroll-snap carousels
+   (<snosha-care-carousel>, <snosha-reels-carousel>).
    The carousel itself is native CSS scroll-snap (touch, trackpad, wheel, keyboard focus, RTL).
-   This element only adds what CSS can't do everywhere:
-   1. Centers the featured card once on load (Figma mobile state). Chromium does this in CSS with
+   This base only adds what CSS can't do everywhere:
+   1. Centers one card once on load (subclass picks it). Chromium can do this in CSS with
       `scroll-initial-target`; this is the fallback for other browsers. Never re-applied after the
-      user scrolls.
-   2. Mouse dragging (native scrollers can't be dragged with a mouse; the scrollbar is hidden).
-   3. Progress fallback: writes --snosha-care-progress (0–1) when scroll-driven animations aren't
+      user scrolls, on resize or on video playback.
+   2. Mouse dragging (native scrollers can't be dragged with a mouse; the scrollbar is hidden),
+      with the click that ends a drag swallowed so links/buttons don't fire.
+   3. Progress fallback: reports scroll progress (0–1) when scroll-driven animations aren't
       supported (Firefox), so the CSS bar still follows the scroll.
-   It does nothing when the row isn't scrollable (desktop static row).
+   It does nothing when the row isn't scrollable.
    ------------------------------------------------------------------------- */
 const DRAG_THRESHOLD = 6;
 const supportsScrollTimeline = CSS.supports('animation-timeline', 'scroll()');
 
-class SnoshaCareCarousel extends HTMLElement {
+class SnoshaSnapCarousel extends HTMLElement {
   /** @type {AbortController | undefined} */
   #controller;
   #userScrolled = false;
   #dragging = false;
   #suppressClick = false;
 
-  get #scrollable() {
+  /** Selector for the snap cards. @returns {string} */
+  get cardSelector() {
+    return '';
+  }
+
+  /** Card to center once on load; null keeps the native start position. @returns {Element | null} */
+  getInitialCard() {
+    return null;
+  }
+
+  /** Receives the progress fallback (0–1). @param {number} _progress */
+  setProgress(_progress) {}
+
+  /** Whether a mouse press may start a drag. @param {PointerEvent} _event */
+  canStartDrag(_event) {
+    return true;
+  }
+
+  get isScrollable() {
     return this.scrollWidth - this.clientWidth > 1;
   }
 
@@ -42,7 +62,9 @@ class SnoshaCareCarousel extends HTMLElement {
     const { signal } = this.#controller;
 
     this.addEventListener('pointerdown', this.#onPointerDown, { signal });
-    this.addEventListener('click', this.#onClick, { capture: true, signal });
+    // Window capture runs before Horizon's declarative `on:click` handlers (document capture,
+    // assets/component.js), so the click that ends a drag can't start a video or follow a link.
+    window.addEventListener('click', this.#onClick, { capture: true, signal });
     this.addEventListener('dragstart', (event) => event.preventDefault(), { signal });
     this.addEventListener('scroll', this.#onScroll, { passive: true, signal });
     // Any user input before the initial centering runs cancels it.
@@ -50,41 +72,54 @@ class SnoshaCareCarousel extends HTMLElement {
       this.addEventListener(type, () => (this.#userScrolled = true), { passive: true, once: true, signal });
     }
 
-    // Wait for layout (fonts, zoom) before centering.
-    requestAnimationFrame(() => requestAnimationFrame(() => this.#centerFeatured()));
+    this.onConnect(signal);
   }
 
   disconnectedCallback() {
     this.#controller?.abort();
   }
 
-  #centerFeatured() {
-    if (this.#userScrolled || !this.#scrollable) return this.#updateProgress();
-    const card = this.querySelector('.snosha-care-card--featured');
-    if (card) {
-      const cardBox = card.getBoundingClientRect();
-      const box = this.getBoundingClientRect();
-      const delta = cardBox.left + cardBox.width / 2 - (box.left + box.width / 2);
-      if (Math.abs(delta) > 1) this.scrollTo({ left: this.scrollLeft + delta, behavior: 'instant' });
-    }
-    this.#updateProgress();
+  /**
+   * Default start-up: wait for layout (fonts, zoom) before centering.
+   * @param {AbortSignal} _signal
+   */
+  onConnect(_signal) {
+    requestAnimationFrame(() => requestAnimationFrame(() => this.centerInitialCard()));
+  }
+
+  centerInitialCard() {
+    if (this.#userScrolled || !this.isScrollable) return this.updateProgress();
+    const card = this.getInitialCard();
+    if (card) this.scrollCardToCenter(card, 'instant');
+    this.updateProgress();
+  }
+
+  /**
+   * @param {Element} card
+   * @param {ScrollBehavior} behavior
+   */
+  scrollCardToCenter(card, behavior) {
+    const cardBox = card.getBoundingClientRect();
+    const box = this.getBoundingClientRect();
+    const delta = cardBox.left + cardBox.width / 2 - (box.left + box.width / 2);
+    if (Math.abs(delta) > 1) this.scrollTo({ left: this.scrollLeft + delta, behavior });
   }
 
   #onScroll = () => {
-    this.#updateProgress();
+    this.updateProgress();
   };
 
-  #updateProgress() {
+  updateProgress() {
     if (supportsScrollTimeline) return;
     const max = this.scrollWidth - this.clientWidth;
     // scrollLeft runs 0 → negative in RTL, 0 → positive in LTR
-    const progress = max > 1 ? Math.min(1, Math.abs(this.scrollLeft) / max) : 0;
-    this.closest('.snosha-choose-care')?.style.setProperty('--snosha-care-progress', progress.toFixed(4));
+    this.setProgress(max > 1 ? Math.min(1, Math.abs(this.scrollLeft) / max) : 0);
   }
 
   /** @param {PointerEvent} event */
   #onPointerDown = (event) => {
-    if (event.pointerType !== 'mouse' || event.button !== 0 || !this.#scrollable) return;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || !this.isScrollable) return;
+    if (!this.canStartDrag(event)) return;
     this.#userScrolled = true;
     this.#suppressClick = false;
 
@@ -126,7 +161,7 @@ class SnoshaCareCarousel extends HTMLElement {
     const center = box.left + box.width / 2;
     let best = 0;
     let bestDistance = Infinity;
-    for (const card of this.querySelectorAll('.snosha-care-card')) {
+    for (const card of this.querySelectorAll(this.cardSelector)) {
       const cardBox = card.getBoundingClientRect();
       const delta = cardBox.left + cardBox.width / 2 - center;
       if (Math.abs(delta) < bestDistance) {
@@ -139,15 +174,115 @@ class SnoshaCareCarousel extends HTMLElement {
 
   /** @param {MouseEvent} event */
   #onClick = (event) => {
-    if (!this.#suppressClick) return;
+    if (!this.#suppressClick || !(event.target instanceof Node) || !this.contains(event.target)) return;
     this.#suppressClick = false;
     event.preventDefault();
     event.stopPropagation();
   };
 }
 
+/* -------------------------------------------------------------------------
+   <snosha-care-carousel> — Choose Your Care (sections/snosha-choose-care.liquid)
+   Opens on the featured card (< 990px, where the row scrolls); progress → --snosha-care-progress.
+   ------------------------------------------------------------------------- */
+class SnoshaCareCarousel extends SnoshaSnapCarousel {
+  get cardSelector() {
+    return '.snosha-care-card';
+  }
+
+  getInitialCard() {
+    return this.querySelector('.snosha-care-card--featured');
+  }
+
+  /** @param {number} progress */
+  setProgress(progress) {
+    this.closest('.snosha-choose-care')?.style.setProperty('--snosha-care-progress', progress.toFixed(4));
+  }
+}
+
 if (!customElements.get('snosha-care-carousel')) {
   customElements.define('snosha-care-carousel', SnoshaCareCarousel);
+}
+
+/* -------------------------------------------------------------------------
+   <snosha-reels-carousel> — Reels (sections/snosha-reels.liquid)
+   - Mobile (< 750px) opens on the middle reel: index floor((count - 1) / 2) of the rendered reels
+     (1, 2 → 1st; 3, 4 → 2nd; 5, 6 → 3rd; 7 → 4th). Chromium does it in CSS (`scroll-initial-target`
+     on .snosha-reel--initial, same index from Liquid). Elsewhere it runs synchronously on upgrade —
+     card widths are fixed lengths, so the layout is final — and CSS keeps the row transparent until
+     [data-positioned], so the first reel is never painted first. Runs once per element: Theme
+     Editor block changes re-render the section (new element); resizing and playback never re-center.
+   - Toggles [data-overflow] on .snosha-reels (ResizeObserver) so the progress bar only shows when
+     the reels overflow. Progress fallback → --snosha-reels-progress.
+   - Starting one video pauses the others in this carousel (native controls can resume any of them).
+   - A mouse press on a playing video (its controls) never starts a drag.
+   - Theme Editor: selecting a Reel block scrolls it into view.
+   ------------------------------------------------------------------------- */
+const reelsMobileQuery = window.matchMedia('(max-width: 749px)');
+
+class SnoshaReelsCarousel extends SnoshaSnapCarousel {
+  get cardSelector() {
+    return '.snosha-reel';
+  }
+
+  get #root() {
+    return this.closest('.snosha-reels');
+  }
+
+  getInitialCard() {
+    if (!reelsMobileQuery.matches) return null;
+    const cards = this.querySelectorAll(this.cardSelector);
+    if (cards.length === 0) return null;
+    return cards[Math.floor((cards.length - 1) / 2)] ?? null;
+  }
+
+  /** @param {number} progress */
+  setProgress(progress) {
+    this.#root?.style.setProperty('--snosha-reels-progress', progress.toFixed(4));
+  }
+
+  /** @param {PointerEvent} event */
+  canStartDrag(event) {
+    return !(event.target instanceof Element && event.target.closest('video'));
+  }
+
+  /** @param {AbortSignal} signal */
+  onConnect(signal) {
+    this.#updateOverflow();
+    this.centerInitialCard();
+    this.setAttribute('data-positioned', '');
+
+    // Only re-evaluates overflow (progress bar visibility); never moves the carousel.
+    const observer = new ResizeObserver(() => this.#updateOverflow());
+    observer.observe(this);
+    if (this.firstElementChild) observer.observe(this.firstElementChild);
+    signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+
+    this.addEventListener('play', this.#onPlay, { capture: true, signal });
+    this.addEventListener('shopify:block:select', this.#onBlockSelect, { signal });
+  }
+
+  #updateOverflow() {
+    this.#root?.toggleAttribute('data-overflow', this.isScrollable);
+    this.updateProgress();
+  }
+
+  /** @param {Event} event */
+  #onPlay = (event) => {
+    for (const video of this.querySelectorAll('video')) {
+      if (video !== event.target && !video.paused) video.pause();
+    }
+  };
+
+  /** @param {Event} event */
+  #onBlockSelect = (event) => {
+    const card = event.target instanceof Element ? event.target.closest(this.cardSelector) : null;
+    if (card && this.isScrollable) this.scrollCardToCenter(card, 'smooth');
+  };
+}
+
+if (!customElements.get('snosha-reels-carousel')) {
+  customElements.define('snosha-reels-carousel', SnoshaReelsCarousel);
 }
 
 /* -------------------------------------------------------------------------

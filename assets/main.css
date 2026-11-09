@@ -2391,3 +2391,419 @@
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — REELS  (sections/snosha-reels.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3935 (1480), mobile 190:4254 (390).
+   - < 750px (Figma mobile): full-bleed native scroll-snap carousel, 290 x 516 videos, 12px gaps,
+     24px gutters; opens on the middle reel (CSS `scroll-initial-target` on .snosha-reel--initial,
+     <snosha-reels-carousel> in assets/main.js elsewhere); 4px progress bar 23px below.
+     Cards narrow on small screens (390 - 290 = 100px kept for the gutters and neighbour peeks).
+   - >= 750px (Figma desktop): the row sits in the 1376 page column with 20px inner padding and
+     starts at the first reel; 5 x 248 + 4 x 24 = 1336 fills it exactly at 1480. More reels (or a
+     narrower window) scroll inside the column (drag, trackpad, wheel), never the page.
+   - Progress bar: same pattern as Choose Your Care (fill grows from the inline start with the real
+     scroll position via a CSS scroll-driven animation; main.js fallback). Shown only while the reels
+     overflow ([data-overflow] from main.js). Rest width 19.88% = the Figma 68 / 342 fill.
+   - Video: Horizon <deferred-media> (poster button, template clone, sibling video placement from
+     snippets/deferred-media-video-styles.liquid). Frame size from the section width/height settings.
+   All sizes and colors: --snosha-reels-* from the section {% style %}.
+   ========================================================================= */
+.snosha-reels {
+  --snosha-reels-progress-rest: 19.88%;
+
+  container-type: inline-size;
+  timeline-scope: --snosha-reels-scroll;
+  padding-block: var(--snosha-reels-pt-mobile) var(--snosha-reels-pb-mobile);
+  background-color: var(--snosha-reels-bg);
+
+  .snosha-reels__grid {
+    row-gap: 0;
+  }
+
+  /* ---------- Heading ---------- */
+  .snosha-reels__title {
+    grid-column: 1 / -1;
+    margin: 0 0 var(--snosha-reels-heading-gap-mobile);
+    padding-inline: var(--snosha-reels-px-mobile);
+    color: var(--snosha-reels-heading);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-reels-heading-size-mobile);
+    font-weight: 600;
+    line-height: var(--snosha-reels-heading-lh-mobile);
+    letter-spacing: 0;
+    text-align: center;
+    text-transform: none;
+  }
+
+  /* ---------- Carousel (native scroll-snap) ---------- */
+  .snosha-reels__carousel {
+    grid-column: 1 / -1;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: clip;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--snosha-reels-px-mobile);
+    scroll-timeline: --snosha-reels-scroll inline;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Mouse drag (assets/main.js): snapping is paused while dragging, then resumes */
+    &[dragging] {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
+  }
+
+  /* Auto margins centre a row that fits and collapse to 0 when it overflows */
+  .snosha-reels__track {
+    display: flex;
+    flex: none;
+    align-items: flex-start;
+    gap: var(--snosha-reels-gap-mobile);
+    box-sizing: content-box;
+    margin: 0 auto;
+    padding-block: 0;
+    padding-inline: var(--snosha-reels-px-mobile);
+    list-style: none;
+  }
+
+  /* ---------- Card ---------- */
+  .snosha-reel {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    gap: 12px;
+    inline-size: min(
+      calc(var(--snosha-reels-card-w-mobile) * 1px),
+      calc(100cqi - 2 * var(--snosha-reels-px-mobile) - 52px)
+    );
+    scroll-snap-align: center;
+
+    &:first-child {
+      scroll-snap-align: start;
+    }
+
+    &:last-child {
+      scroll-snap-align: end;
+    }
+
+    /* The middle reel can always be centred (Figma mobile shows it centred) */
+    &.snosha-reel--initial {
+      scroll-snap-align: center;
+    }
+  }
+
+  .snosha-reel__frame {
+    position: relative;
+    aspect-ratio: var(--snosha-reels-card-w-mobile) / var(--snosha-reels-frame-h-mobile);
+    overflow: hidden;
+    border-radius: var(--snosha-reels-radius);
+    background-color: var(--snosha-reels-thumb-bg);
+  }
+
+  .snosha-reel__media,
+  .snosha-reel__placeholder {
+    position: absolute;
+    inset: 0;
+  }
+
+  .snosha-reel__poster {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-reels-play-bg);
+      outline-offset: -4px;
+    }
+
+    &:hover .snosha-reel__play {
+      background-color: var(--snosha-reels-play-hover);
+    }
+  }
+
+  .snosha-reel__poster-image,
+  .snosha-reel__placeholder-svg {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* The cloned video (placed over the poster by Horizon's deferred-media styles) */
+  .snosha-reel__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    background-color: var(--snosha-reels-thumb-bg);
+  }
+
+  /* Figma "Play": 52px circle, 24px icon */
+  .snosha-reel__play {
+    position: absolute;
+    top: 50%;
+    left: 50%; /* centring pair with a physical translate */
+    display: grid;
+    place-items: center;
+    inline-size: 52px;
+    block-size: 52px;
+    border-radius: 26px;
+    background-color: var(--snosha-reels-play-bg);
+    translate: -50% -50%;
+    transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+    pointer-events: none;
+
+    img {
+      display: block;
+      inline-size: 24px;
+      block-size: 24px;
+    }
+  }
+
+  /* ---------- Product row (Figma "Text": 10px padding, 14px gap, 43px thumb) ---------- */
+  .snosha-reel__product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    color: inherit;
+    text-decoration: none;
+
+    &:focus-visible {
+      outline-offset: -2px;
+    }
+
+    &:hover .snosha-reel__title {
+      text-decoration: underline;
+    }
+  }
+
+  .snosha-reel__thumb {
+    flex: none;
+    inline-size: 43px;
+    block-size: 43px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--snosha-reels-thumb-border) 40%, transparent);
+    border-radius: 6px;
+    background-color: var(--snosha-reels-thumb-bg);
+
+    img,
+    svg {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .snosha-reel__info {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 3px;
+    min-inline-size: 0;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    line-height: 24px;
+    text-align: start;
+  }
+
+  /* Mobile: wraps (2 lines max); desktop: one line with an ellipsis (Figma).
+     The title keeps dir="auto" for correct bidi ordering, but aligns with the row
+     (match-parent = the row's start side), so a title starting with Latin text still sits on the
+     right in RTL like Figma, and on the left in LTR. */
+  .snosha-reel__title,
+  .snosha-reel__price {
+    text-align: match-parent;
+  }
+
+  .snosha-reel__title {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--snosha-reels-title);
+    font-weight: 400;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .snosha-reel__price {
+    color: var(--snosha-reels-price);
+    font-weight: 700;
+  }
+
+  /* Theme Editor only: reel without a playable video */
+  .snosha-reel__editor-hint {
+    position: absolute;
+    inset-inline: 8px;
+    inset-block-end: 8px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background-color: var(--snosha-reels-bg);
+    color: var(--snosha-reels-title);
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+  }
+
+  .snosha-reels__notice {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding-inline: var(--snosha-reels-px-mobile);
+    color: var(--snosha-reels-title);
+    text-align: center;
+  }
+
+  /* ---------- Progress (same pattern as Choose Your Care) ---------- */
+  .snosha-reels__progress {
+    grid-column: 1 / -1;
+    position: relative;
+    display: none;
+    block-size: 4px;
+    margin: 23px var(--snosha-reels-px-mobile) 0;
+    overflow: clip;
+    border-radius: 99px;
+    background-color: var(--snosha-reels-progress-track);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      /* --snosha-reels-progress (0–1) is only set by assets/main.js where scroll-driven animations are missing */
+      inline-size: calc(
+        var(--snosha-reels-progress-rest) + (100% - var(--snosha-reels-progress-rest)) * var(--snosha-reels-progress, 0)
+      );
+      border-radius: 99px;
+      background-image: linear-gradient(
+        to right,
+        var(--snosha-reels-progress-start),
+        var(--snosha-reels-progress-end)
+      );
+    }
+
+    @supports (animation-timeline: scroll()) {
+      &::after {
+        animation: snosha-reels-progress linear both;
+        animation-timeline: --snosha-reels-scroll;
+      }
+    }
+  }
+
+  /* ---------- < 750px: middle-reel start, mobile progress ---------- */
+  @media screen and (max-width: 749px) {
+    .snosha-reel--initial {
+      scroll-initial-target: nearest;
+    }
+
+    /* Without CSS initial targets, keep the row invisible until main.js has centred the middle reel
+       (no first-reel flash). The delayed reveal only matters if the script never runs. */
+    @supports not (scroll-initial-target: nearest) {
+      .snosha-reels__carousel:not([data-positioned]) {
+        opacity: 0;
+        animation: snosha-reels-reveal 0s 2s forwards;
+      }
+    }
+
+    &.snosha-reels--progress-mobile[data-overflow] .snosha-reels__progress {
+      display: block;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &[data-overflow] .snosha-reels__carousel {
+      cursor: grab;
+    }
+  }
+
+  /* ---------- >= 750px: Figma desktop ---------- */
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-reels-pt-desktop) var(--snosha-reels-pb-desktop);
+
+    .snosha-reels__title,
+    .snosha-reels__notice {
+      grid-column: 2;
+      padding-inline: var(--snosha-reels-px-desktop);
+    }
+
+    .snosha-reels__title {
+      margin-block-end: var(--snosha-reels-heading-gap-desktop);
+      font-size: var(--snosha-reels-heading-size-desktop);
+      line-height: var(--snosha-reels-heading-lh-desktop);
+    }
+
+    .snosha-reels__carousel {
+      grid-column: 2;
+      scroll-padding-inline: var(--snosha-reels-px-desktop);
+    }
+
+    .snosha-reels__track {
+      gap: var(--snosha-reels-gap-desktop);
+      padding-inline: var(--snosha-reels-px-desktop);
+    }
+
+    .snosha-reel {
+      inline-size: calc(var(--snosha-reels-card-w-desktop) * 1px);
+      scroll-snap-align: start;
+
+      &:last-child {
+        scroll-snap-align: end;
+      }
+
+      &.snosha-reel--initial {
+        scroll-snap-align: start;
+      }
+    }
+
+    .snosha-reel__frame {
+      aspect-ratio: var(--snosha-reels-card-w-desktop) / var(--snosha-reels-frame-h-desktop);
+    }
+
+    .snosha-reel__title {
+      display: block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .snosha-reels__progress {
+      grid-column: 2;
+      margin: 24px var(--snosha-reels-px-desktop) 0;
+    }
+
+    &.snosha-reels--progress-desktop[data-overflow] .snosha-reels__progress {
+      display: block;
+    }
+  }
+}
+
+@keyframes snosha-reels-progress {
+  from {
+    inline-size: var(--snosha-reels-progress-rest);
+  }
+
+  to {
+    inline-size: 100%;
+  }
+}
+
+@keyframes snosha-reels-reveal {
+  to {
+    opacity: 1;
+  }
+}

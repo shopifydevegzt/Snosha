@@ -1431,6 +1431,76 @@
         "custom_class": ""
       }
     },
+    "snosha_reels": {
+      "type": "snosha-reels",
+      "blocks": {
+        "reel_1": {
+          "type": "reel",
+          "settings": {
+            "label": ""
+          }
+        },
+        "reel_2": {
+          "type": "reel",
+          "settings": {
+            "label": ""
+          }
+        },
+        "reel_3": {
+          "type": "reel",
+          "settings": {
+            "label": ""
+          }
+        },
+        "reel_4": {
+          "type": "reel",
+          "settings": {
+            "label": ""
+          }
+        },
+        "reel_5": {
+          "type": "reel",
+          "settings": {
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_1",
+        "reel_2",
+        "reel_3",
+        "reel_4",
+        "reel_5"
+      ],
+      "settings": {
+        "heading": "اكتشف عالم SNOSHA",
+        "unavailable_label": "قريبًا",
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_top_mobile": 48.5,
+        "padding_bottom_mobile": 40,
+        "padding_inline_desktop": 20,
+        "padding_inline_mobile": 24,
+        "heading_size_desktop": 32,
+        "heading_line_height_desktop": 52,
+        "heading_gap_desktop": 24,
+        "heading_size_mobile": 24,
+        "heading_line_height_mobile": 38,
+        "heading_gap_mobile": 43.5,
+        "card_width_desktop": 248,
+        "frame_height_desktop": 440,
+        "card_gap_desktop": 24,
+        "card_width_mobile": 290,
+        "frame_height_mobile": 516,
+        "card_gap_mobile": 12,
+        "video_radius": 18,
+        "show_progress_mobile": true,
+        "show_progress_desktop": true,
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "custom_class": ""
+      }
+    },
     "snosha_choose_care": {
       "type": "snosha-choose-care",
       "blocks": {
@@ -1708,6 +1778,7 @@
     "product_list_fa6P9H",
     "snosha_f1_banner",
     "snosha_before_after",
+    "snosha_reels",
     "snosha_choose_care",
     "snosha_bundle"
   ]

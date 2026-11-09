@@ -1,0 +1,648 @@
+{%- comment -%}
+  Snosha — Reels (homepage section #9).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3935 (1480), mobile 190:4254 (390).
+  Each "Reel" block = one Shopify video (+ optional poster) + one product picked independently.
+  Video: Horizon's native <deferred-media> element (assets/media.js): only the poster is loaded; the
+  click clones the <template> video and plays it (with sound, native controls), and any other
+  deferred media pauses. The stock `video` snippet isn't used because it always mutes the video and
+  draws Horizon's own play icon.
+  Carousel: native CSS scroll-snap. <snosha-reels-carousel> (assets/main.js, shared base with Choose
+  Your Care) adds the mobile middle-reel start, mouse dragging, the progress fallback and the
+  overflow flag that shows the progress bar. In Chromium the middle reel is the initial scroll target
+  in CSS, so it's in place before the first paint.
+  Static styles: assets/main.css (.snosha-reels).
+{%- endcomment -%}
+{%- liquid
+  assign custom_class = section.settings.custom_class | strip | escape
+  assign heading_label = section.settings.heading | strip_html | strip | escape
+  assign use_currency_code = settings.currency_code_enabled_product_cards
+
+  comment
+    Valid reel = a block with a video (in the Theme Editor, empty blocks render as placeholders, so
+    they count too). The middle reel uses the same count: floor((count - 1) / 2).
+  endcomment
+  assign reel_count = 0
+  for block in section.blocks
+    if block.settings.video != blank or request.design_mode
+      assign reel_count = reel_count | plus: 1
+    endif
+  endfor
+  assign initial_index = reel_count | minus: 1 | divided_by: 2
+
+  assign root_class = 'snosha-reels'
+  if section.settings.show_progress_mobile
+    assign root_class = root_class | append: ' snosha-reels--progress-mobile'
+  endif
+  if section.settings.show_progress_desktop
+    assign root_class = root_class | append: ' snosha-reels--progress-desktop'
+  endif
+  if custom_class != blank
+    assign root_class = root_class | append: ' ' | append: custom_class
+  endif
+
+  assign poster_sizes = '(min-width: 750px) ' | append: section.settings.card_width_desktop | append: 'px, ' | append: section.settings.card_width_mobile | append: 'px'
+-%}
+
+{%- if reel_count > 0 or request.design_mode -%}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --snosha-reels-pt-mobile: {{ section.settings.padding_top_mobile }}px;
+      --snosha-reels-pb-mobile: {{ section.settings.padding_bottom_mobile }}px;
+      --snosha-reels-pt-desktop: {{ section.settings.padding_top_desktop }}px;
+      --snosha-reels-pb-desktop: {{ section.settings.padding_bottom_desktop }}px;
+      --snosha-reels-px-mobile: {{ section.settings.padding_inline_mobile }}px;
+      --snosha-reels-px-desktop: {{ section.settings.padding_inline_desktop }}px;
+      --snosha-reels-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
+      --snosha-reels-heading-lh-mobile: {{ section.settings.heading_line_height_mobile }}px;
+      --snosha-reels-heading-size-desktop: {{ section.settings.heading_size_desktop }}px;
+      --snosha-reels-heading-lh-desktop: {{ section.settings.heading_line_height_desktop }}px;
+      --snosha-reels-heading-gap-mobile: {{ section.settings.heading_gap_mobile }}px;
+      --snosha-reels-heading-gap-desktop: {{ section.settings.heading_gap_desktop }}px;
+      --snosha-reels-card-w-mobile: {{ section.settings.card_width_mobile }};
+      --snosha-reels-card-w-desktop: {{ section.settings.card_width_desktop }};
+      --snosha-reels-frame-h-mobile: {{ section.settings.frame_height_mobile }};
+      --snosha-reels-frame-h-desktop: {{ section.settings.frame_height_desktop }};
+      --snosha-reels-gap-mobile: {{ section.settings.card_gap_mobile }}px;
+      --snosha-reels-gap-desktop: {{ section.settings.card_gap_desktop }}px;
+      --snosha-reels-radius: {{ section.settings.video_radius }}px;
+      --snosha-reels-bg: {{ section.settings.background_color }};
+      --snosha-reels-heading: {{ section.settings.heading_color }};
+      --snosha-reels-title: {{ section.settings.title_color }};
+      --snosha-reels-price: {{ section.settings.price_color }};
+      --snosha-reels-thumb-bg: {{ section.settings.thumb_background }};
+      --snosha-reels-thumb-border: {{ section.settings.thumb_border }};
+      --snosha-reels-play-bg: {{ section.settings.play_background }};
+      --snosha-reels-play-hover: {{ section.settings.play_hover }};
+      --snosha-reels-progress-track: {{ section.settings.progress_track }};
+      --snosha-reels-progress-start: {{ section.settings.progress_start }};
+      --snosha-reels-progress-end: {{ section.settings.progress_end }};
+    }
+  {% endstyle %}
+
+  {%- comment -%} Native deferred-media styles (video clone placement, poster fade) {%- endcomment -%}
+  {% render 'deferred-media-video-styles' %}
+
+  <div class="{{ root_class }}">
+    <div class="section section--page-width snosha-reels__grid">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="snosha-reels__title" dir="auto">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if reel_count > 0 -%}
+        <snosha-reels-carousel
+          class="snosha-reels__carousel"
+          role="region"
+          {% if heading_label != blank %}
+            aria-label="{{ heading_label }}"
+          {% endif %}
+        >
+          <ul class="snosha-reels__track" role="list">
+            {%- assign reel_index = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign video = block.settings.video
+                if video == blank and request.design_mode == false
+                  continue
+                endif
+
+                assign product = block.settings.product
+                assign poster = block.settings.poster | default: video.preview_image
+                assign reel_label = block.settings.label | default: video.alt | default: product.title | strip | escape
+                if reel_label != blank
+                  assign play_label = 'blocks.load_video' | t: description: reel_label
+                else
+                  assign play_label = 'accessibility.play_video' | t
+                endif
+              -%}
+              <li
+                class="snosha-reel{% if reel_index == initial_index %} snosha-reel--initial{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="snosha-reel__frame">
+                  {%- if video != blank -%}
+                    <deferred-media class="snosha-reel__media">
+                      <button
+                        type="button"
+                        class="deferred-media__poster-button snosha-reel__poster"
+                        ref="deferredMediaPlayButton"
+                        on:click="/showDeferredMedia"
+                        aria-label="{{ play_label }}"
+                      >
+                        {%- if poster != blank -%}
+                          {{
+                            poster
+                            | image_url: width: 870
+                            | image_tag:
+                              widths: '248, 290, 496, 580, 744, 870',
+                              sizes: poster_sizes,
+                              loading: 'lazy',
+                              alt: '',
+                              class: 'deferred-media__poster-image snosha-reel__poster-image'
+                          }}
+                        {%- endif -%}
+                        <span class="snosha-reel__play" aria-hidden="true">
+                          <img
+                            src="{{ 'snosha-reels-play.svg' | asset_url }}"
+                            alt=""
+                            width="24"
+                            height="24"
+                            loading="lazy"
+                          >
+                        </span>
+                      </button>
+                      <template>
+                        {{-
+                          video
+                          | video_tag:
+                            image_size: '1080x',
+                            autoplay: true,
+                            controls: true,
+                            playsinline: true,
+                            preload: 'metadata',
+                            class: 'snosha-reel__video'
+                        -}}
+                      </template>
+                    </deferred-media>
+                  {%- else -%}
+                    {%- comment -%}
+                      Theme Editor only: no playable video on this block (none chosen/saved, or the
+                      upload hasn't finished processing). Shows the chosen cover if there is one; the
+                      generic placeholder only when the block has no media at all.
+                    {%- endcomment -%}
+                    <div class="snosha-reel__placeholder">
+                      {%- if block.settings.poster != blank -%}
+                        {{
+                          block.settings.poster
+                          | image_url: width: 870
+                          | image_tag:
+                            widths: '248, 290, 496, 580, 744, 870',
+                            sizes: poster_sizes,
+                            loading: 'lazy',
+                            alt: '',
+                            class: 'snosha-reel__poster-image'
+                        }}
+                      {%- else -%}
+                        {{ 'hero-apparel-3' | placeholder_svg_tag: 'snosha-reel__placeholder-svg' }}
+                      {%- endif -%}
+                      <span class="snosha-reel__editor-hint">
+                        No video yet: choose a Shopify video for this reel. A new upload appears once Shopify has
+                        finished processing it. Reels without a video are hidden on the storefront.
+                      </span>
+                      <span class="snosha-reel__play" aria-hidden="true">
+                        <img
+                          src="{{ 'snosha-reels-play.svg' | asset_url }}"
+                          alt=""
+                          width="24"
+                          height="24"
+                          loading="lazy"
+                        >
+                      </span>
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- if product != blank -%}
+                  <a class="snosha-reel__product" href="{{ product.url }}">
+                    <span class="snosha-reel__thumb">
+                      {%- if product.featured_image != blank -%}
+                        {{
+                          product.featured_image
+                          | image_url: width: 129
+                          | image_tag: widths: '43, 86, 129', sizes: '43px', loading: 'lazy', alt: ''
+                        }}
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {%- endif -%}
+                    </span>
+                    <span class="snosha-reel__info">
+                      <span class="snosha-reel__title" dir="auto">{{ product.title | escape }}</span>
+                      <span class="snosha-reel__price">
+                        {%- if product.available == false -%}
+                          {%- if section.settings.unavailable_label != blank -%}
+                            {{- section.settings.unavailable_label | escape -}}
+                          {%- else -%}
+                            {{- 'products.product.sold_out' | t -}}
+                          {%- endif -%}
+                        {%- else -%}
+                          {%- liquid
+                            if use_currency_code
+                              assign product_price = product.price | money_with_currency
+                            else
+                              assign product_price = product.price | money
+                            endif
+                          -%}
+                          {%- if product.price_varies -%}
+                            {{- 'content.price_from' | t: price: product_price -}}
+                          {%- else -%}
+                            {{- product_price -}}
+                          {%- endif -%}
+                        {%- endif -%}
+                      </span>
+                    </span>
+                  </a>
+                {%- endif -%}
+              </li>
+              {%- assign reel_index = reel_index | plus: 1 -%}
+            {%- endfor -%}
+          </ul>
+        </snosha-reels-carousel>
+
+        {%- if reel_count > 1 -%}
+          {%- if section.settings.show_progress_mobile or section.settings.show_progress_desktop -%}
+            {%- comment -%} Shown only while the reels overflow (data-overflow, set by main.js) {%- endcomment -%}
+            <div class="snosha-reels__progress" aria-hidden="true"></div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- else -%}
+        <p class="snosha-reels__notice">Add Reel blocks and choose a video for each.</p>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha reels",
+  "tag": "section",
+  "class": "snosha-reels-section",
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "reel",
+      "name": "Reel",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Cover image",
+          "info": "Optional. Defaults to the video's own preview image."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Shown under the video and linked to its product page. Leave empty to show the video only."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Accessibility label",
+          "info": "Optional description for screen readers. Defaults to the video's alt text, then the product title."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "اكتشف عالم SNOSHA"
+    },
+    {
+      "type": "text",
+      "id": "unavailable_label",
+      "label": "Unavailable product text",
+      "info": "Shown instead of the price when the product is sold out or unavailable.",
+      "default": "قريبًا"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 10,
+      "max": 60,
+      "step": 0.5,
+      "unit": "px",
+      "default": 48.5
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 10,
+      "max": 60,
+      "step": 0.5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_desktop",
+      "label": "Side padding (desktop)",
+      "info": "Inside the page container.",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_inline_mobile",
+      "label": "Side padding (mobile)",
+      "info": "From the screen edge.",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Font size (desktop)",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height_desktop",
+      "label": "Line height (desktop)",
+      "min": 20,
+      "max": 90,
+      "step": 1,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "heading_gap_desktop",
+      "label": "Space below heading (desktop)",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height_mobile",
+      "label": "Line height (mobile)",
+      "min": 16,
+      "max": 70,
+      "step": 1,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "heading_gap_mobile",
+      "label": "Space below heading (mobile)",
+      "min": 0,
+      "max": 50,
+      "step": 0.5,
+      "unit": "px",
+      "default": 43.5
+    },
+    {
+      "type": "header",
+      "content": "Reel cards"
+    },
+    {
+      "type": "range",
+      "id": "card_width_desktop",
+      "label": "Card width (desktop)",
+      "min": 160,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "default": 248
+    },
+    {
+      "type": "range",
+      "id": "frame_height_desktop",
+      "label": "Video height (desktop)",
+      "info": "With the card width, sets the video frame's proportions.",
+      "min": 300,
+      "max": 700,
+      "step": 4,
+      "unit": "px",
+      "default": 440
+    },
+    {
+      "type": "range",
+      "id": "card_gap_desktop",
+      "label": "Gap between cards (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width (mobile)",
+      "info": "Narrower on small screens so the neighbouring reels stay visible.",
+      "min": 200,
+      "max": 360,
+      "step": 2,
+      "unit": "px",
+      "default": 290
+    },
+    {
+      "type": "range",
+      "id": "frame_height_mobile",
+      "label": "Video height (mobile)",
+      "info": "With the card width, sets the video frame's proportions.",
+      "min": 300,
+      "max": 700,
+      "step": 4,
+      "unit": "px",
+      "default": 516
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mobile",
+      "label": "Gap between cards (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "video_radius",
+      "label": "Video corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Progress bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_mobile",
+      "label": "Show on mobile",
+      "info": "Only appears when the reels don't fit on screen.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_desktop",
+      "label": "Show on desktop",
+      "info": "Only appears when the reels don't fit on screen.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Product title",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "thumb_background",
+      "label": "Thumbnail and video background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "thumb_border",
+      "label": "Thumbnail border",
+      "info": "Drawn at 40% opacity.",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "play_background",
+      "label": "Play button",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "play_hover",
+      "label": "Play button hover",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_track",
+      "label": "Progress track",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_start",
+      "label": "Progress fill start",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "progress_end",
+      "label": "Progress fill end",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha reels",
+      "blocks": [
+        {
+          "type": "reel"
+        },
+        {
+          "type": "reel"
+        },
+        {
+          "type": "reel"
+        },
+        {
+          "type": "reel"
+        },
+        {
+          "type": "reel"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
