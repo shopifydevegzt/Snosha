@@ -1437,30 +1437,37 @@
         "reel_1": {
           "type": "reel",
           "settings": {
+            "video": "shopify://files/videos/الـ upgrade مش لازم يكون موبايل جديد أو ساعة جديدة ⌚📱أحياناً يكون الحاجة اللي بتستخدمها كل يوم..mp4",
+            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
+            "product": "snosha-f1",
             "label": ""
           }
         },
         "reel_2": {
           "type": "reel",
           "settings": {
+            "product": "",
             "label": ""
           }
         },
         "reel_3": {
           "type": "reel",
           "settings": {
+            "product": "",
             "label": ""
           }
         },
         "reel_4": {
           "type": "reel",
           "settings": {
+            "product": "",
             "label": ""
           }
         },
         "reel_5": {
           "type": "reel",
           "settings": {
+            "product": "",
             "label": ""
           }
         }
@@ -1496,6 +1503,15 @@
         "video_radius": 18,
         "show_progress_mobile": true,
         "show_progress_desktop": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "title_color": "{{ settings.color_palette.color6 }}",
+        "price_color": "{{ settings.color_palette.color3 }}",
+        "thumb_background": "{{ settings.color_palette.color5 }}",
+        "thumb_border": "{{ settings.color_palette.color2 }}",
+        "play_background": "{{ settings.color_palette.color3 }}",
+        "play_hover": "{{ settings.color_palette.color6 }}",
+        "progress_track": "{{ settings.color_palette.color2 }}",
         "progress_start": "#63cdff",
         "progress_end": "#0f64a8",
         "custom_class": ""
