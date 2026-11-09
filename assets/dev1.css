@@ -1855,3 +1855,345 @@
     }
   }
 }
+
+/* ==========================================================================
+   S2 Header + navigation (Figma 190:3769, 190:3776, 346:4607; mobile 190:4084)
+   Native Horizon header (sections/header.liquid) with "Snosha layout" on.
+   Variables come from the section's {% style %} bridge. The ID selector beats
+   Horizon's own header rules, which load after this file.
+   ========================================================================== */
+#header-component.snosha-header {
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  /* ---------- Desktop, inline menu mode ---------- */
+  @media screen and (min-width: 750px) {
+    &[data-menu-style='menu'] {
+      .header__row--top .header__columns {
+        --padding-block-start: var(--snosha-header-padding-start);
+        --padding-block-end: var(--snosha-header-padding-end);
+        --padding-inline-start: 20px;
+        --padding-inline-end: 20px;
+      }
+
+      .header-logo {
+        translate: var(--snosha-header-logo-offset-x) var(--snosha-header-logo-offset-y);
+      }
+
+      /* Navigation row */
+      .header__row--bottom .header__columns {
+        --padding-block-start: var(--snosha-nav-padding-start);
+        --padding-block-end: var(--snosha-nav-padding-end);
+        --padding-inline-start: 20px;
+        --padding-inline-end: 20px;
+      }
+
+      .overflow-menu::part(list) {
+        margin-inline: calc(var(--snosha-nav-gap) / -2);
+      }
+
+      .header-menu .menu-list__list-item:not([slot='overflow']) .menu-list__link {
+        font-size: var(--snosha-nav-font-size);
+        line-height: var(--snosha-nav-line-height);
+        color: var(--snosha-nav-color, var(--color-foreground));
+
+        &:hover,
+        &:focus-visible,
+        &.menu-list__link--active {
+          color: var(--snosha-nav-active-color, var(--color-foreground));
+        }
+
+        .menu-list__link-title {
+          padding-inline: calc(var(--snosha-nav-gap) / 2);
+        }
+      }
+    }
+
+    &:not(.snosha-header--nav-border) .header__row--bottom {
+      border-block-end-width: 0;
+    }
+
+    /* Figma: cart, search, account on the start side (right in RTL), 22px apart */
+    &.snosha-header--actions-start[data-menu-style='menu'] {
+      .header__row--top .header__columns {
+        grid-template-areas: 'right center left';
+      }
+
+      .header__row--top .header__column--right {
+        justify-content: flex-start;
+        gap: calc(var(--snosha-header-icon-gap) - (var(--button-size) - var(--icon-size-md)));
+
+        header-actions {
+          display: contents;
+        }
+
+        .search-action {
+          order: 2;
+          margin-inline: 0;
+        }
+
+        header-actions > .account-button {
+          order: 3;
+        }
+
+        /* Cart: first, with its glyph on the content edge */
+        header-actions > .header-actions__action:not(.account-button) {
+          order: 1;
+          margin-inline-start: calc((var(--icon-size-md) - var(--button-size)) / 2);
+        }
+      }
+    }
+  }
+
+  /* Active link marker (Figma Nav Item / Active): 5px wider than the label each side */
+  &.snosha-header--nav-marker[data-menu-style='menu'] .header-menu .menu-list__list-item:not([slot='overflow']) {
+    .menu-list__link--active .menu-list__link-title {
+      position: relative;
+      isolation: isolate;
+      padding-inline: calc(var(--snosha-nav-gap) / 2 + 5px);
+
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset-inline: calc(var(--snosha-nav-gap) / 2);
+        inset-block-start: 37.5%;
+        block-size: 60.6%;
+        border-radius: 3px;
+        background-color: var(--snosha-nav-marker-color, transparent);
+        rotate: 1.5deg;
+      }
+    }
+  }
+
+  /* ---------- Mobile: phones and Horizon's drawer mode ----------
+     RTL, right to left: menu, centered logo, search, cart. */
+  @media screen and (max-width: 749px) {
+    .header__row--top .header__columns {
+      padding-block: var(--snosha-header-padding-start-mobile) var(--snosha-header-padding-end-mobile);
+    }
+
+    .header__drawer {
+      --header-drawer-min-height: var(--button-size);
+    }
+
+    /* Figma 22px menu icon in a 44px button */
+    .header__icon--menu {
+      padding-block: calc((var(--button-size) - var(--icon-size-md)) / 2);
+      padding-inline: 0;
+
+      .header-drawer-icon {
+        width: var(--icon-size-md);
+        height: var(--icon-size-md);
+      }
+
+      /* Icon box from "Mobile menu icon size" (Figma: 24px vector in the 22px slot) */
+      .header-drawer-icon > svg {
+        flex-shrink: 0;
+        max-width: none;
+        width: var(--snosha-menu-icon-size, var(--icon-size-md));
+        height: var(--snosha-menu-icon-size, var(--icon-size-md));
+      }
+    }
+
+    .header__columns .search-action {
+      grid-area: rightA;
+      justify-self: end;
+      margin-inline-end: calc(
+        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) - var(--header-mobile-bookend) -
+          (var(--button-size) - var(--icon-size-md)) / 2
+      );
+    }
+
+    header-actions > .header-actions__action:not(.account-button) {
+      margin-inline-end: calc((var(--icon-size-md) - var(--button-size)) / 2);
+    }
+
+    &.snosha-header--hide-mobile-account header-actions > .account-button {
+      display: none;
+    }
+  }
+
+  &[data-menu-style='drawer'] {
+    .header__row--top .header__columns {
+      padding-block: var(--snosha-header-padding-start-mobile) var(--snosha-header-padding-end-mobile);
+    }
+
+    .header__drawer {
+      --header-drawer-min-height: var(--button-size);
+    }
+
+    /* Figma 22px menu icon in a 44px button */
+    .header__icon--menu {
+      padding-block: calc((var(--button-size) - var(--icon-size-md)) / 2);
+      padding-inline: 0;
+
+      .header-drawer-icon {
+        width: var(--icon-size-md);
+        height: var(--icon-size-md);
+      }
+
+      /* Icon box from "Mobile menu icon size" (Figma: 24px vector in the 22px slot) */
+      .header-drawer-icon > svg {
+        flex-shrink: 0;
+        max-width: none;
+        width: var(--snosha-menu-icon-size, var(--icon-size-md));
+        height: var(--snosha-menu-icon-size, var(--icon-size-md));
+      }
+    }
+
+    .header__columns .search-action {
+      grid-area: rightA;
+      justify-self: end;
+      margin-inline-end: calc(
+        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) - var(--header-mobile-bookend) -
+          (var(--button-size) - var(--icon-size-md)) / 2
+      );
+    }
+
+    header-actions > .header-actions__action:not(.account-button) {
+      margin-inline-end: calc((var(--icon-size-md) - var(--button-size)) / 2);
+    }
+
+    &.snosha-header--hide-mobile-account header-actions > .account-button {
+      display: none;
+    }
+
+    /* The navigation row only holds the inline menu, which the drawer replaces */
+    .header__row--bottom:not(:has(.search-action, .dropdown-localization)) {
+      display: none;
+    }
+  }
+}
+
+/* S2 Mobile menu drawer (native Horizon drawer, snippets/header-drawer.liquid).
+   Not specified in Figma: Snosha extension using the header's palette and rhythm.
+   Header bar | rows with inset dividers (native "Drawer dividers") | active row. */
+#header-component.snosha-header .menu-drawer {
+  /* Horizon drawer gutter, aligned with the 20px mobile header gutter */
+  --drawer-padding: 20px;
+  --snosha-drawer-gutter: var(--drawer-padding);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  align-content: start;
+
+  /* Header bar: same height as the mobile site header (44px button + header padding + 1px border) */
+  &::before {
+    content: '';
+    grid-row: 1;
+    grid-column: 1 / -1;
+    min-block-size: calc(
+      var(--button-size) + var(--snosha-header-padding-start-mobile) + var(--snosha-header-padding-end-mobile) + 1px
+    );
+    background-color: var(--snosha-drawer-header-bg, transparent);
+    border-block-end: 1px solid var(--drawer-divider-color, var(--color-border));
+  }
+
+  .menu-drawer__snosha-title {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    margin: 0;
+    padding-inline-start: var(--snosha-drawer-gutter);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--snosha-drawer-link-color, var(--color-foreground));
+  }
+
+  > .menu-drawer__close-button {
+    grid-row: 1;
+    grid-column: 2;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--button-size);
+    height: var(--button-size);
+    padding: 0;
+    margin-inline-end: calc(var(--snosha-drawer-gutter) - (var(--button-size) - var(--icon-size-md)) / 2);
+    color: var(--snosha-drawer-link-color, currentcolor);
+
+    .svg-wrapper,
+    svg {
+      width: var(--icon-size-md);
+      height: var(--icon-size-md);
+    }
+  }
+
+  .menu-drawer__navigation {
+    grid-column: 1 / -1;
+    padding-block-start: var(--padding-xs);
+  }
+
+  .menu-drawer__utility-links {
+    grid-column: 1 / -1;
+  }
+
+  /* Rows */
+  .menu-drawer__menu.has-submenu > li {
+    min-height: 0;
+    margin-block-end: 0;
+
+    &:last-child,
+    &:last-child > .menu-drawer__menu-container--divider {
+      border-block-end-width: 0;
+    }
+  }
+
+  .menu-drawer__menu-item--mainlist {
+    min-height: var(--button-size);
+    padding-block: var(--snosha-drawer-row-padding);
+    font-size: var(--snosha-drawer-font-size);
+    line-height: 1.625;
+    color: var(--snosha-drawer-link-color, var(--color-foreground));
+
+    &:hover {
+      color: var(--snosha-drawer-active-color, var(--color-foreground));
+    }
+  }
+
+  .menu-drawer__menu-item-text {
+    text-align: start;
+  }
+
+  .menu-drawer__menu-item--parent,
+  .menu-drawer__menu-item--child {
+    min-height: var(--button-size);
+    color: var(--snosha-drawer-link-color, var(--color-foreground));
+
+    &:hover {
+      color: var(--snosha-drawer-active-color, var(--color-foreground));
+    }
+  }
+
+  .menu-drawer__menu-item > .svg-wrapper {
+    padding-block: 0;
+  }
+
+  /* Active row: Shopify's link.current (aria-current) or child_active (--active) */
+  .menu-drawer__menu-item:is([aria-current='page'], .menu-drawer__menu-item--active) {
+    isolation: isolate;
+    color: var(--snosha-drawer-active-color, var(--color-foreground));
+
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset-block: 0;
+      inset-inline: calc(var(--snosha-drawer-gutter) * -1);
+      background-color: var(--snosha-drawer-active-bg, transparent);
+      border-inline-start: 3px solid var(--snosha-drawer-active-color, currentcolor);
+    }
+  }
+
+  /* Submenu panels (3-level menus) keep the same gutter and colors */
+  .menu-drawer__title,
+  .menu-drawer__back-button {
+    color: var(--snosha-drawer-link-color, var(--color-foreground));
+  }
+}

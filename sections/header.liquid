@@ -205,6 +205,28 @@
     assign class = class | append: ' ' | append: collapse_header_paddings_class
   endif
 
+  # Snosha (project addition): opt-in Figma layout hooks. Styles live in assets/dev1.css.
+  if section.settings.snosha_layout
+    assign class = class | append: ' snosha-header'
+    if section.settings.snosha_actions_at_start
+      assign class = class | append: ' snosha-header--actions-start'
+    endif
+    if section.settings.snosha_hide_mobile_account
+      assign class = class | append: ' snosha-header--hide-mobile-account'
+    endif
+    if section.settings.snosha_nav_marker
+      assign class = class | append: ' snosha-header--nav-marker'
+    endif
+    if section.settings.snosha_nav_border
+      assign class = class | append: ' snosha-header--nav-border'
+    endif
+  endif
+
+  assign custom_class = section.settings.custom_class | strip | escape
+  if custom_class != blank
+    assign class = class | append: ' ' | append: custom_class
+  endif
+
   # Determine transparent background value
   assign top_transparent = false
   assign bottom_transparent = false
@@ -336,6 +358,50 @@
     "url": {{ request.origin | append: page.url | json }}
   }
 </script>
+
+{%- if section.settings.snosha_layout -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-header {
+      --snosha-header-padding-start: {{ section.settings.snosha_padding_top }}px;
+      --snosha-header-padding-end: {{ section.settings.snosha_padding_bottom }}px;
+      --snosha-header-padding-start-mobile: {{ section.settings.snosha_padding_top_mobile }}px;
+      --snosha-header-padding-end-mobile: {{ section.settings.snosha_padding_bottom_mobile }}px;
+      --snosha-header-icon-gap: {{ section.settings.snosha_icon_gap }}px;
+      --snosha-header-icon-gap-mobile: {{ section.settings.snosha_icon_gap_mobile }}px;
+      --snosha-header-logo-offset-x: {{ section.settings.snosha_logo_offset_x }}px;
+      --snosha-header-logo-offset-y: {{ section.settings.snosha_logo_offset_y }}px;
+      --snosha-nav-padding-start: {{ section.settings.snosha_nav_padding_top }}px;
+      --snosha-nav-padding-end: {{ section.settings.snosha_nav_padding_bottom }}px;
+      --snosha-nav-gap: {{ section.settings.snosha_nav_gap }}px;
+      --snosha-nav-font-size: {{ section.settings.snosha_nav_font_size }}px;
+      --snosha-nav-line-height: {{ section.settings.snosha_nav_line_height }}px;
+      {%- if section.settings.snosha_nav_color != blank %}
+        --snosha-nav-color: {{ section.settings.snosha_nav_color }};
+      {%- endif %}
+      {%- if section.settings.snosha_nav_active_color != blank %}
+        --snosha-nav-active-color: {{ section.settings.snosha_nav_active_color }};
+      {%- endif %}
+      {%- if section.settings.snosha_nav_marker_color != blank %}
+        --snosha-nav-marker-color: {{ section.settings.snosha_nav_marker_color }};
+      {%- endif %}
+      --snosha-menu-icon-size: {{ section.settings.snosha_menu_icon_size }}px;
+      --snosha-drawer-font-size: {{ section.settings.snosha_drawer_font_size }}px;
+      --snosha-drawer-row-padding: {{ section.settings.snosha_drawer_row_padding }}px;
+      {%- if section.settings.snosha_drawer_header_bg != blank %}
+        --snosha-drawer-header-bg: {{ section.settings.snosha_drawer_header_bg }};
+      {%- endif %}
+      {%- if section.settings.snosha_drawer_link_color != blank %}
+        --snosha-drawer-link-color: {{ section.settings.snosha_drawer_link_color }};
+      {%- endif %}
+      {%- if section.settings.snosha_drawer_active_color != blank %}
+        --snosha-drawer-active-color: {{ section.settings.snosha_drawer_active_color }};
+      {%- endif %}
+      {%- if section.settings.snosha_drawer_active_bg != blank %}
+        --snosha-drawer-active-bg: {{ section.settings.snosha_drawer_active_bg }};
+      {%- endif %}
+    }
+  {% endstyle %}
+{%- endif -%}
 
 <header-component
   id="header-component"
@@ -1841,6 +1907,314 @@
       "label": "t:settings.text_color_transparent",
       "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.enable_transparent_header_collection }}"
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_layout",
+      "label": "Snosha layout",
+      "info": "Applies the Snosha Figma header and navigation styling. Logo, menu, search, account and cart stay native.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_actions_at_start",
+      "label": "Show icons on the start side (desktop)",
+      "info": "Right side in Arabic. Order: cart, search, account.",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_icon_gap",
+      "label": "Icon spacing (desktop)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ section.settings.snosha_layout and section.settings.snosha_actions_at_start }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_logo_offset_x",
+      "label": "Logo horizontal shift (desktop)",
+      "info": "Positive values move the logo to the right.",
+      "min": -40,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_logo_offset_y",
+      "label": "Logo vertical shift (desktop)",
+      "info": "Positive values move the logo down.",
+      "min": -20,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_top",
+      "label": "Top row padding top (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_bottom",
+      "label": "Top row padding bottom (desktop)",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 30,
+      "step": 0.5,
+      "unit": "px",
+      "default": 9.5,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_bottom_mobile",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 30,
+      "step": 0.5,
+      "unit": "px",
+      "default": 9.5,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_icon_gap_mobile",
+      "label": "Cart and search spacing (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_hide_mobile_account",
+      "label": "Hide account icon on mobile",
+      "info": "The menu drawer has no account link. Add an Account link (/account) to the menu so customers can still reach it on mobile.",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_nav_padding_top",
+      "label": "Navigation padding top",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 5,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_nav_padding_bottom",
+      "label": "Navigation padding bottom",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_nav_gap",
+      "label": "Navigation link spacing",
+      "min": 8,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 32,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_nav_font_size",
+      "label": "Navigation font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_nav_line_height",
+      "label": "Navigation line height",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_nav_color",
+      "label": "Navigation link color",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_nav_active_color",
+      "label": "Active and hover link color",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_nav_marker",
+      "label": "Show active link marker",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_nav_marker_color",
+      "label": "Active link marker color",
+      "alpha": true,
+      "default": "#63CDFF73",
+      "visible_if": "{{ section.settings.snosha_layout and section.settings.snosha_nav_marker }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_nav_border",
+      "label": "Border below navigation (desktop)",
+      "info": "Uses the Bottom border width and color above. Off in the Figma design; the border shows on mobile only.",
+      "default": false,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "header",
+      "content": "Snosha mobile menu"
+    },
+    {
+      "type": "select",
+      "id": "snosha_menu_icon",
+      "label": "Mobile menu icon",
+      "options": [
+        {
+          "value": "horizon",
+          "label": "Horizon default"
+        },
+        {
+          "value": "snosha",
+          "label": "Snosha (Figma, three lines)"
+        },
+        {
+          "value": "minimal",
+          "label": "Minimal (two lines)"
+        }
+      ],
+      "default": "horizon",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_menu_icon_size",
+      "label": "Mobile menu icon size",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_drawer_title",
+      "label": "Drawer title",
+      "info": "Shown next to the close button. Leave blank to hide.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_drawer_header_bg",
+      "label": "Drawer header background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_drawer_font_size",
+      "label": "Drawer link size",
+      "min": 13,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_drawer_row_padding",
+      "label": "Drawer row padding",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_drawer_link_color",
+      "label": "Drawer link color",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_drawer_active_color",
+      "label": "Drawer active link color",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_drawer_active_bg",
+      "label": "Drawer active row background",
+      "info": "Drawer background and dividers are on the Menu block (Appearance, Drawer dividers).",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
     }
   ],
   "presets": []

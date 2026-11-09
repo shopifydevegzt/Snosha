@@ -1,0 +1,13 @@
+{%- doc -%}
+  Snosha (project file): optional title in the mobile menu drawer's header bar.
+  Text comes from the header's "Snosha layout" > "Drawer title" setting; nothing is output when blank.
+
+  @param {object} section - The header section.
+
+  @example
+  {% render 'snosha-drawer-title', section: section %}
+{%- enddoc -%}
+
+{%- if section.settings.snosha_layout and section.settings.snosha_drawer_title != blank -%}
+  <p class="menu-drawer__snosha-title">{{ section.settings.snosha_drawer_title | escape }}</p>
+{%- endif -%}

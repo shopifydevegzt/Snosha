@@ -612,9 +612,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_cash_on_delivery": {
               "type": "_accordion-row",
@@ -651,9 +649,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_authentic": {
               "type": "_accordion-row",
@@ -690,9 +686,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             }
           },
           "block_order": [
@@ -756,9 +750,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_returns": {
               "type": "_accordion-row",
@@ -795,9 +787,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_free_shipping": {
               "type": "_accordion-row",
@@ -834,16 +824,10 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             }
           },
-          "block_order": [
-            "faq_warranty",
-            "faq_returns",
-            "faq_free_shipping"
-          ]
+          "block_order": ["faq_warranty", "faq_returns", "faq_free_shipping"]
         },
         "heading": {
           "type": "text",
@@ -898,10 +882,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "column_1",
-        "column_2"
-      ],
+      "block_order": ["column_1", "column_2"],
       "name": "Snosha FAQ",
       "settings": {
         "background_color": "{{ settings.color_palette.background }}",
@@ -921,9 +902,5 @@
       }
     }
   },
-  "order": [
-    "snosha_blog",
-    "snosha_why",
-    "snosha_faq"
-  ]
+  "order": ["snosha_blog", "snosha_why", "snosha_faq"]
 }
