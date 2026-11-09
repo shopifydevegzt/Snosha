@@ -698,7 +698,7 @@
 }
 
 /* =========================================================================
-   SNOSHA — CAROUSEL PROGRESS (shared by #4 Collections and #5 Featured collection)
+   SNOSHA — CAROUSEL PROGRESS (shared by #4 Collections, #5 Featured collection and #12 Blog)
    Mobile progress bar under Horizon's native resource-list carousel, drawn as ::before (track)
    and ::after (fill) of the native slideshow-component. No markup, no carousel logic of its own.
    - The fill is bound to the real scroll position of Horizon's scroller with a named
@@ -711,7 +711,7 @@
    Each section supplies: --snosha-progress-inset / -space / -initial / -track / -start / -end.
    ========================================================================= */
 
-:is(.snosha-collections, .snosha-featured-collection) {
+:is(.snosha-collections, .snosha-featured-collection, .snosha-blog) {
   div.resource-list.resource-list__carousel {
     timeline-scope: --snosha-carousel-scroll;
   }
@@ -1021,4 +1021,229 @@
   border: 1px solid var(--snosha-icon-tile-border);
   border-radius: 13px;
   background: linear-gradient(to bottom, var(--snosha-icon-tile-start), var(--snosha-icon-tile-end));
+}
+
+/* =========================================================================
+   SNOSHA — BLOG  (sections/featured-blog-posts.liquid, "Snosha blog style" on)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:4018 (1480), mobile 190:4349 (390).
+   Native render path: featured-blog-posts → resource-list (layout "carousel") →
+   resource-list-carousel → slideshow; cards = static _featured-blog-posts-card with
+   image, _heading, _blog-post-info-text (date), _blog-post-description (excerpt) blocks.
+   Mobile progress bar: the shared "CAROUSEL PROGRESS" rules (values set below).
+   - >= 750px  Figma desktop: 3 cards of 429.333 (1336 - 2 x 24) / 3, 24px gap, 20px inset
+                inside the 1376 container, View All in the heading row.
+   - <  750px  Figma mobile: 280px cards, 12px gap, progress bar, View All under it.
+   ========================================================================= */
+
+.snosha-blog {
+  --blog-inset: 20px;
+  --blog-card-width: calc((1336px - 48px) / 3);
+  --blog-image-height: var(--snosha-blog-image-height, 268px);
+
+  @media screen and (max-width: 749px) {
+    --blog-inset: 0px;
+    --blog-card-width: 280px;
+    --blog-image-height: var(--snosha-blog-image-height-mobile, 268px);
+
+    /* Figma mobile: 56 / 40 padding (+ the View All row 26 + gap 14); heading → carousel 14 */
+    padding-block: var(--snosha-blog-mobile-padding-start) var(--snosha-blog-mobile-padding-end);
+    row-gap: 14px;
+
+    &:has(.featured-blog-posts__view-all) {
+      padding-block-end: calc(var(--snosha-blog-mobile-padding-end) + 26px + 14px);
+    }
+  }
+
+  /* ---------------- Section heading (title block: rich text with H2 + paragraph) ---------------- */
+  .section-resource-list__header {
+    position: relative;
+    padding-inline: var(--blog-inset);
+
+    @media screen and (max-width: 749px) {
+      position: static;
+    }
+
+    .text-block {
+      text-align: center;
+    }
+
+    & h2 {
+      margin: 0;
+      color: var(--snosha-blog-heading);
+    }
+
+    /* Subtitle: Figma 18 / 32 desktop, 13 / 22 mobile, 6px under the heading */
+    & p {
+      margin: 6px 0 0;
+      color: var(--snosha-blog-subtitle);
+      font-size: 18px;
+      line-height: 32px;
+
+      @media screen and (max-width: 749px) {
+        font-size: 13px;
+        line-height: 22px;
+      }
+    }
+  }
+
+  /* View All (section setting, links to the selected blog) */
+  .featured-blog-posts__view-all {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    inline-size: fit-content;
+    color: var(--snosha-blog-accent);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 26px;
+    text-decoration: none;
+
+    /* Figma desktop: 6px from the heading's inline end, 5.91px above its bottom */
+    inset-inline-end: calc(var(--blog-inset) + 6px);
+    inset-block-end: 5.91px;
+
+    @media screen and (max-width: 749px) {
+      /* Figma mobile: centered under the progress bar, 40px above the section bottom */
+      inset-inline: 0;
+      inset-block-end: var(--snosha-blog-mobile-padding-end);
+      margin-inline: auto;
+    }
+  }
+
+  /* Figma "Icon / arrow-left" (inline SVG from snosha-icon), 18px, follows the link color;
+     points to the inline end in RTL, mirrored in LTR */
+  :is(.featured-blog-posts__view-all-icon, .featured-blog-posts-card__read-more-icon) {
+    flex: none;
+    inline-size: 18px;
+    block-size: 18px;
+
+    &:dir(ltr) {
+      scale: -1 1;
+    }
+  }
+
+  /* ---------------- Carousel geometry ---------------- */
+  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+    /* Figma desktop: cards start 20px inside the 1376 container (72px at 1480); mobile: page margin */
+    --gutter-slide-width: calc(var(--util-page-margin-offset) + var(--blog-inset));
+  }
+
+  .resource-list__carousel .resource-list__slide {
+    width: var(--blog-card-width);
+  }
+
+  @media screen and (min-width: 750px) {
+    /* Figma Blog Row clips at the container edge (no peeking cards in the page gutters) */
+    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+      clip-path: inset(-16px calc(var(--util-page-margin-offset) + var(--blog-inset)));
+    }
+  }
+
+  /* Mobile progress: Figma Progress Row, page-margin inset, 24 + 14 = 38px under the cards,
+     fill starts at 150 / 342 of the track */
+  slideshow-component.resource-list__carousel {
+    --snosha-progress-inset: var(--util-page-margin-offset);
+    --snosha-progress-space: 38px;
+    --snosha-progress-initial: 0.4386;
+    --snosha-progress-track: var(--snosha-blog-progress-track);
+    --snosha-progress-start: var(--snosha-blog-gradient-start);
+    --snosha-progress-end: var(--snosha-blog-gradient-end);
+  }
+
+  /* "Show mobile progress bar" off: no track / fill and no reserved space */
+  &.snosha-blog--no-progress slideshow-component.resource-list__carousel {
+    padding-block-end: 0;
+
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+
+  /* ---------------- Card (native blog card blocks) ---------------- */
+  /* Image container: Figma 268px tall at both card widths (429.333 desktop → ~1.60, 280 mobile → ~1.05),
+     radius 16 from the image block setting. The source image keeps its own ratio and is cropped with
+     object-fit: cover at the chosen position. Height and position are section settings. */
+  .featured-blog-posts-card__image {
+    aspect-ratio: auto;
+    block-size: var(--blog-image-height);
+
+    :is(.resource-image__image, .blog-placeholder-svg) {
+      aspect-ratio: auto;
+      block-size: 100%;
+      object-fit: cover;
+      object-position: var(--snosha-blog-image-position, center);
+    }
+  }
+
+  /* Text column: Figma 4px inline padding, 8px gap. Content order comes from the card's
+     "Date position" setting (DOM order), not from CSS. Figma default colors are inherited here;
+     a color set on the native Title / Details / Excerpt block overrides them. */
+  .featured-blog-posts-card__content {
+    --color: var(--snosha-blog-excerpt);
+    --color-details: var(--snosha-blog-date);
+
+    gap: 8px;
+    padding-inline: 4px;
+
+    > h4 {
+      --color: var(--snosha-blog-title);
+    }
+  }
+
+  .blog-post-details {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .featured-blog-posts-card__content > h4 {
+    &,
+    & * {
+      margin: 0;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 20px;
+      line-height: 34px;
+    }
+
+    .text-block > * {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+    }
+  }
+
+  .blog-post-card__content-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 28px;
+
+    & p {
+      margin: 0;
+    }
+  }
+
+  /* Read more (card setting, links to the article) */
+  .featured-blog-posts-card__read-more {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    inline-size: fit-content;
+    color: var(--snosha-blog-accent);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 26px;
+    text-decoration: none;
+  }
 }

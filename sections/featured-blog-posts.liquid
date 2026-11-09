@@ -8,7 +8,37 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
+
+  # Snosha: opt-in design (off by default, so other blog sections are unchanged). Styles live in assets/dev1.css.
+  assign snosha_style = section.settings.snosha_style
+  assign snosha_progress = false
+  if snosha_style and section.settings.snosha_show_progress and section.settings.layout_type == 'carousel'
+    assign snosha_progress = true
+  endif
+  assign view_all_label = section.settings.view_all_label | strip
+  assign view_all_url = section.settings.view_all_url | default: section.settings.blog.url
 %}
+
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-blog {
+      --snosha-blog-heading: {{ section.settings.snosha_heading_color }};
+      --snosha-blog-subtitle: {{ section.settings.snosha_subtitle_color }};
+      --snosha-blog-title: {{ section.settings.snosha_title_color }};
+      --snosha-blog-date: {{ section.settings.snosha_date_color }};
+      --snosha-blog-excerpt: {{ section.settings.snosha_excerpt_color }};
+      --snosha-blog-image-height: {{ section.settings.snosha_image_height }}px;
+      --snosha-blog-image-height-mobile: {{ section.settings.snosha_image_height_mobile }}px;
+      --snosha-blog-image-position: {{ section.settings.snosha_image_position }};
+      --snosha-blog-accent: {{ section.settings.snosha_accent_color }};
+      --snosha-blog-progress-track: {{ section.settings.snosha_progress_track }};
+      --snosha-blog-gradient-start: {{ section.settings.snosha_gradient_start }};
+      --snosha-blog-gradient-end: {{ section.settings.snosha_gradient_end }};
+      --snosha-blog-mobile-padding-start: {{ section.settings.snosha_mobile_padding_top }}px;
+      --snosha-blog-mobile-padding-end: {{ section.settings.snosha_mobile_padding_bottom }}px;
+    }
+  {% endstyle %}
+{%- endif -%}
 
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
@@ -22,13 +52,33 @@
     section-resource-list
     spacing-style
     gap-style
+    {% if snosha_style %}snosha-blog{% unless snosha_progress %} snosha-blog--no-progress{% endunless %}{% endif %}
+    {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
   "
   style="
     {%- render 'spacing-style', settings: section.settings -%}
     {%- render 'gap-style', value: section.settings.gap -%}
   "
+  {% if snosha_progress %}
+    data-snosha-carousel-progress
+  {% endif %}
 >
-  {% content_for 'block', id: 'static-blog-title', type: '_featured-blog-posts-title' %}
+  {%- capture view_all_link -%}
+    {%- if view_all_label != blank and view_all_url != blank -%}
+      <a class="featured-blog-posts__view-all" href="{{ view_all_url }}">
+        <span>{{ view_all_label | escape }}</span>
+        {%- if snosha_style -%}
+          {%- render 'snosha-icon', icon: 'arrow_left', class: 'featured-blog-posts__view-all-icon' -%}
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- comment -%} Header wrapper (unstyled by default) so the optional View all link can sit next to the title. {%- endcomment -%}
+  <div class="section-resource-list__header">
+    {% content_for 'block', id: 'static-blog-title', type: '_featured-blog-posts-title' %}
+    {{ view_all_link }}
+  </div>
 
   {% if section.settings.blog != blank and section.settings.blog.articles_count > 0 %}
     {% paginate section.settings.blog.articles by max_items %}
@@ -66,6 +116,11 @@
     content_type: 'articles',
     test_id: 'featured-blog-posts'
   %}
+
+  {%- if snosha_progress -%}
+    {%- comment -%} The mobile progress bar is CSS (assets/dev1.css); this module is only a fallback for browsers without scroll-driven animations. {%- endcomment -%}
+    <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -313,9 +368,234 @@
       "step": 1,
       "unit": "px",
       "default": 32
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all link label",
+      "info": "Leave blank to hide."
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all link",
+      "info": "Leave blank to link to the selected blog."
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha blog style",
+      "info": "Applies the Snosha blog design (cards, mobile progress bar). Off by default.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_top",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 56,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_bottom",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_heading_color",
+      "label": "Section heading",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_subtitle_color",
+      "label": "Section subtitle",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_title_color",
+      "label": "Article title",
+      "info": "A color set on the card's Title block overrides this.",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_date_color",
+      "label": "Article date",
+      "info": "A color set on the card's Details block overrides this.",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_excerpt_color",
+      "label": "Article excerpt",
+      "info": "A color set on the card's Excerpt block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_color",
+      "label": "View all and read more links",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_image_height",
+      "label": "Image height (desktop)",
+      "info": "Replaces the image aspect ratio while the Snosha style is on.",
+      "min": 120,
+      "max": 520,
+      "step": 4,
+      "unit": "px",
+      "default": 268,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_image_height_mobile",
+      "label": "Image height (mobile)",
+      "min": 120,
+      "max": 520,
+      "step": 4,
+      "unit": "px",
+      "default": 268,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "select",
+      "id": "snosha_image_position",
+      "label": "Image crop position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "center top", "label": "Top" },
+        { "value": "center bottom", "label": "Bottom" }
+      ],
+      "default": "center center",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_show_progress",
+      "label": "Show mobile progress bar",
+      "info": "Carousel layout only.",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_progress_track",
+      "label": "Progress bar track",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_start",
+      "label": "Progress bar gradient start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_end",
+      "label": "Progress bar gradient end",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.snosha_style }}"
     }
   ],
   "presets": [
+    {
+      "name": "Snosha blog",
+      "category": "t:categories.storytelling",
+      "blocks": {
+        "static-blog-title": {
+          "type": "_featured-blog-posts-title",
+          "name": "t:names.title",
+          "static": true,
+          "settings": {
+            "text": "<h2>نصائح أذكى للعناية بفمك</h2><p>محتوى تعليمي عن العناية بالفم</p>",
+            "type_preset": "rte",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center"
+          }
+        },
+        "static-blog-post-card": {
+          "type": "_featured-blog-posts-card",
+          "name": "t:names.blog_card",
+          "static": true,
+          "settings": {
+            "gap": 16,
+            "content_order": "date_title",
+            "read_more_label": "اقرأ المزيد"
+          },
+          "blocks": {
+            "image": {
+              "type": "_featured-blog-posts-image",
+              "name": "t:names.image",
+              "static": true,
+              "settings": { "image_ratio": "landscape", "border_radius": 16 }
+            },
+            "title": {
+              "type": "_heading",
+              "name": "t:names.title",
+              "static": true,
+              "settings": { "text": "<h4>{{ closest.article.title }}</h4>", "show_alignment": false }
+            },
+            "blog-post-info-text": {
+              "type": "_blog-post-info-text",
+              "name": "t:names.details",
+              "static": true,
+              "settings": { "show_author": false, "padding-block-start": 0, "padding-block-end": 0, "show_alignment": false }
+            },
+            "blog-post-description": {
+              "type": "_blog-post-description",
+              "name": "t:names.excerpt",
+              "static": true,
+              "settings": { "padding-block-start": 0, "padding-block-end": 0 }
+            }
+          }
+        }
+      },
+      "settings": {
+        "layout_type": "carousel",
+        "post_limit": 3,
+        "columns": 3,
+        "columns_gap": 24,
+        "icons_style": "none",
+        "gap": 40,
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "view_all_label": "عرض الكل",
+        "snosha_style": true
+      }
+    },
     {
       "name": "t:names.blog_posts_carousel",
       "category": "t:categories.storytelling",

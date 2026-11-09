@@ -96,7 +96,7 @@ Styles: `assets/main.css` | High | Hero product image (merchant upload pending);
 | 9 | Reels | `190:3935` | `190:4254` | `carousel` section with `video` blocks, or `product-list` carousel. Reel cards may link products | Medium–High | Video files/URLs (merchant); autoplay/performance policy. *Open: card content and links not inspected.* | `NOT_STARTED` |
 | 10 | Choose Your Care | `190:3943` | `190:4265` | `product-list` / `featured-product` / `section` + `_card` | High | Featured middle card differs in size; products. *Open: native fit unclear.* | `NOT_STARTED` |
 | 11 | Bundle | `190:3987` | `190:4318` | `product-hotspots` (mobile hotspots) + bundle list. Selectable items and a bundle total likely need an app or custom logic | High | **Bundle pricing logic / app (unknown)**; products. *Open: commerce behavior undecided; may become `BLOCKED`.* | `NOT_STARTED` |
-| 12 | Blog | `190:4018` | `190:4349` | `featured-blog-posts` + `_featured-blog-posts-card` (carousel on mobile) | Medium | Blog posts must exist | `NOT_STARTED` |
+| 12 | Blog | `190:4018` | `190:4349` | **Implemented (branch `dev1`) on the native `featured-blog-posts` section** (instance `snosha_blog` in `index.json`, after `snosha_before_after`; blog `news`, layout `carousel`, 3 posts). Native blocks: rich-text title (H2 + subtitle), `_featured-blog-posts-card` with image, `_heading`, `_blog-post-info-text` (date only) and `_blog-post-description`. Opt-in "Snosha blog style" adds the `.snosha-blog` scope; styles in `assets/dev1.css`; mobile progress = the shared CSS progress bar (#4 / #5) | Medium | **Blog `news` has no articles** (placeholders only); **browser validation not done**. Bugfix 2026-11-09 (date before title in the DOM, inline-SVG arrows, explicit Figma color defaults, image height/crop settings, progress toggle, "Snosha blog" preset) is checked by static analysis only | `IMPLEMENTED` |
 | 13 | Why SNOSHA | `190:4024` | `190:4361` | `section` + `group` / `icon` / `text` (4 columns desktop, 2×2 mobile) | Low–Medium | Icons | `NOT_STARTED` |
 | 14 | FAQ | `217:14604` | `217:14813` | `section` + `accordion` / `_accordion-row` (2 columns desktop, 1 column mobile) | Low–Medium | — | `NOT_STARTED` |
 | 15 | Footer | `190:4048` | `190:14491` | `footer` + `email-signup`, `menu`, `logo`, `text`; `footer-utilities` (copyright, policies) (exists in `footer-group.json`) | Medium | Menus in Admin; mobile column order differs from desktop | `NOT_STARTED` |
@@ -417,6 +417,77 @@ The template was re-saved once because Shopify validated it before the new schem
 - Best sellers: header 52/1376; cards 72–1408, clipped at the container on desktop.
 - Before/after: content 851/557; slider 50/774. The layout box is 1378 wide because Figma's slider overhangs the 1376 container by 2px at the inline end; kept as in Figma.
 - LTR mirrors all of the above. |
+| 2026-11-09 | **#12 Blog → `IMPLEMENTED`** (branch `dev1`; Figma `190:4018` desktop, `190:4349` mobile, both inspected with `get_design_context` through the design-plugin Figma server).
+
+**Figma**
+- Desktop: section 664 (60 / 544 / 60); container 1376 with 20px inner padding; header 90 (H2 32/52 + 6 + subtitle 18/32); View All absolute, 6px from the inline end and 5.91 above the header bottom (same as #5); gap 40; 3 cards of 429.333, gap 24, 414 tall.
+- Card stack: image 268 (radius 16) → 16 → text (4px inline padding, gap 8): date 12/18 SemiBold blue, title 20/34 color6, excerpt 16/28 color1, read more 16/26 + 18px arrow.
+- Mobile: section 734 (56 / 638 / 40); header 66 (24/38 + 6 + 13/22); gap 14; cards 280 wide, gap 12, 476 tall; first card at 86–366 (RTL); progress bar 38px below the cards (track 24/342, fill starting at 150/342 = 43.86 %); View All 14px below the bar, centered.
+
+**Architecture (native first)**
+- Reused Horizon's `featured-blog-posts` section and its static card blocks; no new section, block or carousel.
+- Heading + subtitle: the native rich-text title block (`<h2>` + `<p>`, merchant-editable).
+- Date: native `time_tag` (localized, `<time>`).
+- Excerpt: native `excerpt`, falling back to stripped, truncated content.
+- Additive, off-by-default extensions:
+  - `sections/featured-blog-posts.liquid`: `view_all_label` (links to the selected blog's URL; blank = hidden); `custom_class`; `snosha_style` (adds `.snosha-blog`, the progress hook and the fallback script); mobile padding; heading, accent and progress colors (scoped `{% style %}` bridge). The title block is now always inside an unstyled `.section-resource-list__header` wrapper, because a static block ID may only be rendered once.
+  - `_featured-blog-posts-card`: `read_more_label` (blank = hidden) renders an article link under the excerpt (`tabindex=-1`, `aria-hidden`; the card's full-size link stays the keyboard target).
+- Progress bar: the shared CSS scroll-timeline bar (selector now includes `.snosha-blog`; values: inset = page margin, space 38, initial 0.4386). The shared JS fallback is reused unchanged through the `data-snosha-carousel-progress` marker. No new JS.
+
+**CSS (`assets/dev1.css`, `.snosha-blog`)**
+- Card width `calc((1336px - 48px) / 3)` on desktop (= 429.333) and 280 on mobile.
+- Gutter = page margin + 20 (desktop) or page margin (mobile); desktop carousel clipped at the container, as in #5.
+- Image 268px tall, cover crop; date moved above the title with `order: -1` (DOM order kept); title and excerpt clamped to 2 lines.
+- Mobile: padding 56 / 40, View All positioned under the progress bar.
+
+**Checks run**
+- Schema JSON valid (section 26 settings, card 13); no duplicate IDs; template settings all known to the schema.
+- Theme Check: only the 9 baseline offenses (it caught a duplicate static-block render, which was fixed).
+- `git diff --check` clean.
+- New CSS: no hex/rgb, no `!important`, no physical left/right properties; 750px breakpoint only.
+
+**Not run (user chose static checks only):** browser geometry at 1480/390/320/375/750/990/1024, swipe and snapping, progress updates, RTL check. Port 9292 now serves the `main` worktree, and no dev1 preview is running.
+
+**Data-dependent / pending**
+- Blog `news` has no articles, so real titles, dates, excerpts, images, article links and the View All destination are unverified (placeholders only).
+- The #4 and #5 progress bars are unaffected by the shared change: same rules, one more scope in the selector list. To be re-checked in a browser.
+- Theme Editor: new settings and the title rich text. |
+| 2026-11-09 | **#12 Blog bugfix** (status stays `IMPLEMENTED`; Figma `190:4018` / `190:4349` re-checked through the design-plugin Figma server).
+
+**Root causes found**
+- Every reported symptom (no progress bar, title before date, black heading, unstyled "Read more", no arrow) is what renders when the `.snosha-blog` CSS doesn't apply.
+- In dev1 the code itself is valid: `dev1.css` parses completely in the browser engine (all Blog rules present, braces balanced) and the homepage instance has `snosha_style: true`.
+- Two ways it fails in practice:
+  - (1) The design was gated behind "Snosha blog style" (default off) and no preset turned it on, so a Blog section added or reset in the Theme Editor is plain Horizon. Black heading = theme foreground, because neither the scope nor a block color applied.
+  - (2) `assets/dev1.css` exists in both `main` and `dev1` with different content (`main` has no Blog block). Worktrees syncing to the same development theme overwrite each other's copy. **Coordination needed:** don't run `main` and `dev1` previews against the same theme, or merge `dev1.css` first.
+- Design weaknesses that made it fragile: the date order relied on CSS `order: -1`; the arrows were CSS masks; card text colors depended on block colors set only in `index.json` (preset block settings can't use palette references).
+
+**Fixes**
+- `blocks/_featured-blog-posts-card.liquid`:
+  - "Date position" (below / above the title) renders the date and title in that DOM order;
+  - "Show excerpt";
+  - "Show read more arrow" (inline SVG `snosha-icon` `arrow_left`, `currentColor`);
+  - in Snosha style the image slot is kept (native placeholder) for articles without an image, so cards stay aligned.
+- `sections/featured-blog-posts.liquid`:
+  - `view_all_url` (blank = selected blog);
+  - View All arrow as inline SVG;
+  - colors: subtitle, article title / date / excerpt as Figma defaults that the native block color settings override;
+  - image height desktop / mobile (268 / 268) and crop position;
+  - "Show mobile progress bar" (off → `.snosha-blog--no-progress`, no progress hook or script);
+  - new **"Snosha blog" preset** with the style on and the Figma copy and layout.
+- `snippets/snosha-icon.liquid`: `arrow_left` (Figma path).
+- `assets/dev1.css` (`.snosha-blog` only):
+  - removed the CSS reorder and the two masks;
+  - heading / subtitle colors from section variables;
+  - inherited `--color` / `--color-details` defaults for title, date and excerpt;
+  - image container height from settings, image `object-fit: cover` at the chosen position (the source keeps its ratio);
+  - no-progress override.
+- Shared progress rules and `snosha-carousel-progress.js` unchanged.
+- `templates/index.json` (`snosha_blog` only): date above title, excerpt and arrow on, new settings at the Figma values.
+
+**Checks run:** browser-engine CSS parse; schema JSON (section 35 settings, card 16; range steps and defaults valid); every new setting wired in Liquid and every bridge variable used in CSS; template keys match the schemas; Theme Check: only the 9 baseline offenses; `git diff --check` clean; no hex, `!important`, physical left/right or masks in the Blog CSS; #4 / #5 progress code untouched.
+
+**Pending (browser / data, not run):** 1480 / 390 geometry and colors; image cropping at 320–1920; RTL swipe and progress bar; Theme Editor controls; real articles (blog `news` is empty: links, dates, excerpts, images). |
 
 ---
 

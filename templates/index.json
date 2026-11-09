@@ -849,9 +849,128 @@
         "shadow_color": "#0f64a8",
         "custom_class": ""
       }
+    },
+    "snosha_blog": {
+      "type": "featured-blog-posts",
+      "blocks": {
+        "static-blog-title": {
+          "type": "_featured-blog-posts-title",
+          "name": "t:names.title",
+          "static": true,
+          "settings": {
+            "text": "<h2>نصائح أذكى للعناية بفمك</h2><p>محتوى تعليمي عن العناية بالفم</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "rte",
+            "text_color": "{{ settings.color_palette.color1 }}"
+          },
+          "blocks": {}
+        },
+        "static-blog-post-card": {
+          "type": "_featured-blog-posts-card",
+          "name": "t:names.blog_card",
+          "static": true,
+          "settings": {
+            "alignment": "left",
+            "gap": 16,
+            "read_more_label": "اقرأ المزيد",
+            "content_order": "date_title",
+            "show_excerpt": true,
+            "show_read_more_arrow": true
+          },
+          "blocks": {
+            "image": {
+              "type": "_featured-blog-posts-image",
+              "name": "t:names.image",
+              "static": true,
+              "settings": {
+                "image_ratio": "landscape",
+                "border": "none",
+                "border_radius": 16
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "_heading",
+              "name": "t:names.title",
+              "static": true,
+              "settings": {
+                "text": "<h4>{{ closest.article.title }}</h4>",
+                "show_alignment": false,
+                "text_color": "{{ settings.color_palette.color6 }}"
+              },
+              "blocks": {}
+            },
+            "blog-post-info-text": {
+              "type": "_blog-post-info-text",
+              "name": "t:names.details",
+              "static": true,
+              "settings": {
+                "show_date": true,
+                "show_author": false,
+                "show_alignment": false,
+                "text_color": "{{ settings.color_palette.color3 }}",
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            },
+            "blog-post-description": {
+              "type": "_blog-post-description",
+              "name": "t:names.excerpt",
+              "static": true,
+              "settings": {
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "padding-block-start": 0,
+                "padding-block-end": 0
+              },
+              "blocks": {}
+            }
+          }
+        }
+      },
+      "name": "t:names.blog_posts",
+      "settings": {
+        "blog": "news",
+        "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "post_limit": 3,
+        "columns": 3,
+        "mobile_columns": "2",
+        "mobile_card_size": "60cqw",
+        "columns_gap": 24,
+        "rows_gap": 16,
+        "icons_style": "none",
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 40,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "view_all_label": "عرض الكل",
+        "custom_class": "",
+        "snosha_style": true,
+        "snosha_mobile_padding_top": 56,
+        "snosha_mobile_padding_bottom": 40,
+        "snosha_heading_color": "{{ settings.color_palette.color6 }}",
+      "snosha_subtitle_color": "{{ settings.color_palette.color1 }}",
+      "snosha_title_color": "{{ settings.color_palette.color6 }}",
+      "snosha_date_color": "{{ settings.color_palette.color3 }}",
+      "snosha_excerpt_color": "{{ settings.color_palette.color1 }}",
+      "snosha_image_height": 268,
+      "snosha_image_height_mobile": 268,
+      "snosha_image_position": "center center",
+      "snosha_show_progress": true,
+        "snosha_accent_color": "{{ settings.color_palette.color3 }}",
+        "snosha_progress_track": "{{ settings.color_palette.color2 }}",
+        "snosha_gradient_start": "#63cdff",
+        "snosha_gradient_end": "#0f64a8"
+      }
     }
   },
   "order": [
-    "snosha_before_after"
+    "snosha_before_after",
+    "snosha_blog"
   ]
 }
