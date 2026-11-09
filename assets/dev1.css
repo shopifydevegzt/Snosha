@@ -1598,3 +1598,260 @@
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — FOOTER  (sections/footer-group.json: native footer + footer-utilities)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:4048 (1480), mobile 190:14491 (390).
+   Opt-in: the native footer sections' "Snosha layout" setting adds .snosha-footer /
+   .snosha-footer-utilities. Blocks stay native and are told apart by content, not position:
+   brand = group with a logo, newsletter = group with an email signup, grouped menus = group with
+   menus, standalone menu = a direct menu block.
+   - >= 990px  Figma desktop: one row, brand 300 (right in RTL) · menus share the rest · newsletter
+                340, gaps = section gap (48); 20px inset inside the 1376 container (1336 inner).
+   - 750–989   brand + newsletter on the first row, menus on the second.
+   - <  750px  Figma mobile: brand, newsletter, grouped menus (2 equal columns), standalone menu,
+                20px side padding, 20px gaps; no divider, copyright centered.
+   ========================================================================= */
+
+/* Logo block "Link to home page" (project addition in blocks/logo.liquid) */
+.logo-block__link {
+  display: flex;
+  inline-size: 100%;
+  color: inherit;
+}
+
+.snosha-footer {
+  container: snosha-footer / inline-size;
+
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+
+    @media screen and (max-width: 749px) {
+      padding-block: var(--snosha-footer-padding-start-mobile) var(--snosha-footer-padding-end-mobile);
+    }
+
+    @media screen and (min-width: 750px) {
+      flex-flow: row wrap;
+      align-items: flex-start;
+      gap: var(--footer-gap);
+      padding-inline: 20px;
+    }
+
+    @container snosha-footer (min-width: 1360px) {
+      flex-wrap: nowrap;
+    }
+
+    & > * {
+      min-inline-size: 0;
+    }
+
+    /* Mobile order: brand, newsletter, grouped menus, standalone menu */
+    & > .group-block:has(.email-signup-block) {
+      order: 1;
+    }
+
+    & > .group-block:has(.menu) {
+      order: 2;
+    }
+
+    & > .menu {
+      order: 3;
+    }
+
+    @media screen and (min-width: 750px) {
+      & > .group-block:has(.logo-block),
+      & > .group-block:has(.email-signup-block) {
+        flex: 1 1 calc(50% - var(--footer-gap) / 2);
+      }
+
+      & > .menu,
+      & > .group-block:has(.menu) {
+        order: 2;
+      }
+
+      & > .menu {
+        flex: 1 1 0;
+      }
+
+      /* Two menus + one inner gap: each menu gets the same share as a standalone menu */
+      & > .group-block:has(.menu) {
+        flex: 2 1 var(--footer-gap);
+
+        .group-block-content {
+          gap: var(--footer-gap);
+        }
+      }
+    }
+
+    /* One row once the three menus get ~135px each (Figma 168 at 1480); below that, two rows */
+    @container snosha-footer (min-width: 1360px) {
+      & > .group-block:has(.logo-block) {
+        flex: 0 0 300px;
+      }
+
+      & > .group-block:has(.email-signup-block) {
+        flex: 0 0 340px;
+        order: 3;
+      }
+    }
+  }
+
+  /* Grouped menus: equal columns (mobile 2 × 1fr with the group gap) */
+  .group-block:has(.menu) .group-block-content > .menu {
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+
+  /* ---------------- Text blocks (brand description, newsletter) ---------------- */
+  .group-block .text-block {
+    --color: var(--snosha-footer-text);
+
+    & > * {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  .group-block:has(.logo-block) .text-block {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .group-block:has(.email-signup-block) .text-block.h4 {
+    --color: var(--snosha-footer-heading);
+
+    font-size: 17px;
+    line-height: 34px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 20px;
+    }
+  }
+
+  .group-block:has(.email-signup-block) .text-block.paragraph {
+    font-size: 12px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 14px;
+    }
+  }
+
+  /* ---------------- Menus (native menu block, open lists) ---------------- */
+  .menu .menu__heading {
+    padding-block: 0;
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 14px;
+    line-height: 27px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 16px;
+    }
+
+    .menu__heading__default {
+      font-weight: inherit;
+    }
+  }
+
+  .menu .menu__item {
+    font-size: 12px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 14px;
+    }
+  }
+
+  /* Section colors unless the menu block sets its own text color */
+  .menu__details:not([class*='color-custom-']) {
+    .menu__heading {
+      color: var(--snosha-footer-heading);
+    }
+
+    .menu__item a {
+      color: var(--snosha-footer-text);
+    }
+  }
+
+  /* ---------------- Newsletter (native email signup: real customer form) ---------------- */
+  .email-signup-block {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  /* Figma keeps input + button on one row at every width (input at the start / right in RTL) */
+  .email-signup-block .email-signup__form .email-signup__input-group:not(.email-signup__input-group--integrated) {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .email-signup-block .email-signup__input {
+    flex: 1 1 0;
+    inline-size: auto;
+    min-inline-size: 0;
+    padding: 13px 20px;
+    font-size: 12px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      padding-inline: 16px;
+      font-size: 14px;
+    }
+
+    &::placeholder {
+      color: var(--color-input-text);
+    }
+  }
+
+  .email-signup-block .email-signup__button {
+    flex: 0 0 auto;
+    inline-size: auto;
+    padding: 13px 28px;
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+/* Utilities row (copyright): divider inset to the 1336 content width on desktop; mobile has no
+   divider and a centered 11 / 20 copyright. */
+.snosha-footer-utilities {
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  .utilities {
+    @media screen and (max-width: 749px) {
+      border-block-start: 0;
+      padding-block: var(--snosha-footer-utilities-padding-start-mobile) var(--snosha-footer-utilities-padding-end-mobile);
+    }
+
+    @media screen and (min-width: 750px) {
+      inline-size: auto;
+      margin-inline: 20px;
+    }
+  }
+
+  /* The native block sets the size on the wrapper and its text span (.custom-font-size > *) */
+  .footer-utilities__group-copyright {
+    &,
+    & > * {
+      line-height: 20px;
+
+      @media screen and (max-width: 749px) {
+        font-size: 11px;
+      }
+    }
+  }
+}

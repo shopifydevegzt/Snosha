@@ -59,6 +59,10 @@
   "
   {{ block.shopify_attributes }}
 >
+  {%- comment -%} Snosha (project addition): optional link to the home page {%- endcomment -%}
+  {%- if block_settings.link_to_home -%}
+    <a href="{{ routes.root_url }}" class="logo-block__link">
+  {%- endif -%}
   {% if logo_image %}
     <div class="logo-block__image-wrapper">
       {{ logo_image }}
@@ -66,6 +70,9 @@
   {% else %}
     {% render 'jumbo-text', text: shop.name %}
   {% endif %}
+  {%- if block_settings.link_to_home -%}
+    </a>
+  {%- endif -%}
 </div>
 
 {% stylesheet %}
@@ -146,6 +153,12 @@
     {
       "type": "paragraph",
       "content": "t:content.edit_logo_in_theme_settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "link_to_home",
+      "label": "Link to home page",
+      "default": false
     },
     {
       "type": "header",

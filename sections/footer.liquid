@@ -6,11 +6,27 @@
   endif
 %}
 
+{%- comment -%}
+  Snosha (project addition): opt-in "Snosha layout" adds the .snosha-footer scope (styles in
+  assets/dev1.css) plus a scoped variable bridge. Off by default, so stock behavior is unchanged.
+{%- endcomment -%}
+{%- assign custom_class = section.settings.custom_class | strip | escape -%}
+{%- if section.settings.snosha_layout -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-footer {
+      --snosha-footer-heading: {{ section.settings.snosha_heading_color }};
+      --snosha-footer-text: {{ section.settings.snosha_text_color }};
+      --snosha-footer-padding-start-mobile: {{ section.settings.snosha_padding_top_mobile }}px;
+      --snosha-footer-padding-end-mobile: {{ section.settings.snosha_padding_bottom_mobile }}px;
+    }
+  {% endstyle %}
+{%- endif -%}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <div
-  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.settings.snosha_layout %} snosha-footer{% endif %}{% if custom_class != blank %} {{ custom_class }}{% endif %}"
 >
   {% liquid
     assign total_blocks = section.blocks.size
@@ -206,6 +222,61 @@
       "step": 1,
       "unit": "px",
       "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_layout",
+      "label": "Snosha layout",
+      "info": "Desktop: brand, menus and newsletter in one row. Mobile: brand, newsletter, grouped menus, then the remaining menu.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "snosha_heading_color",
+      "label": "Headings",
+      "info": "Menu headings and the newsletter heading. A color set on a block overrides this.",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_text_color",
+      "label": "Text and links",
+      "info": "Menu links and descriptions. A color set on a block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_top_mobile",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_bottom_mobile",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 20,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class",
+      "info": "Optional class added to the footer content wrapper."
     }
   ],
   "presets": [
