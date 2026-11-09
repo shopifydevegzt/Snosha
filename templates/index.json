@@ -221,10 +221,14 @@
               "blocks": {}
             }
           },
-          "block_order": ["collection-title"]
+          "block_order": [
+            "collection-title"
+          ]
         }
       },
-      "block_order": ["heading"],
+      "block_order": [
+        "heading"
+      ],
       "name": "Snosha collections",
       "settings": {
         "collection_list": [
@@ -556,7 +560,12 @@
           }
         }
       },
-      "block_order": ["spec_tank", "spec_modes", "spec_pressure", "spec_heads"],
+      "block_order": [
+        "spec_tank",
+        "spec_modes",
+        "spec_pressure",
+        "spec_heads"
+      ],
       "settings": {
         "tag": "SNOSHA F1",
         "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
@@ -901,7 +910,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_1_icon", "benefit_1_text"]
+                  "block_order": [
+                    "benefit_1_icon",
+                    "benefit_1_text"
+                  ]
                 },
                 "benefit_2": {
                   "type": "group",
@@ -1053,7 +1065,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_2_icon", "benefit_2_text"]
+                  "block_order": [
+                    "benefit_2_icon",
+                    "benefit_2_text"
+                  ]
                 },
                 "benefit_3": {
                   "type": "group",
@@ -1205,7 +1220,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_3_icon", "benefit_3_text"]
+                  "block_order": [
+                    "benefit_3_icon",
+                    "benefit_3_text"
+                  ]
                 },
                 "benefit_4": {
                   "type": "group",
@@ -1357,7 +1375,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_4_icon", "benefit_4_text"]
+                  "block_order": [
+                    "benefit_4_icon",
+                    "benefit_4_text"
+                  ]
                 }
               },
               "block_order": [
@@ -1386,10 +1407,18 @@
               "blocks": {}
             }
           },
-          "block_order": ["heading", "body", "benefits", "button"]
+          "block_order": [
+            "heading",
+            "body",
+            "benefits",
+            "button"
+          ]
         }
       },
-      "block_order": ["comparison", "content"],
+      "block_order": [
+        "comparison",
+        "content"
+      ],
       "name": "Snosha before / after",
       "settings": {
         "padding_top": 60,
@@ -1408,6 +1437,7 @@
         "care_tongue": {
           "type": "_snosha-care-card",
           "settings": {
+            "product": "",
             "featured": false,
             "title": "منظف اللسان SNOSHA",
             "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
@@ -1422,28 +1452,32 @@
               "settings": {
                 "text": "يزيل مصدر 90% من رائحة الفم",
                 "icon": "sparkle_detail"
-              }
+              },
+              "blocks": {}
             },
             "tongue_spec_2": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "فولاذ مقاوم للصدأ 420J2",
                 "icon": "shield_check"
-              }
+              },
+              "blocks": {}
             },
             "tongue_spec_3": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "تصميم مزدوج: فرشاة + مكشطة",
                 "icon": "brush_head"
-              }
+              },
+              "blocks": {}
             },
             "tongue_spec_4": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "حافظة سفر + ضمان سنة",
                 "icon": "package"
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1456,6 +1490,7 @@
         "care_n2": {
           "type": "_snosha-care-card",
           "settings": {
+            "product": "",
             "featured": true,
             "title": "SNOSHA N2",
             "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
@@ -1470,42 +1505,48 @@
               "settings": {
                 "text": "حتى 42,000 حركة/دقيقة",
                 "icon": "sonic"
-              }
+              },
+              "blocks": {}
             },
             "n2_spec_2": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "5 أوضاع تنظيف",
                 "icon": "sliders"
-              }
+              },
+              "blocks": {}
             },
             "n2_spec_3": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "بطارية حتى 120 يوم بالشحنة",
                 "icon": "battery"
-              }
+              },
+              "blocks": {}
             },
             "n2_spec_4": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "مقاوم للماء IPX7",
                 "icon": "drop"
-              }
+              },
+              "blocks": {}
             },
             "n2_spec_5": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "8 رؤوس DuPont",
                 "icon": "brush_head"
-              }
+              },
+              "blocks": {}
             },
             "n2_spec_6": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "مؤقت ذكي دقيقتان",
                 "icon": "timer"
-              }
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1520,6 +1561,7 @@
         "care_f1": {
           "type": "_snosha-care-card",
           "settings": {
+            "product": "",
             "featured": false,
             "title": "SNOSHA F1",
             "description": "جهاز تنظيف الأسنان بالماء — تنظيف بين الأسنان… بخطوة أسهل",
@@ -1534,34 +1576,47 @@
               "settings": {
                 "text": "خزان ماء 330 مل",
                 "icon": "tank"
-              }
+              },
+              "blocks": {}
             },
             "f1_spec_2": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "4 أوضاع تنظيف",
                 "icon": "sliders"
-              }
+              },
+              "blocks": {}
             },
             "f1_spec_3": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "4 رؤوس متخصصة",
                 "icon": "brush_head"
-              }
+              },
+              "blocks": {}
             },
             "f1_spec_4": {
               "type": "_snosha-care-spec",
               "settings": {
                 "text": "ضغط ماء 30–120 PSI",
                 "icon": "gauge"
-              }
+              },
+              "blocks": {}
             }
           },
-          "block_order": ["f1_spec_1", "f1_spec_2", "f1_spec_3", "f1_spec_4"]
+          "block_order": [
+            "f1_spec_1",
+            "f1_spec_2",
+            "f1_spec_3",
+            "f1_spec_4"
+          ]
         }
       },
-      "block_order": ["care_tongue", "care_n2", "care_f1"],
+      "block_order": [
+        "care_tongue",
+        "care_n2",
+        "care_f1"
+      ],
       "settings": {
         "heading": "اختار العناية المناسبة لاحتياجاتك",
         "subtitle": "ثلاث منتجات لروتين متكامل , اختار اللي يناسب احتياجك.",
@@ -1592,7 +1647,7 @@
         "component_n2": {
           "type": "component",
           "settings": {
-            "product": "",
+            "product": "snosha-f1",
             "desktop_x": 22,
             "desktop_y": 64,
             "mobile_x": 25,
@@ -1602,7 +1657,7 @@
         "component_f1": {
           "type": "component",
           "settings": {
-            "product": "",
+            "product": "snosha-n2",
             "desktop_x": 51,
             "desktop_y": 54,
             "mobile_x": 53,
@@ -1612,7 +1667,7 @@
         "component_kids": {
           "type": "component",
           "settings": {
-            "product": "",
+            "product": "snosha-tongue-cleaner",
             "desktop_x": 77,
             "desktop_y": 68,
             "mobile_x": 80,
@@ -1626,7 +1681,8 @@
         "component_kids"
       ],
       "settings": {
-        "bundle_product": "",
+        "bundle_product": "باندل-snosha",
+        "bundle_image_override": "shopify://shop_images/03a64635d7e30f9b63be44fce161e0e4baa12a4a_66a0425b-ed62-4abc-9645-e588eab0f6cd.png",
         "heading": "باقات العناية المناسبة لروتينك",
         "description": "<p>كمّل روتينك في باقة واحدة بسعر أفضل، اختيارات متكاملة للعناية اليومية.</p>",
         "total_label": "إجمالي الباندل",
