@@ -1,0 +1,549 @@
+{%- comment -%}
+  Snosha — Bundle showcase (homepage section #11).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3987 (1480 x 656), mobile 190:4318 (390 x 909).
+
+  Four independent product pickers, all set in the Theme Editor (no metafields, apps or product
+  relationships):
+  - section setting `bundle_product`: a normal product that IS the bundle. It is the only source of
+    the total price, compare-at price, discount %, availability and the variant added to the cart;
+  - up to 3 "Bundle product" blocks: display-only component products. Each block drives one row
+    (image, title, short description, its own price) and one hotspot on the image (desktop and mobile
+    positions). Rows and hotspots come from the same block, so reordering blocks moves both.
+  Component prices are only shown, never added together.
+
+  Add to cart: Horizon's native <product-form-component> + `add-to-cart-button` snippet (product form,
+  cart drawer, cart count, error message). Only the bundle product's variant id is in the form.
+  Bundles with several variants get a native variant <select>; unavailable variants are disabled.
+
+  Why a dedicated section: Horizon's product-hotspots section has one position per hotspot and opens
+  quick add (an add-to-cart for that product) on touch, and nothing native combines it with a bundle
+  total. Hotspot popups: <snosha-bundle-hotspot> in assets/main.js; loading state:
+  <snosha-bundle-form> in assets/main.js. Styles: assets/main.css (.snosha-bundle).
+{%- endcomment -%}
+{%- liquid
+  assign custom_class = section.settings.custom_class | strip | escape
+  assign bundle_product = section.settings.bundle_product
+  assign variant = bundle_product.selected_or_first_available_variant
+
+  assign show_section = false
+  if bundle_product != blank or request.design_mode
+    assign show_section = true
+  endif
+
+  assign image = section.settings.bundle_image_override
+  if image == blank
+    assign image = bundle_product.featured_image
+  endif
+  assign image_alt = image.alt | default: bundle_product.title | escape
+
+  assign use_currency_code = settings.currency_code_enabled_product_cards
+
+  assign discount = 0
+  if variant.compare_at_price > variant.price
+    assign discount = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
+  endif
+
+  assign can_add_to_cart = false
+  if variant.available
+    assign can_add_to_cart = true
+  endif
+
+  assign button_label = section.settings.button_label | strip | escape
+  if button_label == blank
+    assign button_label = 'products.product.add_to_cart' | t
+  endif
+  if bundle_product != blank and variant == blank
+    assign button_label = 'products.product.unavailable' | t
+  elsif bundle_product != blank and can_add_to_cart == false
+    assign button_label = 'products.product.sold_out' | t
+  endif
+-%}
+
+{%- if show_section -%}
+  {% style %}
+    #shopify-section-{{ section.id }} {
+      --snosha-bundle-heading: {{ section.settings.heading_color }};
+      --snosha-bundle-text: {{ section.settings.text_color }};
+      --snosha-bundle-border: {{ section.settings.border_color }};
+      --snosha-bundle-accent: {{ section.settings.accent_color }};
+      --snosha-bundle-accent-hover: {{ section.settings.accent_hover_color }};
+      --snosha-bundle-on-accent: {{ section.settings.on_accent_color }};
+      --snosha-bundle-tint: {{ section.settings.tint_color }};
+      --snosha-bundle-surface: {{ section.settings.surface_color }};
+      --snosha-bundle-hotspot-border: {{ section.settings.hotspot_border_color }};
+      --snosha-bundle-shadow: {{ section.settings.shadow_color }};
+    }
+  {% endstyle %}
+
+  <div class="snosha-bundle{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+    <div class="section section--page-width">
+      <div class="snosha-bundle__layout">
+        {%- comment -%} Image frame (Figma 744:560) with one hotspot per component block {%- endcomment -%}
+        <div class="snosha-bundle__visual">
+          <div class="snosha-bundle__image">
+            {%- if image != blank -%}
+              {{
+                image
+                | image_url: width: 1488
+                | image_tag:
+                  alt: image_alt,
+                  widths: '342, 480, 640, 684, 960, 1280, 1488',
+                  sizes: '(min-width: 990px) min(640px, calc((100vw - 160px) / 2)), calc(100vw - 48px)',
+                  loading: 'lazy'
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'snosha-bundle__placeholder' }}
+            {%- endif -%}
+          </div>
+
+          {%- for block in section.blocks -%}
+            {%- assign item = block.settings.product -%}
+            {%- if item == blank -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- assign popup_id = 'SnoshaBundlePopup-' | append: block.id -%}
+            <snosha-bundle-hotspot
+              class="snosha-bundle__hotspot"
+              style="--snosha-hotspot-x: {{ block.settings.desktop_x }}; --snosha-hotspot-y: {{ block.settings.desktop_y }}; --snosha-hotspot-x-mobile: {{ block.settings.mobile_x }}; --snosha-hotspot-y-mobile: {{ block.settings.mobile_y }};"
+            >
+              <button
+                type="button"
+                class="snosha-bundle__dot"
+                aria-expanded="false"
+                aria-controls="{{ popup_id }}"
+                aria-label="{{ 'accessibility.show_product_details' | t: product_name: item.title | escape }}"
+              ></button>
+              <a
+                class="snosha-bundle__popup"
+                id="{{ popup_id }}"
+                href="{{ item.url }}"
+                hidden
+              >
+                <span class="snosha-bundle__popup-image">
+                  {%- if item.featured_image != blank -%}
+                    {{
+                      item.featured_image
+                      | image_url: width: 112
+                      | image_tag: alt: '', width: 56, height: 56, loading: 'lazy'
+                    }}
+                  {%- else -%}
+                    {{ 'product-1' | placeholder_svg_tag: 'snosha-bundle__placeholder' }}
+                  {%- endif -%}
+                </span>
+                <span class="snosha-bundle__popup-title" dir="auto">{{ item.title | escape }}</span>
+                <span class="snosha-bundle__popup-arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 10H4m0 0 5-5m-5 5 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            </snosha-bundle-hotspot>
+          {%- endfor -%}
+        </div>
+
+        <div class="snosha-bundle__content">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="snosha-bundle__title" dir="auto">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.description != blank -%}
+            <div class="snosha-bundle__description" dir="auto">{{ section.settings.description }}</div>
+          {%- endif -%}
+
+          {%- if section.blocks.size > 0 -%}
+            <ul class="snosha-bundle__items" role="list">
+              {%- for block in section.blocks -%}
+                {%- assign item = block.settings.product -%}
+                {%- if item == blank and request.design_mode == false -%}
+                  {%- continue -%}
+                {%- endif -%}
+                <li class="snosha-bundle__item" {{ block.shopify_attributes }}>
+                  <span class="snosha-bundle__thumb">
+                    {%- if item.featured_image != blank -%}
+                      {{
+                        item.featured_image
+                        | image_url: width: 128
+                        | image_tag: alt: '', width: 64, height: 64, loading: 'lazy'
+                      }}
+                    {%- else -%}
+                      {{ 'product-1' | placeholder_svg_tag: 'snosha-bundle__placeholder' }}
+                    {%- endif -%}
+                  </span>
+
+                  <span class="snosha-bundle__item-text">
+                    {%- if item != blank -%}
+                      <a class="snosha-bundle__item-title" href="{{ item.url }}" dir="auto">{{ item.title | escape }}</a>
+                      {%- assign item_description = item.description | strip_html | strip_newlines | strip -%}
+                      {%- if item_description != blank -%}
+                        <span class="snosha-bundle__item-description" dir="auto">
+                          {{- item_description | truncatewords: 24 -}}
+                        </span>
+                      {%- endif -%}
+                    {%- else -%}
+                      <span class="snosha-bundle__item-title">Select a component product</span>
+                    {%- endif -%}
+                  </span>
+
+                  {%- if item != blank -%}
+                    <span class="snosha-bundle__item-price">
+                      {%- if use_currency_code -%}
+                        {{- item.price | money_with_currency -}}
+                      {%- else -%}
+                        {{- item.price | money -}}
+                      {%- endif -%}
+                      {%- unless item.available -%}
+                        <span class="snosha-bundle__item-sold-out">{{ 'content.product_badge_sold_out' | t }}</span>
+                      {%- endunless -%}
+                    </span>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+
+          {%- comment -%} Bundle total = the bundle product's own price, never a sum of the rows {%- endcomment -%}
+          {%- if variant != blank -%}
+            <div class="snosha-bundle__total">
+              <p class="snosha-bundle__now">
+                {%- if section.settings.total_label != blank -%}
+                  <span dir="auto">{{ section.settings.total_label | escape }}</span>
+                {%- endif -%}
+                <span class="snosha-bundle__price">
+                  {%- if use_currency_code -%}
+                    {{- variant.price | money_with_currency -}}
+                  {%- else -%}
+                    {{- variant.price | money -}}
+                  {%- endif -%}
+                </span>
+              </p>
+              {%- if discount > 0 -%}
+                <p class="snosha-bundle__was">
+                  <s class="snosha-bundle__compare">
+                    {%- if use_currency_code -%}
+                      {{- variant.compare_at_price | money_with_currency -}}
+                    {%- else -%}
+                      {{- variant.compare_at_price | money -}}
+                    {%- endif -%}
+                  </s>
+                  {%- if section.settings.discount_label != blank -%}
+                    <span class="snosha-bundle__badge" dir="auto">{{ section.settings.discount_label | escape }} {{ discount }}%</span>
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          {%- if bundle_product != blank -%}
+            {%- assign product_form_id = 'SnoshaBundleForm-' | append: section.id -%}
+            {%- assign submit_id = 'SnoshaBundleSubmit-' | append: section.id -%}
+            <snosha-bundle-form class="snosha-bundle__form">
+              <product-form-component
+                data-section-id="{{ section.id }}"
+                data-product-id="{{ bundle_product.id }}"
+                data-product-url="{{ bundle_product.url }}"
+                data-quantity-default="1"
+                data-quantity-error-max="{{ 'products.product.quantity_error_max' | t }}"
+                on:submit="/handleSubmit"
+              >
+                <div
+                  class="visually-hidden"
+                  aria-live="assertive"
+                  role="status"
+                  aria-atomic="true"
+                  ref="liveRegion"
+                ></div>
+                {%- form 'product', bundle_product, id: product_form_id, data-type: 'add-to-cart-form' -%}
+                  {%- if bundle_product.has_only_default_variant -%}
+                    <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+                  {%- else -%}
+                    {%- comment -%} Several variants: the customer picks one; the bundle total above shows the first available variant {%- endcomment -%}
+                    <label class="snosha-bundle__variant">
+                      <span class="visually-hidden">{{ bundle_product.options | join: ' / ' | escape }}</span>
+                      <select name="id" ref="variantId" class="snosha-bundle__variant-select">
+                        {%- for option_variant in bundle_product.variants -%}
+                          <option
+                            value="{{ option_variant.id }}"
+                            {% if option_variant.id == variant.id %}selected{% endif %}
+                            {% unless option_variant.available %}disabled{% endunless %}
+                          >
+                            {{ option_variant.title | escape }} — {{ option_variant.price | money | strip_html }}
+                          </option>
+                        {%- endfor -%}
+                      </select>
+                    </label>
+                  {%- endif -%}
+                  <input type="hidden" name="quantity" value="1">
+
+                  <span class="snosha-bundle__error hidden" ref="addToCartTextError">
+                    <span class="svg-wrapper">
+                      {{- 'icon-error.svg' | inline_asset_content -}}
+                    </span>
+                  </span>
+
+                  {%- render 'add-to-cart-button-styles' -%}
+                  {%- render 'add-to-cart-button',
+                    id: submit_id,
+                    class: 'add-to-cart-button snosha-bundle__button',
+                    can_add_to_cart: can_add_to_cart,
+                    show_icon: false,
+                    product: bundle_product,
+                    add_to_cart_text: button_label
+                  -%}
+                {%- endform -%}
+              </product-form-component>
+            </snosha-bundle-form>
+          {%- else -%}
+            {%- comment -%} Theme Editor only (the section is hidden on the storefront without a bundle product) {%- endcomment -%}
+            <div class="snosha-bundle__form">
+              <button type="button" class="button snosha-bundle__button" disabled>
+                {{- button_label -}}
+              </button>
+              <p class="snosha-bundle__notice">Select the bundle product in the section settings.</p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha bundle",
+  "tag": "section",
+  "class": "snosha-bundle-section",
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  },
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "component",
+      "name": "Bundle product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Shown in the list and on the image only. It is not added to the cart."
+        },
+        {
+          "type": "header",
+          "content": "Hotspot on the image (desktop)"
+        },
+        {
+          "type": "range",
+          "id": "desktop_x",
+          "label": "Horizontal position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "desktop_y",
+          "label": "Vertical position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "header",
+          "content": "Hotspot on the image (mobile)"
+        },
+        {
+          "type": "range",
+          "id": "mobile_x",
+          "label": "Horizontal position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "mobile_y",
+          "label": "Vertical position",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle product",
+      "info": "The only product added to the cart. Its price and compare-at price are the bundle total. The section is hidden on the store until a product is selected."
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_image_override",
+      "label": "Image",
+      "info": "Optional. Replaces the bundle product's featured image here only."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "باقات العناية المناسبة لروتينك"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>كمّل روتينك في باقة واحدة بسعر أفضل، اختيارات متكاملة للعناية اليومية.</p>"
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total label",
+      "default": "إجمالي الباندل"
+    },
+    {
+      "type": "text",
+      "id": "discount_label",
+      "label": "Discount label",
+      "info": "Shown with the bundle's discount % when it has a compare-at price.",
+      "default": "خصم"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "أضف الباندل للسلة"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading, product titles and prices",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Description and compare-at price",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Dividers and badge border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Button, hotspot dot and badge text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_hover_color",
+      "label": "Button hover",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "on_accent_color",
+      "label": "Button text",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "tint_color",
+      "label": "Discount badge background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "surface_color",
+      "label": "Hotspot and popup background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "hotspot_border_color",
+      "label": "Hotspot border",
+      "default": "{{ settings.color_palette.color4 }}"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Hotspot and popup shadow",
+      "info": "Used at 10% opacity.",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha bundle",
+      "blocks": {
+        "component-1": {
+          "type": "component",
+          "settings": {
+            "desktop_x": 22,
+            "desktop_y": 64,
+            "mobile_x": 25,
+            "mobile_y": 68
+          }
+        },
+        "component-2": {
+          "type": "component",
+          "settings": {
+            "desktop_x": 51,
+            "desktop_y": 54,
+            "mobile_x": 53,
+            "mobile_y": 57
+          }
+        },
+        "component-3": {
+          "type": "component",
+          "settings": {
+            "desktop_x": 77,
+            "desktop_y": 68,
+            "mobile_x": 80,
+            "mobile_y": 71
+          }
+        }
+      },
+      "block_order": [
+        "component-1",
+        "component-2",
+        "component-3"
+      ]
+    }
+  ]
+}
+{% endschema %}

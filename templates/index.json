@@ -1585,6 +1585,65 @@
         "glow_end": "#0f64a8",
         "custom_class": ""
       }
+    },
+    "snosha_bundle": {
+      "type": "snosha-bundle",
+      "blocks": {
+        "component_n2": {
+          "type": "component",
+          "settings": {
+            "product": "",
+            "desktop_x": 22,
+            "desktop_y": 64,
+            "mobile_x": 25,
+            "mobile_y": 68
+          }
+        },
+        "component_f1": {
+          "type": "component",
+          "settings": {
+            "product": "",
+            "desktop_x": 51,
+            "desktop_y": 54,
+            "mobile_x": 53,
+            "mobile_y": 57
+          }
+        },
+        "component_kids": {
+          "type": "component",
+          "settings": {
+            "product": "",
+            "desktop_x": 77,
+            "desktop_y": 68,
+            "mobile_x": 80,
+            "mobile_y": 71
+          }
+        }
+      },
+      "block_order": [
+        "component_n2",
+        "component_f1",
+        "component_kids"
+      ],
+      "settings": {
+        "bundle_product": "",
+        "heading": "باقات العناية المناسبة لروتينك",
+        "description": "<p>كمّل روتينك في باقة واحدة بسعر أفضل، اختيارات متكاملة للعناية اليومية.</p>",
+        "total_label": "إجمالي الباندل",
+        "discount_label": "خصم",
+        "button_label": "أضف الباندل للسلة",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "text_color": "{{ settings.color_palette.color1 }}",
+        "border_color": "{{ settings.color_palette.color2 }}",
+        "accent_color": "{{ settings.color_palette.color3 }}",
+        "accent_hover_color": "{{ settings.color_palette.color6 }}",
+        "on_accent_color": "{{ settings.color_palette.background }}",
+        "tint_color": "{{ settings.color_palette.color5 }}",
+        "surface_color": "{{ settings.color_palette.background }}",
+        "hotspot_border_color": "{{ settings.color_palette.color4 }}",
+        "shadow_color": "#0f64a8",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -1593,6 +1652,7 @@
     "product_list_fa6P9H",
     "snosha_f1_banner",
     "snosha_before_after",
-    "snosha_choose_care"
+    "snosha_choose_care",
+    "snosha_bundle"
   ]
 }
