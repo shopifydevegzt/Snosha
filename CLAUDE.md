@@ -74,8 +74,8 @@ Key mechanics:
   - Use only Horizon's breakpoints (750px, 990px), or container queries where the layout depends on a component's own width.
   - No `!important`; no hardcoded brand colors (consume the section's color variables or palette tokens).
 - **No Liquid in static CSS.** Keep the per-instance variable bridge (a scoped `{% style %}` on `#shopify-section-{{ section.id }}` with values from settings) in the owning `.liquid` section, and consume those variables in `main.css`.
-- **`assets/main.js`** is reserved for Snosha-specific JavaScript when it's genuinely needed. It's currently empty and **not loaded**.
-  - When behavior is needed, add an isolated, idempotent module and register it once via Horizon's import map / module loading in `snippets/scripts.liquid`.
+- **`assets/main.js`** is reserved for Snosha-specific JavaScript when it's genuinely needed. It's loaded once as a module from `snippets/scripts.liquid` (`fetchpriority="low"`) and currently holds only `<snosha-care-carousel>` (Choose Your Care).
+  - When behavior is needed, add an isolated, idempotent module there (custom elements re-run on Theme Editor section reloads; clean up in `disconnectedCallback`).
   - Don't add JS that HTML/CSS or native Horizon components already cover.
 - **Global tokens stay where they are:** `custom-font.liquid`, `custom-design-tokens.liquid`, `theme-styles-variables.liquid`, `color-palette.liquid`. `main.css` doesn't redefine them.
 

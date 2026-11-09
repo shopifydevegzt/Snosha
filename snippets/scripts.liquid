@@ -262,6 +262,12 @@
   type="module"
   fetchpriority="low"
 ></script>
+{%- comment -%} Snosha project module (custom elements for Snosha sections); see assets/main.js {%- endcomment -%}
+<script
+  src="{{ 'main.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
 
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script

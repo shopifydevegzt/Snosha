@@ -5,9 +5,10 @@
   it can't give one card a different layout (the featured variant) or give each product its own spec
   rows without changing the shared product card. Cards are theme blocks (_snosha-care-card) with
   nested spec blocks (_snosha-care-spec); each card picks a real product.
-  Layout: static 3-card row when the section is >= 1440px wide; below that the same row becomes a
-  native CSS scroll-snap carousel (no JS). The mobile progress bar is a CSS scroll-driven animation
-  of that scroller. Static styles: assets/main.css (.snosha-choose-care).
+  Layout: static 3-card row from 990px (cards shrink proportionally below the 1480 Figma width);
+  below 990px the same row is a native CSS scroll-snap carousel that opens on the featured card.
+  The mobile progress bar is a CSS scroll-driven animation of that scroller.
+  Static styles: assets/main.css (.snosha-choose-care); behavior: assets/main.js (<snosha-care-carousel>).
 {%- endcomment -%}
 {%- liquid
   assign custom_class = section.settings.custom_class | strip | escape
@@ -50,7 +51,8 @@
       </div>
     {%- endif -%}
 
-    <div
+    {%- comment -%} Native scroll-snap carousel; <snosha-care-carousel> (assets/main.js) adds featured centering, mouse drag and a progress fallback {%- endcomment -%}
+    <snosha-care-carousel
       class="snosha-choose-care__carousel"
       role="region"
       {% if carousel_label != blank %}
@@ -60,7 +62,7 @@
       <ul class="snosha-choose-care__track" role="list">
         {%- content_for 'blocks' -%}
       </ul>
-    </div>
+    </snosha-care-carousel>
 
     <div class="snosha-choose-care__progress" aria-hidden="true"></div>
   </div>

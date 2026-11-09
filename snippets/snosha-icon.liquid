@@ -203,24 +203,7 @@
       <path d="M12 3C12 3 18 9.5 18 14C18 15.5913 17.3679 17.1174 16.2426 18.2426C15.1174 19.3679 13.5913 20 12 20C10.4087 20 8.88258 19.3679 7.75736 18.2426C6.63214 17.1174 6 15.5913 6 14C6 9.5 12 3 12 3Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
       <path d="M9.5 14.5C9.5 15.163 9.76339 15.7989 10.2322 16.2678C10.7011 16.7366 11.337 17 12 17" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
     </svg>
-  {%- when 'sparkle_detail' -%}
-    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
-
-    <path
-      d="M12 3L13.8 8.2L19 10L13.8 11.8L12 17L10.2 11.8L5 10L10.2 8.2L12 3Z"
-      stroke-width="1.6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke="currentColor"
-    />
-    <path
-      d="M19 17L19.7 18.8L21.5 19.5L19.7 20.2L19 22L18.3 20.2L16.5 19.5L18.3 18.8L19 17Z"
-      stroke-width="1.6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke="currentColor"
-    />
-    {%- comment -%} Before / After benefits (Figma Icon / tooth, sparkle-detail, timer, heart) {%- endcomment -%}
+    {%- comment -%} Before / After benefits (Figma Icon / tooth, sparkle-detail, timer, heart). sparkle_detail and timer are shared with Choose Your Care. {%- endcomment -%}
   {%- when 'tooth' -%}
     <svg
       class="{{ classes }}"
@@ -245,18 +228,6 @@
       focusable="false"
     >
       <path d="M12 3L13.8 8.2L19 10L13.8 11.8L12 17L10.2 11.8L5 10L10.2 8.2L12 3ZM19 17L19.7 18.8L21.5 19.5L19.7 20.2L19 22L18.3 20.2L16.5 19.5L18.3 18.8L19 17Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  {%- when 'timer' -%}
-    <svg
-      class="{{ classes }}"
-      viewBox="0 0 24 24"
-      width="24"
-      height="24"
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path d="M19.5 13C19.5 17.1421 16.1421 20.5 12 20.5C7.85786 20.5 4.5 17.1421 4.5 13C4.5 8.85786 7.85786 5.5 12 5.5C16.1421 5.5 19.5 8.85786 19.5 13ZM12 9.5V13L14.5 14.5M10 3H12M12 3H14M12 3V5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   {%- when 'heart' -%}
     <svg

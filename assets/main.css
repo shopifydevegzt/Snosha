@@ -1240,17 +1240,19 @@
    SNOSHA — CHOOSE YOUR CARE  (sections/snosha-choose-care.liquid,
    blocks/_snosha-care-card.liquid, blocks/_snosha-care-spec.liquid)
    Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3943 (1480 x 1072), mobile 190:4265 (390 x 695).
-   - Section >= 1440px wide (container query): Figma desktop row — 400 x 672 side cards and the
-     462 x 806 featured card, 40px apart, centred (the row is 1342 wide, 3px wider than Figma's
-     1336 container on each side, as in Figma).
-   - 750px – 1439px: the same desktop-size cards in a native scroll-snap carousel (3 cards don't fit).
+   - >= 990px: static Figma desktop row — 400 x 672 side cards and the 462 x 806 featured card,
+     40px apart, centred in the page column (1342 wide: at 1480 it sits at x 69, as in Figma).
+     Narrower than ~1445px the cards shrink in proportion (flex-shrink by their Figma widths); image
+     heights and the side-card minimum height follow the card width, type sizes don't change.
+   - < 990px: the same row is a native scroll-snap carousel that opens on the featured card
+     (`scroll-initial-target`, plus <snosha-care-carousel> in assets/main.js as fallback, which also
+     adds mouse dragging). 750–989: desktop-size cards.
    - < 750px: Figma mobile. Figma scales the desktop cards (side x 0.655 -> 262 x 440.16, featured
      x 0.5671 -> 262 x ~461), so the cards use CSS zoom with the desktop values; 12px gaps, 24px
      gutters, progress bar 342 x 4 that follows the real scroll (CSS scroll-driven animation).
    Card values below are Figma desktop pixels. Colors: --snosha-care-* from the section's {% style %}.
    ========================================================================= */
 .snosha-choose-care {
-  container: snosha-care / inline-size;
   timeline-scope: --snosha-care-scroll;
   padding-block: 56px 40px;
   background-image: linear-gradient(to bottom, var(--snosha-care-bg-start), var(--snosha-care-bg-end));
@@ -1306,6 +1308,13 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
+    /* Mouse drag (assets/main.js): snapping is paused while dragging, then resumes */
+    &[dragging] {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
   }
 
   .snosha-choose-care__track {
@@ -1333,7 +1342,8 @@
       position: absolute;
       inset-block: 0;
       inset-inline-start: 0;
-      inline-size: 49.12%;
+      /* --snosha-care-progress (0–1) is only set by assets/main.js where scroll-driven animations are missing */
+      inline-size: calc(49.12% + 50.88% * var(--snosha-care-progress, 0));
       border-radius: 99px;
       background-image: linear-gradient(to right, var(--snosha-care-glow-start), var(--snosha-care-glow-end));
     }
@@ -1358,6 +1368,11 @@
 
     &:last-child {
       scroll-snap-align: end;
+    }
+
+    /* The featured card can always be centred (Figma mobile shows it centred, 52px peeks) */
+    &.snosha-care-card--featured {
+      scroll-snap-align: center;
     }
   }
 
@@ -1387,14 +1402,17 @@
     position: relative;
     box-sizing: border-box;
     inline-size: 100%;
-    block-size: 240px;
+    aspect-ratio: 352 / 240; /* Figma 352 x 240 (featured 408 x 300) */
     overflow: clip;
     border: 1px solid var(--snosha-care-border);
     border-radius: 16px;
     background-color: var(--snosha-care-card-bg);
 
+    /* Out of flow, so the frame's aspect ratio (not the image) sets its height */
     & img,
     & .snosha-care-card__placeholder {
+      position: absolute;
+      inset: 0;
       display: block;
       inline-size: 100%;
       block-size: 100%;
@@ -1601,37 +1619,26 @@
       0 24px 48px color-mix(in srgb, var(--snosha-care-glow-end) 18%, transparent),
       0 0 36px color-mix(in srgb, var(--snosha-care-glow-start) 45%, transparent);
 
-    /* Figma's angular gradient border: a conic gradient drawn on a square and stretched to the card
-       (Figma maps it to the 462 x 806 box, so the angles follow the card's proportions). */
+    /* Figma's angular gradient border (from 90deg: #63CDFF 0 %, #0F64A8 35 %, white 55 %, #0F64A8 75 %,
+       #63CDFF 100 %; Figma's other stops are linear in-between samples). Drawn undistorted on its own
+       square layer centred on the card (side = card height, clipped by the card's radius), so the colour
+       at each angle stays the same whatever the card's width, height, zoom or content. Physical
+       left/top on purpose: the layer is centred, so RTL and LTR render the same. */
     &::before {
       content: '';
       position: absolute;
       z-index: -1;
-      inset-block-start: 50%;
-      inset-inline: 0;
+      top: 50%;
+      left: 50%;
+      block-size: 100%;
       aspect-ratio: 1;
-      translate: 0 -50%;
-      scale: 1 calc(806 / 462);
+      translate: -50% -50%;
       background-image: conic-gradient(
         from 90deg,
         var(--snosha-care-glow-start) 0%,
-        color-mix(in srgb, var(--snosha-care-glow-start), var(--snosha-care-glow-end)) 17.5%,
-        color-mix(in srgb, var(--snosha-care-glow-start) 25%, var(--snosha-care-glow-end)) 26.25%,
         var(--snosha-care-glow-end) 35%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 12.5%) 37.5%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 25%) 40%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 37.5%) 42.5%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 50%) 45%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 75%) 50%,
         var(--snosha-care-card-bg) 55%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 75%) 60%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 50%) 65%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 37.5%) 67.5%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 25%) 70%,
-        color-mix(in srgb, var(--snosha-care-glow-end), var(--snosha-care-card-bg) 12.5%) 72.5%,
         var(--snosha-care-glow-end) 75%,
-        color-mix(in srgb, var(--snosha-care-glow-start) 25%, var(--snosha-care-glow-end)) 81.25%,
-        color-mix(in srgb, var(--snosha-care-glow-start), var(--snosha-care-glow-end)) 87.5%,
         var(--snosha-care-glow-start) 100%
       );
     }
@@ -1645,7 +1652,7 @@
     }
 
     & .snosha-care-card__image {
-      block-size: 300px;
+      aspect-ratio: 408 / 300;
     }
 
     & .snosha-care-card__title {
@@ -1671,6 +1678,19 @@
 
       &:hover {
         background-color: var(--snosha-care-accent-hover);
+      }
+    }
+  }
+
+  /* ---------- < 990px: the carousel opens on the featured card (Chromium; main.js elsewhere) ---------- */
+  @media screen and (max-width: 989px) {
+    .snosha-care-card--featured {
+      scroll-initial-target: nearest;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .snosha-choose-care__carousel {
+        cursor: grab;
       }
     }
   }
@@ -1720,9 +1740,10 @@
     }
   }
 
-  /* ---------- Section >= 1440px: static Figma desktop row ---------- */
-  @container snosha-care (min-width: 1440px) {
+  /* ---------- >= 990px: static Figma desktop row inside the page column ---------- */
+  @media screen and (min-width: 990px) {
     .snosha-choose-care__carousel {
+      grid-column: 2;
       justify-content: center;
       margin-block: 0;
       padding-block: 0;
@@ -1731,7 +1752,26 @@
     }
 
     .snosha-choose-care__track {
+      flex: 0 1 auto;
+      justify-content: center;
+      min-inline-size: 0;
       padding-inline: 0;
+    }
+
+    /* Shrink in proportion to the Figma widths (400 / 462) when the column is narrower than 1342 */
+    .snosha-care-card {
+      flex: 0 1 400px;
+      min-inline-size: 0;
+      container-type: inline-size;
+    }
+
+    .snosha-care-card--featured {
+      flex-basis: 462px;
+    }
+
+    /* Side-card minimum height keeps Figma's 400 : 672 proportion (672px at full width) */
+    .snosha-care-card__inner {
+      min-block-size: calc(100cqi * 672 / 400);
     }
   }
 }
