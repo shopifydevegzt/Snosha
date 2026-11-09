@@ -188,10 +188,10 @@
           "static": true,
           "settings": {
             "text": "<h2>لماذا SNOSHA؟</h2>",
-            "type_preset": "h2",
             "width": "100%",
             "max_width": "none",
-            "alignment": "center"
+            "alignment": "center",
+            "type_preset": "h2"
           },
           "blocks": {}
         },
@@ -200,15 +200,16 @@
           "static": true,
           "settings": {
             "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>",
-            "type_preset": "paragraph",
             "width": "100%",
             "max_width": "none",
-            "alignment": "center"
+            "alignment": "center",
+            "type_preset": "paragraph"
           },
           "blocks": {}
         },
         "benefit_simple_routine": {
           "type": "_snosha-why-item",
+          "settings": {},
           "blocks": {
             "illustration": {
               "type": "snosha-icon",
@@ -225,10 +226,10 @@
               "static": true,
               "settings": {
                 "text": "<p>روتين أبسط</p>",
-                "type_preset": "h4",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "h4"
               },
               "blocks": {}
             },
@@ -237,10 +238,10 @@
               "static": true,
               "settings": {
                 "text": "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>",
-                "type_preset": "paragraph",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "paragraph"
               },
               "blocks": {}
             }
@@ -249,6 +250,7 @@
         },
         "benefit_details": {
           "type": "_snosha-why-item",
+          "settings": {},
           "blocks": {
             "illustration": {
               "type": "snosha-icon",
@@ -265,10 +267,10 @@
               "static": true,
               "settings": {
                 "text": "<p>تفاصيل تصنع الفرق</p>",
-                "type_preset": "h4",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "h4"
               },
               "blocks": {}
             },
@@ -277,10 +279,10 @@
               "static": true,
               "settings": {
                 "text": "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>",
-                "type_preset": "paragraph",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "paragraph"
               },
               "blocks": {}
             }
@@ -289,6 +291,7 @@
         },
         "benefit_your_needs": {
           "type": "_snosha-why-item",
+          "settings": {},
           "blocks": {
             "illustration": {
               "type": "snosha-icon",
@@ -305,10 +308,10 @@
               "static": true,
               "settings": {
                 "text": "<p>مصممة لاحتياجاتك</p>",
-                "type_preset": "h4",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "h4"
               },
               "blocks": {}
             },
@@ -317,10 +320,10 @@
               "static": true,
               "settings": {
                 "text": "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>",
-                "type_preset": "paragraph",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "paragraph"
               },
               "blocks": {}
             }
@@ -329,6 +332,7 @@
         },
         "benefit_smart_tech": {
           "type": "_snosha-why-item",
+          "settings": {},
           "blocks": {
             "illustration": {
               "type": "snosha-icon",
@@ -345,10 +349,10 @@
               "static": true,
               "settings": {
                 "text": "<p>تقنية أذكى</p>",
-                "type_preset": "h4",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "h4"
               },
               "blocks": {}
             },
@@ -357,10 +361,10 @@
               "static": true,
               "settings": {
                 "text": "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>",
-                "type_preset": "paragraph",
                 "width": "100%",
                 "max_width": "none",
-                "alignment": "center"
+                "alignment": "center",
+                "type_preset": "paragraph"
               },
               "blocks": {}
             }
