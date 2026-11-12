@@ -2937,7 +2937,20 @@
     }
   }
 
+  /* Figma mobile Buy Box: 20px side padding (350 at 390), as the homepage FAQ; the gallery is full-bleed */
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
   .product-details {
+    /* Figma rhythm: 20px on desktop, 14px on mobile (= the native group gap × Horizon's 0.7 mobile scale,
+       which the group gap setting doesn't apply on its own); nested groups keep their own gap setting */
+    @media screen and (max-width: 749px) {
+      .group-block-content {
+        gap: calc(var(--gap, 20px) * 0.7);
+      }
+    }
+
     /* ---------------- Rating (native review block; real review data only) ---------------- */
     .rating-wrapper {
       gap: 8px;
@@ -3006,6 +3019,8 @@
         font-size: 14px;
         line-height: 22px;
         text-decoration: line-through;
+        /* Horizon draws the strike at 30% opacity; Figma's strike is the text color */
+        text-decoration-color: currentcolor;
         white-space: nowrap;
         opacity: 1;
       }
@@ -3165,14 +3180,29 @@
         color: var(--snosha-bb-accent);
       }
 
+      /* Figma "−" / "+": Cairo Bold 16 (mobile) / 18 (desktop) glyphs, ~8.5 / ~10px wide. Horizon's 14-unit
+         icons draw an 8.3 / 13.6 visible bar, so the icon box is 14 / 16px (visible ~8.5 / ~9.8px). */
+      :is(.quantity-minus, .quantity-plus) svg {
+        width: 14px;
+        height: 14px;
+
+        @media screen and (min-width: 750px) {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      /* Figma digit: Bold 15 #131311 (mobile) / Bold 17 #12568D (desktop, the quantity block's text color) */
       input[type="number"] {
         inline-size: 32px;
+        color: var(--snosha-bb-text);
         font-family: var(--font-heading--family);
         font-weight: 700;
         font-size: 15px;
 
         @media screen and (min-width: 750px) {
           inline-size: 38px;
+          color: var(--color-input-text);
           font-size: 17px;
         }
       }
@@ -3182,6 +3212,18 @@
     @media screen and (max-width: 749px) {
       .quantity-selector .quantity-plus {
         background: var(--snosha-bb-tint);
+      }
+    }
+
+    /* "الوصف والسياسات": the native text block placed right before the Snosha accordion. Figma 16 / 27
+       SemiBold; the text block's custom line heights stop at 1.6 (25.6px), so the line height is set here. */
+    .text-block:has(+ .accordion--snosha) {
+      & > * {
+        margin: 0;
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 16px;
+        line-height: 27px;
       }
     }
 
@@ -3223,7 +3265,8 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 14px;
+    /* Figma draws the stroke inside its 6 / 8px padding (capsule 32 / 36 high), so the border comes off the padding */
+    padding: max(0px, 6px - var(--snosha-capsule-border-width)) 14px;
     border: var(--snosha-capsule-border-width)
       var(--snosha-capsule-border-style) var(--snosha-capsule-border-color);
     border-radius: var(--snosha-capsule-radius);
@@ -3232,7 +3275,7 @@
     text-decoration: none;
 
     @media screen and (min-width: 750px) {
-      padding-block: 8px;
+      padding-block: max(0px, 8px - var(--snosha-capsule-border-width));
     }
   }
 
@@ -3310,11 +3353,16 @@
       height: 22px;
     }
 
+    /* Other icons picked for a row: 14px glyph in the tile */
     svg {
-      /* inline-size: 10px; */
-      /* block-size: 10px; */
-      width: 10px;
-      height: 10px;
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Figma check: the 20px vector (10 × 6 visible, 1.3 stroke) centred in the tile, not scaled to 10px */
+    .snosha-icon--check {
+      width: 20px;
+      height: 20px;
     }
 
     img {
@@ -3380,8 +3428,10 @@
     gap: 3px;
     min-inline-size: 0;
     min-block-size: 38px;
-    padding: 4px 5px;
-    padding-inline-end: 12px;
+    /* Mobile: Figma's 170px pills leave 125–131px for the text (tile 28, gap 3, 3–12px padding), so the
+       inline padding is kept to 4px (tile side) / 2px (text end) */
+    padding-block: 4px;
+    padding-inline: 4px 2px;
     border: 1px solid var(--snosha-trust-border);
     border-radius: 999px;
     background: var(--snosha-trust-bg);
@@ -3439,8 +3489,9 @@
     min-inline-size: 0;
     font-family: var(--font-accent--family);
     font-weight: var(--font-accent--weight);
+    /* Figma mobile: 10.5 / 20 SemiBold; desktop 12 / 20 */
     font-size: 10.5px;
-    line-height: 15px;
+    line-height: 20px;
 
     @media screen and (min-width: 750px) {
       font-size: 12px;
@@ -3494,6 +3545,36 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .snosha-complementary__item {
+    container-type: inline-size;
+  }
+
+  /* Narrow cards (below 340px, e.g. 375 / 320 screens): the price moves under the name so the name keeps
+     readable width; the "+" stays at the end, centred */
+  @container (max-width: 339px) {
+    .snosha-complementary__item .snosha-complementary__card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: 'link add' 'price add';
+      row-gap: 0;
+    }
+
+    .snosha-complementary__item .snosha-complementary__link {
+      grid-area: link;
+    }
+
+    .snosha-complementary__item .snosha-complementary__price {
+      grid-area: price;
+      padding-inline-start: 68px;
+      line-height: 22px;
+    }
+
+    .snosha-complementary__item .snosha-complementary__card > :is(.snosha-complementary__form, .snosha-complementary__add) {
+      grid-area: add;
+      align-self: center;
+    }
   }
 
   .snosha-complementary__card {
@@ -3555,15 +3636,19 @@
     min-inline-size: 0;
   }
 
+  /* One line in Figma; real names next to the store's longer price format ("EGP 2,499.00") wrap to a second
+     line instead of being cut to a few characters */
   .snosha-complementary__title {
+    display: -webkit-box;
     overflow: hidden;
     color: var(--snosha-cx-title);
     font-family: var(--font-accent--family);
     font-weight: var(--font-accent--weight);
     font-size: 14px;
     line-height: 27px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
 
     @media screen and (min-width: 750px) {
       font-size: 16px;
@@ -3637,9 +3722,10 @@
       outline-offset: var(--focus-outline-offset);
     }
 
+    /* Figma "Add": the 24px close vector rotated 45° (unscaled) → plus arms ~17px, 1.6 stroke */
     .snosha-complementary__add-icon {
-      inline-size: 16px;
-      block-size: 16px;
+      inline-size: 24px;
+      block-size: 24px;
     }
   }
 }
@@ -3698,17 +3784,31 @@
     background: var(--snosha-acc-tile);
     color: var(--snosha-acc-icon);
 
+    /* Scaled Figma icons (document, truck, exchange, shield…) fill the 18px icon box */
     svg {
       inline-size: 18px;
       block-size: 18px;
     }
+
+    /* Figma keeps the check (20px) and close (24px) vectors at full size inside the 18px icon box:
+       visible check ~10 × 6, close ~12 × 12 */
+    .snosha-icon--check {
+      inline-size: 20px;
+      block-size: 20px;
+    }
+
+    .snosha-icon--close {
+      inline-size: 24px;
+      block-size: 24px;
+    }
   }
 
-  /* Chevron: native caret element painted with the Figma chevron (rotates when open) */
+  /* Chevron: native caret element painted with the Figma chevron (rotates when open). Figma draws the
+     24px chevron vector unscaled (visible 12 × 6, 1.6 stroke), so the mask box is 24px. */
   .details__header .icon-caret {
     flex-shrink: 0;
-    inline-size: 18px;
-    block-size: 18px;
+    inline-size: 24px;
+    block-size: 24px;
     margin-inline-start: auto;
     background-color: var(--snosha-acc-chevron);
     mask: url("snosha-chevron-down.svg") center / contain no-repeat;
@@ -3959,10 +4059,13 @@ media-gallery.media-gallery--snosha {
     background: var(--snosha-zoom-bg);
     box-shadow: none;
 
+    /* Figma play triangle is ~11 × 14 visible (24px vector kept unscaled in a 14px icon box). Horizon's
+       icon-play (20-unit box, 11 × 12 triangle, fill currentColor) at 20px gives ~11 × 12. */
     svg {
-      inline-size: 14px;
-      block-size: 14px;
-      fill: var(--snosha-thumb-active);
+      inline-size: 20px;
+      block-size: 20px;
+      color: var(--snosha-thumb-active);
+      fill: currentcolor;
       opacity: 1;
     }
   }

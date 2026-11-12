@@ -265,8 +265,12 @@
       <path d="M10.6 9.73333C10.6 10.212 10.212 10.6 9.73333 10.6C9.25469 10.6 8.86667 10.212 8.86667 9.73333C8.86667 9.25469 9.25469 8.86667 9.73333 8.86667C10.212 8.86667 10.6 9.25469 10.6 9.73333Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   {%- when 'check' -%}
-    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
-      <path d="M7.38 12.56L10.24 15.23L17.38 9.23" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    {%- comment -%}
+      Figma "Icon / check" vector (20 × 20 frame, 1.3 stroke). Figma keeps this vector at 20px even when the
+      icon instance is smaller (10px in the benefit tile), so the visible check is ~10 × 6px: render it at 20px.
+    {%- endcomment -%}
+    <svg class="{{ classes }}" viewBox="0 0 20 20" width="20" height="20" fill="none" aria-hidden="true" focusable="false">
+      <path d="M5 10.3333L7.85714 13L15 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
     </svg>
   {%- when 'close' -%}
     <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
