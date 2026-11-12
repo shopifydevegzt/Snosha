@@ -6,30 +6,12 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "product-information",
       "blocks": {
-        "disclosures_g9mWze": {
-          "type": "disclosures",
-          "name": "t:names.disclosures",
-          "settings": {
-            "heading": "Disclosures",
-            "heading_preset": "h5",
-            "open_by_default": false,
-            "icon": "caret",
-            "disclosure_heading_preset": "h6",
-            "text_color": "",
-            "dividers": true,
-            "divider_color": "{{ settings.color_palette.color2 }}",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
@@ -38,6 +20,7 @@
             "media_columns": "two",
             "image_gap": 4,
             "large_first_image": false,
+            "icons_style": "arrow",
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "thumbnails",
             "thumbnail_position": "bottom",
@@ -57,7 +40,7 @@
             "padding-inline-end": 0,
             "snosha_style": true,
             "snosha_media_fit": "contain",
-            "snosha_stage_background": "#EBEDEED9",
+            "snosha_stage_background": "#ebedeed9",
             "snosha_stage_border": "{{ settings.color_palette.color2 }}",
             "snosha_stage_radius": 28,
             "snosha_stage_radius_mobile": 22,
@@ -67,7 +50,7 @@
             "snosha_thumb_border": "{{ settings.color_palette.color2 }}",
             "snosha_thumb_active": "{{ settings.color_palette.color3 }}",
             "snosha_show_zoom_button": true,
-            "snosha_zoom_background": "#FFFFFFEB",
+            "snosha_zoom_background": "#ffffffeb",
             "snosha_zoom_icon": "{{ settings.color_palette.color3 }}",
             "snosha_badge_text": "الأكثر مبيعًا",
             "snosha_badge_tag": "الاكثر مبيعا",
@@ -134,6 +117,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -228,6 +212,92 @@
               },
               "blocks": {}
             },
+            "snosha_capsule_promo": {
+              "type": "snosha-capsule",
+              "settings": {
+                "text": "وفّر 10% عند شراء فرشتين معًا",
+                "link": "",
+                "icon": "discount",
+                "full_width_mobile": true,
+                "background_color": "{{ settings.color_palette.color5 }}",
+                "border_color": "#176bb08c",
+                "border_style": "dashed",
+                "border_width": 1.2,
+                "corner_radius": 10,
+                "text_color": "{{ settings.color_palette.color3 }}",
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "custom_class": ""
+              },
+              "blocks": {}
+            },
+            "snosha_benefits_list": {
+              "type": "snosha-benefits",
+              "settings": {
+                "row_gap": 8,
+                "text_color": "{{ settings.color_palette.foreground }}",
+                "tile_color": "{{ settings.color_palette.color5 }}",
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "custom_class": ""
+              },
+              "blocks": {
+                "benefit_easy": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "سهلة الاستخدام من أول يوم",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                },
+                "benefit_clean": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "تنظيف أعمق بـ42,000 اهتزازة/دقيقة",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                },
+                "benefit_battery": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "بطارية واحدة تدوم حتى 120 يوم",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                },
+                "benefit_water": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "مقاومة تمامًا للماء (IPX7)",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                },
+                "benefit_modes": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "5 أوضاع تناسب كل احتياج",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                },
+                "benefit_warranty": {
+                  "type": "_snosha-benefit",
+                  "settings": {
+                    "text": "ضمان سنة كاملة",
+                    "icon": "check"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "benefit_easy",
+                "benefit_clean",
+                "benefit_battery",
+                "benefit_water",
+                "benefit_modes",
+                "benefit_warranty"
+              ]
+            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "settings": {
@@ -304,80 +374,13 @@
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
+                  "disabled": true,
                   "static": true,
                   "settings": {},
                   "blocks": {}
                 }
               },
               "block_order": []
-            },
-            "snosha_capsule_promo": {
-              "type": "snosha-capsule",
-              "settings": {
-                "text": "وفّر 10% عند شراء فرشتين معًا",
-                "link": "",
-                "icon": "discount",
-                "full_width_mobile": true,
-                "background_color": "{{ settings.color_palette.color5 }}",
-                "border_color": "#176BB08C",
-                "border_style": "dashed",
-                "border_width": 1.2,
-                "corner_radius": 10,
-                "text_color": "{{ settings.color_palette.color3 }}",
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "custom_class": ""
-              },
-              "blocks": {}
-            },
-            "snosha_benefits_list": {
-              "type": "snosha-benefits",
-              "settings": {
-                "row_gap": 8,
-                "text_color": "{{ settings.color_palette.foreground }}",
-                "tile_color": "{{ settings.color_palette.color5 }}",
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "custom_class": ""
-              },
-              "blocks": {
-                "benefit_easy": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "سهلة الاستخدام من أول يوم", "icon": "check" },
-                  "blocks": {}
-                },
-                "benefit_clean": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "تنظيف أعمق بـ42,000 اهتزازة/دقيقة", "icon": "check" },
-                  "blocks": {}
-                },
-                "benefit_battery": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "بطارية واحدة تدوم حتى 120 يوم", "icon": "check" },
-                  "blocks": {}
-                },
-                "benefit_water": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "مقاومة تمامًا للماء (IPX7)", "icon": "check" },
-                  "blocks": {}
-                },
-                "benefit_modes": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "5 أوضاع تناسب كل احتياج", "icon": "check" },
-                  "blocks": {}
-                },
-                "benefit_warranty": {
-                  "type": "_snosha-benefit",
-                  "settings": { "text": "ضمان سنة كاملة", "icon": "check" },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "benefit_easy",
-                "benefit_clean",
-                "benefit_battery",
-                "benefit_water",
-                "benefit_modes",
-                "benefit_warranty"
-              ]
             },
             "snosha_trust_pills": {
               "type": "snosha-trust-list",
@@ -391,38 +394,62 @@
                 "tile_start": "{{ settings.color_palette.color2 }}",
                 "tile_end": "{{ settings.color_palette.color5 }}",
                 "icon_color": "{{ settings.color_palette.color3 }}",
-                "shadow_color": "#0F64A80F",
+                "shadow_color": "#0f64a80f",
                 "custom_class": ""
               },
               "blocks": {
                 "trust_exchange": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "استبدال واسترجاع خلال 7 أيام", "icon": "exchange", "link": "" },
+                  "settings": {
+                    "text": "استبدال واسترجاع خلال 7 أيام",
+                    "icon": "exchange",
+                    "link": ""
+                  },
                   "blocks": {}
                 },
                 "trust_warranty": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "ضمان لمدة سنة علي الآجهزة", "icon": "shield_check", "link": "" },
+                  "settings": {
+                    "text": "ضمان لمدة سنة علي الآجهزة",
+                    "icon": "shield_check",
+                    "link": ""
+                  },
                   "blocks": {}
                 },
                 "trust_cod": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "الدفع عند الاستلام", "icon": "wallet", "link": "" },
+                  "settings": {
+                    "text": "الدفع عند الاستلام",
+                    "icon": "wallet",
+                    "link": ""
+                  },
                   "blocks": {}
                 },
                 "trust_free_shipping": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "شحن مجاني من 2000 جنيه", "icon": "package", "link": "" },
+                  "settings": {
+                    "text": "شحن مجاني من 2000 جنيه",
+                    "icon": "package",
+                    "link": ""
+                  },
                   "blocks": {}
                 },
                 "trust_delivery": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "توصيل سريع لجميع أنحاء مصر", "icon": "truck", "link": "" },
+                  "settings": {
+                    "text": "توصيل سريع لجميع أنحاء مصر",
+                    "icon": "truck",
+                    "link": ""
+                  },
                   "blocks": {}
                 },
                 "trust_online_payment": {
                   "type": "_snosha-trust-item",
-                  "settings": { "text": "شحن مجاني عند الدفع أونلاين", "icon": "cart", "link": "" },
+                  "settings": {
+                    "text": "شحن مجاني عند الدفع أونلاين",
+                    "icon": "cart",
+                    "link": ""
+                  },
                   "blocks": {}
                 }
               },
@@ -439,7 +466,9 @@
               "type": "snosha-complementary",
               "settings": {
                 "heading": "كمّل روتينك",
-                "products": [],
+                "products": [
+                  "snosha-tongue-cleaner"
+                ],
                 "max_products": 2,
                 "subtitle_source": "description",
                 "heading_color": "{{ settings.color_palette.color6 }}",
@@ -451,7 +480,7 @@
                 "price_color": "{{ settings.color_palette.color3 }}",
                 "button_background": "{{ settings.color_palette.color3 }}",
                 "button_icon": "{{ settings.color_palette.background }}",
-                "button_shadow": "#0F64A84D",
+                "button_shadow": "#0f64a84d",
                 "custom_class": ""
               },
               "blocks": {}
@@ -497,10 +526,14 @@
                 "snosha_content_heading_color": "{{ settings.color_palette.foreground }}",
                 "snosha_content_color": "{{ settings.color_palette.color1 }}",
                 "dividers": false,
+                "divider_color": "",
                 "type_preset": "h6",
+                "background_color": "",
+                "text_color": "",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
+                "border_color": "",
                 "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -564,11 +597,25 @@
                     "text_suitable_for": {
                       "type": "text",
                       "settings": {
-                        "text": "",
+                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte"
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
@@ -591,11 +638,25 @@
                     "text_not_suitable_for": {
                       "type": "text",
                       "settings": {
-                        "text": "",
+                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte"
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
@@ -618,11 +679,25 @@
                     "text_shipping": {
                       "type": "text",
                       "settings": {
-                        "text": "",
+                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte"
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
@@ -645,11 +720,25 @@
                     "text_returns": {
                       "type": "text",
                       "settings": {
-                        "text": "",
+                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte"
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
@@ -676,7 +765,21 @@
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
-                        "type_preset": "rte"
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
                       },
                       "blocks": {}
                     }
@@ -710,9 +813,6 @@
           ]
         }
       },
-      "block_order": [
-        "disclosures_g9mWze"
-      ],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "right",
@@ -726,154 +826,18 @@
         "snosha_buy_box": true,
         "snosha_details_width": 560,
         "snosha_column_gap": 64,
+        "snosha_text_color": "{{ settings.color_palette.foreground }}",
+        "snosha_muted_color": "{{ settings.color_palette.color1 }}",
+        "snosha_label_color": "{{ settings.color_palette.color6 }}",
+        "snosha_accent_color": "{{ settings.color_palette.color3 }}",
+        "snosha_tint_color": "{{ settings.color_palette.color5 }}",
+        "snosha_border_color": "{{ settings.color_palette.color2 }}",
+        "snosha_shadow_color": "#0d408012",
         "custom_class": ""
-      }
-    },
-    "product_recommendations_qggXJq": {
-      "type": "product-recommendations",
-      "blocks": {
-        "text_cbcgyb": {
-          "type": "text",
-          "name": "t:names.header",
-          "settings": {
-            "text": "<h3>You may also like </h3>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 8,
-            "background_color": "",
-            "border": "solid",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "#efeded",
-            "border_radius": 20,
-            "padding-block-start": 0,
-            "padding-block-end": 8,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_DNizbJ": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_M7MJkb": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 12,
-                "padding-inline-end": 12
-              },
-              "blocks": {}
-            },
-            "price_gLWgA6": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 12,
-                "padding-inline-start": 12,
-                "padding-inline-end": 12
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_DNizbJ",
-            "product_title_M7MJkb",
-            "price_gLWgA6"
-          ]
-        }
-      },
-      "block_order": [
-        "text_cbcgyb"
-      ],
-      "name": "t:names.product_recommendations",
-      "settings": {
-        "product": "{{ closest.product }}",
-        "recommendation_type": "related",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 4,
-        "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
       }
     }
   },
   "order": [
-    "main",
-    "product_recommendations_qggXJq"
+    "main"
   ]
 }
