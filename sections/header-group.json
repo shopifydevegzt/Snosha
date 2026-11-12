@@ -24,7 +24,8 @@
             "weight": "",
             "letter_spacing": "normal",
             "case": "none",
-            "text_color": ""
+            "text_color": "",
+            "snosha_style": true
           },
           "blocks": {}
         }
@@ -39,8 +40,8 @@
         "background_color": "{{ settings.color_palette.color3 }}",
         "divider_width": 1,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 10,
+        "padding-block-end": 10
       }
     },
     "header_section": {

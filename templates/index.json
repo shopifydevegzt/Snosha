@@ -387,9 +387,9 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
+                "image_ratio": "square",
                 "custom_badge_text": "الأكثر مبيعًا",
-                "custom_badge_tag": "",
+                "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -727,9 +727,9 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
+                "image_ratio": "square",
                 "custom_badge_text": "الأكثر مبيعًا",
-                "custom_badge_tag": "",
+                "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -2794,7 +2794,7 @@
               "type": "_accordion-row",
               "settings": {
                 "heading": "هل يوجد ضمان على المنتجات؟",
-                "open_by_default": false,
+                "open_by_default": true,
                 "icon": "none",
                 "width": 20
               },

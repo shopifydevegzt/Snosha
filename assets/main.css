@@ -12,6 +12,41 @@
    ========================================================================= */
 
 /* =========================================================================
+   SNOSHA — ANNOUNCEMENT BAR  (Horizon header-announcements + blocks/_announcement.liquid,
+   opt-in block setting "Snosha style" → .announcement-bar__slide--snosha)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3768, mobile 190:4083. "Icon / sparkle-brand" + text
+   (24px, 10px gap, icon at the inline start) centred as one row; desktop 14 / 24 Medium, mobile 12 / 19 Regular. With the
+   section's 10px padding the bar is 44px at both sizes (the icon sets the mobile row height).
+   The block's inline --line-height: 1 stays native; the text line height is set on the text.
+   ========================================================================= */
+.announcement-bar__slide--snosha {
+  .announcement-bar__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    line-height: 24px;
+  }
+
+  /* Figma draws the icon on the right of the text: the inline start in RTL */
+  .announcement-bar__icon {
+    order: -1;
+    flex: none;
+    inline-size: 24px;
+    block-size: 24px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .announcement-bar__text {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 19px;
+    }
+  }
+}
+
+/* =========================================================================
    SNOSHA — HERO + TRUST STRIP  (sections/snosha-hero.liquid)
    Figma 1fqyznLFgS65tTjGvBYPBm: hero 190:3790 / 382:4563, trust 190:4081 / 382:4564.
    Reference widths: desktop 1480px, mobile 390px.
@@ -2242,6 +2277,29 @@
     white-space: nowrap;
   }
 
+  /* < 750px: real prices ("LE 7,500.00") don't fit Figma's single centred row at 342px, so the total
+     is a summary row instead: label at the inline start, bundle price at the inline end, and the
+     compare-at price + discount badge beside the price when they fit, otherwise directly beneath it
+     (end-aligned). Same Figma type sizes and colours; markup and pricing logic unchanged. */
+  @media screen and (max-width: 749px) {
+    .snosha-bundle__total {
+      justify-content: flex-start;
+      gap: 4px 12px;
+    }
+
+    .snosha-bundle__now {
+      display: contents;
+
+      > span:not(.snosha-bundle__price) {
+        flex: 1 0 auto;
+      }
+    }
+
+    .snosha-bundle__was {
+      margin-inline-start: auto;
+    }
+  }
+
   .snosha-bundle__badge {
     padding: 3px 11px; /* 4 / 12 in Figma, minus the 1px border */
     border: 1px solid var(--snosha-bundle-border);
@@ -2400,8 +2458,11 @@
      <snosha-reels-carousel> in assets/main.js elsewhere); 4px progress bar 23px below.
      Cards narrow on small screens (390 - 290 = 100px kept for the gutters and neighbour peeks).
    - >= 750px (Figma desktop): the row sits in the 1376 page column with 20px inner padding and
-     starts at the first reel; 5 x 248 + 4 x 24 = 1336 fills it exactly at 1480. More reels (or a
-     narrower window) scroll inside the column (drag, trackpad, wheel), never the page.
+     starts at the first reel; 5 x 248 + 4 x 24 = 1336 fills it exactly at 1480. More reels
+     scroll inside the column (drag, trackpad, wheel), never the page.
+   - Reels per row (section settings, desktop >= 990 / tablet 750-989 / mobile < 750): card width =
+     (row width - padding - gaps) / count; the video frame keeps the width : height ratio from the
+     frame settings (video object-fit: cover, never stretched).
    - Progress bar: same pattern as Choose Your Care (fill grows from the inline start with the real
      scroll position via a CSS scroll-driven animation; main.js fallback). Shown only while the reels
      overflow ([data-overflow] from main.js). Rest width 19.88% = the Figma 68 / 342 fill.
@@ -2438,6 +2499,8 @@
 
   /* ---------- Carousel (native scroll-snap) ---------- */
   .snosha-reels__carousel {
+    /* Cards size from the carousel's own width (100cqi): row width / reels per row */
+    container-type: inline-size;
     grid-column: 1 / -1;
     display: flex;
     overflow-x: auto;
@@ -2479,9 +2542,16 @@
     flex: none;
     flex-direction: column;
     gap: 12px;
+    /* Mobile: reels per row share the width left after the gutters and 52px of neighbour peeks
+       (Figma 1 x 290 at 390), never wider than the "Maximum card width (mobile)" setting */
     inline-size: min(
       calc(var(--snosha-reels-card-w-mobile) * 1px),
-      calc(100cqi - 2 * var(--snosha-reels-px-mobile) - 52px)
+      calc(
+        (
+            100cqi - 2 * var(--snosha-reels-px-mobile) - 52px -
+              (var(--snosha-reels-cards-mobile, 1) - 1) * var(--snosha-reels-gap-mobile)
+          ) / var(--snosha-reels-cards-mobile, 1)
+      )
     );
     scroll-snap-align: center;
 
@@ -2764,8 +2834,21 @@
       padding-inline: var(--snosha-reels-px-desktop);
     }
 
+    /* Tablet / desktop: reels per row share the row inside the side padding
+       (Figma 5 x 248 + 4 x 24 = 1336 at 1480). More reels than that scroll. */
+    --snosha-reels-cards: var(--snosha-reels-cards-tablet, 3);
+
+    @media screen and (min-width: 990px) {
+      --snosha-reels-cards: var(--snosha-reels-cards-desktop, 5);
+    }
+
     .snosha-reel {
-      inline-size: calc(var(--snosha-reels-card-w-desktop) * 1px);
+      inline-size: calc(
+        (
+            100cqi - 2 * var(--snosha-reels-px-desktop) -
+              (var(--snosha-reels-cards) - 1) * var(--snosha-reels-gap-desktop)
+          ) / var(--snosha-reels-cards)
+      );
       scroll-snap-align: start;
 
       &:last-child {

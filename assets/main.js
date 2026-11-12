@@ -210,8 +210,10 @@ if (!customElements.get('snosha-care-carousel')) {
      (1, 2 → 1st; 3, 4 → 2nd; 5, 6 → 3rd; 7 → 4th). Chromium does it in CSS (`scroll-initial-target`
      on .snosha-reel--initial, same index from Liquid). Elsewhere it runs synchronously on upgrade —
      card widths are fixed lengths, so the layout is final — and CSS keeps the row transparent until
-     [data-positioned], so the first reel is never painted first. Runs once per element: Theme
-     Editor block changes re-render the section (new element); resizing and playback never re-center.
+     [data-positioned], so the first reel is never painted first. If the row is first laid out at
+     >= 750px, the start is applied the first time it becomes the mobile scroller instead. Applied
+     once per element: Theme Editor block changes re-render the section (new element); later
+     resizing and playback never re-center, and any user input before it cancels it.
    - Toggles [data-overflow] on .snosha-reels (ResizeObserver) so the progress bar only shows when
      the reels overflow. Progress fallback → --snosha-reels-progress.
    - Starting one video pauses the others in this carousel (native controls can resume any of them).
@@ -249,17 +251,37 @@ class SnoshaReelsCarousel extends SnoshaSnapCarousel {
   /** @param {AbortSignal} signal */
   onConnect(signal) {
     this.#updateOverflow();
-    this.centerInitialCard();
+    this.#applyInitialPosition();
     this.setAttribute('data-positioned', '');
 
-    // Only re-evaluates overflow (progress bar visibility); never moves the carousel.
-    const observer = new ResizeObserver(() => this.#updateOverflow());
+    // Re-evaluates overflow (progress bar visibility). The only movement it can trigger is the
+    // pending one-time middle-reel start (see #applyInitialPosition); never a re-center.
+    const observer = new ResizeObserver(() => {
+      this.#updateOverflow();
+      this.#applyInitialPosition();
+    });
     observer.observe(this);
     if (this.firstElementChild) observer.observe(this.firstElementChild);
     signal.addEventListener('abort', () => observer.disconnect(), { once: true });
 
     this.addEventListener('play', this.#onPlay, { capture: true, signal });
     this.addEventListener('shopify:block:select', this.#onBlockSelect, { signal });
+  }
+
+  #initialPositionApplied = false;
+
+  /**
+   * One-time middle-reel start for the mobile layout. Applied the first time the carousel is laid
+   * out as the mobile scroller, not only at load: when the page first renders at >= 750px (Theme
+   * Editor desktop → mobile toggle, DevTools device mode, tablet rotation), `scroll-initial-target`
+   * has already been consumed by the desktop layout and the row would stay on the first reel.
+   * Runs before paint (connect / ResizeObserver), so there is no visible jump. Cancelled by any
+   * user input (base class), and never repeated afterwards.
+   */
+  #applyInitialPosition() {
+    if (this.#initialPositionApplied || !reelsMobileQuery.matches || !this.isScrollable) return;
+    this.#initialPositionApplied = true;
+    this.centerInitialCard();
   }
 
   #updateOverflow() {

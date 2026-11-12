@@ -13,8 +13,9 @@
    Native render path: resource-list → resource-list-carousel → slideshow
    (slideshow-component > slideshow-container > slideshow-slides + slideshow-arrows),
    cards = _collection-card blocks. Only geometry/appearance is overridden here.
-   - < 750px   Figma mobile: 97px cards, 10px gap, 20px start gutter, progress bar, no arrows
-   - >= 750px  Figma desktop: 292px cards, 24px gap, 72px start gutter, arrows
+   - < 750px   Figma mobile: 3 cards + peek (97px at 390), 10px gap, 20px start gutter, progress bar, no arrows
+   - >= 750px  Figma desktop: 4 cards + peek (292px at 1480), 24px gap, 72px start gutter, arrows
+   Cards per row: section settings (desktop >= 990 / tablet 750-989 / mobile < 750).
    ========================================================================= */
 
 .snosha-collections {
@@ -35,11 +36,33 @@
     }
   }
 
-  /* ---------- Carousel geometry ---------- */
+  /* ---------- Carousel geometry ----------
+     Card width = (carousel width - both gutters - gaps - peek) / cards per row, so the "Cards per
+     row" settings decide how many whole cards are in view and the cards share that width. 100cqi is
+     the native slideshow-container (full-bleed carousel). The peek is the part of the next card left
+     visible (Figma: 39px at 390 -> 3 x 97px; 96px at 1480 -> 4 x 292px). Card height = width (square
+     image) + the title area (Figma 55 mobile, 76 desktop). */
   .resource-list__carousel {
     /* Start/end gutter: Figma mobile 20px at 390 (page margin 24 - 4) */
-    --snosha-collections-gutter: calc(var(--util-page-margin-offset) - 4px);
+    --snosha-collections-gutter-adjust: -4px;
+    --snosha-collections-gutter: calc(var(--util-page-margin-offset) + var(--snosha-collections-gutter-adjust));
     --resource-list-column-gap: 10px;
+    --snosha-collections-peek: 39px;
+    --snosha-collections-title-space: 55px;
+    --snosha-collections-columns: var(--snosha-collections-columns-mobile, 3);
+    /* Same gutter as above, written with 100cqi instead of Horizon's 100% so the card length also
+       resolves in the block axis (item height) */
+    --snosha-collections-card: calc(
+      (
+          100cqi - var(--snosha-collections-peek) -
+            2 * (
+              max(
+                  var(--page-margin),
+                  (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
+                ) + var(--snosha-collections-gutter-adjust)
+            ) - (var(--snosha-collections-columns) - 1) * var(--resource-list-column-gap)
+        ) / var(--snosha-collections-columns)
+    );
   }
 
   /* Selectors repeat the native parent chain: Horizon's compiled section CSS loads after this
@@ -53,15 +76,15 @@
   }
 
   .resource-list__carousel .resource-list__slide {
-    --slide-width: 97px;
+    --slide-width: var(--snosha-collections-card);
 
-    inline-size: 97px;
+    inline-size: var(--snosha-collections-card);
   }
 
-  /* Figma mobile card 97 x 152: 97px square image, 18px gap, 11 / 40 title; the 152px card
+  /* Figma mobile card 97 x 152: 97px square image, 18px gap, 11 / 40 title; the card height
      clips the title to its first line, as in Figma. */
   .resource-list__item {
-    block-size: 152px;
+    block-size: calc(var(--snosha-collections-card) + var(--snosha-collections-title-space));
     overflow: clip;
   }
 
@@ -97,25 +120,29 @@
 
     .resource-list__carousel {
       /* Start/end gutter: Figma 72px at 1480 (page margin 52 + 20) */
-      --snosha-collections-gutter: calc(var(--util-page-margin-offset) + 20px);
+      --snosha-collections-gutter-adjust: 20px;
       --resource-list-column-gap: 24px;
+      --snosha-collections-peek: 96px;
+      /* Figma desktop card 292 x 368: 292px square image, 18px gap, 24 / 40 title (H3 preset) */
+      --snosha-collections-title-space: 76px;
+      --snosha-collections-columns: var(--snosha-collections-columns-tablet, 3);
+
+      @media screen and (min-width: 990px) {
+        --snosha-collections-columns: var(--snosha-collections-columns-desktop, 4);
+      }
     }
 
     .resource-list__carousel > slideshow-container > slideshow-slides {
-      /* Keep Horizon's 16px hover/shadow allowance without changing the 368px row */
+      /* Keep Horizon's 16px hover/shadow allowance without changing the card row */
       margin-block: -16px;
       padding-block: 16px;
     }
 
-    .resource-list__carousel .resource-list__slide {
-      --slide-width: 292px;
-
-      inline-size: 292px;
-    }
-
-    /* Figma desktop card 292 x 368: 292px square image, 18px gap, 24 / 40 title (H3 preset) */
+    /* Figma height (card + 76) as a minimum: a title that wraps on a narrower card grows the card
+       instead of being cut (the one-line clip is mobile-only, as in Figma) */
     .resource-list__item {
-      block-size: 368px;
+      block-size: auto;
+      min-block-size: calc(var(--snosha-collections-card) + var(--snosha-collections-title-space));
     }
 
     .collection-card .text-block.h3 > * {
@@ -191,16 +218,27 @@
    Scope: .snosha-featured-collection, added only when the section setting
    "Snosha featured collection style" is on. Colors come from that section's
    color settings (--snosha-fc-*, bridged in product-list.liquid).
-   - >= 750px  Figma desktop: 316px cards, 24px gap, 20px inset inside the
+   - >= 750px  Figma desktop: 316px cards (4 per row at 1480), 24px gap, 20px inset inside the
                 1376 container, View All in the heading row, hover add-to-cart.
-   - <  750px  Figma mobile: 165 x 283 cards, 12px gap, progress bar,
+   - <  750px  Figma mobile: 165 x 283 cards (2 per row at 390), 12px gap, progress bar,
                 View All under the progress bar, round add-to-cart button.
+   Products per row: native "Columns" (>= 990) + Snosha tablet (750-989) / mobile (< 750) settings;
+   cards share the row width (no fixed card width).
    ========================================================================= */
 
+/* Card width, computed once on the native scroller (100cqi = the full-bleed slideshow-container) and
+   inherited as an absolute length, so the mobile card metrics below can scale with it even inside
+   the card's own containers (card-gallery, quick add). */
+@property --snosha-fc-card-width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 316px;
+}
+
 .snosha-featured-collection {
-  /* ---- Figma desktop card metrics (Product Card, 316 wide) ---- */
+  /* ---- Figma desktop card metrics (Product Card, 316 wide at 4 per row in 1480) ---- */
   --fc-inset: 20px;
-  --fc-card-width: 316px;
+  --fc-columns: var(--snosha-fc-columns-desktop, 4);
   --fc-image-radius: 16px;
   --fc-after-image: 14px;
   --fc-pad: 12px;
@@ -238,42 +276,14 @@
   --fc-label-top: 16.23px;
   --fc-label-side: 13px;
 
+  /* Products per row (section settings): desktop = native "Columns", tablet / mobile = Snosha settings */
+  @media screen and (max-width: 989px) {
+    --fc-columns: var(--snosha-fc-columns-tablet, 2);
+  }
+
   @media screen and (max-width: 749px) {
-    /* ---- Figma mobile card metrics (Product Card / Mobile, 165 wide = desktop x 0.522) ---- */
     --fc-inset: 0px;
-    --fc-card-width: 165px;
-    --fc-image-radius: 8.354px;
-    --fc-after-image: 7.31px;
-    --fc-pad: 6.266px;
-    --fc-gap: 3.133px;
-    --fc-end-space: 16.709px; /* 6.266 + 7.31 + 3.133 */
-    --fc-title-size: 8.354px;
-    --fc-title-lh: 14.098px;
-    --fc-desc-size: 7.31px;
-    --fc-desc-lh: 12.532px;
-    --fc-caption-size: 6.266px;
-    --fc-caption-lh: 10.443px;
-    --fc-star-box: 11.957px;
-    --fc-star-step: 11.801px;
-    --fc-star-size: 10.31px;
-    --fc-price-pt: 2.089px;
-    --fc-price-gap: 5.222px;
-    --fc-badge-size: 6.27px;
-    --fc-badge-lh: 9.399px;
-    --fc-badge-pad-block: 2.089px;
-    --fc-badge-pad-inline: 6.266px;
-    --fc-badge-radius: 4.177px;
-    --fc-badge-border: 0.522px;
-    --fc-compare-size: 7.31px;
-    --fc-compare-lh: 11.487px;
-    --fc-price-size: 9.399px;
-    --fc-price-lh: 14.62px;
-    --fc-cta-size: 8.35px;
-    --fc-cta-lh: 13.576px;
-    --fc-cta-gap: 5.222px;
-    --fc-cta-icon: 9.399px;
-    --fc-label-top: 8.93px;
-    --fc-label-side: 7.83px;
+    --fc-columns: var(--snosha-fc-columns-mobile, 2);
 
     /* Figma mobile: 56 / 56 section padding (+ the View All row 26 + gap 14, see the link below).
        Heading → carousel and carousel → progress are 14 + 11 (carousel padding) = 25. */
@@ -378,10 +388,76 @@
   slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
     /* Figma desktop: cards start 20px inside the 1376 container (72px at 1480); mobile: page margin (24 at 390) */
     --gutter-slide-width: calc(var(--util-page-margin-offset) + var(--fc-inset));
+    /* Cards share the row inside the gutters: 316 at 1480 (4 per row), 165 at 390 (2 per row).
+       The gutter is --gutter-slide-width written with 100cqi (the full-bleed slideshow-container)
+       instead of Horizon's 100%, so it computes to a plain length. */
+    --snosha-fc-card-width: calc(
+      (
+          100cqi -
+            2 * (
+              max(
+                  var(--page-margin),
+                  (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
+                ) + var(--fc-inset)
+            ) - (var(--fc-columns) - 1) * var(--resource-list-column-gap)
+        ) / var(--fc-columns)
+    );
+
+    /* Mobile: never smaller than the same count at the 390px Figma frame (342px row), so the scaled
+       card text never drops below the Figma mobile size; narrower phones scroll instead. */
+    @media screen and (max-width: 749px) {
+      --snosha-fc-card-width: max(
+        calc(
+          (100cqi - 2 * var(--page-margin) - (var(--fc-columns) - 1) * var(--resource-list-column-gap)) /
+            var(--fc-columns)
+        ),
+        calc((342px - (var(--fc-columns) - 1) * var(--resource-list-column-gap)) / var(--fc-columns))
+      );
+    }
   }
 
   .resource-list__carousel .resource-list__slide {
-    width: var(--fc-card-width);
+    width: var(--snosha-fc-card-width);
+  }
+
+  /* Mobile card metrics: Figma "Product Card / Mobile" is the desktop card scaled to 165px wide
+     (x 0.522). The values are the Figma 165px metrics, scaled with the real card width so every
+     "Products per row (mobile)" value keeps the design's proportions (exact Figma values at 2). */
+  @media screen and (max-width: 749px) {
+    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides > .resource-list__slide {
+      --fc-image-radius: calc(var(--snosha-fc-card-width) * 8.354 / 165);
+      --fc-after-image: calc(var(--snosha-fc-card-width) * 7.31 / 165);
+      --fc-pad: calc(var(--snosha-fc-card-width) * 6.266 / 165);
+      --fc-gap: calc(var(--snosha-fc-card-width) * 3.133 / 165);
+      --fc-end-space: calc(var(--snosha-fc-card-width) * 16.709 / 165); /* 6.266 + 7.31 + 3.133 */
+      --fc-title-size: calc(var(--snosha-fc-card-width) * 8.354 / 165);
+      --fc-title-lh: calc(var(--snosha-fc-card-width) * 14.098 / 165);
+      --fc-desc-size: calc(var(--snosha-fc-card-width) * 7.31 / 165);
+      --fc-desc-lh: calc(var(--snosha-fc-card-width) * 12.532 / 165);
+      --fc-caption-size: calc(var(--snosha-fc-card-width) * 6.266 / 165);
+      --fc-caption-lh: calc(var(--snosha-fc-card-width) * 10.443 / 165);
+      --fc-star-box: calc(var(--snosha-fc-card-width) * 11.957 / 165);
+      --fc-star-step: calc(var(--snosha-fc-card-width) * 11.801 / 165);
+      --fc-star-size: calc(var(--snosha-fc-card-width) * 10.31 / 165);
+      --fc-price-pt: calc(var(--snosha-fc-card-width) * 2.089 / 165);
+      --fc-price-gap: calc(var(--snosha-fc-card-width) * 5.222 / 165);
+      --fc-badge-size: calc(var(--snosha-fc-card-width) * 6.27 / 165);
+      --fc-badge-lh: calc(var(--snosha-fc-card-width) * 9.399 / 165);
+      --fc-badge-pad-block: calc(var(--snosha-fc-card-width) * 2.089 / 165);
+      --fc-badge-pad-inline: calc(var(--snosha-fc-card-width) * 6.266 / 165);
+      --fc-badge-radius: calc(var(--snosha-fc-card-width) * 4.177 / 165);
+      --fc-badge-border: calc(var(--snosha-fc-card-width) * 0.522 / 165);
+      --fc-compare-size: calc(var(--snosha-fc-card-width) * 7.31 / 165);
+      --fc-compare-lh: calc(var(--snosha-fc-card-width) * 11.487 / 165);
+      --fc-price-size: calc(var(--snosha-fc-card-width) * 9.399 / 165);
+      --fc-price-lh: calc(var(--snosha-fc-card-width) * 14.62 / 165);
+      --fc-cta-size: calc(var(--snosha-fc-card-width) * 8.35 / 165);
+      --fc-cta-lh: calc(var(--snosha-fc-card-width) * 13.576 / 165);
+      --fc-cta-gap: calc(var(--snosha-fc-card-width) * 5.222 / 165);
+      --fc-cta-icon: calc(var(--snosha-fc-card-width) * 9.399 / 165);
+      --fc-label-top: calc(var(--snosha-fc-card-width) * 8.93 / 165);
+      --fc-label-side: calc(var(--snosha-fc-card-width) * 7.83 / 165);
+    }
   }
 
   /* Mobile progress (Figma Progress Row: page margin inset, 4px, 14 + 11 = 25px below the cards).
@@ -430,14 +506,50 @@
       pointer-events: none;
     }
 
-    @media screen and (max-width: 749px) {
-      block-size: 283px;
-      overflow: clip;
+    /* Cards in a row share the row height (the slides stretch; see the chain below), and the card
+       grows with its content instead of clipping it: Figma 165 x 283 is a minimum, scaled with the
+       card. Children never shrink, so the title can't be squeezed to 0. */
+    flex: 1 1 auto;
+    min-block-size: var(--fc-card-height, auto);
+
+    > * {
+      flex-shrink: 0;
+    }
+
+    /* Price + "View product" sit on a shared bottom line, so price regions align across a row even
+       when one product has a rating or a shorter description and another doesn't */
+    > product-price,
+    > :has(> product-price) {
+      margin-block-start: auto;
     }
 
     /* A custom-liquid block that printed nothing (e.g. no description) must not add a gap */
     > div:not([class]):not(:has(*)) {
       display: none;
+    }
+  }
+
+  /* Slide -> item -> card fill the slide's (row-stretched) height */
+  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides > .resource-list__slide {
+    /* Figma desktop card 316 x 541.9 = square image + 225.9 of text (ratings row included, so
+       price and link keep their Figma positions when a product has no rating); mobile below */
+    --fc-card-height: calc(var(--snosha-fc-card-width) + 225.9px);
+
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 749px) {
+      --fc-card-height: calc(var(--snosha-fc-card-width) * 283 / 165); /* Figma 165 x 283 */
+    }
+
+    > .resource-list__item {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+
+      > product-card {
+        flex: 1 1 auto;
+      }
     }
   }
 
@@ -558,6 +670,7 @@
 
   product-price [ref='priceContainer'] {
     display: flex;
+    flex-wrap: wrap; /* one row at the Figma card width; wraps instead of widening narrower cards */
     align-items: center;
     gap: var(--fc-price-gap);
     white-space: nowrap;
@@ -1369,17 +1482,23 @@
     block-size: 14.4px;
   }
 
-  /* ---------------- Benefit grid ---------------- */
+  /* ---------------- Benefit grid ----------------
+     Columns per breakpoint from the section settings (--snosha-why-columns-*; defaults = Figma
+     2 / 4 / 4). Equal minmax(0, 1fr) tracks share the inner width after the gaps. */
   .snosha-why__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--snosha-why-columns-mobile, 2), minmax(0, 1fr));
     gap: 12px;
     align-items: start;
     direction: ltr;
 
     @media screen and (min-width: 750px) {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--snosha-why-columns-tablet, 4), minmax(0, 1fr));
       gap: 32px;
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(var(--snosha-why-columns-desktop, 4), minmax(0, 1fr));
     }
   }
 
@@ -1544,10 +1663,12 @@
     }
   }
 
-  /* Question: Figma 16 / 27 SemiBold; the whole row (incl. 14px card padding) is the toggle */
+  /* Question: Figma 16 / 27 SemiBold; the whole row (incl. the card padding) is the toggle.
+     Figma's 1px stroke is inside its 14px padding (closed card 55, open 93), so the block padding
+     is 14 - 1 here, where the border is outside it. */
   .accordion .details__header {
     gap: 12px;
-    padding-block: 14px;
+    padding-block: 13px;
     font-family: var(--font-accent--family);
     font-style: normal;
     font-weight: var(--font-accent--weight);
@@ -1582,7 +1703,7 @@
 
   /* Answer: Figma 16 / 28; card grows with the answer (no fixed height) */
   .accordion .details[open] > .details-content {
-    padding-block: 0 14px;
+    padding-block: 0 13px;
   }
 
   .details-content .text-block {
@@ -1865,6 +1986,24 @@
 #header-component.snosha-header {
   @media screen and (max-width: 749px) {
     --page-margin: 20px;
+  }
+
+  /* Cart icon: Figma "Icon / cart" (22px, 1.2 stroke; assets/snosha-cart-22.svg) drawn as a mask in
+     the native icon colour. Horizon's cart-icon element, count bubble, link and drawer trigger are
+     unchanged; only the glyph is swapped. */
+  .header-actions__cart-icon .svg-wrapper {
+    > svg {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      display: block;
+      inline-size: 22px;
+      block-size: 22px;
+      background-color: currentColor;
+      mask: url('snosha-cart-22.svg') center / 22px 22px no-repeat;
+    }
   }
 
   /* ---------- Desktop, inline menu mode ---------- */

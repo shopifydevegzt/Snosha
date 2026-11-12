@@ -23,6 +23,9 @@
     --snosha-why-padding-end: {{ section.settings.padding_bottom }}px;
     --snosha-why-padding-start-mobile: {{ section.settings.padding_top_mobile }}px;
     --snosha-why-padding-end-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --snosha-why-columns-desktop: {{ section.settings.columns_desktop | default: 4 }};
+    --snosha-why-columns-tablet: {{ section.settings.columns_tablet | default: 4 }};
+    --snosha-why-columns-mobile: {{ section.settings.columns_mobile | default: 2 }};
   }
 {% endstyle %}
 
@@ -61,7 +64,41 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Benefits fill the grid left to right, as in the design: 4 columns on desktop, 2 x 2 on mobile."
+      "content": "Benefits fill the grid left to right, as in the design (4 columns on desktop, 2 x 2 on mobile)."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Benefits per row (desktop)",
+      "info": "990px and wider. Columns share the row width equally.",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Benefits per row (tablet)",
+      "info": "750–989px.",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Benefits per row (mobile)",
+      "info": "Below 750px.",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
     },
     {
       "type": "header",

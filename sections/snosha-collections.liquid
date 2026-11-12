@@ -27,6 +27,9 @@
     --snosha-collections-progress-track: {{ section.settings.progress_track }};
     --snosha-collections-progress-start: {{ section.settings.progress_start }};
     --snosha-collections-progress-end: {{ section.settings.progress_end }};
+    --snosha-collections-columns-desktop: {{ section.settings.cards_desktop | default: 4 }};
+    --snosha-collections-columns-tablet: {{ section.settings.cards_tablet | default: 3 }};
+    --snosha-collections-columns-mobile: {{ section.settings.cards_mobile | default: 3 }};
   }
 {% endstyle %}
 
@@ -130,6 +133,44 @@
         }
       ],
       "default": "chevron"
+    },
+    {
+      "type": "header",
+      "content": "Cards per row"
+    },
+    {
+      "type": "paragraph",
+      "content": "Number of whole cards in view. Card width follows the screen width; part of the next card stays visible so the row reads as scrollable."
+    },
+    {
+      "type": "range",
+      "id": "cards_desktop",
+      "label": "Desktop",
+      "info": "990px and wider.",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "cards_tablet",
+      "label": "Tablet",
+      "info": "750–989px.",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "cards_mobile",
+      "label": "Mobile",
+      "info": "Below 750px.",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
     },
     {
       "type": "header",

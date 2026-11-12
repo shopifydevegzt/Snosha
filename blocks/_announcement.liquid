@@ -18,6 +18,7 @@
       custom-typography
       {% if block_settings.font_size != "" %}custom-font-size{% endif %}
       {% if block_settings.weight != "" %}custom-font-weight{% endif %}
+      {% if block_settings.snosha_style %}announcement-bar__slide--snosha{% endif %}
     "
     style="
       {% render 'typography-style', settings: block_settings, preset: 'custom' %}
@@ -31,6 +32,10 @@
   >
     <p class="announcement-bar__text">
       {{ block.settings.text }}
+      {%- comment -%} Snosha (project addition, opt-in): Figma "Icon / sparkle-brand" after the text {%- endcomment -%}
+      {%- if block_settings.snosha_style -%}
+        {%- render 'snosha-icon', icon: 'sparkle', uid: block.id, class: 'announcement-bar__icon' -%}
+      {%- endif -%}
     </p>
 
     {% if block_settings.link != blank %}
@@ -251,6 +256,13 @@
       "id": "text_color",
       "label": "t:settings.text_color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha style",
+      "info": "Adds the Snosha sparkle icon after the text and the design's 24px line height.",
+      "default": false
     }
   ],
   "presets": [

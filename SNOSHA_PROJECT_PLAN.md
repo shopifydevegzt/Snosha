@@ -765,6 +765,31 @@ The template was re-saved once because Shopify validated it before the new schem
 
 **Checks:** Theme Check 9 baseline, CSS balance, no `!important`, `node --check`. Not run: browser rendering, playback. |
 
+| 2026-11-12 | **Homepage improvements (Phase A) + read-only Figma audit (Phase B)** — statuses unchanged. Preview 9292 confirmed serving `main` (served `main.js` = worktree, byte for byte).
+
+**1. Reels mobile start (#9).** Root cause: the middle-reel start ran only when the element connected; a row first laid out at >= 750px (Theme Editor desktop → mobile toggle, DevTools device mode, rotation, resized window) stayed on reel 1 (`HEAD`: `scrollLeft 0` after 1480 → 390, CSS and JS paths). Fix (already in the working tree uncommitted at the start of this task, verified and kept): `#applyInitialPosition()` in `assets/main.js` applies the one-time start from the existing ResizeObserver the first time the row is the mobile scroller. Verified at 390, RTL + LTR, CSS (`scroll-initial-target`) and simulated JS-fallback paths: 1–7 reels centre `floor((n−1)/2)` (2 reels: reel 1 at the scroll start, 26px off true centre — scroll boundary); progress 59.9 % at the middle of 5; drag / wheel / resize never re-centre.
+
+**2. Cards per row (desktop ≥ 990 / tablet 750–989 / mobile < 750)** — CSS variables from section settings; card widths derived from the container, gaps and gutters (no fixed widths). Defaults reproduce Figma exactly (1480 / 390 measurements identical to the pre-change baseline).
+- `snosha-collections`: new `cards_desktop` 2–6 (4), `cards_tablet` 2–5 (3), `cards_mobile` 1–4 (3). Width = (100cqi − gutters − peek − gaps) / n, peek 96 (desktop/tablet) / 39 (mobile) from Figma; item height = width + 76 (min, desktop/tablet) / + 55 (mobile one-line clip). `assets/dev1.css`.
+- `product-list` (Snosha style): desktop reuses native `columns`; new `snosha_columns_tablet` 1–4 (2), `snosha_columns_mobile` 1–3 (2). Card width = registered `@property --snosha-fc-card-width`; mobile card metrics scale with it (exact Figma values at 2 per row) and never go below the 390px reference size; price row may wrap on narrow cards. `assets/dev1.css`, `sections/product-list.liquid`.
+- `snosha-reels`: new `cards_desktop` 2–8 (5), `cards_tablet` 1–6 (3), `cards_mobile` 1–3 (1). Width = (carousel 100cqi − padding − gaps) / n; mobile keeps 52px of neighbour peeks and the "Maximum card width (mobile)" cap. Existing width/height settings keep their IDs/values and now set the frame ratio only (relabelled). `assets/main.css`, `sections/snosha-reels.liquid`.
+- `snosha-why`: new `columns_desktop` 1–6 (4), `columns_tablet` 1–6 (4), `columns_mobile` 1–3 (2); `repeat(n, minmax(0, 1fr))`. `assets/dev1.css`, `sections/snosha-why.liquid`.
+- Non-default values checked by injecting the same CSS variables before first render (template not edited): widths follow the counts at 1480 / 1024 / 768 / 390 / 320, no page overflow.
+
+**3. Bundle mobile total (#11).** Confirmed mismatch, not changed: Figma is one 44px row; live wraps to two centred lines (78px) because the store money format ("LE 7,500.00" / "LE 9,000.00") needs 360px at Figma sizes vs 342 available. No overlap/overflow; order, type and the 14px gap to the 52px button match Figma. Needs a decision (money format vs. a mobile layout deviation).
+
+**Checks:** Theme Check 9 baseline; `git diff --check` clean; `node --check assets/main.js`; CSS balanced, no `!important`; no Liquid errors on the rendered homepage. Not verified: Theme Editor UI (admin), real iOS/Android devices, Firefox/Safari (JS fallback simulated only). `assets/view-event-elements.js` showed an unrelated quote-style reformat (not part of this task; left as is). |
+
+| 2026-11-12 | **Audit corrections** (statuses unchanged; measured on the 9292 `main` preview).
+- **Best-seller badge:** both homepage product lists → `custom_badge_tag: "الاكثر مبيعا"` (`templates/index.json`); label unchanged. No store product has tags yet, so no badge shows until the merchant tags products.
+- **Featured cards (#5, #7):** gallery `image_ratio` portrait → square (both instances). `assets/dev1.css`: slide → item → card fill the row height; card `min-block-size` = Figma (image + 225.9 desktop, 165 × 283 scaled on mobile) instead of the fixed mobile height + clip; children don't shrink (title was squeezed to 0); price + link on a shared bottom line. Measured: 1480 card 316 × 541.9, title 330, price 445.9, link 483.9, section 841 (Figma 841.1); 390 card 165 × 283, price 232.9, link 252.7, section 573 (= Figma). Content variations (missing / one-line description) keep alignment; no clipping or overflow at 1480 / 1366 / 390 / 375 / 320.
+- **Bundle total (#11), < 750px only:** summary row (label at the inline start, price at the end, compare-at + badge beside or beneath the price, end-aligned), Figma type sizes; `assets/main.css`. 390 / 375 / 320: 74px block, no overlap or overflow. Desktop unchanged.
+- **Announcement bar (#1):** opt-in block setting `snosha_style` in `blocks/_announcement.liquid` (Horizon private block, additive): Figma sparkle (`snosha-icon` `sparkle`) at the inline start, 10px gap; desktop 14 / 24 Medium, mobile 12 / 19 Regular (`assets/main.css`); section padding 15 → 10 (`sections/header-group.json`). Bar 44 + the existing 1px divider. 320: wraps to 2 lines (Horizon reserves 44px per side for slider arrows).
+- **Header (#2):** cart glyph → Figma "Icon / cart" 22px (`assets/snosha-cart-22.svg`, CSS mask in the Snosha header scope; cart bubble, drawer and search verified). Logo unchanged: the uploaded logo is 4.13 : 1, Figma's header logo artwork 4.94 : 1 — needs the Figma logo asset uploaded by the merchant.
+- **FAQ (#14):** warranty row `open_by_default: true` (native setting); card block padding 13 (Figma's stroke is inside its 14px padding). Desktop 498 / rows 55, 93; mobile 630 / rows 55, 121 (= Figma). Click and keyboard toggle verified.
+- **Footer (#15):** `blocks/footer-copyright.liquid` optional `brand_name` (falls back to `shop.name`); set to "SNOSHA" in `sections/footer-group.json`.
+- Checks: Theme Check 9 baseline, JSON parse (headers kept), `git diff --check`, CSS balance / no `!important`, no Liquid errors. |
+
 ---
 
 ## H. Next section

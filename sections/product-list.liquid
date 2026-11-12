@@ -25,6 +25,9 @@
       --snosha-fc-gradient-end: {{ section.settings.snosha_gradient_end }};
       --snosha-fc-mobile-padding-start: {{ section.settings.snosha_mobile_padding_top }}px;
       --snosha-fc-mobile-padding-end: {{ section.settings.snosha_mobile_padding_bottom }}px;
+      --snosha-fc-columns-desktop: {{ section.settings.columns | default: 4 }};
+      --snosha-fc-columns-tablet: {{ section.settings.snosha_columns_tablet | default: 2 }};
+      --snosha-fc-columns-mobile: {{ section.settings.snosha_columns_mobile | default: 2 }};
     }
   {% endstyle %}
 {%- endif -%}
@@ -394,6 +397,28 @@
       "label": "Snosha featured collection style",
       "info": "Applies the Snosha best-sellers design (cards, mobile carousel progress bar). Off by default.",
       "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_tablet",
+      "label": "Products per row (tablet)",
+      "info": "Snosha style, 750–989px. Desktop (990px and wider) uses the Columns setting above. Cards share the row width.",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_mobile",
+      "label": "Products per row (mobile)",
+      "info": "Snosha style, below 750px. Replaces the native mobile columns option. Card text scales with the card, like the design.",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "visible_if": "{{ section.settings.snosha_style }}"
     },
     {
       "type": "range",

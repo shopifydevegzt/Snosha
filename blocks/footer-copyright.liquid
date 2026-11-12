@@ -14,7 +14,9 @@
 >
   <span class="footer-utilities__text">
     &copy; {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url -}}
+    {%- comment -%} Snosha (project addition): optional brand name instead of the store name {%- endcomment -%}
+    {%- assign copyright_name = block_settings.brand_name | strip | escape | default: shop.name %}
+    {{ copyright_name | link_to: routes.root_url -}}
     {%- comment -%} Snosha (project addition): optional text after the store name {%- endcomment -%}
     {%- if block_settings.suffix != blank %} {{ block_settings.suffix | escape }}{% endif -%}
     {%- if block_settings.show_powered_by -%}
@@ -43,6 +45,12 @@
     {
       "type": "paragraph",
       "content": "t:content.manage_store_name"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name",
+      "info": "Optional. Shown instead of the store name; leave blank to use the store name."
     },
     {
       "type": "text",
