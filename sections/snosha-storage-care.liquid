@@ -1,0 +1,480 @@
+{%- comment -%}
+  Snosha — Storage & care tabs (product page S10; Figma 190:10753 desktop, 190:11511 mobile).
+  Heading + pill tabs + one card showing the selected tab's instructions.
+  - Tabs: private theme blocks _snosha-storage-tab (label, mobile label, "Open by default"), each
+    holding nested _snosha-storage-item instruction blocks. Add / remove / hide / drag in the editor.
+  - Each tab block outputs its button and its panel separated by <!--snosha-tab-split--> and ended
+    by <!--snosha-tab-end-->. This section captures {% content_for 'blocks' %}, splits it in block
+    order, and puts the buttons in the tablist and the panels in the card, so tab and panel always
+    come in pairs (hidden or unlabelled tabs, and empty tabs when "Hide tabs without instructions"
+    is on, render nothing). section.blocks is NOT used: for theme blocks it only exposes
+    placeholders (type "@theme", no settings, ids with a "-1" suffix) that never match the output.
+  - Default tab: first rendered tab whose button has data-snosha-default ("Open by default"), else
+    the first rendered tab. It is activated server-side (aria-selected / tabindex / no `hidden`),
+    so the default tab is visible without JavaScript.
+  - Tab bar appearance: static block _snosha-storage-tab-style (id "tab_style"), kept off the
+    section so it stays under the 40-setting advisory.
+  - Switching, arrow keys and Theme Editor block selection: <snosha-tabs> in assets/snosha-tabs.js.
+  All copy lives in the preset / block settings. Styles: assets/dev1.css (.snosha-storage-care).
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+  capture tabs_markup
+    content_for 'blocks'
+  endcapture
+
+  # One entry per rendered tab: "<button>…<!--snosha-tab-split--><panel>…"
+  assign tab_parts = tabs_markup | split: '<!--snosha-tab-end-->'
+
+  # Pass 1: count tabs and pick the default (first "Open by default", else the first tab).
+  assign tab_count = 0
+  assign active_index = 0
+  assign default_found = false
+  for part in tab_parts
+    unless part contains '<!--snosha-tab-split-->'
+      continue
+    endunless
+    assign tab_count = tab_count | plus: 1
+    if default_found == false and part contains 'data-snosha-default'
+      assign active_index = tab_count
+      assign default_found = true
+    endif
+  endfor
+  if tab_count > 0 and active_index == 0
+    assign active_index = 1
+  endif
+
+  # Pass 2: split each tab into button / panel; activate the default one server-side.
+  assign buttons_markup = ''
+  assign panels_markup = ''
+  assign tab_index = 0
+  for part in tab_parts
+    unless part contains '<!--snosha-tab-split-->'
+      continue
+    endunless
+    assign tab_index = tab_index | plus: 1
+    assign halves = part | split: '<!--snosha-tab-split-->'
+    assign tab_button = halves[0] | strip
+    assign tab_panel = halves[1] | strip
+    if tab_index == active_index
+      assign tab_button = tab_button | replace_first: 'aria-selected="false" tabindex="-1"', 'aria-selected="true" tabindex="0"'
+      assign tab_panel = tab_panel | replace_first: 'data-snosha-tab-panel hidden', 'data-snosha-tab-panel'
+    endif
+    assign buttons_markup = buttons_markup | append: tab_button
+    assign panels_markup = panels_markup | append: tab_panel
+  endfor
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-storage-care {
+    --snosha-care-bg: {{ ss.background }};
+    --snosha-care-padding-start: {{ ss.padding_top }}px;
+    --snosha-care-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-care-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-care-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    --snosha-care-heading-color: {{ ss.heading_color }};
+    --snosha-care-heading-size: {{ ss.heading_size }}px;
+    --snosha-care-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+    --snosha-care-heading-gap: {{ ss.heading_gap }}px;
+    --snosha-care-heading-gap-mobile: {{ ss.heading_gap_mobile }}px;
+    --snosha-care-card-bg: {{ ss.card_background }};
+    --snosha-care-card-border: {{ ss.card_border }};
+    --snosha-care-card-shadow: {{ ss.card_shadow }};
+    --snosha-care-card-radius: {{ ss.card_radius }}px;
+    --snosha-care-card-padding: {{ ss.card_padding }}px;
+    --snosha-care-card-padding-mobile: {{ ss.card_padding_mobile }}px;
+    --snosha-care-card-padding-top: {{ ss.card_padding_top }}px;
+    --snosha-care-card-padding-bottom: {{ ss.card_padding_bottom }}px;
+    --snosha-care-item-gap: {{ ss.item_gap }}px;
+    --snosha-care-text: {{ ss.text_color }};
+    --snosha-care-text-size: {{ ss.text_size }}px;
+    --snosha-care-text-size-mobile: {{ ss.text_size_mobile }}px;
+    --snosha-care-line-height: {{ ss.line_height }}px;
+    --snosha-care-marker-color: {{ ss.marker_color }};
+    --snosha-care-marker-size: {{ ss.marker_size }}px;
+  }
+{% endstyle %}
+{% content_for 'block', type: '_snosha-storage-tab-style', id: 'tab_style' %}
+
+<div class="snosha-storage-care{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-storage-care__inner">
+      {%- if heading != blank -%}
+        <h2 class="snosha-storage-care__heading" id="SnoshaCareHeading-{{ section.id }}">{{ heading }}</h2>
+      {%- endif -%}
+
+      {%- if tab_count > 0 -%}
+        <script src="{{ 'snosha-tabs.js' | asset_url }}" type="module" fetchpriority="low"></script>
+        <snosha-tabs class="snosha-storage-care__tabs">
+          <div
+            class="snosha-storage-care__tablist"
+            role="tablist"
+            {% if heading != blank %}
+              aria-labelledby="SnoshaCareHeading-{{ section.id }}"
+            {% endif %}
+          >
+            {{- buttons_markup -}}
+          </div>
+          <div class="snosha-storage-care__card">
+            {{- panels_markup -}}
+          </div>
+        </snosha-tabs>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha storage & care",
+  "tag": "section",
+  "class": "snosha-storage-care-section",
+  "blocks": [
+    { "type": "_snosha-storage-tab" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Tabs are blocks: add, rename, hide, remove or drag them; each tab holds its own instruction blocks. Tabs without instructions are hidden on the storefront."
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Space below heading",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_gap_mobile",
+      "label": "Space below heading on mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "paragraph",
+      "content": "Tab colors, sizes and spacing are in the \"Tab style\" block."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_empty_tabs",
+      "label": "Hide tabs without instructions",
+      "default": false
+    },
+    {
+      "type": "inline_richtext",
+      "id": "empty_message",
+      "label": "Empty tab message",
+      "info": "Shown in a tab that has no instructions yet.",
+      "visible_if": "{{ section.settings.hide_empty_tabs == false }}"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove the shadow.",
+      "alpha": true,
+      "default": "#0D40800F"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Side padding",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_padding_mobile",
+      "label": "Side padding on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Space between instructions",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Instruction text"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "label": "Line height",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Marker"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_marker",
+      "label": "Show marker",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "marker_color",
+      "label": "Marker color",
+      "info": "Applies to the built-in dot.",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.show_marker }}"
+    },
+    {
+      "type": "range",
+      "id": "marker_size",
+      "label": "Marker height",
+      "min": 10,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 26,
+      "visible_if": "{{ section.settings.show_marker }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "marker_image",
+      "label": "Custom marker image",
+      "info": "Replaces the dot. Shown at the marker height.",
+      "visible_if": "{{ section.settings.show_marker }}"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha storage & care",
+      "category": "Snosha",
+      "settings": {
+        "heading": "شروط الاستخدام والتخزين",
+        "empty_message": "سيتم إضافة المحتوى قريبًا"
+      },
+      "blocks": {
+        "tab_style": {
+          "type": "_snosha-storage-tab-style",
+          "static": true
+        },
+        "tab_safe_use": {
+          "type": "_snosha-storage-tab",
+          "settings": { "title": "للاستخدام الآمن", "default_open": true },
+          "blocks": {
+            "item_1": { "type": "_snosha-storage-item", "settings": { "text": "المنتج مخصص لاستخدام البالغين، ويُستخدم من قِبل الأطفال تحت إشراف شخص بالغ فقط." } },
+            "item_2": { "type": "_snosha-storage-item", "settings": { "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة." } },
+            "item_3": { "type": "_snosha-storage-item", "settings": { "text": "في حال وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام." } },
+            "item_4": { "type": "_snosha-storage-item", "settings": { "text": "يُمنع مشاركة فرشاة الأسنان مع الآخرين لأسباب صحية." } },
+            "item_5": { "type": "_snosha-storage-item", "settings": { "text": "استخدم فقط الملحقات الأصلية المعتمدة من سنوشا." } },
+            "item_6": { "type": "_snosha-storage-item", "settings": { "text": "فك الجهاز أو العبث بمكوناته الداخلية يؤدي لإلغاء الضمان." } },
+            "item_7": { "type": "_snosha-storage-item", "settings": { "text": "يحتوي الجهاز على بطارية ليثيوم مدمجة، لذا يجب إبعاده عن مصادر الحرارة العالية لتفادي أي خطر." } }
+          },
+          "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5", "item_6", "item_7"]
+        },
+        "tab_cleaning": {
+          "type": "_snosha-storage-tab",
+          "settings": { "title": "للتنظيف والصيانة", "default_open": false }
+        },
+        "tab_storage": {
+          "type": "_snosha-storage-tab",
+          "settings": { "title": "للتخزين", "default_open": false }
+        }
+      },
+      "block_order": ["tab_safe_use", "tab_cleaning", "tab_storage"]
+    }
+  ]
+}
+{% endschema %}

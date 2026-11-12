@@ -1,0 +1,119 @@
+{%- comment -%}
+  Storage & care tab (private theme block of sections/snosha-storage-care.liquid).
+  Outputs BOTH halves of one tab, in this order, so the section can pair them without reading
+  section.blocks (for theme blocks, section.blocks only exposes placeholders: type "@theme", no
+  settings, ids with a "-1" suffix, so it can't be matched to this output):
+    <button role="tab">…</button>  <!--snosha-tab-split-->  <div role="tabpanel">…</div>  <!--snosha-tab-end-->
+  The section splits the captured {% content_for 'blocks' %} on these markers (block order is kept),
+  puts the buttons in the tablist and the panels in the card, and activates the default tab.
+  - Both halves start inactive (aria-selected="false" tabindex="-1" / data-snosha-tab-panel hidden);
+    "Open by default" adds data-snosha-default to the button.
+  - Storefront: every labelled tab renders (as in Figma). A tab without instructions shows the
+    section's "Empty tab message" (blank message → empty card). With the section setting "Hide tabs
+    without instructions" on, empty tabs render nothing. A tab without a label never renders.
+  - Theme Editor: every tab renders so it can be filled; editor-only hints explain empty states.
+  Switching: <snosha-tabs> in assets/snosha-tabs.js.
+{%- endcomment -%}
+{%- liquid
+  capture items_markup
+    content_for 'blocks'
+  endcapture
+  assign title = block.settings.title | strip
+  assign title_mobile = block.settings.title_mobile | strip
+  if title == blank
+    assign title = title_mobile
+  endif
+  assign hide_empty = section.settings.hide_empty_tabs
+  assign empty_message = section.settings.empty_message | strip
+  assign renderable = false
+  if title != blank
+    if items_markup != blank or hide_empty == false
+      assign renderable = true
+    endif
+  endif
+-%}
+{%- if renderable or request.design_mode -%}
+  <button
+    type="button"
+    class="snosha-storage-care__tab"
+    id="SnoshaCareTab-{{ section.id }}-{{ block.id }}"
+    role="tab"
+    aria-controls="SnoshaCarePanel-{{ section.id }}-{{ block.id }}"
+    aria-selected="false" tabindex="-1"
+    {%- if block.settings.default_open %} data-snosha-default{% endif %}
+  >
+    {%- if title == blank -%}
+      <span class="snosha-storage-care__text">(no label)</span>
+    {%- elsif title_mobile != blank and title_mobile != title -%}
+      <span class="snosha-storage-care__text snosha-storage-care__text--desktop">{{ title | escape }}</span>
+      <span class="snosha-storage-care__text snosha-storage-care__text--mobile">{{ title_mobile | escape }}</span>
+    {%- else -%}
+      <span class="snosha-storage-care__text">{{ title | escape }}</span>
+    {%- endif -%}
+  </button>
+  <!--snosha-tab-split-->
+  <div
+    class="snosha-storage-care__panel"
+    id="SnoshaCarePanel-{{ section.id }}-{{ block.id }}"
+    role="tabpanel"
+    aria-labelledby="SnoshaCareTab-{{ section.id }}-{{ block.id }}"
+    tabindex="0"
+    data-snosha-tab-panel hidden
+    {{ block.shopify_attributes }}
+  >
+    {%- if items_markup != blank -%}
+      <ul class="snosha-storage-care__list" role="list">
+        {{- items_markup -}}
+      </ul>
+    {%- elsif renderable == false -%}
+      <p class="snosha-storage-care__editor-hint">Theme Editor only: this tab is hidden on the storefront (no label, or no instructions while "Hide tabs without instructions" is on).</p>
+    {%- elsif empty_message != blank -%}
+      <p class="snosha-storage-care__empty">{{ empty_message }}</p>
+    {%- elsif request.design_mode -%}
+      <p class="snosha-storage-care__editor-hint">Theme Editor only: add instructions to this tab, or set an "Empty tab message" in the section settings.</p>
+    {%- endif -%}
+  </div>
+  <!--snosha-tab-end-->
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Tab",
+  "tag": null,
+  "blocks": [
+    { "type": "_snosha-storage-item" }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Tab label"
+    },
+    {
+      "type": "text",
+      "id": "title_mobile",
+      "label": "Tab label on mobile",
+      "info": "Optional. Leave blank to use the label above."
+    },
+    {
+      "type": "checkbox",
+      "id": "default_open",
+      "label": "Open by default",
+      "info": "If several tabs are checked, the first one opens. If none is checked (or it is hidden), the first tab opens.",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "Add, remove or drag instruction blocks inside this tab. A tab without instructions shows the section's \"Empty tab message\", or is hidden when \"Hide tabs without instructions\" is on."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tab",
+      "settings": {
+        "title": "New tab"
+      }
+    }
+  ]
+}
+{% endschema %}

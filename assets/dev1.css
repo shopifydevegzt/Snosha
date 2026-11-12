@@ -2666,3 +2666,425 @@
     }
   }
 }
+
+/* =========================================================================
+   Snosha how to use (product page S09)
+   sections/snosha-how-to-use.liquid + blocks/_snosha-how-to-use-step.liquid,
+   blocks/_snosha-how-to-use-note.liquid. Figma 190:10750 (1480) / 190:11464 (390).
+   Per-instance values come from the section {% style %} bridge (--snosha-htu-*) and the
+   note block's inline variables (--snosha-note-*).
+   ========================================================================= */
+.snosha-how-to-use {
+  padding-block: var(--snosha-htu-padding-start-mobile) var(--snosha-htu-padding-end-mobile);
+  background-color: var(--snosha-htu-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-htu-padding-start) var(--snosha-htu-padding-end);
+  }
+
+  .snosha-how-to-use__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-htu-heading-gap-mobile);
+
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container → 1336 panel */
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-htu-heading-gap);
+      padding-inline: 20px;
+    }
+  }
+
+  .snosha-how-to-use__heading {
+    margin: 0;
+    color: var(--snosha-htu-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-htu-heading-size-mobile);
+    font-weight: 700;
+    line-height: 52px;
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-htu-heading-size);
+    }
+  }
+
+  /* Panel: Figma padding 16 / side / 24, steps → note gap 18 */
+  .snosha-how-to-use__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 16px var(--snosha-htu-panel-padding-mobile) 24px;
+    border: 1px solid var(--snosha-htu-panel-border);
+    border-radius: var(--snosha-htu-panel-radius);
+    background-color: var(--snosha-htu-panel-bg);
+    box-shadow: 0 8px 18px var(--snosha-htu-panel-shadow);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: var(--snosha-htu-panel-padding);
+    }
+  }
+
+  /* Numbers are a CSS counter: they follow the rendered order of the step blocks. */
+  .snosha-how-to-use__steps {
+    counter-reset: snosha-htu-step;
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-htu-step-gap);
+    margin: 0;
+    padding: 16px 0 0;
+    list-style: none;
+  }
+
+  /* Badge first in the DOM → inline-start (right in RTL, left in LTR) */
+  .snosha-how-to-use__step {
+    counter-increment: snosha-htu-step;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .snosha-how-to-use__badge {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--snosha-htu-badge-size);
+    block-size: var(--snosha-htu-badge-size);
+    border-radius: 50%;
+    background-image: linear-gradient(to bottom, var(--snosha-htu-badge-start), var(--snosha-htu-badge-end));
+    color: var(--snosha-htu-badge-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-htu-badge-font-size-mobile);
+    font-weight: 700;
+    line-height: 1;
+
+    &::before {
+      content: counter(snosha-htu-step);
+    }
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-htu-badge-font-size);
+    }
+  }
+
+  .snosha-how-to-use__step-text {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    color: var(--snosha-htu-step-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-htu-step-size-mobile);
+    font-weight: 400;
+    line-height: var(--snosha-htu-step-line-height);
+    text-align: start;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-htu-step-size);
+    }
+  }
+
+  /* Note: Figma padding 14 / 20, gap 10, 14 / 24 SemiBold (mobile 11 / 24); icon first → inline-start */
+  .snosha-how-to-use__note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--snosha-note-padding-block) var(--snosha-note-padding-inline);
+    border: 1px solid var(--snosha-note-border);
+    border-radius: var(--snosha-note-radius);
+    background-color: var(--snosha-note-bg);
+    color: var(--snosha-note-color);
+  }
+
+  .snosha-how-to-use__note-icon {
+    flex: none;
+    inline-size: var(--snosha-note-icon-size);
+    block-size: var(--snosha-note-icon-size);
+    color: var(--snosha-note-icon-color);
+    object-fit: contain;
+  }
+
+  .snosha-how-to-use__note-text {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-note-size-mobile);
+    font-weight: 600;
+    line-height: 24px;
+    text-align: start;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-note-size);
+    }
+  }
+
+  /* Desktop / mobile text variants (only output when the mobile text differs) */
+  .snosha-how-to-use__text--desktop {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-how-to-use__text--mobile {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+}
+
+/* =========================================================================
+   Snosha storage & care tabs (product page S10)
+   sections/snosha-storage-care.liquid + blocks/_snosha-storage-tab.liquid,
+   blocks/_snosha-storage-item.liquid; switching: <snosha-tabs> (assets/snosha-tabs.js); tab bar values: _snosha-storage-tab-style.
+   Figma 190:10753 (1480) / 190:11511 (390). Values: --snosha-care-* (section bridge).
+   ========================================================================= */
+.snosha-storage-care {
+  padding-block: var(--snosha-care-padding-start-mobile) var(--snosha-care-padding-end-mobile);
+  background-color: var(--snosha-care-bg);
+
+  /* Tab bar fallbacks (Figma sizes, palette colors), used only if the "Tab style" static block
+     is hidden. Its {% style %} (#shopify-section-… .snosha-storage-care) overrides them. */
+  --snosha-care-tab-size: 16px;
+  --snosha-care-tab-size-mobile: 11.5px;
+  --snosha-care-tab-padding-block: 10px;
+  --snosha-care-tab-padding-block-mobile: 6px;
+  --snosha-care-tab-padding: 24px;
+  --snosha-care-tab-padding-mobile: 10px;
+  --snosha-care-tab-gap: 10px;
+  --snosha-care-tab-gap-mobile: 6px;
+  --snosha-care-tabs-card-gap: 22px;
+  --snosha-care-tabs-card-gap-mobile: 16px;
+  --snosha-care-tab-radius: 100px;
+  --snosha-care-tab-bg: var(--color-background);
+  --snosha-care-tab-text: var(--color-primary-button-background);
+  --snosha-care-tab-border: var(--color-border);
+  --snosha-care-tab-active-start: var(--color-primary-button-background);
+  --snosha-care-tab-active-end: var(--color-primary-button-background);
+  --snosha-care-tab-active-text: var(--color-primary-button-text);
+  --snosha-care-tab-active-shadow: transparent;
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-care-padding-start) var(--snosha-care-padding-end);
+  }
+
+  .snosha-storage-care__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-care-heading-gap-mobile);
+
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container → 1336 card */
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-care-heading-gap);
+      padding-inline: 20px;
+    }
+  }
+
+  .snosha-storage-care__heading {
+    margin: 0;
+    color: var(--snosha-care-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-care-heading-size-mobile);
+    font-weight: 700;
+    line-height: 52px;
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-care-heading-size);
+    }
+  }
+
+  /* Tabs → card: Figma 16 (mobile) / 22 (desktop) */
+  .snosha-storage-care__tabs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-care-tabs-card-gap-mobile);
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-care-tabs-card-gap);
+    }
+  }
+
+  /* One centered row in block order (first tab on the right in RTL). Long labels or narrow
+     screens wrap to another centered row instead of overflowing. */
+  .snosha-storage-care__tablist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--snosha-care-tab-gap-mobile);
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-care-tab-gap);
+    }
+  }
+
+  /* Figma pill: 1px border, 6 / side padding (mobile 11.5px), 10 / side padding (desktop 16px),
+     Cairo SemiBold, line-height normal. The active pill keeps a transparent border so both
+     states have the same size. */
+  .snosha-storage-care__tab {
+    appearance: none;
+    flex: 0 1 auto;
+    min-inline-size: 0;
+    margin: 0;
+    padding: var(--snosha-care-tab-padding-block-mobile) var(--snosha-care-tab-padding-mobile);
+    border: 1px solid var(--snosha-care-tab-border);
+    border-radius: var(--snosha-care-tab-radius);
+    background-color: var(--snosha-care-tab-bg);
+    background-origin: border-box;
+    color: var(--snosha-care-tab-text);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-care-tab-size-mobile);
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    cursor: pointer;
+
+    @media screen and (min-width: 750px) {
+      padding: var(--snosha-care-tab-padding-block) var(--snosha-care-tab-padding);
+      font-size: var(--snosha-care-tab-size);
+    }
+
+    &[aria-selected='true'] {
+      border-color: transparent;
+      background-image: linear-gradient(to right, var(--snosha-care-tab-active-start), var(--snosha-care-tab-active-end));
+      color: var(--snosha-care-tab-active-text);
+      box-shadow: 0 8px 18px var(--snosha-care-tab-active-shadow);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-care-tab-active-end);
+      outline-offset: 3px;
+    }
+  }
+
+  /* Card: Figma padding 24 / side / 26, 1px border, radius 16, shadow 0 8 18 */
+  .snosha-storage-care__card {
+    padding: var(--snosha-care-card-padding-top) var(--snosha-care-card-padding-mobile) var(--snosha-care-card-padding-bottom);
+    border: 1px solid var(--snosha-care-card-border);
+    border-radius: var(--snosha-care-card-radius);
+    background-color: var(--snosha-care-card-bg);
+    box-shadow: 0 8px 18px var(--snosha-care-card-shadow);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: var(--snosha-care-card-padding);
+    }
+  }
+
+  .snosha-storage-care__panel {
+    &[hidden] {
+      display: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-care-tab-active-end);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+  }
+
+  .snosha-storage-care__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-care-item-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Marker first in the DOM → inline-start (right in RTL), gap 10 */
+  .snosha-storage-care__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+  }
+
+  /* Box = first line minus 2px, so the default 26px marker sits at the row top as in Figma
+     (dot center 13.5 on a 28px line); other heights stay centered on the first line. */
+  .snosha-storage-care__marker {
+    display: grid;
+    flex: none;
+    place-items: center;
+    block-size: calc(var(--snosha-care-line-height) - 2px);
+    color: var(--snosha-care-marker-color);
+  }
+
+  .snosha-storage-care__marker-svg {
+    display: block;
+    inline-size: auto;
+    block-size: var(--snosha-care-marker-size);
+  }
+
+  .snosha-storage-care__marker-image {
+    display: block;
+    inline-size: auto;
+    block-size: var(--snosha-care-marker-size);
+    object-fit: contain;
+  }
+
+  .snosha-storage-care__item-text {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    color: var(--snosha-care-text);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-care-text-size-mobile);
+    font-weight: 400;
+    line-height: var(--snosha-care-line-height);
+    text-align: start;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-care-text-size);
+    }
+  }
+
+  /* Empty tab message (storefront): same type as the instructions, centered in the card */
+  .snosha-storage-care__empty {
+    margin: 0;
+    color: var(--snosha-care-text);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-care-text-size-mobile);
+    line-height: var(--snosha-care-line-height);
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-care-text-size);
+    }
+  }
+
+  /* Theme Editor only (request.design_mode) */
+  .snosha-storage-care__editor-hint {
+    margin: 0;
+    color: var(--snosha-care-text);
+    font-size: 14px;
+    font-style: italic;
+    line-height: var(--snosha-care-line-height);
+    text-align: center;
+  }
+
+  /* Desktop / mobile text variants (only output when the mobile text differs) */
+  .snosha-storage-care__text--desktop {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-storage-care__text--mobile {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+}
