@@ -319,6 +319,166 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha stage"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Use Snosha stage style",
+      "info": "For the Carousel layout with Thumbnails at the bottom. Media sits in a rounded stage (Figma 712 : 660 desktop, 352 : 364 mobile) and keeps its own proportions. Use Media fit = Contain.",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "snosha_media_fit",
+      "label": "Stage media fit",
+      "info": "Contain shows the whole image or video. Cover fills the stage and crops the edges of media whose proportions differ from the stage.",
+      "options": [
+        { "value": "contain", "label": "Contain" },
+        { "value": "cover", "label": "Cover" }
+      ],
+      "default": "contain",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_stage_background",
+      "label": "Stage background",
+      "alpha": true,
+      "default": "#EBEDEED9",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_stage_border",
+      "label": "Stage border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_stage_radius",
+      "label": "Stage corner radius (desktop)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 28,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_stage_radius_mobile",
+      "label": "Stage corner radius (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_thumb_size",
+      "label": "Thumbnail size (desktop)",
+      "info": "Replaces the thumbnail width above. Thumbnail corner radius above applies to desktop.",
+      "min": 44,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 104,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_thumb_size_mobile",
+      "label": "Thumbnail size (mobile)",
+      "min": 40,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 66,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_thumb_radius_mobile",
+      "label": "Thumbnail corner radius (mobile)",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_thumb_border",
+      "label": "Thumbnail border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_thumb_active",
+      "label": "Selected thumbnail border",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_show_zoom_button",
+      "label": "Show zoom button",
+      "info": "Opens the zoom view of the shown media. Needs Image zoom on.",
+      "default": true,
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_zoom_background",
+      "label": "Zoom button background",
+      "alpha": true,
+      "default": "#FFFFFFEB",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_zoom_icon",
+      "label": "Zoom button icon",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_badge_text",
+      "label": "Badge text",
+      "default": "الأكثر مبيعًا",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_badge_tag",
+      "label": "Show badge on products tagged",
+      "info": "Exact product tag. The badge shows only on products with this tag; leave empty to hide it.",
+      "default": "الاكثر مبيعا",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_badge_background",
+      "label": "Badge background",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_badge_text_color",
+      "label": "Badge text",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
     }
   ],
   "presets": [

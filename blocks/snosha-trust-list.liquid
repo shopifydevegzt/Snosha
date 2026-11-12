@@ -1,0 +1,131 @@
+{%- doc -%}
+  Snosha — Buy Box trust pills ("Trust Inline", Figma 190:10294 desktop, 190:11005 mobile).
+  Each pill is a _snosha-trust-item block. Informational only: no shipping, payment or warranty logic.
+  Static styles: assets/main.css (.snosha-trust).
+{%- enddoc -%}
+{%- assign block_settings = block.settings -%}
+<ul
+  class="snosha-trust{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
+  role="list"
+  style="
+    --snosha-trust-columns: {{ block_settings.columns_desktop }};
+    --snosha-trust-columns-mobile: {{ block_settings.columns_mobile }};
+    --snosha-trust-bg: {{ block_settings.background_color }};
+    --snosha-trust-border: {{ block_settings.border_color }};
+    --snosha-trust-border-hover: {{ block_settings.border_hover_color }};
+    --snosha-trust-text: {{ block_settings.text_color }};
+    --snosha-trust-tile-start: {{ block_settings.tile_start }};
+    --snosha-trust-tile-end: {{ block_settings.tile_end }};
+    --snosha-trust-icon: {{ block_settings.icon_color }};
+    --snosha-trust-shadow: {{ block_settings.shadow_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- content_for 'blocks' -%}
+</ul>
+
+{% schema %}
+{
+  "name": "Snosha trust pills",
+  "tag": null,
+  "blocks": [{ "type": "_snosha-trust-item" }],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Informational text only; shipping fees, free-shipping thresholds and payment options come from your Shopify settings, not from these pills. Pills are shared by every product using this template."
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Columns (desktop)",
+      "info": "750px and wider.",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (mobile)",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Pill background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Pill border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_hover_color",
+      "label": "Pill border (hover, linked pills)",
+      "default": "{{ settings.color_palette.color4 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_start",
+      "label": "Icon tile gradient (top)",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_end",
+      "label": "Icon tile gradient (bottom)",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Pill shadow",
+      "default": "#0F64A80F"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha trust pills",
+      "category": "Snosha",
+      "blocks": {
+        "trust_1": { "type": "_snosha-trust-item", "settings": { "text": "الدفع عند الاستلام", "icon": "wallet" } },
+        "trust_2": { "type": "_snosha-trust-item", "settings": { "text": "توصيل سريع لجميع أنحاء مصر", "icon": "truck" } }
+      },
+      "block_order": ["trust_1", "trust_2"]
+    }
+  ]
+}
+{% endschema %}

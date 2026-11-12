@@ -9,8 +9,19 @@
 %}
 
 <div
-  class="accordion accordion--{{ block.id }} accordion--{{ block_settings.icon }} border-style spacing-style{% if block_settings.background_color != blank or block_settings.text_color != blank %} color-custom-{{ block.id }}{% endif %}{% if block_settings.background_color != blank %} accordion--custom-background{% endif %}{% if block_settings.dividers %} accordion--dividers{% endif %}"
+  class="accordion accordion--{{ block.id }} accordion--{{ block_settings.icon }} border-style spacing-style{% if block_settings.background_color != blank or block_settings.text_color != blank %} color-custom-{{ block.id }}{% endif %}{% if block_settings.background_color != blank %} accordion--custom-background{% endif %}{% if block_settings.dividers %} accordion--dividers{% endif %}{% if block_settings.snosha_style %} accordion--snosha{% endif %}"
   style="
+    {%- if block_settings.snosha_style -%}
+      --snosha-acc-bg: {{ block_settings.snosha_row_background }};
+      --snosha-acc-bg-open: {{ block_settings.snosha_row_background_open }};
+      --snosha-acc-border: {{ block_settings.snosha_row_border }};
+      --snosha-acc-title: {{ block_settings.snosha_title_color }};
+      --snosha-acc-chevron: {{ block_settings.snosha_chevron_color }};
+      --snosha-acc-tile: {{ block_settings.snosha_tile_background }};
+      --snosha-acc-icon: {{ block_settings.snosha_icon_color }};
+      --snosha-acc-content-heading: {{ block_settings.snosha_content_heading_color }};
+      --snosha-acc-content: {{ block_settings.snosha_content_color }};
+    {%- endif -%}
     --summary-font-family: var(--font-{{ block_settings.type_preset }}--family);
      --summary-font-style: var(--font-{{ block_settings.type_preset }}--style);
      --summary-font-weight: var(--font-{{ block_settings.type_preset }}--weight);
@@ -54,6 +65,76 @@
         }
       ],
       "default": "caret"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Use Snosha card style",
+      "info": "Snosha. Each row becomes a rounded card (open row tinted) with the Figma chevron and icon tile. Turn dividers off when using it.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "snosha_row_background",
+      "label": "Row background",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_row_background_open",
+      "label": "Open row background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_row_border",
+      "label": "Row border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_title_color",
+      "label": "Row title",
+      "default": "{{ settings.color_palette.foreground }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_chevron_color",
+      "label": "Chevron",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_tile_background",
+      "label": "Icon tile background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_content_heading_color",
+      "label": "Content headings",
+      "default": "{{ settings.color_palette.foreground }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_content_color",
+      "label": "Content text",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
     },
     {
       "type": "checkbox",

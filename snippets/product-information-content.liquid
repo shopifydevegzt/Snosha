@@ -86,8 +86,8 @@
   class="section-background{% if settings.background_color != blank %} color-custom-{{ section_id }}{% endif %}"
 ></div>
 <div
-  class="product-information section section--{{ content_width }} spacing-style{% if settings.background_color != blank %} color-custom-{{ section_id }}{% endif %} relative"
-  style="{% render 'spacing-style', settings: settings %} --gap: {{ settings.gap }}px;"
+  class="product-information section section--{{ content_width }} spacing-style{% if settings.background_color != blank %} color-custom-{{ section_id }}{% endif %} relative{% if settings.snosha_buy_box %} snosha-buy-box{% endif %}{% if settings.custom_class != blank %} {{ settings.custom_class | strip | escape }}{% endif %}"
+  style="{% render 'spacing-style', settings: settings %} --gap: {{ settings.gap }}px;{% if settings.snosha_buy_box %} --snosha-buybox-width: {{ settings.snosha_details_width | default: 560 }}px; --snosha-columns-gap: {{ settings.snosha_column_gap | default: 64 }}px; --snosha-bb-text: {{ settings.snosha_text_color }}; --snosha-bb-muted: {{ settings.snosha_muted_color }}; --snosha-bb-label: {{ settings.snosha_label_color }}; --snosha-bb-accent: {{ settings.snosha_accent_color }}; --snosha-bb-tint: {{ settings.snosha_tint_color }}; --snosha-bb-border: {{ settings.snosha_border_color }}; --snosha-bb-shadow: {{ settings.snosha_shadow_color }};{% endif %}"
   data-testid="product-information"
 >
   {% if settings.desktop_media_position == 'left' and product_has_media and request.page_type == 'product' %}

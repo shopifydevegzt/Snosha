@@ -1,0 +1,81 @@
+{%- doc -%}
+  Snosha — Buy Box benefit list (Figma 190:10244 desktop, 190:10955 mobile).
+  Each row is a _snosha-benefit block (add / remove / reorder / hide in the Theme Editor).
+  Static styles: assets/main.css (.snosha-benefits).
+{%- enddoc -%}
+{%- assign block_settings = block.settings -%}
+<ul
+  class="snosha-benefits{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
+  role="list"
+  style="
+    --snosha-benefits-gap: {{ block_settings.row_gap }}px;
+    --snosha-benefits-text: {{ block_settings.text_color }};
+    --snosha-benefits-tile: {{ block_settings.tile_color }};
+    --snosha-benefits-icon: {{ block_settings.icon_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- content_for 'blocks' -%}
+</ul>
+
+{% schema %}
+{
+  "name": "Snosha benefits",
+  "tag": null,
+  "blocks": [{ "type": "_snosha-benefit" }],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Rows are shared by every product using this template. For product-specific rows, connect a row's text to a product metafield (dynamic source); rows with empty text are not shown."
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row gap",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_color",
+      "label": "Icon tile",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha benefits",
+      "category": "Snosha",
+      "blocks": {
+        "benefit_1": { "type": "_snosha-benefit", "settings": { "text": "سهلة الاستخدام من أول يوم" } },
+        "benefit_2": { "type": "_snosha-benefit", "settings": { "text": "ضمان سنة كاملة" } }
+      },
+      "block_order": ["benefit_1", "benefit_2"]
+    }
+  ]
+}
+{% endschema %}

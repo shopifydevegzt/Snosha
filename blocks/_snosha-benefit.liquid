@@ -1,0 +1,60 @@
+{%- doc -%}
+  Snosha — one Buy Box benefit row (child of snosha-benefits). Figma "Benefit Item" 412:4966.
+  Renders nothing when the text is empty (e.g. a dynamic source with no value for this product).
+{%- enddoc -%}
+{%- liquid
+  assign block_settings = block.settings
+  assign benefit_text = block_settings.text | strip
+-%}
+{%- if benefit_text != blank -%}
+  <li class="snosha-benefits__item" {{ block.shopify_attributes }}>
+    {%- if block_settings.image != blank -%}
+      <span class="snosha-benefits__tile snosha-benefits__tile--image" aria-hidden="true">
+        {{- block_settings.image | image_url: width: 66 | image_tag: width: 22, height: 22, alt: '', loading: 'lazy' -}}
+      </span>
+    {%- elsif block_settings.icon != 'none' -%}
+      <span class="snosha-benefits__tile" aria-hidden="true">
+        {%- render 'snosha-icon', icon: block_settings.icon, uid: block.id -%}
+      </span>
+    {%- endif -%}
+    <span class="snosha-benefits__text">{{ benefit_text }}</span>
+  </li>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Benefit",
+  "tag": null,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "سهلة الاستخدام من أول يوم"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "check", "label": "Check" },
+        { "value": "sparkle", "label": "Sparkle" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "battery", "label": "Battery" },
+        { "value": "sonic", "label": "Sonic" },
+        { "value": "sliders", "label": "Modes" },
+        { "value": "drop", "label": "Drop" },
+        { "value": "timer", "label": "Timer" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "check"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom icon image",
+      "info": "Replaces the icon. Shown in the 22 px tile."
+    }
+  ]
+}
+{% endschema %}

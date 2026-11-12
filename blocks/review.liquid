@@ -101,6 +101,11 @@
       {% endif %}
     </div>
 
+    {%- if block_settings.show_rating_value and block_settings.stars_style != 'single' -%}
+      {%- comment -%} Snosha: average rating value from the reviews metafield (the stars' aria-label already announces it) {%- endcomment -%}
+      <span class="rating-value {{ block_settings.type_preset }}" aria-hidden="true">{{- rating | round: 1 -}}</span>
+    {%- endif -%}
+
     {%- if block_settings.show_number or block_settings.stars_style == 'single' -%}
       <p class="rating-count {{ block_settings.type_preset }}">
         {%- if block_settings.stars_style == 'single' -%}
@@ -204,6 +209,14 @@
       "id": "show_number",
       "label": "t:settings.review_count",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_value",
+      "label": "Show rating value",
+      "info": "Snosha. Shows the average rating (e.g. 4.8) next to the stars. Comes from the product's review data; nothing shows without reviews.",
+      "default": false,
+      "visible_if": "{{ block.settings.stars_style != \"single\" }}"
     },
     {
       "type": "text",

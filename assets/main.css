@@ -2549,8 +2549,10 @@
       calc(
         (
             100cqi - 2 * var(--snosha-reels-px-mobile) - 52px -
-              (var(--snosha-reels-cards-mobile, 1) - 1) * var(--snosha-reels-gap-mobile)
-          ) / var(--snosha-reels-cards-mobile, 1)
+              (var(--snosha-reels-cards-mobile, 1) - 1) *
+              var(--snosha-reels-gap-mobile)
+          ) /
+          var(--snosha-reels-cards-mobile, 1)
       )
     );
     scroll-snap-align: center;
@@ -2847,7 +2849,8 @@
         (
             100cqi - 2 * var(--snosha-reels-px-desktop) -
               (var(--snosha-reels-cards) - 1) * var(--snosha-reels-gap-desktop)
-          ) / var(--snosha-reels-cards)
+          ) /
+          var(--snosha-reels-cards)
       );
       scroll-snap-align: start;
 
@@ -2895,5 +2898,1072 @@
 @keyframes snosha-reels-reveal {
   to {
     opacity: 1;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT PAGE BUY BOX
+   Native product-information section with "Use Snosha Buy Box style" (→ .snosha-buy-box on
+   .product-information) plus the Snosha blocks placed in its product-details column.
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop Buy Box 190:10229 (560 wide), mobile 190:10940 (390).
+   Order (template): rating · title · price · capsule · benefits · colors · purchase row · trust pills ·
+   complementary products · "الوصف والسياسات" · accordion.
+   Vertical rhythm comes from the native product-details gap (20px; Horizon scales it to 14px below 990px).
+   Colors: section settings (--snosha-bb-*); title, stars, buttons and quantity use their own block settings.
+   ========================================================================= */
+.product-information.snosha-buy-box {
+  /* Desktop columns (Figma: gallery 712 · gap 64 · Buy Box 560 in a 1336 row). Horizon's own tracks
+     (sidebar min(50vw, 25rem) below 1200px, 1fr : 2fr from 1200px) are replaced here: the Buy Box track is
+     its width setting plus half the gap (never more than half the row), the gallery takes the rest.
+     Horizon draws the gap as half-gap padding on both columns; that stays, with the Buy Box column gap. */
+  @media screen and (min-width: 750px) {
+    .product-information__grid:not(
+      .product-information__grid--half,
+      .product-information--media-none
+    ) {
+      --gap: var(--snosha-columns-gap, 64px);
+      --snosha-details-track: min(
+        calc(var(--snosha-buybox-width, 560px) + var(--gap) / 2),
+        50%
+      );
+
+      &.product-information--media-right {
+        grid-template-columns: var(--snosha-details-track) minmax(0, 1fr);
+      }
+
+      &.product-information--media-left {
+        grid-template-columns: minmax(0, 1fr) var(--snosha-details-track);
+      }
+    }
+  }
+
+  .product-details {
+    /* ---------------- Rating (native review block; real review data only) ---------------- */
+    .rating-wrapper {
+      gap: 8px;
+    }
+
+    .rating {
+      gap: 3px;
+    }
+
+    .rating .stars {
+      inline-size: 18px;
+      block-size: 18px;
+    }
+
+    .rating-value,
+    .rating-count {
+      color: var(--snosha-bb-text);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 16px;
+      line-height: 27px;
+    }
+
+    /* ---------------- Title (native text block, <h1>) ---------------- */
+    .text-block h1 {
+      margin: 0;
+      padding-block: 14px;
+      font-family: var(--font-heading--family);
+      font-weight: 700;
+      font-size: 24px;
+      /* one line = Figma's 64px row; longer titles wrap at a readable line height */
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+
+      @media screen and (min-width: 750px) {
+        padding-block: 5.4px;
+        font-size: 38px;
+        line-height: 1.4;
+      }
+    }
+
+    /* ---------------- Price row (native price block) ---------------- */
+    product-price [ref="priceContainer"] {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px 12px;
+
+      .price {
+        color: var(--snosha-bb-text);
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 26px;
+        line-height: 52px;
+        white-space: nowrap;
+
+        @media screen and (min-width: 750px) {
+          font-size: 32px;
+        }
+      }
+
+      .compare-at-price {
+        color: var(--snosha-bb-muted);
+        font-family: var(--font-body--family);
+        font-weight: var(--font-body--weight);
+        font-size: 14px;
+        line-height: 22px;
+        text-decoration: line-through;
+        white-space: nowrap;
+        opacity: 1;
+      }
+
+      .price-discount-badge {
+        padding: 3px 11px;
+        border: 1px solid var(--snosha-bb-border);
+        border-radius: 8px;
+        background: var(--snosha-bb-tint);
+        color: var(--snosha-bb-accent);
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 12px;
+        line-height: 18px;
+        white-space: nowrap;
+      }
+    }
+
+    /* ---------------- Colors (native variant picker: swatches + "Show value name") ---------------- */
+    .variant-option--swatches {
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+
+      @media screen and (max-width: 749px) {
+        padding-block: 10px;
+      }
+
+      /* A floated legend leaves the fieldset's legend slot and becomes a flex item, so the label sits at
+         the start of the row (right in RTL) beside the swatches, as in Figma (4px from the swatches) */
+      legend {
+        float: inline-start;
+        margin: 0;
+        margin-inline-end: -4px;
+        padding: 0;
+        color: var(--snosha-bb-label);
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 16px;
+        line-height: 27px;
+        white-space: nowrap;
+      }
+
+      .variant-option__swatch-value {
+        padding: 0;
+        color: inherit;
+
+        &::before {
+          content: ": ";
+        }
+      }
+    }
+
+    .variant-option__button-label--has-swatch {
+      --variant-picker-swatch-width: 24px;
+      --variant-picker-swatch-height: 24px;
+      --variant-picker-swatch-radius: 50%;
+
+      display: flex;
+      flex: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-inline-size: 34px;
+      overflow: visible;
+      background: none;
+
+      &:hover {
+        outline: none;
+      }
+
+      .swatch {
+        margin: 5px;
+        border: 0;
+        border-radius: 50%;
+        /* Figma ring: 4px gap + 1px border around the 24px dot (34px) */
+        box-shadow:
+          0 0 0 4px var(--color-background),
+          0 0 0 5px var(--snosha-bb-border);
+        transition: box-shadow var(--animation-speed) var(--animation-easing);
+      }
+
+      &:hover .swatch {
+        box-shadow:
+          0 0 0 4px var(--color-background),
+          0 0 0 5px var(--snosha-bb-accent);
+      }
+
+      /* Figma selected: 2px brand ring */
+      &:has(:checked) .swatch {
+        box-shadow:
+          0 0 0 3px var(--color-background),
+          0 0 0 5px var(--snosha-bb-accent);
+      }
+
+      /* Native sold-out strike, kept over the dot only */
+      > svg {
+        inset: 0 0 auto;
+        inline-size: 34px;
+        block-size: 34px;
+        margin-inline: auto;
+      }
+    }
+
+    /* Figma: 5px between the 34px ring and the name */
+    .variant-option__swatch-label {
+      margin-block-start: 5px;
+      color: var(--snosha-bb-muted);
+      font-family: var(--font-body--family);
+      font-weight: var(--font-body--weight);
+      font-size: 12px;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    .variant-option__button-label:has(:checked) .variant-option__swatch-label {
+      color: var(--snosha-bb-text);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+    }
+
+    /* ---------------- Purchase row (native buy buttons: quantity + add to cart) ---------------- */
+    .product-form-buttons {
+      align-items: center;
+      gap: 10px;
+
+      @media screen and (min-width: 750px) {
+        gap: 12px;
+      }
+    }
+
+    .quantity-selector-wrapper {
+      display: flex;
+      flex: none;
+    }
+
+    .quantity-selector {
+      --minimum-touch-target: 30px;
+
+      flex: none;
+      align-self: center;
+      block-size: 46px;
+      padding-inline: 5px;
+      box-shadow: 0 5px 12px var(--snosha-bb-shadow);
+
+      @media screen and (min-width: 750px) {
+        --minimum-touch-target: 34px;
+
+        block-size: 50px;
+        padding-inline: 6px;
+        box-shadow: 0 6px 14px var(--snosha-bb-shadow);
+      }
+
+      .quantity-minus,
+      .quantity-plus {
+        border-radius: 50%;
+        color: var(--snosha-bb-accent);
+      }
+
+      input[type="number"] {
+        inline-size: 32px;
+        font-family: var(--font-heading--family);
+        font-weight: 700;
+        font-size: 15px;
+
+        @media screen and (min-width: 750px) {
+          inline-size: 38px;
+          font-size: 17px;
+        }
+      }
+    }
+
+    /* Figma mobile: tinted "+" */
+    @media screen and (max-width: 749px) {
+      .quantity-selector .quantity-plus {
+        background: var(--snosha-bb-tint);
+      }
+    }
+
+    .add-to-cart-button {
+      min-block-size: 58px;
+      padding-block: 16px;
+      padding-inline: 28px;
+      border-radius: 12px;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 16px;
+      line-height: 26px;
+      text-transform: none;
+
+      .add-to-cart-icon {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Swatch value names outside the Snosha Buy Box (setting on, default layout) */
+.variant-option__button-label--has-swatch:has(.variant-option__swatch-label) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================================================================
+   SNOSHA — BUY BOX CAPSULE  (blocks/snosha-capsule.liquid)
+   Figma 190:10269 / 190:10980: hug width (full width on mobile), 14px side padding,
+   8px block padding (6px mobile), 8px gap, 12 / 20 SemiBold, 16px icon at the inline start.
+   ========================================================================= */
+.snosha-capsule {
+  display: flex;
+
+  .snosha-capsule__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: var(--snosha-capsule-border-width)
+      var(--snosha-capsule-border-style) var(--snosha-capsule-border-color);
+    border-radius: var(--snosha-capsule-radius);
+    background: var(--snosha-capsule-bg);
+    color: var(--snosha-capsule-text);
+    text-decoration: none;
+
+    @media screen and (min-width: 750px) {
+      padding-block: 8px;
+    }
+  }
+
+  &.snosha-capsule--full-mobile .snosha-capsule__inner {
+    @media screen and (max-width: 749px) {
+      flex: 1 1 auto;
+    }
+  }
+
+  a.snosha-capsule__inner:hover .snosha-capsule__text {
+    text-decoration: underline;
+  }
+
+  .snosha-capsule__icon {
+    display: flex;
+    flex: none;
+    inline-size: 16px;
+    block-size: 16px;
+    color: var(--snosha-capsule-icon);
+    object-fit: contain;
+
+    svg {
+      inline-size: 100%;
+      block-size: 100%;
+    }
+  }
+
+  .snosha-capsule__text {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BUY BOX BENEFITS  (blocks/snosha-benefits.liquid + _snosha-benefit.liquid)
+   Figma 190:10244 / 190:10955: rows 8px apart, 22px tile (20 mobile, radius 10) at the inline start,
+   10px check, 14 / 24 text (13.5 mobile).
+   ========================================================================= */
+.snosha-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: var(--snosha-benefits-gap, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &:not(:has(.snosha-benefits__item)) {
+    display: none;
+  }
+
+  .snosha-benefits__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .snosha-benefits__tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 20px;
+    block-size: 20px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--snosha-benefits-tile);
+    color: var(--snosha-benefits-icon);
+
+    @media screen and (min-width: 750px) {
+      /* inline-size: 22px; */
+      /* block-size: 22px; */
+      width: 22px;
+      height: 22px;
+    }
+
+    svg {
+      /* inline-size: 10px; */
+      /* block-size: 10px; */
+      width: 10px;
+      height: 10px;
+    }
+
+    img {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .snosha-benefits__text {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    color: var(--snosha-benefits-text);
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight);
+    font-size: 13.5px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 14px;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BUY BOX TRUST PILLS  (blocks/snosha-trust-list.liquid + _snosha-trust-item.liquid)
+   Figma 190:10294 (desktop: 2 columns, 8px gap, pills 48 high, 12 / 20 SemiBold, 18px icon)
+   and 190:11005 (mobile: 2 columns, 10px gap, pills 38 high, 10.5px text, 16px icon).
+   Pill: white, 1px border, full radius, soft shadow; 28px gradient icon tile at the inline start.
+   ========================================================================= */
+.snosha-trust {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--snosha-trust-columns-mobile, 2),
+    minmax(0, 1fr)
+  );
+  gap: 10px;
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+
+  @media screen and (min-width: 750px) {
+    grid-template-columns: repeat(
+      var(--snosha-trust-columns, 2),
+      minmax(0, 1fr)
+    );
+    gap: 8px;
+  }
+
+  &:not(:has(.snosha-trust__item)) {
+    display: none;
+  }
+
+  .snosha-trust__item {
+    display: flex;
+    min-inline-size: 0;
+  }
+
+  .snosha-trust__pill {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 3px;
+    min-inline-size: 0;
+    min-block-size: 38px;
+    padding: 4px 5px;
+    padding-inline-end: 12px;
+    border: 1px solid var(--snosha-trust-border);
+    border-radius: 999px;
+    background: var(--snosha-trust-bg);
+    box-shadow: 0 6px 6px var(--snosha-trust-shadow);
+    color: var(--snosha-trust-text);
+    text-decoration: none;
+    transition: border-color var(--animation-speed) var(--animation-easing);
+
+    @media screen and (min-width: 750px) {
+      min-block-size: 48px;
+      padding: 9px 12px;
+    }
+  }
+
+  a.snosha-trust__pill:hover {
+    border-color: var(--snosha-trust-border-hover);
+  }
+
+  .snosha-trust__tile {
+    --snosha-icon-fill: var(--snosha-trust-bg);
+
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 28px;
+    block-size: 28px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: linear-gradient(
+      to bottom,
+      var(--snosha-trust-tile-start),
+      var(--snosha-trust-tile-end)
+    );
+    color: var(--snosha-trust-icon);
+
+    svg {
+      inline-size: 16px;
+      block-size: 16px;
+
+      @media screen and (min-width: 750px) {
+        inline-size: 18px;
+        block-size: 18px;
+      }
+    }
+
+    img {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .snosha-trust__text {
+    min-inline-size: 0;
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 10.5px;
+    line-height: 15px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BUY BOX COMPLEMENTARY PRODUCTS  (blocks/snosha-complementary.liquid)
+   Figma 190:10319-10320 / 190:11030-11031: heading 16 / 27 SemiBold; cards 10px apart, gradient
+   (tint at the inline start → white), 1px border, radius 18, padding 10 / 14 (start) / 10 (end).
+   In RTL: 56px thumb (radius 14) at the start, name + line, price (16 / 27 Bold), 38px round "+" at the end.
+   ========================================================================= */
+.snosha-complementary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  @media screen and (max-width: 989px) {
+    gap: 14px;
+  }
+
+  /* Loading Search & Discovery result: no box and no extra gap in the Buy Box */
+  &:not(:has(.snosha-complementary__item)) {
+    block-size: 0;
+    margin-block-start: calc(-1 * var(--gap, 0px));
+    overflow: hidden;
+  }
+
+  /* Loaded with no complementary products: hidden */
+  &[data-recommendations-performed="true"]:not(
+      :has(.snosha-complementary__item)
+    ) {
+    display: none;
+  }
+
+  .snosha-complementary__heading {
+    margin: 0;
+    color: var(--snosha-cx-heading);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 27px;
+  }
+
+  .snosha-complementary__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snosha-complementary__card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-block: 9px;
+    padding-inline: 13px 9px;
+    border: 1px solid var(--snosha-cx-border);
+    border-radius: 18px;
+    background: linear-gradient(
+      to left,
+      var(--snosha-cx-card-start),
+      var(--snosha-cx-card-end)
+    );
+    cursor: pointer;
+  }
+
+  &:dir(ltr) .snosha-complementary__card {
+    background: linear-gradient(
+      to right,
+      var(--snosha-cx-card-start),
+      var(--snosha-cx-card-end)
+    );
+  }
+
+  .snosha-complementary__link {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 12px;
+    min-inline-size: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .snosha-complementary__thumb {
+    display: flex;
+    flex: none;
+    inline-size: 56px;
+    block-size: 56px;
+    overflow: hidden;
+    border: 1px solid var(--snosha-cx-border);
+    border-radius: 14px;
+    background: var(--color-background);
+  }
+
+  .snosha-complementary__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .snosha-complementary__info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 1px;
+    min-inline-size: 0;
+  }
+
+  .snosha-complementary__title {
+    overflow: hidden;
+    color: var(--snosha-cx-title);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 14px;
+    line-height: 27px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @media screen and (min-width: 750px) {
+      font-size: 16px;
+    }
+  }
+
+  .snosha-complementary__link:hover .snosha-complementary__title {
+    text-decoration: underline;
+  }
+
+  .snosha-complementary__subtitle {
+    overflow: hidden;
+    color: var(--snosha-cx-subtitle);
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight);
+    font-size: 10px;
+    line-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @media screen and (min-width: 750px) {
+      font-size: 12px;
+    }
+  }
+
+  .snosha-complementary__price {
+    flex: none;
+    color: var(--snosha-cx-price);
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 27px;
+    white-space: nowrap;
+  }
+
+  .snosha-complementary__form,
+  .snosha-complementary__form form,
+  .snosha-complementary__form add-to-cart-component {
+    display: flex;
+    flex: none;
+  }
+
+  .snosha-complementary__add {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 38px;
+    block-size: 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--snosha-cx-button);
+    box-shadow: 0 8px 8px var(--snosha-cx-button-shadow);
+    color: var(--snosha-cx-button-icon);
+    cursor: pointer;
+    transition: translate var(--animation-speed) var(--animation-easing);
+
+    &:hover {
+      translate: 0 -1px;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      translate: none;
+    }
+
+    &:focus-visible {
+      outline: var(--focus-outline-width) solid var(--snosha-cx-button);
+      outline-offset: var(--focus-outline-offset);
+    }
+
+    .snosha-complementary__add-icon {
+      inline-size: 16px;
+      block-size: 16px;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — ACCORDION CARD STYLE  (native accordion block, opt-in "Use Snosha card style"
+   → .accordion--snosha; _accordion-row "Snosha icon tile")
+   Figma 414:4996 "Accordion Row" (desktop 190:10342, mobile 190:11053): rows 10px apart, 1px border,
+   radius 14, padding 14 / 16 (20 mobile), open row tinted; header 16 / 27 SemiBold with a 32px icon
+   tile (18px icon) at the start and the 18px chevron at the end. Content 14px: headings Bold / 40,
+   text Regular / 28.
+   ========================================================================= */
+.accordion.accordion--snosha {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .details {
+    padding-inline: 20px;
+    border: 1px solid var(--snosha-acc-border);
+    border-radius: 14px;
+    background-color: var(--snosha-acc-bg);
+    transition: background-color var(--animation-speed) var(--animation-easing);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: 16px;
+    }
+
+    &[open] {
+      background-color: var(--snosha-acc-bg-open);
+    }
+  }
+
+  /* Figma's 1px stroke is inside its 14px padding, so the block padding here is 13 */
+  .details__header {
+    gap: 12px;
+    min-block-size: 0;
+    padding-block: 13px;
+    color: var(--snosha-acc-title);
+    font-family: var(--font-accent--family);
+    font-style: normal;
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 27px;
+    text-transform: none;
+  }
+
+  .details__snosha-tile {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 32px;
+    block-size: 32px;
+    border-radius: 10px;
+    background: var(--snosha-acc-tile);
+    color: var(--snosha-acc-icon);
+
+    svg {
+      inline-size: 18px;
+      block-size: 18px;
+    }
+  }
+
+  /* Chevron: native caret element painted with the Figma chevron (rotates when open) */
+  .details__header .icon-caret {
+    flex-shrink: 0;
+    inline-size: 18px;
+    block-size: 18px;
+    margin-inline-start: auto;
+    background-color: var(--snosha-acc-chevron);
+    mask: url("snosha-chevron-down.svg") center / contain no-repeat;
+    transition: rotate var(--animation-speed) var(--animation-easing);
+
+    & > svg {
+      display: none;
+    }
+  }
+
+  .details[open] > .details__header .icon-caret {
+    rotate: 180deg;
+  }
+
+  .details__header .icon-plus {
+    display: none;
+  }
+
+  .details[open] > .details-content {
+    padding-block: 0 13px;
+  }
+
+  .details-content {
+    color: var(--snosha-acc-content);
+    font-size: 14px;
+    line-height: 28px;
+
+    .text-block {
+      --color: var(--snosha-acc-content);
+
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    :is(p, li) {
+      margin: 0;
+      font-size: 14px;
+      line-height: 28px;
+    }
+
+    :is(h1, h2, h3, h4, h5, h6, strong, b) {
+      color: var(--snosha-acc-content-heading);
+      font-family: var(--font-heading--family);
+      font-weight: 700;
+    }
+
+    :is(h1, h2, h3, h4, h5, h6) {
+      margin: 0;
+      font-size: 14px;
+      line-height: 40px;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT GALLERY STAGE  (native _product-media-gallery block, carousel + bottom thumbnails,
+   opt-in "Use Snosha stage style" → media-gallery.media-gallery--snosha;
+   markup additions in snippets/product-media-gallery-content.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop Gallery 190:10212 (stage 712 × 660, radius 28, thumbs 104 / gap 12,
+   23px stage → rail); mobile Main Stage 190:10921 (352 × 364 at 19px from the edges, radius 22) and
+   Thumb Rail 190:10931 (full width, 20px padding, thumbs 66 / gap 8, radius 12).
+   Stage: tinted background + 1px border; media keeps its proportions (contain). Badge 20px from the
+   stage's top/start corner; zoom 44px at 25 / 27 (desktop) and 15 / 23 (mobile) from the start/bottom edges.
+   Figma's decorative "Ring" ellipse has no fill or stroke (empty export), so nothing is drawn for it.
+   ========================================================================= */
+media-gallery.media-gallery--snosha {
+  --snosha-stage-inset: 19px;
+  --snosha-stage-ratio: 352 / 364;
+  --snosha-stage-gap: 14px; /* + the rail's 2px block padding = Figma 16 */
+  --snosha-thumb-gap: 8px;
+  --snosha-zoom-inline: 15px;
+  --snosha-zoom-block: 23px;
+  --slideshow-thumbnails-padding-inline: 20px;
+  --slideshow-thumbnails-padding-block: 2px;
+
+  position: relative;
+
+  @media screen and (min-width: 750px) {
+    --snosha-stage-inset: 0px;
+    --snosha-stage-ratio: 712 / 660;
+    --snosha-stage-gap: 21px; /* + 2px rail padding = Figma 23 */
+    --snosha-thumb-gap: 12px;
+    --snosha-zoom-inline: 25px;
+    --snosha-zoom-block: 27px;
+    --slideshow-thumbnails-padding-inline: 0px;
+  }
+
+  /* ---------------- Stage (native slideshow container) ---------------- */
+  slideshow-component {
+    --gallery-aspect-ratio: var(--snosha-stage-ratio);
+  }
+
+  /* Native slideshow-container is width: 100%; with the mobile side insets that made it 100% + 19px and,
+     in RTL, pushed the page 19px wider. Auto width = the gallery width minus the insets (352 at 390). */
+  slideshow-container {
+    inline-size: auto;
+    margin-inline: var(--snosha-stage-inset);
+    overflow: hidden;
+    border: 1px solid var(--snosha-stage-border);
+    border-radius: var(--snosha-stage-radius-mobile);
+    background: var(--snosha-stage-bg);
+
+    @media screen and (min-width: 750px) {
+      border-radius: var(--snosha-stage-radius);
+    }
+  }
+
+  /* Thumbnails do the navigation (Figma has no arrows) */
+  slideshow-arrows {
+    display: none;
+  }
+
+  .product-media-container {
+    background: transparent;
+
+    .product-media {
+      box-sizing: border-box;
+      inline-size: 100%;
+      block-size: 100%;
+    }
+
+    /* "Stage media fit" setting: contain (default, whole product visible) or cover (fills the stage, crops) */
+    :is(img, video, iframe, .deferred-media__poster-image) {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: var(--snosha-media-fit, contain);
+      background-color: transparent;
+    }
+  }
+
+  /* Figma "Main Image" area (contain only): from 46px below the stage top on desktop, centred 306 / 364 on mobile */
+  &:not(.media-gallery--snosha-cover)
+    .product-media-container--image
+    .product-media {
+    padding-block: 8.24%;
+
+    @media screen and (min-width: 750px) {
+      padding-block: 6.46% 0;
+    }
+  }
+
+  /* ---------------- Best-seller badge (product tag) ---------------- */
+  .media-gallery__snosha-badge {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 20px;
+    inset-inline-start: calc(var(--snosha-stage-inset) + 20px);
+    padding: 4px 12px;
+    border-radius: 8px;
+    background: var(--snosha-badge-bg);
+    color: var(--snosha-badge-text);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 12px;
+    line-height: 18px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* ---------------- Zoom button (opens the native zoom dialog through the slide) ---------------- */
+  .media-gallery__snosha-zoom {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: var(--snosha-zoom-block);
+    inset-inline-start: var(--snosha-zoom-inline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 44px;
+    block-size: 44px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--snosha-zoom-bg);
+    box-shadow: 0 12px 16px
+      color-mix(in srgb, var(--snosha-zoom-icon) 10%, transparent);
+    color: var(--snosha-zoom-icon);
+    cursor: zoom-in;
+
+    &:focus-visible {
+      outline: var(--focus-outline-width) solid var(--snosha-zoom-icon);
+      outline-offset: var(--focus-outline-offset);
+    }
+
+    .media-gallery__snosha-zoom-icon {
+      inline-size: 18px;
+      block-size: 18px;
+    }
+  }
+
+  /* Off-screen slides: keep their zoom buttons out of the tab order */
+  slideshow-slide[aria-hidden="true"] .media-gallery__snosha-zoom {
+    visibility: hidden;
+  }
+
+  /* ---------------- Thumbnail rail (native slideshow-controls thumbnails) ---------------- */
+  slideshow-controls {
+    margin-block-start: var(--snosha-stage-gap);
+  }
+
+  .slideshow-controls__thumbnails {
+    gap: var(--snosha-thumb-gap);
+    /* Figma: the rail starts at the start side (right in RTL) */
+    margin-inline: 0;
+
+    .slideshow-control {
+      flex: none;
+      box-sizing: border-box;
+      inline-size: var(--snosha-thumb-size-mobile);
+      block-size: var(--snosha-thumb-size-mobile);
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 1px solid var(--snosha-thumb-border);
+      border-radius: var(--snosha-thumb-radius-mobile);
+      background: var(--color-background);
+
+      @media screen and (min-width: 750px) {
+        inline-size: var(--snosha-thumb-size);
+        block-size: var(--snosha-thumb-size);
+        border-radius: var(--snosha-thumb-radius);
+      }
+
+      img {
+        inline-size: 100%;
+        block-size: 100%;
+        object-fit: contain;
+        border-radius: 0;
+      }
+
+      &[aria-selected="true"] {
+        outline: none;
+        border: 2px solid var(--snosha-thumb-active);
+      }
+
+      &:focus-visible {
+        outline: var(--focus-outline-width) solid var(--snosha-thumb-active);
+        outline-offset: -4px;
+      }
+    }
+  }
+
+  /* Video / 3D thumbnail: Figma "Play" — 32px white circle, 14px icon, centred */
+  .slideshow-controls__thumbnail-badge {
+    inset: 0;
+    inline-size: 32px;
+    block-size: 32px;
+    margin: auto;
+    border-radius: 50%;
+    background: var(--snosha-zoom-bg);
+    box-shadow: none;
+
+    svg {
+      inline-size: 14px;
+      block-size: 14px;
+      fill: var(--snosha-thumb-active);
+      opacity: 1;
+    }
   }
 }

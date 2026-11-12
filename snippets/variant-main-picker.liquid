@@ -148,6 +148,10 @@
                     variant_image: featured_media,
                     mode: 'unscaled'
                   %}
+                  {%- comment -%} Snosha: visible value name under the swatch (opt-in; the input already carries the accessible name) {%- endcomment -%}
+                  {%- if block_settings.show_swatch_labels -%}
+                    <span class="variant-option__swatch-label" aria-hidden="true">{{ product_option_value | escape }}</span>
+                  {%- endif -%}
                 {% else %}
                   {% if product_option_value.available == true %}
                     <span

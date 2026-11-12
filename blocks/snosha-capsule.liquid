@@ -1,0 +1,172 @@
+{%- doc -%}
+  Snosha — Buy Box promotional capsule (Figma 190:10269 desktop, 190:10980 mobile).
+  Informational only: it does not create or apply a discount.
+  Static styles: assets/main.css (.snosha-capsule).
+{%- enddoc -%}
+{%- liquid
+  assign block_settings = block.settings
+  assign capsule_text = block_settings.text | strip
+  assign has_link = false
+  if block_settings.link != blank
+    assign has_link = true
+  endif
+-%}
+
+{%- if capsule_text != blank -%}
+  <div
+    class="snosha-capsule{% if block_settings.full_width_mobile %} snosha-capsule--full-mobile{% endif %}{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
+    style="
+      --snosha-capsule-bg: {{ block_settings.background_color }};
+      --snosha-capsule-border-color: {{ block_settings.border_color }};
+      --snosha-capsule-border-style: {{ block_settings.border_style }};
+      --snosha-capsule-border-width: {{ block_settings.border_width }}px;
+      --snosha-capsule-radius: {{ block_settings.corner_radius }}px;
+      --snosha-capsule-text: {{ block_settings.text_color }};
+      --snosha-capsule-icon: {{ block_settings.icon_color }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- if has_link -%}<a class="snosha-capsule__inner" href="{{ block_settings.link }}">{%- else -%}<span class="snosha-capsule__inner">{%- endif -%}
+      {%- if block_settings.image != blank -%}
+        {{-
+          block_settings.image
+          | image_url: width: 48
+          | image_tag: width: 16, height: 16, alt: '', loading: 'lazy', class: 'snosha-capsule__icon snosha-capsule__icon--image'
+        -}}
+      {%- elsif block_settings.icon != 'none' -%}
+        <span class="snosha-capsule__icon" aria-hidden="true">
+          {%- render 'snosha-icon', icon: block_settings.icon, uid: block.id -%}
+        </span>
+      {%- endif -%}
+      <span class="snosha-capsule__text">{{ capsule_text | escape }}</span>
+    {%- if has_link -%}</a>{%- else -%}</span>{%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha capsule",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Promotional message only. It does not create or apply a discount; set up any real offer in Shopify Discounts. Hide the block (eye icon) to remove it."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "وفّر 10% عند شراء فرشتين معًا"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link (optional)"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "discount", "label": "Discount" },
+        { "value": "sparkle", "label": "Sparkle" },
+        { "value": "check", "label": "Check" },
+        { "value": "package", "label": "Package" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "wallet", "label": "Wallet" },
+        { "value": "cart", "label": "Cart" }
+      ],
+      "default": "discount"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom icon image",
+      "info": "Replaces the icon. Shown at 16 x 16 px."
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_mobile",
+      "label": "Full width on mobile",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#176BB08C"
+    },
+    {
+      "type": "select",
+      "id": "border_style",
+      "label": "Border style",
+      "options": [
+        { "value": "dashed", "label": "Dashed" },
+        { "value": "solid", "label": "Solid" },
+        { "value": "dotted", "label": "Dotted" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "dashed"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 4,
+      "step": 0.1,
+      "unit": "px",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha capsule",
+      "category": "Snosha"
+    }
+  ]
+}
+{% endschema %}

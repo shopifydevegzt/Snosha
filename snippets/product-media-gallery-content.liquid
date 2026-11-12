@@ -393,10 +393,30 @@
     {{ 'product-apparel-1' | placeholder_svg_tag: 'product-media-gallery__placeholder-image' }}
   </div>
 {% else %}
+  {%- liquid
+    # Snosha stage (opt-in block setting; off for every other gallery). Styles: assets/main.css (.media-gallery--snosha).
+    assign snosha_stage = false
+    if block_settings.snosha_style
+      assign snosha_stage = true
+    endif
+
+    # Best-seller badge: only on products carrying the exact tag (same tag convention as the homepage cards)
+    assign snosha_show_badge = false
+    if snosha_stage
+      assign snosha_badge_text = block_settings.snosha_badge_text | strip
+      assign snosha_badge_tag = block_settings.snosha_badge_tag | strip
+      if snosha_badge_text != blank and snosha_badge_tag != blank and selected_product.tags contains snosha_badge_tag
+        assign snosha_show_badge = true
+      endif
+    endif
+  -%}
   <media-gallery
     class="
       spacing-style
       sticky-content
+      {% if snosha_stage %}
+        media-gallery--snosha
+        {% if block_settings.snosha_media_fit == 'cover' %}media-gallery--snosha-cover{% endif %}      {% endif %}
       {% if media_presentation == 'grid' %}
         media-gallery--{{ block_settings.media_columns }}-column
         {% if block_settings.media_columns == "two" and block_settings.large_first_image%}media-gallery--large-first-image{% endif %}
@@ -412,10 +432,13 @@
         media-gallery--constrain-with-thumbnails
       {% endif %}
     "
-    style="{% render 'spacing-style', settings: block_settings %} --thumbnail-width: {{ block_settings.thumbnail_width }}px; --media-radius: {{ block_settings.media_radius }}px;{% if icons_style contains 'large' %} --slideshow-icon-padding: 0px;{% endif %}--image-gap: {{ block_settings.image_gap }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}{% if constrained_gallery_extra_height != blank %} --constrained-gallery-extra-height: calc({{ constrained_gallery_extra_height }});{% endif %}"
+    style="{% render 'spacing-style', settings: block_settings %} --thumbnail-width: {{ block_settings.thumbnail_width }}px; --media-radius: {{ block_settings.media_radius }}px;{% if icons_style contains 'large' %} --slideshow-icon-padding: 0px;{% endif %}--image-gap: {{ block_settings.image_gap }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}{% if constrained_gallery_extra_height != blank %} --constrained-gallery-extra-height: calc({{ constrained_gallery_extra_height }});{% endif %}{% if snosha_stage %} --snosha-media-fit: {{ block_settings.snosha_media_fit | default: 'contain' }}; --snosha-stage-bg: {{ block_settings.snosha_stage_background }}; --snosha-stage-border: {{ block_settings.snosha_stage_border }}; --snosha-stage-radius: {{ block_settings.snosha_stage_radius }}px; --snosha-stage-radius-mobile: {{ block_settings.snosha_stage_radius_mobile }}px; --snosha-thumb-size: {{ block_settings.snosha_thumb_size }}px; --snosha-thumb-size-mobile: {{ block_settings.snosha_thumb_size_mobile }}px; --snosha-thumb-radius: {{ block_settings.thumbnail_radius }}px; --snosha-thumb-radius-mobile: {{ block_settings.snosha_thumb_radius_mobile }}px; --snosha-thumb-border: {{ block_settings.snosha_thumb_border }}; --snosha-thumb-active: {{ block_settings.snosha_thumb_active }}; --snosha-zoom-bg: {{ block_settings.snosha_zoom_background }}; --snosha-zoom-icon: {{ block_settings.snosha_zoom_icon }}; --snosha-badge-bg: {{ block_settings.snosha_badge_background }}; --snosha-badge-text: {{ block_settings.snosha_badge_text_color }};{% endif %}"
     data-presentation="{{ media_presentation }}"
     {{ block_shopify_attributes }}
   >
+    {%- if snosha_show_badge -%}
+      <span class="media-gallery__snosha-badge">{{ snosha_badge_text | escape }}</span>
+    {%- endif -%}
     {% capture slides %}
       {% for media in sorted_media %}
         {% capture children %}
@@ -434,6 +457,19 @@
           {% else %}
             {%- render 'product-media', media: media, sizes: media_sizes, is_main_product_media: forloop.first -%}
           {% endif %}
+          {%- comment -%}
+            Snosha zoom button: no handler of its own. Its click bubbles to this slide's native
+            on:click (#zoom-dialog/open/<index>), so it opens the same zoom dialog at this media.
+          {%- endcomment -%}
+          {%- if snosha_stage and block_settings.zoom and block_settings.snosha_show_zoom_button and media.media_type != 'model' -%}
+            <button
+              type="button"
+              class="button-unstyled media-gallery__snosha-zoom"
+              aria-label="{{ 'actions.zoom_media' | t: index: forloop.index }}"
+            >
+              {%- render 'snosha-icon', icon: 'search', class: 'media-gallery__snosha-zoom-icon' -%}
+            </button>
+          {%- endif -%}
         {% endcapture %}
         {% capture class %}
           {{ product_media_container_class }} product-media-container--{{ media.media_type }}{% if block_settings.zoom %} product-media-container--zoomable{% endif %}{% if forloop.index0 == lowest_aspect_ratio_index and block_settings.aspect_ratio == 'adapt' %} product-media-container--tallest{% endif %}

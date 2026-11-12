@@ -1,0 +1,350 @@
+{%- doc -%}
+  Snosha — Buy Box complementary products ("كمّل روتينك").
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:10319 / 190:10320, mobile 190:11030 / 190:11031.
+
+  Data sources (never blended):
+  1. Manual: the products picked in "Products" (order = picker order).
+  2. Otherwise: the current product's complementary products from Shopify Search & Discovery,
+     loaded through Horizon's native <product-recommendations> element (product-recommendations.js,
+     intent "complementary", section hydration by data-hydration-key).
+  3. Neither: nothing is rendered (no heading, no gap).
+
+  Each card is a native <product-card> (whole card links to the product; isolates the card's form from
+  the main Buy Box variant events). The "+" uses Horizon's product-form-component + add-to-cart-component
+  for single-variant products only; products with options or selling plans link to their product page.
+  Static styles: assets/main.css (.snosha-complementary).
+{%- enddoc -%}
+{%- liquid
+  assign block_settings = block.settings
+  assign main_product = closest.product
+  assign max_products = block_settings.max_products | default: 2
+  assign hydration_key = 'snosha-complementary-' | append: block.id
+
+  assign source = 'none'
+  if block_settings.products != blank and block_settings.products.size > 0
+    assign source = 'manual'
+    assign items = block_settings.products
+  elsif main_product != blank
+    assign source = 'recommendations'
+    if recommendations.performed and recommendations.intent == 'complementary'
+      assign items = recommendations.products
+    endif
+  endif
+
+  assign item_count = 0
+  if items != blank
+    assign item_count = items.size
+  endif
+-%}
+
+{%- capture snosha_complementary_styles -%}
+  --snosha-cx-heading: {{ block_settings.heading_color }};
+  --snosha-cx-card-start: {{ block_settings.card_gradient_start }};
+  --snosha-cx-card-end: {{ block_settings.card_gradient_end }};
+  --snosha-cx-border: {{ block_settings.card_border }};
+  --snosha-cx-title: {{ block_settings.title_color }};
+  --snosha-cx-subtitle: {{ block_settings.subtitle_color }};
+  --snosha-cx-price: {{ block_settings.price_color }};
+  --snosha-cx-button: {{ block_settings.button_background }};
+  --snosha-cx-button-icon: {{ block_settings.button_icon }};
+  --snosha-cx-button-shadow: {{ block_settings.button_shadow }};
+{%- endcapture -%}
+
+{%- capture snosha_complementary_list -%}
+  {%- if item_count > 0 -%}
+    {%- if block_settings.heading != blank -%}
+      <p class="snosha-complementary__heading">{{ block_settings.heading | escape }}</p>
+    {%- endif -%}
+    <ul class="snosha-complementary__list" role="list">
+      {%- for item in items limit: max_products -%}
+        {%- liquid
+          assign variant = item.selected_or_first_available_variant
+          assign card_link_id = 'SnoshaComplementaryLink-' | append: block.id | append: '-' | append: item.id
+          assign form_id = 'SnoshaComplementaryForm-' | append: block.id | append: '-' | append: item.id
+
+          assign uses_selling_plans = false
+          if item.requires_selling_plan or item.selling_plan_groups.size > 0
+            assign uses_selling_plans = true
+          endif
+
+          # "add" only when one click resolves exactly one purchasable variant
+          assign add_mode = 'link'
+          if item.available == false
+            assign add_mode = 'sold_out'
+          elsif item.variants_count == 1 and uses_selling_plans == false and variant.available
+            assign add_mode = 'add'
+          endif
+
+          assign subtitle = ''
+          case block_settings.subtitle_source
+            when 'description'
+              assign subtitle = item.description | strip_html | strip_newlines | strip | truncate: 70
+            when 'type'
+              assign subtitle = item.type
+            when 'vendor'
+              assign subtitle = item.vendor
+          endcase
+
+          if item.price_varies
+            capture formatted_price
+              render 'format-price', price: item.price_min
+            endcapture
+            assign price_from_text = 'content.price_from' | t: price: '__PRICE__'
+            assign formatted_price = price_from_text | replace: '__PRICE__', formatted_price
+          else
+            capture formatted_price
+              render 'format-price', price: variant.price
+            endcapture
+          endif
+
+          assign item_media = variant.featured_media | default: item.featured_media
+          assign variant_media_url = item_media.preview_image | image_url: width: 100
+        -%}
+        <li class="snosha-complementary__item">
+          <product-card
+            class="snosha-complementary__card"
+            data-product-id="{{ item.id }}"
+            id="snosha-complementary-card-{{ block.id }}-{{ item.id }}"
+          >
+            <a
+              class="snosha-complementary__link"
+              href="{{ item.url }}"
+              id="{{ card_link_id }}"
+              ref="productCardLink"
+            >
+              <span class="snosha-complementary__thumb">
+                {%- if item_media != blank -%}
+                  {{-
+                    item_media.preview_image
+                    | image_url: width: 112
+                    | image_tag:
+                      widths: '56, 112, 168',
+                      sizes: '56px',
+                      loading: 'lazy',
+                      alt: item_media.preview_image.alt | default: item.title,
+                      class: 'snosha-complementary__image'
+                  -}}
+                {%- else -%}
+                  {{- 'product-1' | placeholder_svg_tag: 'snosha-complementary__image snosha-complementary__image--placeholder' -}}
+                {%- endif -%}
+              </span>
+              <span class="snosha-complementary__info">
+                <span class="snosha-complementary__title">{{ item.title | escape }}</span>
+                {%- if subtitle != blank -%}
+                  <span class="snosha-complementary__subtitle">{{ subtitle | escape }}</span>
+                {%- endif -%}
+              </span>
+            </a>
+
+            <span class="snosha-complementary__price">{{ formatted_price }}</span>
+
+            {%- case add_mode -%}
+              {%- when 'add' -%}
+                <product-form-component
+                  class="snosha-complementary__form"
+                  data-section-id="{{ section.id }}"
+                  data-product-id="{{ item.id }}"
+                  on:submit="/handleSubmit"
+                >
+                  <span class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></span>
+                  {%- form 'product', item, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                    <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+                    <input type="hidden" name="quantity" value="{{ variant.quantity_rule.min | default: 1 }}">
+                    <add-to-cart-component
+                      ref="addToCartButtonContainer"
+                      data-product-variant-media="{{ variant_media_url }}"
+                      data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+                    >
+                      <button
+                        type="submit"
+                        name="add"
+                        ref="addToCartButton"
+                        on:click="/handleClick"
+                        class="snosha-complementary__add"
+                        aria-label="{{ 'actions.add_to_cart' | t }}: {{ item.title | escape }}"
+                      >
+                        {%- render 'snosha-icon', icon: 'plus', class: 'snosha-complementary__add-icon' -%}
+                      </button>
+                    </add-to-cart-component>
+                  {%- endform -%}
+                </product-form-component>
+              {%- when 'sold_out' -%}
+                <button
+                  type="button"
+                  class="snosha-complementary__add"
+                  disabled
+                  aria-label="{{ item.title | escape }}: {{ 'products.product.sold_out' | t }}"
+                >
+                  {%- render 'snosha-icon', icon: 'plus', class: 'snosha-complementary__add-icon' -%}
+                </button>
+              {%- else -%}
+                <a
+                  class="snosha-complementary__add"
+                  href="{{ item.url }}"
+                  aria-label="{{ 'actions.choose' | t }}: {{ item.title | escape }}"
+                >
+                  {%- render 'snosha-icon', icon: 'plus', class: 'snosha-complementary__add-icon' -%}
+                </a>
+            {%- endcase -%}
+          </product-card>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if source == 'manual' -%}
+  {%- if item_count > 0 -%}
+    <div
+      class="snosha-complementary{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
+      style="{{ snosha_complementary_styles | strip_newlines }}"
+      {{ block.shopify_attributes }}
+    >
+      {{ snosha_complementary_list }}
+    </div>
+  {%- endif -%}
+{%- elsif source == 'recommendations' -%}
+  <script src="{{ 'product-recommendations.js' | asset_url }}" type="module" fetchpriority="low"></script>
+  <product-recommendations
+    class="snosha-complementary snosha-complementary--recommendations{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
+    style="{{ snosha_complementary_styles | strip_newlines }}"
+    data-url="{{ routes.product_recommendations_url }}?limit={{ max_products }}"
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ main_product.id }}"
+    data-intent="complementary"
+    data-recommendations-performed="{% if recommendations.performed and recommendations.intent == 'complementary' %}true{% else %}false{% endif %}"
+    data-hydration-key="{{ hydration_key }}"
+    {% if request.visual_preview_mode %}
+      data-shopify-editor-preview
+    {% endif %}
+    {{ block.shopify_attributes }}
+  >
+    {{ snosha_complementary_list }}
+  </product-recommendations>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha complementary",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Products picked below are shown first. When none are picked, the product's complementary products from the Shopify Search & Discovery app are shown. With neither, the block is hidden."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "كمّل روتينك"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products (manual)",
+      "info": "Optional. Applies to every product that uses this template.",
+      "limit": 6
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Number of products",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "subtitle_source",
+      "label": "Line under the product name",
+      "options": [
+        { "value": "description", "label": "Start of product description" },
+        { "value": "type", "label": "Product type" },
+        { "value": "vendor", "label": "Vendor" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "description"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_start",
+      "label": "Card background (start side)",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_end",
+      "label": "Card background (end side)",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Product name",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Line under the name",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Add button",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "button_icon",
+      "label": "Add button icon",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "button_shadow",
+      "label": "Add button shadow",
+      "default": "#0F64A84D"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha complementary",
+      "category": "Snosha"
+    }
+  ]
+}
+{% endschema %}

@@ -1,6 +1,24 @@
 
 {% assign block_settings = block.settings %}
-
+{%- comment -%}
+  Snosha additions (both off by default, so existing accordions are unchanged):
+  - snosha_icon: Figma icon tile at the start of the row, before the native icon.
+  - hide_when_empty: skip the row on the storefront when its content is empty (always shown in the editor).
+{%- endcomment -%}
+{% capture accordion_row_content %}{% content_for 'blocks' %}{% endcapture %}
+{%- liquid
+  assign snosha_icon = block_settings.snosha_icon | default: 'none'
+  assign skip_row = false
+  if block_settings.hide_when_empty and request.design_mode == false
+    assign row_content_check = accordion_row_content | strip_html | strip
+    if row_content_check == blank
+      unless accordion_row_content contains '<img' or accordion_row_content contains '<video' or accordion_row_content contains '<iframe'
+        assign skip_row = true
+      endunless
+    endif
+  endif
+-%}
+{% unless skip_row %}
 {% capture accordion_row_children %}
   <details
     class="details"
@@ -11,6 +29,11 @@
     {{ block.shopify_attributes }}
   >
     <summary class="details__header">
+      {%- if snosha_icon != 'none' -%}
+        <span class="details__snosha-tile" aria-hidden="true">
+          {%- render 'snosha-icon', icon: snosha_icon, uid: block.id, class: 'details__snosha-icon' -%}
+        </span>
+      {%- endif -%}
       {% render 'icon-or-image',
         icon: block_settings.icon,
         image_upload: block_settings.image_upload,
@@ -27,7 +50,7 @@
     </summary>
 
     <div class="details-content">
-      {% content_for 'blocks' %}
+      {{ accordion_row_content }}
     </div>
   </details>
 {% endcapture %}
@@ -36,6 +59,7 @@
   open_by_default_on_desktop: block_settings.open_by_default,
   open_by_default_on_mobile: block_settings.open_by_default
 %}
+{% endunless %}
 
 {% schema %}
 {
@@ -324,6 +348,37 @@
       "step": 2,
       "unit": "px",
       "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "select",
+      "id": "snosha_icon",
+      "label": "Snosha icon tile",
+      "info": "Shown in a tile at the start of the row. Set the icon above to None when using it.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "document", "label": "Document" },
+        { "value": "check", "label": "Check" },
+        { "value": "close", "label": "Close" },
+        { "value": "truck", "label": "Truck" },
+        { "value": "exchange", "label": "Exchange" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "package", "label": "Package" },
+        { "value": "wallet", "label": "Wallet" },
+        { "value": "cart", "label": "Cart" },
+        { "value": "discount", "label": "Discount" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_when_empty",
+      "label": "Hide row when it has no content",
+      "info": "Storefront only. Useful when the row's text is connected to a product metafield that some products don't have.",
+      "default": false
     }
   ],
   "presets": [

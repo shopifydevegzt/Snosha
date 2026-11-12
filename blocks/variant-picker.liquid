@@ -43,6 +43,14 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "show_swatch_labels",
+      "label": "Show value name under each swatch",
+      "info": "Snosha. Shows the option value (e.g. the color name) below its swatch.",
+      "default": false,
+      "visible_if": "{{ block.settings.show_swatches }}"
+    },
+    {
       "type": "header",
       "content": "t:content.appearance"
     },
