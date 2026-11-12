@@ -1,0 +1,112 @@
+{%- comment -%}
+  Comparison row (private theme block of sections/snosha-product-comparison.liquid).
+  Renders one table row: criterion (row header) → SNOSHA value → conventional value, in that DOM
+  order, so the three cells always move together when the merchant reorders rows.
+  Each cell has a desktop text and an optional mobile text; a blank mobile text falls back to the
+  desktop text. The two variants are toggled with CSS at Horizon's 750px breakpoint
+  (assets/dev1.css, .snosha-comparison__text--desktop / --mobile); display: none keeps the hidden
+  variant out of the accessibility tree.
+{%- endcomment -%}
+{%- liquid
+  assign keys = 'criterion,snosha_value,manual_value' | split: ','
+  assign has_content = false
+  for key in keys
+    assign desktop_text = block.settings[key] | strip
+    assign mobile_key = key | append: '_mobile'
+    assign mobile_text = block.settings[mobile_key] | strip
+    if desktop_text != blank or mobile_text != blank
+      assign has_content = true
+    endif
+  endfor
+-%}
+{%- if has_content or request.design_mode -%}
+  <tr class="snosha-comparison__row" {{ block.shopify_attributes }}>
+    {%- for key in keys -%}
+      {%- liquid
+        assign desktop_text = block.settings[key] | strip
+        assign mobile_key = key | append: '_mobile'
+        assign mobile_text = block.settings[mobile_key] | strip
+
+        case key
+          when 'criterion'
+            assign cell_tag = 'th'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--criterion'
+          when 'snosha_value'
+            assign cell_tag = 'td'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--brand'
+          else
+            assign cell_tag = 'td'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--manual'
+        endcase
+      -%}
+      <{{ cell_tag }} class="{{ cell_class }}"{% if cell_tag == 'th' %} scope="row"{% endif %}>
+        {%- if mobile_text != blank and mobile_text != desktop_text -%}
+          <span class="snosha-comparison__text snosha-comparison__text--desktop">{{ desktop_text | escape }}</span>
+          <span class="snosha-comparison__text snosha-comparison__text--mobile">{{ mobile_text | escape }}</span>
+        {%- else -%}
+          <span class="snosha-comparison__text">{{ desktop_text | escape }}</span>
+        {%- endif -%}
+      </{{ cell_tag }}>
+    {%- endfor -%}
+  </tr>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Comparison row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Mobile texts are optional. When one is blank, the desktop text is shown on mobile too."
+    },
+    {
+      "type": "header",
+      "content": "Criterion"
+    },
+    {
+      "type": "text",
+      "id": "criterion",
+      "label": "Criterion (desktop)"
+    },
+    {
+      "type": "text",
+      "id": "criterion_mobile",
+      "label": "Criterion (mobile, optional)"
+    },
+    {
+      "type": "header",
+      "content": "Highlighted product (middle column)"
+    },
+    {
+      "type": "text",
+      "id": "snosha_value",
+      "label": "Value (desktop)"
+    },
+    {
+      "type": "text",
+      "id": "snosha_value_mobile",
+      "label": "Value (mobile, optional)"
+    },
+    {
+      "type": "header",
+      "content": "Compared product (outer column)"
+    },
+    {
+      "type": "text",
+      "id": "manual_value",
+      "label": "Value (desktop)"
+    },
+    {
+      "type": "text",
+      "id": "manual_value_mobile",
+      "label": "Value (mobile, optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison row"
+    }
+  ]
+}
+{% endschema %}

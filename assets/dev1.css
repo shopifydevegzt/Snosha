@@ -2197,3 +2197,472 @@
     color: var(--snosha-drawer-link-color, var(--color-foreground));
   }
 }
+
+/* =========================================================================
+   SNOSHA — PRODUCT COMPARISON  (sections/snosha-product-comparison.liquid,
+   rows: blocks/_snosha-comparison-row.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:10461 (1480), mobile 190:11173 (390).
+   One semantic <table> (criterion → highlighted → compared product, in DOM order). The glass
+   panel, the raised highlighted column ("strip") and the glows are aria-hidden layers behind
+   the table; the strip sits under the middle column through the same percentage widths, so
+   every row height is shared by all three columns whatever the text length.
+   - <  750px  Figma mobile: 40 / 52 padding, 20px side gutter, 350 board at 390, header 46,
+                rows 78, columns 106 / 138 / 106, strip 16px above and below the table,
+                product image above the table (behind it), 10–12.5px text.
+   - >= 750px  Figma desktop: 60 / 140 padding, 20px inset in the 1376 container, board 1120,
+                header 64, rows 78, columns 402 / 376 / 342 (criterion column includes a
+                152px image gutter), strip 20px above / 35px below, image in front of the
+                table on the criterion side, 14.5–17px text.
+   - 750–989px the desktop product image, its gutter and shadow scale to 0.7.
+   Figma glow / floor-shadow SVGs are single blurred ellipses; they are reproduced with CSS
+   blur (filter blur radius = SVG feGaussianBlur stdDeviation) so their color stays editable.
+   ========================================================================= */
+
+.snosha-comparison {
+  --snosha-comparison-scale: 1;
+  --snosha-comparison-dir: 1;
+
+  position: relative;
+  overflow-x: clip;
+  padding-block: var(--snosha-comparison-padding-start-mobile) var(--snosha-comparison-padding-end-mobile);
+  background-image: linear-gradient(
+    var(--snosha-comparison-bg-angle-mobile),
+    var(--snosha-comparison-bg-start) 8.75%,
+    var(--snosha-comparison-bg-middle) 54.13%,
+    var(--snosha-comparison-bg-end) 91.25%
+  );
+
+  /* The image tilt mirrors with the page direction (the Figma design is RTL). */
+  &:dir(ltr) {
+    --snosha-comparison-dir: -1;
+  }
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-comparison-padding-start) var(--snosha-comparison-padding-end);
+    background-image: linear-gradient(
+      var(--snosha-comparison-bg-angle),
+      var(--snosha-comparison-bg-start) 8.75%,
+      var(--snosha-comparison-bg-middle) 54.13%,
+      var(--snosha-comparison-bg-end) 91.25%
+    );
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    --snosha-comparison-scale: 0.7;
+  }
+
+  .snosha-comparison__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 27px;
+
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container; heading → table 36 + 37 */
+    @media screen and (min-width: 750px) {
+      gap: 73px;
+      padding-inline: 20px;
+    }
+  }
+
+  /* ---------------- Heading (static native text blocks) ---------------- */
+  .snosha-comparison__heading {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    inline-size: 100%;
+
+    .text-block.h2 {
+      --color: var(--snosha-comparison-heading);
+
+      /* Desktop uses the global H2 preset (32 / 52); Figma mobile is 20 / 52 */
+      @media screen and (max-width: 749px) {
+        & > *,
+        & :is(h1, h2, h3, h4, h5, h6) {
+          font-size: 20px;
+          line-height: 52px;
+        }
+      }
+    }
+
+    .text-block.paragraph {
+      --color: var(--snosha-comparison-subtitle);
+
+      margin-block-start: -7px;
+      font-size: 12px;
+      line-height: 32px;
+
+      & > * {
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      @media screen and (min-width: 750px) {
+        margin-block-start: 6px;
+        font-size: 18px;
+      }
+    }
+
+    :is(h2, p) {
+      margin: 0;
+    }
+  }
+
+  /* ---------------- Board: panel + strip + table + image ---------------- */
+  .snosha-comparison__board {
+    /* Figma mobile geometry (350px board; header 44 + the panel's 1px border = first divider at 45) */
+    --snosha-comparison-head-height: 44px;
+    --snosha-comparison-row-height: 78px;
+    --snosha-comparison-strip-start: 16px;
+    --snosha-comparison-strip-end: 16px;
+    --snosha-comparison-col-criterion: 30.29%;
+    --snosha-comparison-col-brand: 39.43%;
+    --snosha-comparison-criterion-pad: 15px;
+    --snosha-comparison-brand-pad: 8px;
+    --snosha-comparison-manual-pad-start: 15px;
+    --snosha-comparison-manual-pad-end: 5px;
+    --snosha-comparison-divider-criterion-inset: 11px;
+    --snosha-comparison-divider-manual-inset: 9px;
+
+    position: relative;
+    inline-size: 100%;
+    max-inline-size: 1120px;
+
+    @media screen and (min-width: 750px) {
+      /* Figma desktop geometry (1120px board) */
+      --snosha-comparison-head-height: 64px;
+      --snosha-comparison-strip-start: 20px;
+      --snosha-comparison-strip-end: 35px;
+      --snosha-comparison-col-criterion: 35.89%;
+      --snosha-comparison-col-brand: 33.57%;
+      --snosha-comparison-criterion-pad: 28px;
+      --snosha-comparison-brand-pad: 18px;
+      --snosha-comparison-manual-pad-start: 11px;
+      --snosha-comparison-manual-pad-end: 21px;
+      --snosha-comparison-divider-criterion-inset: 28px;
+      --snosha-comparison-divider-manual-inset: 29px;
+    }
+  }
+
+  /* Gutter on the criterion side for the product image: 152px at the default 400px width
+     (Figma), dividers stop 36px before it (Figma 117px from the table edge). */
+  @media screen and (min-width: 750px) {
+    &.snosha-comparison--has-image .snosha-comparison__board {
+      --snosha-comparison-criterion-pad: calc(
+        var(--snosha-comparison-image-width) * 0.38 * var(--snosha-comparison-scale)
+      );
+      --snosha-comparison-divider-criterion-inset: max(
+        28px,
+        calc(var(--snosha-comparison-criterion-pad) - 36px)
+      );
+    }
+  }
+
+  .snosha-comparison__panel {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border: 1px solid var(--snosha-comparison-table-border);
+    border-radius: var(--snosha-comparison-table-radius-mobile);
+    background-color: var(--snosha-comparison-table-bg);
+    box-shadow: 0 24px 60px var(--snosha-comparison-table-shadow);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+
+    @media screen and (min-width: 750px) {
+      border-radius: var(--snosha-comparison-table-radius);
+    }
+  }
+
+  .snosha-comparison__strip {
+    position: absolute;
+    z-index: 2;
+    inset-block: calc(var(--snosha-comparison-strip-start) * -1) calc(var(--snosha-comparison-strip-end) * -1);
+    inset-inline-start: var(--snosha-comparison-col-criterion);
+    inline-size: var(--snosha-comparison-col-brand);
+    border: 1.5px solid var(--snosha-comparison-strip-border);
+    border-radius: var(--snosha-comparison-strip-radius-mobile);
+    background-image: linear-gradient(
+      to bottom,
+      var(--snosha-comparison-strip-top),
+      var(--snosha-comparison-strip-bottom)
+    );
+    box-shadow:
+      0 14px 26px var(--snosha-comparison-strip-shadow),
+      0 0 30px 4px var(--snosha-comparison-strip-glow);
+
+    @media screen and (min-width: 750px) {
+      border-radius: var(--snosha-comparison-strip-radius);
+      box-shadow:
+        0 26px 54px var(--snosha-comparison-strip-shadow),
+        0 0 44px var(--snosha-comparison-strip-glow);
+    }
+  }
+
+  .snosha-comparison__table {
+    position: relative;
+    z-index: 3;
+    inline-size: 100%;
+    /* Figma's table frame includes its 1px border: 612 desktop / 592 mobile */
+    margin: 1px 0;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--snosha-comparison-text);
+  }
+
+  .snosha-comparison__cell {
+    position: relative;
+    block-size: var(--snosha-comparison-row-height);
+    padding-block: 8px;
+    vertical-align: middle;
+    line-height: normal;
+    overflow-wrap: anywhere;
+  }
+
+  thead .snosha-comparison__cell {
+    block-size: var(--snosha-comparison-head-height);
+    padding-block: 0;
+  }
+
+  /* Criterion (row header) — on the start side (right in RTL) */
+  .snosha-comparison__cell--criterion {
+    padding-inline: var(--snosha-comparison-criterion-pad) 0;
+    text-align: start;
+    font-size: 11px;
+    font-weight: 600;
+
+    @media screen and (min-width: 750px) {
+      font-size: 15.5px;
+    }
+  }
+
+  thead .snosha-comparison__cell--criterion {
+    inline-size: var(--snosha-comparison-col-criterion);
+    font-size: 12.5px;
+    font-weight: 700;
+
+    @media screen and (min-width: 750px) {
+      font-size: 17px;
+    }
+  }
+
+  /* Highlighted product (middle column, over the strip) */
+  .snosha-comparison__cell--brand {
+    padding-inline: var(--snosha-comparison-brand-pad);
+    text-align: center;
+    color: var(--snosha-comparison-strip-text);
+    font-size: 10px;
+    font-weight: 600;
+
+    @media screen and (min-width: 750px) {
+      font-size: 15px;
+    }
+  }
+
+  thead .snosha-comparison__cell--brand {
+    inline-size: var(--snosha-comparison-col-brand);
+    /* Figma: the logo sits ~2px above the header row's centre */
+    padding-block-end: 4px;
+  }
+
+  .snosha-comparison__logo {
+    display: block;
+    inline-size: var(--snosha-comparison-logo-width-mobile);
+    max-inline-size: 100%;
+    block-size: auto;
+    margin-inline: auto;
+
+    @media screen and (min-width: 750px) {
+      inline-size: var(--snosha-comparison-logo-width);
+    }
+  }
+
+  .snosha-comparison__brand-text {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+
+    @media screen and (min-width: 750px) {
+      font-size: 22px;
+    }
+  }
+
+  /* Compared product — on the end side (left in RTL) */
+  .snosha-comparison__cell--manual {
+    padding-inline: var(--snosha-comparison-manual-pad-start) var(--snosha-comparison-manual-pad-end);
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+
+    @media screen and (min-width: 750px) {
+      font-size: 14.5px;
+    }
+  }
+
+  thead .snosha-comparison__cell--manual {
+    color: color-mix(in srgb, var(--snosha-comparison-text) 80%, transparent);
+    font-size: 11px;
+    font-weight: 600;
+
+    @media screen and (min-width: 750px) {
+      color: var(--snosha-comparison-text);
+      font-size: 16px;
+    }
+  }
+
+  /* Row dividers: one line on top of each body row (Figma: white 14 % on the panel,
+     brand blue 14 % across the strip, inset from both table edges). */
+  .snosha-comparison__row > .snosha-comparison__cell::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    block-size: 1px;
+    background-color: var(--snosha-comparison-divider);
+  }
+
+  .snosha-comparison__row > .snosha-comparison__cell--criterion::before {
+    inset-inline-start: var(--snosha-comparison-divider-criterion-inset);
+  }
+
+  .snosha-comparison__row > .snosha-comparison__cell--brand::before {
+    background-color: var(--snosha-comparison-strip-divider);
+  }
+
+  .snosha-comparison__row > .snosha-comparison__cell--manual::before {
+    inset-inline-end: var(--snosha-comparison-divider-manual-inset);
+  }
+
+  /* Desktop / mobile copy (a blank mobile text falls back to desktop in Liquid) */
+  .snosha-comparison__text--desktop {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-comparison__text--mobile {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  /* ---------------- Product image ---------------- */
+  .snosha-comparison__media {
+    position: absolute;
+    z-index: 0;
+    inset-block-start: var(--snosha-comparison-image-top-mobile);
+    inset-inline-start: calc(var(--snosha-comparison-image-overhang-mobile) * -1);
+    inline-size: min(var(--snosha-comparison-image-width-mobile), 30vw);
+    pointer-events: none;
+
+    /* Figma desktop: the image is the top layer, in front of the table */
+    @media screen and (min-width: 750px) {
+      z-index: 4;
+      inset-block-start: calc(var(--snosha-comparison-image-top) * var(--snosha-comparison-scale));
+      inset-inline-start: calc(var(--snosha-comparison-image-overhang) * var(--snosha-comparison-scale) * -1);
+      inline-size: calc(var(--snosha-comparison-image-width) * var(--snosha-comparison-scale));
+    }
+  }
+
+  &:not(.snosha-comparison--has-image) .snosha-comparison__media {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  &:not(.snosha-comparison--has-mobile-image) .snosha-comparison__media {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-comparison__image {
+    position: relative;
+    z-index: 1;
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+
+    @media screen and (min-width: 750px) {
+      rotate: calc(var(--snosha-comparison-image-rotate) * var(--snosha-comparison-dir));
+    }
+  }
+
+  .snosha-comparison__image--desktop {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-comparison__image--mobile {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  /* ---------------- Decorative glows and floor shadow ---------------- */
+  .snosha-comparison__glow,
+  .snosha-comparison__floor {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Desktop: Figma "Section Glow" 700 × 500 (62.5 % of the table), centre 12px toward the
+     criterion side, top 17px above the table; glow color at 14 %, blur 80 */
+  .snosha-comparison__glow--board {
+    inset-block-start: -17px;
+    inset-inline-start: calc(18.75% - 12px);
+    inline-size: 62.5%;
+    aspect-ratio: 7 / 5;
+    background-color: color-mix(in srgb, var(--snosha-comparison-glow) 14%, transparent);
+    filter: blur(80px);
+
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  /* Mobile: Figma ellipse 150 × 220 behind the image, centre 17px toward the start side and
+     30px below the image centre; glow color at 25 %, blur 30 */
+  .snosha-comparison__glow--media {
+    inset-block-start: calc(50% - 80px);
+    inset-inline-start: calc(50% - 92px);
+    inline-size: 150px;
+    block-size: 220px;
+    background-color: color-mix(in srgb, var(--snosha-comparison-glow) 25%, transparent);
+    filter: blur(30px);
+
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  /* Floor shadow. Mobile: Figma 140 × 22, top 62px below the image, 17px toward the start side,
+     35 %, blur 7. Desktop: Figma 240 × 40, top 8px above the image bottom, centre 16px toward
+     the start side, 50 %, blur 11 (scaled with the image at 750–989). */
+  .snosha-comparison__floor {
+    inset-block-start: calc(100% + 62px);
+    inset-inline-start: calc(50% - 87px);
+    inline-size: 140px;
+    block-size: 22px;
+    background-color: color-mix(in srgb, var(--snosha-comparison-floor) 35%, transparent);
+    filter: blur(7px);
+
+    @media screen and (min-width: 750px) {
+      inset-block-start: calc(100% - 8px * var(--snosha-comparison-scale));
+      inset-inline-start: calc(50% - 136px * var(--snosha-comparison-scale));
+      inline-size: calc(240px * var(--snosha-comparison-scale));
+      block-size: calc(40px * var(--snosha-comparison-scale));
+      background-color: color-mix(in srgb, var(--snosha-comparison-floor) 50%, transparent);
+      filter: blur(11px);
+    }
+  }
+}

@@ -1,0 +1,736 @@
+{%- comment -%}
+  Snosha — Product comparison (product page section 06, "ليه تشتري SNOSHA N2؟").
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:10461 (1480), mobile 190:11173 (390).
+
+  - Heading and subtitle: static native text blocks (native typography, color, dynamic sources).
+  - Rows: _snosha-comparison-row theme blocks (add / remove / drag to reorder), each one <tr>,
+    rendered with {% content_for 'blocks' %} into a single semantic <table>.
+  - The raised highlighted column, the glass panel and the glows are decorative layers
+    (aria-hidden) positioned behind the table's middle column, so row heights stay shared by
+    all three columns whatever the text length.
+  - Product image: image pickers (desktop / optional mobile) or, opt-in, the current product's
+    featured image.
+  Not built from native blocks only: Horizon has no table / comparison component with a raised
+  overlay column (comparison-slider is a before/after image slider).
+  Static styles: assets/dev1.css (.snosha-comparison). No JavaScript.
+{%- endcomment -%}
+{%- liquid
+  assign custom_class = section.settings.custom_class | strip | escape
+
+  assign logo = section.settings.logo_image
+  if logo == blank
+    assign logo = settings.logo
+  endif
+  assign brand_label = section.settings.brand_label | strip
+
+  assign desktop_image = section.settings.image
+  if desktop_image == blank and section.settings.use_product_image and product
+    assign desktop_image = product.featured_image
+  endif
+  assign mobile_image = section.settings.image_mobile
+  if mobile_image == blank
+    assign mobile_image = desktop_image
+  endif
+
+  assign show_image = false
+  if section.settings.show_image and desktop_image != blank
+    assign show_image = true
+  endif
+  assign show_mobile_image = false
+  if section.settings.show_image and mobile_image != blank
+    assign show_mobile_image = true
+  endif
+
+  assign criterion_label = section.settings.criterion_label | strip
+  assign criterion_label_mobile = section.settings.criterion_label_mobile | strip
+  assign manual_label = section.settings.manual_label | strip
+  assign manual_label_mobile = section.settings.manual_label_mobile | strip
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-comparison {
+    --snosha-comparison-bg-start: {{ section.settings.background_start }};
+    --snosha-comparison-bg-middle: {{ section.settings.background_middle }};
+    --snosha-comparison-bg-end: {{ section.settings.background_end }};
+    --snosha-comparison-bg-angle: {{ section.settings.background_angle }}deg;
+    --snosha-comparison-bg-angle-mobile: {{ section.settings.background_angle_mobile }}deg;
+    --snosha-comparison-heading: {{ section.settings.heading_color }};
+    --snosha-comparison-subtitle: {{ section.settings.subtitle_color }};
+    --snosha-comparison-text: {{ section.settings.table_text_color }};
+    --snosha-comparison-table-bg: {{ section.settings.table_background }};
+    --snosha-comparison-table-border: {{ section.settings.table_border }};
+    --snosha-comparison-divider: {{ section.settings.table_divider }};
+    --snosha-comparison-table-shadow: {{ section.settings.table_shadow }};
+    --snosha-comparison-table-radius: {{ section.settings.table_radius }}px;
+    --snosha-comparison-table-radius-mobile: {{ section.settings.table_radius_mobile }}px;
+    --snosha-comparison-strip-top: {{ section.settings.strip_background_top }};
+    --snosha-comparison-strip-bottom: {{ section.settings.strip_background_bottom }};
+    --snosha-comparison-strip-border: {{ section.settings.strip_border }};
+    --snosha-comparison-strip-text: {{ section.settings.strip_text }};
+    --snosha-comparison-strip-divider: {{ section.settings.strip_divider }};
+    --snosha-comparison-strip-shadow: {{ section.settings.strip_shadow }};
+    --snosha-comparison-strip-glow: {{ section.settings.strip_glow }};
+    --snosha-comparison-strip-radius: {{ section.settings.strip_radius }}px;
+    --snosha-comparison-strip-radius-mobile: {{ section.settings.strip_radius_mobile }}px;
+    --snosha-comparison-logo-width: {{ section.settings.logo_width }}px;
+    --snosha-comparison-logo-width-mobile: {{ section.settings.logo_width_mobile }}px;
+    --snosha-comparison-image-width: {{ section.settings.image_width }}px;
+    --snosha-comparison-image-overhang: {{ section.settings.image_overhang }}px;
+    --snosha-comparison-image-top: {{ section.settings.image_top }}px;
+    --snosha-comparison-image-rotate: {{ section.settings.image_rotation | default: 0 }}deg;
+    --snosha-comparison-image-width-mobile: {{ section.settings.image_width_mobile }}px;
+    --snosha-comparison-image-overhang-mobile: {{ section.settings.image_overhang_mobile }}px;
+    --snosha-comparison-image-top-mobile: {{ section.settings.image_top_mobile }}px;
+    --snosha-comparison-glow: {{ section.settings.glow_color }};
+    --snosha-comparison-floor: {{ section.settings.floor_shadow_color }};
+    --snosha-comparison-padding-start: {{ section.settings.padding_top }}px;
+    --snosha-comparison-padding-end: {{ section.settings.padding_bottom }}px;
+    --snosha-comparison-padding-start-mobile: {{ section.settings.padding_top_mobile }}px;
+    --snosha-comparison-padding-end-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  }
+{% endstyle %}
+
+<div
+  class="snosha-comparison{% if show_image %} snosha-comparison--has-image{% endif %}{% if show_mobile_image %} snosha-comparison--has-mobile-image{% endif %}{% if custom_class != blank %} {{ custom_class }}{% endif %}"
+>
+  <div class="section section--page-width">
+    <div class="snosha-comparison__inner">
+      <div class="snosha-comparison__heading">
+        {% content_for 'block', type: 'text', id: 'heading' %}
+        {% content_for 'block', type: 'text', id: 'subtitle' %}
+      </div>
+
+      <div class="snosha-comparison__board">
+        {%- if section.settings.show_glow -%}
+          <span class="snosha-comparison__glow snosha-comparison__glow--board" aria-hidden="true"></span>
+        {%- endif -%}
+        <span class="snosha-comparison__panel" aria-hidden="true"></span>
+        <span class="snosha-comparison__strip" aria-hidden="true"></span>
+
+        <table class="snosha-comparison__table">
+          <thead>
+            <tr>
+              <th scope="col" class="snosha-comparison__cell snosha-comparison__cell--criterion">
+                {%- if criterion_label_mobile != blank and criterion_label_mobile != criterion_label -%}
+                  <span class="snosha-comparison__text snosha-comparison__text--desktop">{{ criterion_label | escape }}</span>
+                  <span class="snosha-comparison__text snosha-comparison__text--mobile">{{ criterion_label_mobile | escape }}</span>
+                {%- else -%}
+                  <span class="snosha-comparison__text">{{ criterion_label | escape }}</span>
+                {%- endif -%}
+              </th>
+              <th scope="col" class="snosha-comparison__cell snosha-comparison__cell--brand">
+                {%- if logo != blank -%}
+                  {%- capture logo_sizes -%}(min-width: 750px) {{ section.settings.logo_width }}px, {{ section.settings.logo_width_mobile }}px{%- endcapture -%}
+                  {{
+                    logo
+                    | image_url: width: 600
+                    | image_tag:
+                      class: 'snosha-comparison__logo',
+                      alt: brand_label,
+                      widths: '120, 160, 240, 320, 480, 600',
+                      sizes: logo_sizes,
+                      loading: 'lazy'
+                  }}
+                {%- else -%}
+                  <span class="snosha-comparison__brand-text">{{ brand_label | escape }}</span>
+                {%- endif -%}
+              </th>
+              <th scope="col" class="snosha-comparison__cell snosha-comparison__cell--manual">
+                {%- if manual_label_mobile != blank and manual_label_mobile != manual_label -%}
+                  <span class="snosha-comparison__text snosha-comparison__text--desktop">{{ manual_label | escape }}</span>
+                  <span class="snosha-comparison__text snosha-comparison__text--mobile">{{ manual_label_mobile | escape }}</span>
+                {%- else -%}
+                  <span class="snosha-comparison__text">{{ manual_label | escape }}</span>
+                {%- endif -%}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- content_for 'blocks' -%}
+          </tbody>
+        </table>
+
+        {%- if show_image or show_mobile_image -%}
+          {%- liquid
+            # 750–989px renders the desktop image at 0.7 scale (assets/dev1.css, --snosha-comparison-scale)
+            assign image_width = section.settings.image_width
+            capture desktop_sizes
+              echo '(min-width: 990px) ' | append: image_width | append: 'px, calc(' | append: image_width | append: 'px * 0.7)'
+            endcapture
+            assign mobile_sizes = section.settings.image_width_mobile | append: 'px'
+            capture shared_sizes
+              echo '(min-width: 990px) ' | append: image_width | append: 'px, (min-width: 750px) calc('
+              echo image_width | append: 'px * 0.7), ' | append: mobile_sizes
+            endcapture
+            assign shared_image = false
+            if section.settings.image_mobile == blank
+              assign shared_image = true
+            endif
+            assign desktop_alt = desktop_image.alt | default: product.title | default: ''
+            assign mobile_alt = mobile_image.alt | default: product.title | default: ''
+          -%}
+          <div class="snosha-comparison__media">
+            {%- if section.settings.show_glow -%}
+              <span class="snosha-comparison__glow snosha-comparison__glow--media" aria-hidden="true"></span>
+            {%- endif -%}
+            {%- if section.settings.show_floor_shadow -%}
+              <span class="snosha-comparison__floor" aria-hidden="true"></span>
+            {%- endif -%}
+            {%- if shared_image -%}
+              {{
+                desktop_image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'snosha-comparison__image',
+                  alt: desktop_alt,
+                  widths: '150, 200, 300, 400, 600, 800, 1000, 1200',
+                  sizes: shared_sizes,
+                  loading: 'lazy'
+              }}
+            {%- else -%}
+              {%- if show_image -%}
+                {{
+                  desktop_image
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'snosha-comparison__image snosha-comparison__image--desktop',
+                    alt: desktop_alt,
+                    widths: '300, 400, 600, 800, 1000, 1200',
+                    sizes: desktop_sizes,
+                    loading: 'lazy'
+                }}
+              {%- endif -%}
+              {{
+                mobile_image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'snosha-comparison__image snosha-comparison__image--mobile',
+                  alt: mobile_alt,
+                  widths: '150, 200, 300, 400, 600',
+                  sizes: mobile_sizes,
+                  loading: 'lazy'
+              }}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha comparison",
+  "tag": "section",
+  "class": "snosha-comparison-section",
+  "blocks": [
+    { "type": "_snosha-comparison-row" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Edit the heading and subtitle in their blocks. Each Comparison row block is one table row: add, remove or drag rows to reorder them."
+    },
+    {
+      "type": "header",
+      "content": "Table headers"
+    },
+    {
+      "type": "text",
+      "id": "criterion_label",
+      "label": "Criterion column (desktop)",
+      "default": "المعيار"
+    },
+    {
+      "type": "text",
+      "id": "criterion_label_mobile",
+      "label": "Criterion column (mobile, optional)"
+    },
+    {
+      "type": "text",
+      "id": "manual_label",
+      "label": "Compared product column (desktop)",
+      "default": "الفرشاة اليدوية العادية"
+    },
+    {
+      "type": "text",
+      "id": "manual_label_mobile",
+      "label": "Compared product column (mobile, optional)",
+      "default": "اليدوية العادية"
+    },
+    {
+      "type": "text",
+      "id": "brand_label",
+      "label": "Highlighted product name",
+      "info": "Logo alt text. Shown as text when there is no logo.",
+      "default": "SNOSHA"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo",
+      "info": "Optional. Uses the theme logo (Theme settings → Logo) when empty."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width (desktop)",
+      "min": 60,
+      "max": 240,
+      "step": 2,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Logo width (mobile)",
+      "min": 40,
+      "max": 136,
+      "step": 2,
+      "unit": "px",
+      "default": 114
+    },
+    {
+      "type": "header",
+      "content": "Product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show product image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (desktop)",
+      "info": "A cut-out PNG with a transparent background works best."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (mobile, optional)",
+      "info": "Uses the desktop image when empty."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_image",
+      "label": "Use the product's featured image when no image is selected",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Width (desktop)",
+      "min": 200,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "image_overhang",
+      "label": "Overhang past the table side (desktop)",
+      "info": "On the criterion side of the table.",
+      "min": -100,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 172
+    },
+    {
+      "type": "range",
+      "id": "image_top",
+      "label": "Top offset from the table (desktop)",
+      "min": -300,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": -88
+    },
+    {
+      "type": "number",
+      "id": "image_rotation",
+      "label": "Rotation in degrees (desktop)",
+      "default": 2.7
+    },
+    {
+      "type": "range",
+      "id": "image_width_mobile",
+      "label": "Width (mobile)",
+      "min": 40,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 92
+    },
+    {
+      "type": "range",
+      "id": "image_overhang_mobile",
+      "label": "Overhang past the table side (mobile)",
+      "min": -60,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "image_top_mobile",
+      "label": "Top offset from the table (mobile)",
+      "min": -200,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": -128
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_start",
+      "label": "Gradient start",
+      "default": "#0E3B6B"
+    },
+    {
+      "type": "color",
+      "id": "background_middle",
+      "label": "Gradient middle",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "background_end",
+      "label": "Gradient end",
+      "default": "#0A2E55"
+    },
+    {
+      "type": "number",
+      "id": "background_angle",
+      "label": "Gradient angle in degrees (desktop)",
+      "default": 69.3
+    },
+    {
+      "type": "number",
+      "id": "background_angle_mobile",
+      "label": "Gradient angle in degrees (mobile)",
+      "default": 83
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "info": "A color set on the Heading block overrides this.",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "info": "A color set on the Subtitle block overrides this.",
+      "alpha": true,
+      "default": "#FFFFFFE0"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_glow",
+      "label": "Show glow",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_floor_shadow",
+      "label": "Show shadow under the product image",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "floor_shadow_color",
+      "label": "Product image shadow",
+      "default": "#000D26"
+    },
+    {
+      "type": "header",
+      "content": "Table"
+    },
+    {
+      "type": "color",
+      "id": "table_text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "table_background",
+      "label": "Background",
+      "alpha": true,
+      "default": "#FFFFFF17"
+    },
+    {
+      "type": "color",
+      "id": "table_border",
+      "label": "Border",
+      "alpha": true,
+      "default": "#FFFFFF33"
+    },
+    {
+      "type": "color",
+      "id": "table_divider",
+      "label": "Row dividers",
+      "alpha": true,
+      "default": "#FFFFFF24"
+    },
+    {
+      "type": "color",
+      "id": "table_shadow",
+      "label": "Shadow",
+      "alpha": true,
+      "default": "#00143373"
+    },
+    {
+      "type": "range",
+      "id": "table_radius",
+      "label": "Corner radius (desktop)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "table_radius_mobile",
+      "label": "Corner radius (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Highlighted column"
+    },
+    {
+      "type": "color",
+      "id": "strip_background_top",
+      "label": "Background top",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "strip_background_bottom",
+      "label": "Background bottom",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "strip_text",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "strip_border",
+      "label": "Border",
+      "alpha": true,
+      "default": "#FFFFFFE6"
+    },
+    {
+      "type": "color",
+      "id": "strip_divider",
+      "label": "Row dividers",
+      "alpha": true,
+      "default": "#176BB024"
+    },
+    {
+      "type": "color",
+      "id": "strip_shadow",
+      "label": "Shadow",
+      "alpha": true,
+      "default": "#001A4080"
+    },
+    {
+      "type": "color",
+      "id": "strip_glow",
+      "label": "Glow",
+      "alpha": true,
+      "default": "#63CDFF73"
+    },
+    {
+      "type": "range",
+      "id": "strip_radius",
+      "label": "Corner radius (desktop)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "strip_radius_mobile",
+      "label": "Corner radius (mobile)",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top (desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom (desktop)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top (mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom (mobile)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha comparison",
+      "category": "Snosha",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<h2>ليه تشتري SNOSHA N2؟</h2>", "type_preset": "h2", "width": "100%", "max_width": "none", "alignment": "center" }
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<p>قارن وشوف الفرق بنفسك</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" }
+        },
+        "row_vibrations": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "عدد الاهتزازات",
+            "snosha_value": "42,000 اهتزازة في الدقيقة",
+            "manual_value": "حركة يدوية غير منتظمة بدون معدل ثابت",
+            "manual_value_mobile": "حركة غير منتظمة"
+          }
+        },
+        "row_cleaning": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "إزالة الجير والبلاك",
+            "snosha_value": "تنظيف أعمق وأكثر انتظامًا في كل استخدام",
+            "snosha_value_mobile": "تنظيف أعمق وأكثر انتظامًا",
+            "manual_value": "يعتمد كليًا على مجهود ومهارة اليد",
+            "manual_value_mobile": "يعتمد على مهارة اليد"
+          }
+        },
+        "row_modes": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "أوضاع التنظيف",
+            "snosha_value": "5 أوضاع: يومي – حساس – تبييض – تلميع – تدليك",
+            "snosha_value_mobile": "5 أوضاع لكل احتياج",
+            "manual_value": "وضع واحد فقط، لا يوجد تخصيص",
+            "manual_value_mobile": "وضع واحد فقط"
+          }
+        },
+        "row_gums": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "العناية باللثة",
+            "snosha_value": "مؤقت ذكي كل 30 ثانية يوجّهك ويمنع الضغط الزائد",
+            "snosha_value_mobile": "مؤقت ذكي كل 30 ثانية",
+            "manual_value": "لا يوجد تحكم، وخطر الفرك الزائد وارد",
+            "manual_value_mobile": "خطر الفرك الزائد"
+          }
+        },
+        "row_water": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "مقاومة الماء",
+            "snosha_value": "IPX7 — استخدام آمن داخل الحمام",
+            "snosha_value_mobile": "IPX7 — آمنة في الحمام",
+            "manual_value": "لا ينطبق"
+          }
+        },
+        "row_travel": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "ملاءمة السفر",
+            "snosha_value": "حقيبة سفر مدمجة وبطارية تدوم حتى 120 يوم",
+            "snosha_value_mobile": "حقيبة سفر وبطارية 120 يوم",
+            "manual_value": "تحتاج غطاء منفصل وعرضة للتلوث",
+            "manual_value_mobile": "عرضة للتلوث"
+          }
+        },
+        "row_cost": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "التكلفة على المدى الطويل",
+            "criterion_mobile": "التكلفة طويلة المدى",
+            "snosha_value": "استبدال الرأس فقط كل 3 شهور",
+            "snosha_value_mobile": "استبدال الرأس فقط",
+            "manual_value": "استبدال الفرشاة بالكامل كل 3 شهور تقريبًا",
+            "manual_value_mobile": "استبدال كامل كل 3 شهور"
+          }
+        }
+      },
+      "block_order": ["row_vibrations", "row_cleaning", "row_modes", "row_gums", "row_water", "row_travel", "row_cost"]
+    }
+  ]
+}
+{% endschema %}

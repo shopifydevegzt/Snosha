@@ -114,6 +114,14 @@ Shared Figma components that recur across sections (exact node IDs come at secti
 - Progress bar (mobile carousels)
 - Link with arrow
 
+### C2. Product page section inventory
+
+Kept separate from the homepage inventory. Only sections that have been requested are listed; the product-page frame map isn't recorded yet.
+
+| Order | Section | Desktop node | Mobile node | Implementation | Complexity | Major dependencies | Status |
+|---|---|---|---|---|---|---|---|
+| 06 | Product comparison ("ليه تشتري SNOSHA N2؟") | `190:10461` (table `190:10465`, strip `190:10489`) | `190:11173` (table `190:11181`, strip `190:11205`) | **Implemented (branch `dev1`) as `sections/snosha-product-comparison.liquid`** + private theme block `blocks/_snosha-comparison-row.liquid` (one `<tr>` per block; 7 Figma rows in the section preset). Heading and subtitle are static native `text` blocks. One semantic `<table>`; the glass panel, raised strip and glows are `aria-hidden` layers. Styles in `assets/dev1.css` (`.snosha-comparison`). **Not placed in any template** (see dependencies) | Medium | **No target product template identified:** only `templates/product.json` exists (the default for every product) and no N2 template is documented, so the section is available via Theme Editor → product template → Add section → "Snosha comparison". Merchant: upload the brush image (Figma PNG not committed) and a logo (or set Theme settings → Logo). **Browser validation on Shopify not done** | `IMPLEMENTED` |
+
 ---
 
 ## D. Implementation strategy
@@ -595,6 +603,23 @@ The template was re-saved once because Shopify validated it before the new schem
 **Checks run:** header-group values valid against the schema; settings wired (9 → snippets / bridge variables, all used in `dev1.css`); Theme Check: the 9 baseline offenses (moving the icon and title logic into the two project snippets kept `header-drawer.liquid` under the Liquid complexity limit; the header `ExcessiveSettingsCount` advisory now reads 73); `git diff --check` clean. Local static harness (open drawer markup + native CSS + `dev1.css`, fallback font, no JS): 390 drawer 370.5 wide from the right; bar 64 color5 / border color2; close glyph 20px from the edge; rows 55 apart, 16px / 26px / 500, color6, text right-aligned on the 20px gutter; active color3 + color5 band spanning the drawer + 3px bar at the right; child active band full width, 44 tall; no divider after the last row; no horizontal overflow at 320 / 375 / 390 / 430 / 749 / 750 / 989 (400px drawer from 750). Closed header unchanged (390: 64 tall; 1480 unchanged).
 
 **Pending (manual browser QA, not run):** open / close (button, close button, Escape, backdrop), focus order and return, scroll lock, nested submenus and back button (3-level menus), accordion mode, active row on real pages, Cairo rendering and long Arabic labels, the three icon styles and sizes in the Theme Editor, LTR. |
+| 2026-11-12 | **Product page #06 Product comparison → `IMPLEMENTED`** (branch `dev1`; Figma `190:10461` desktop, `190:11173` mobile, both inspected with `get_design_context`).
+
+**Reuse decision:** no native Horizon section or block renders a comparison table with a raised overlay column (`comparison-slider` is a before/after image slider; `section` + `group` can't keep three columns row-synchronised with an overlay). New thin section + one private row block; heading/subtitle reuse the native `text` block (as in `snosha-why`).
+
+**Files:** `sections/snosha-product-comparison.liquid` (new), `blocks/_snosha-comparison-row.liquid` (new), `assets/dev1.css` (new `.snosha-comparison` block appended). No template, locale, JS, core or homepage file touched.
+
+**Structure:** `<table>` → `thead` (criterion label, logo / brand name, compared-product label; `th scope="col"`) and `tbody` = `{% content_for 'blocks' %}`; each row block is `<tr>` with `th scope="row"` (criterion) → `td` (highlighted value) → `td` (compared value). DOM order is the same in RTL and LTR; RTL puts the criterion on the right automatically. The strip is positioned with the same percentage column widths as the table (`--snosha-comparison-col-*`), so it always sits under the middle column and every row height is shared by all three columns.
+
+**Mobile copy:** every row cell and both header labels have an optional mobile text. Liquid outputs a second span only when the mobile text is non-blank and different; CSS shows one span per breakpoint (750px). Blank mobile → desktop text.
+
+**Settings:** section (51; Theme Check `ExcessiveSettingsCount` advisory, like the header): header labels (desktop / mobile), brand name (logo alt / text fallback), logo override (falls back to Theme settings → Logo, then text), logo widths; product image (show, desktop picker, mobile picker → desktop fallback, opt-in product featured image, desktop width / overhang / top / rotation, mobile width / overhang / top); background gradient 3 colors + desktop / mobile angle; heading / subtitle color; glow and floor shadow toggles + colors; table text / background / border / dividers / shadow / radii; strip gradient top / bottom, text, border, dividers, shadow, glow, radii; desktop / mobile padding; `custom_class`. Row block (6): criterion, highlighted value, compared value, each desktop + optional mobile. Every setting is wired (grep check).
+
+**Geometry (CSS):** mobile 20px gutter (`calc(20px - var(--page-margin))`), board 350 at 390, header 44 + 1px border, rows 78 (min height), columns 30.29 / 39.43 / 30.29 %, strip 16 / 16 overhang, image above the table and behind it. Desktop: 20px inset in the 1376 container, board max 1120, header 64, rows 78, columns 35.89 / 33.57 / 30.54 %, criterion-side image gutter = image width × 0.38 (152 at 400), strip 20 / 35 overhang, image in front. 750–989: desktop image, gutter and floor shadow × 0.7. Figma glow / floor SVGs are single blurred ellipses → reproduced as CSS ellipses with `filter: blur(stdDeviation)` and editable colors (no asset files). The Figma brush PNG is stretched ~13 % vertically in Figma; it's rendered at its natural ratio.
+
+**Checks run:** both schemas parse; no duplicate IDs; every range default / step valid; preset `block_order` matches its 7 row blocks and every preset key exists in the row schema; every bridge variable defined in the section is consumed in `dev1.css` and none is consumed undefined; no Figma asset URLs in theme files; Theme Check: the 9 baseline offenses + the new `ExcessiveSettingsCount` advisory; `git diff --check` clean. Local static harness (hand-written markup equal to the Liquid output with preset values + `base.css` + `dev1.css`, fallback font instead of Cairo, puppeteer-core / headless Edge, **not a Shopify render**): 1480 board 1120 × 612 at x 180, y 223; strip x 522, 376 × 667 from y 203; logo 140 × 28 at y 239; rows 78; section 975 (Figma 976). 390 board 350 × 592 at x 20, y 144; strip x 126, 138 × 624 from y 128; logo 114 × 23 at y 153.5; image 92 × 161 at x 284, y 16; header 44 + 1. 320: strip 110, columns 85, rows still 78, logo 94. No horizontal overflow at 320 / 375 / 390 / 749 / 750 / 989 / 990 / 1376 / 1480 / 1920. LTR mirrors (criterion left, image left, tilt mirrored). Mobile/desktop text switch confirmed at 749 / 750.
+
+**Pending (manual QA, not run):** add the section to the intended product template and compare with Figma at 1480 / 390 with Cairo and the real brush image; 750–989 tablet; 320–375 (heading vs image overlap at 320); strip overlap and glow; Theme Editor add / remove / reorder rows, mobile fallback, image / logo pickers, product-image option, color independence; RTL on an Arabic storefront and LTR; screen reader table reading. |
 
 ---
 
