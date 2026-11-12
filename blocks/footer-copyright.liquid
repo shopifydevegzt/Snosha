@@ -15,6 +15,8 @@
   <span class="footer-utilities__text">
     &copy; {{ 'now' | date: '%Y' }}
     {{ shop.name | link_to: routes.root_url -}}
+    {%- comment -%} Snosha (project addition): optional text after the store name {%- endcomment -%}
+    {%- if block_settings.suffix != blank %} {{ block_settings.suffix | escape }}{% endif -%}
     {%- if block_settings.show_powered_by -%}
       , {{ powered_by_link }}
     {%- endif -%}
@@ -41,6 +43,12 @@
     {
       "type": "paragraph",
       "content": "t:content.manage_store_name"
+    },
+    {
+      "type": "text",
+      "id": "suffix",
+      "label": "Text after store name",
+      "info": "Optional, e.g. a rights notice. The year and store name stay automatic."
     },
     {
       "type": "header",

@@ -2501,7 +2501,8 @@
 
   .snosha-reel__frame {
     position: relative;
-    aspect-ratio: var(--snosha-reels-card-w-mobile) / var(--snosha-reels-frame-h-mobile);
+    aspect-ratio: var(--snosha-reels-card-w-mobile) /
+      var(--snosha-reels-frame-h-mobile);
     overflow: hidden;
     border-radius: var(--snosha-reels-radius);
     background-color: var(--snosha-reels-thumb-bg);
@@ -2564,7 +2565,8 @@
     border-radius: 26px;
     background-color: var(--snosha-reels-play-bg);
     translate: -50% -50%;
-    transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+    transition: background-color var(--animation-speed, 0.2s)
+      var(--animation-easing, ease);
     pointer-events: none;
 
     img {
@@ -2598,7 +2600,8 @@
     block-size: 43px;
     box-sizing: border-box;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--snosha-reels-thumb-border) 40%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--snosha-reels-thumb-border) 40%, transparent);
     border-radius: 6px;
     background-color: var(--snosha-reels-thumb-bg);
 
@@ -2641,6 +2644,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+    text-align: right;
   }
 
   .snosha-reel__price {
@@ -2688,7 +2692,9 @@
       inset-inline-start: 0;
       /* --snosha-reels-progress (0–1) is only set by assets/main.js where scroll-driven animations are missing */
       inline-size: calc(
-        var(--snosha-reels-progress-rest) + (100% - var(--snosha-reels-progress-rest)) * var(--snosha-reels-progress, 0)
+        var(--snosha-reels-progress-rest) +
+          (100% - var(--snosha-reels-progress-rest)) *
+          var(--snosha-reels-progress, 0)
       );
       border-radius: 99px;
       background-image: linear-gradient(
@@ -2772,7 +2778,8 @@
     }
 
     .snosha-reel__frame {
-      aspect-ratio: var(--snosha-reels-card-w-desktop) / var(--snosha-reels-frame-h-desktop);
+      aspect-ratio: var(--snosha-reels-card-w-desktop) /
+        var(--snosha-reels-frame-h-desktop);
     }
 
     .snosha-reel__title {

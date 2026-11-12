@@ -6,11 +6,25 @@
   endif
 %}
 
+{%- comment -%}
+  Snosha (project addition): opt-in "Snosha layout" adds the .snosha-footer-utilities scope (styles
+  in assets/dev1.css). Off by default, so stock behavior is unchanged.
+{%- endcomment -%}
+{%- assign custom_class = section.settings.custom_class | strip | escape -%}
+{%- if section.settings.snosha_layout -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-footer-utilities {
+      --snosha-footer-utilities-padding-start-mobile: {{ section.settings.snosha_padding_top_mobile }}px;
+      --snosha-footer-utilities-padding-end-mobile: {{ section.settings.snosha_padding_bottom_mobile }}px;
+    }
+  {% endstyle %}
+{%- endif -%}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <div
-  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.settings.snosha_layout %} snosha-footer-utilities{% endif %}{% if custom_class != blank %} {{ custom_class }}{% endif %}"
   {{ section.shopify_attributes }}
 >
   <div
@@ -178,6 +192,45 @@
       "step": 1,
       "unit": "px",
       "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_layout",
+      "label": "Snosha layout",
+      "info": "Divider inset to the content width on desktop, hidden on mobile; copyright centered on mobile.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_top_mobile",
+      "label": "Mobile top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_bottom_mobile",
+      "label": "Mobile bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class",
+      "info": "Optional class added to the utilities wrapper."
     }
   ],
   "blocks": [

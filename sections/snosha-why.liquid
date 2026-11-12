@@ -1,0 +1,223 @@
+{%- comment -%}
+  Snosha — Why SNOSHA (homepage section #13).
+  Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:4024, mobile 190:4361.
+
+  Thin container for native Horizon blocks: heading and subtitle are static native text blocks;
+  each benefit is a _snosha-why-item block (snosha-icon illustration + native text title and
+  description). Kept as its own section (like snosha-before-after) because the generic "section"
+  can't express the 4-column / 2 x 2 grid, mobile-only padding and a stable scope without adding a
+  design-specific mode to a section shared with other templates.
+  Static styles: assets/dev1.css (.snosha-why).
+{%- endcomment -%}
+{%- assign custom_class = section.settings.custom_class | strip | escape -%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-why {
+    --snosha-why-background: {{ section.settings.background_color }};
+    --snosha-why-heading: {{ section.settings.heading_color }};
+    --snosha-why-subtitle: {{ section.settings.subtitle_color }};
+    --snosha-why-title: {{ section.settings.title_color }};
+    --snosha-why-description: {{ section.settings.description_color }};
+    --snosha-why-shadow: {{ section.settings.shadow_color }};
+    --snosha-why-padding-start: {{ section.settings.padding_top }}px;
+    --snosha-why-padding-end: {{ section.settings.padding_bottom }}px;
+    --snosha-why-padding-start-mobile: {{ section.settings.padding_top_mobile }}px;
+    --snosha-why-padding-end-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-why{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-why__inner">
+      <div class="snosha-why__heading">
+        {%- if section.settings.show_sparkles -%}
+          <span class="snosha-why__sparkles" aria-hidden="true">
+            <img class="snosha-why__sparkle snosha-why__sparkle--large" src="{{ 'snosha-sparkle-large.svg' | asset_url }}" width="27" height="27" alt="" loading="lazy">
+            <img class="snosha-why__sparkle snosha-why__sparkle--small" src="{{ 'snosha-sparkle-small.svg' | asset_url }}" width="14" height="14" alt="" loading="lazy">
+          </span>
+        {%- endif -%}
+        {% content_for 'block', type: 'text', id: 'heading' %}
+        {% content_for 'block', type: 'text', id: 'subtitle' %}
+      </div>
+
+      <div class="snosha-why__grid">
+        {%- content_for 'blocks' -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha why",
+  "tag": "section",
+  "class": "snosha-why-section",
+  "blocks": [
+    { "type": "_snosha-why-item" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Benefits fill the grid left to right, as in the design: 4 columns on desktop, 2 x 2 on mobile."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "info": "A color set on the Heading block overrides this.",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "info": "A color set on the Subtitle block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Benefit titles",
+      "info": "A color set on a benefit's Title block overrides this.",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Benefit descriptions",
+      "info": "A color set on a benefit's Description block overrides this.",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Illustration tile shadow",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sparkles",
+      "label": "Show heading sparkles",
+      "info": "Decorative. Hidden in the design.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom (desktop)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha why",
+      "category": "Snosha",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<h2>لماذا SNOSHA؟</h2>", "type_preset": "h2", "width": "100%", "max_width": "none", "alignment": "center" }
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": { "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" }
+        },
+        "benefit_simple_routine": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": { "type": "snosha-icon", "static": true, "settings": { "icon": "illustration_simple_routine", "size": "large", "show_tile": true } },
+            "title": { "type": "text", "static": true, "settings": { "text": "<p>روتين أبسط</p>", "type_preset": "h4", "width": "100%", "max_width": "none", "alignment": "center" } },
+            "description": { "type": "text", "static": true, "settings": { "text": "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" } }
+          }
+        },
+        "benefit_details": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": { "type": "snosha-icon", "static": true, "settings": { "icon": "illustration_details", "size": "large", "show_tile": true } },
+            "title": { "type": "text", "static": true, "settings": { "text": "<p>تفاصيل تصنع الفرق</p>", "type_preset": "h4", "width": "100%", "max_width": "none", "alignment": "center" } },
+            "description": { "type": "text", "static": true, "settings": { "text": "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" } }
+          }
+        },
+        "benefit_your_needs": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": { "type": "snosha-icon", "static": true, "settings": { "icon": "illustration_your_needs", "size": "large", "show_tile": true } },
+            "title": { "type": "text", "static": true, "settings": { "text": "<p>مصممة لاحتياجاتك</p>", "type_preset": "h4", "width": "100%", "max_width": "none", "alignment": "center" } },
+            "description": { "type": "text", "static": true, "settings": { "text": "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" } }
+          }
+        },
+        "benefit_smart_tech": {
+          "type": "_snosha-why-item",
+          "blocks": {
+            "illustration": { "type": "snosha-icon", "static": true, "settings": { "icon": "illustration_smart_tech", "size": "large", "show_tile": true } },
+            "title": { "type": "text", "static": true, "settings": { "text": "<p>تقنية أذكى</p>", "type_preset": "h4", "width": "100%", "max_width": "none", "alignment": "center" } },
+            "description": { "type": "text", "static": true, "settings": { "text": "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>", "type_preset": "paragraph", "width": "100%", "max_width": "none", "alignment": "center" } }
+          }
+        }
+      },
+      "block_order": ["benefit_simple_routine", "benefit_details", "benefit_your_needs", "benefit_smart_tech"]
+    }
+  ]
+}
+{% endschema %}

@@ -3,7 +3,7 @@
   Colors come from CSS: stroke/fill use currentColor; optional accents use
   --snosha-icon-accent and light inner fills use --snosha-icon-fill.
 
-  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart
+  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart | arrow_left
   @param {string} [uid] - unique suffix for gradient IDs (e.g. block.id)
   @param {string} [class] - extra class names
 
@@ -204,6 +204,20 @@
       <path d="M9.5 14.5C9.5 15.163 9.76339 15.7989 10.2322 16.2678C10.7011 16.7366 11.337 17 12 17" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/>
     </svg>
     {%- comment -%} Before / After benefits (Figma Icon / tooth, sparkle-detail, timer, heart). sparkle_detail and timer are shared with Choose Your Care. {%- endcomment -%}
+    {%- comment -%} Figma "Icon / arrow-left" (link arrow; points to the inline end in RTL, flip in LTR with CSS) {%- endcomment -%}
+  {%- when 'arrow_left' -%}
+    <svg
+      class="{{ classes }}"
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M19 12H5M11 18L5 12L11 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    {%- comment -%} Before / After benefits (Figma Icon / tooth, sparkle-detail, timer, heart) {%- endcomment -%}
   {%- when 'tooth' -%}
     <svg
       class="{{ classes }}"

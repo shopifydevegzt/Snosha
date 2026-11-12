@@ -93,14 +93,39 @@
   </a>
 
   <div class="featured-blog-posts-card__inner">
-    {% if onboarding or article.image %}
+    {%- comment -%} Snosha style keeps the image slot (native placeholder) for articles without an image, so cards stay aligned. {%- endcomment -%}
+    {% if onboarding or article.image or section.settings.snosha_style %}
       {{ image }}
     {% endif %}
 
     <div class="featured-blog-posts-card__content layout-panel-flex--column">
-      <h4>{{ title }}</h4>
-      {{ details }}
-      {{ description }}
+      {%- if block_settings.content_order == 'date_title' -%}
+        {{ details }}
+        <h4>{{ title }}</h4>
+      {%- else -%}
+        <h4>{{ title }}</h4>
+        {{ details }}
+      {%- endif -%}
+      {%- if block_settings.show_excerpt -%}
+        {{ description }}
+      {%- endif -%}
+      {%- assign read_more_label = block_settings.read_more_label | strip -%}
+      {%- if read_more_label != blank -%}
+        {%- comment -%} Visual link; the card's full-size link above is the keyboard / screen-reader target. {%- endcomment -%}
+        <a
+          class="featured-blog-posts-card__read-more"
+          {% unless onboarding %}
+            href="{{ article.url }}"
+          {% endunless %}
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <span>{{- read_more_label | escape -}}</span>
+          {%- if block_settings.show_read_more_arrow -%}
+            {%- render 'snosha-icon', icon: 'arrow_left', class: 'featured-blog-posts-card__read-more-icon' -%}
+          {%- endif -%}
+        </a>
+      {%- endif -%}
     </div>
   </div>
 </div>
@@ -226,6 +251,34 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "select",
+      "id": "content_order",
+      "label": "Date position",
+      "options": [
+        { "value": "title_date", "label": "Below the title" },
+        { "value": "date_title", "label": "Above the title" }
+      ],
+      "default": "title_date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Read more link label",
+      "info": "Shown under the excerpt and links to the article. Leave blank to hide."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more_arrow",
+      "label": "Show read more arrow",
+      "default": true
     },
     {
       "type": "header",

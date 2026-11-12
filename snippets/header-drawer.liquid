@@ -66,7 +66,8 @@
       on:click="/toggle"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
-        {{- 'icon-menu.svg' | inline_asset_content -}}
+        {%- comment -%} Snosha (project addition): menu icon style from the header's "Snosha layout" settings {%- endcomment -%}
+        {%- render 'snosha-menu-icon', section: section -%}
       </span>
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
         {{- 'icon-close-menu.svg' | inline_asset_content -}}
@@ -81,6 +82,8 @@
         {% endif %}
       "
     >
+      {%- comment -%} Snosha (project addition): optional drawer title {%- endcomment -%}
+      {%- render 'snosha-drawer-title', section: section -%}
       <button
         class="button close-button menu-drawer__close-button focus-inset"
         type="button"

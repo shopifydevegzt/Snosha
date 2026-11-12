@@ -4,9 +4,22 @@
   timer artwork matching the design; an uploaded image replaces the built-in icon.
   Styles: assets/dev1.css (.snosha-icon-block). Colors are per-block settings.
 {%- endcomment -%}
-{%- assign block_settings = block.settings -%}
+{%- liquid
+  assign block_settings = block.settings
+  # "large" = Figma Why SNOSHA tile (96px tile, 64px illustration); default "small" = 40 / 24.
+  assign icon_size = 24
+  if block_settings.size == 'large'
+    assign icon_size = 64
+  endif
+  # Multi-color illustrations ship as theme assets (assets/snosha-illustration-*.svg).
+  assign is_illustration = false
+  if block_settings.icon contains 'illustration_'
+    assign is_illustration = true
+    assign illustration_file = block_settings.icon | remove_first: 'illustration_' | replace: '_', '-' | prepend: 'snosha-illustration-' | append: '.svg'
+  endif
+-%}
 <div
-  class="snosha-icon-block{% if block_settings.show_tile %} snosha-icon-block--tile{% endif %}"
+  class="snosha-icon-block{% if block_settings.show_tile %} snosha-icon-block--tile{% endif %}{% if block_settings.size == 'large' %} snosha-icon-block--large{% endif %}"
   style="
     --snosha-icon-color: {{ block_settings.icon_color }};
     --snosha-icon-fill: {{ block_settings.icon_fill_color }};
@@ -19,9 +32,18 @@
   {%- if block_settings.image != blank -%}
     {{
       block_settings.image
-      | image_url: width: 96
-      | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'snosha-icon-block__image'
+      | image_url: width: 192
+      | image_tag: width: icon_size, height: icon_size, alt: '', loading: 'lazy', class: 'snosha-icon-block__image'
     }}
+  {%- elsif is_illustration -%}
+    <img
+      class="snosha-icon-block__image"
+      src="{{ illustration_file | asset_url }}"
+      width="{{ icon_size }}"
+      height="{{ icon_size }}"
+      alt=""
+      loading="lazy"
+    >
   {%- else -%}
     {%- render 'snosha-icon', icon: block_settings.icon, uid: block.id, class: 'snosha-icon-block__icon' -%}
   {%- endif -%}
@@ -47,7 +69,11 @@
         { "value": "exchange", "label": "Exchange" },
         { "value": "sonic", "label": "Sonic" },
         { "value": "battery", "label": "Battery" },
-        { "value": "sliders", "label": "Modes" }
+        { "value": "sliders", "label": "Modes" },
+        { "value": "illustration_simple_routine", "label": "Illustration: simple routine" },
+        { "value": "illustration_details", "label": "Illustration: details" },
+        { "value": "illustration_your_needs", "label": "Illustration: your needs" },
+        { "value": "illustration_smart_tech", "label": "Illustration: smart tech" }
       ],
       "default": "tooth"
     },
@@ -55,7 +81,17 @@
       "type": "image_picker",
       "id": "image",
       "label": "Custom icon image",
-      "info": "Replaces the built-in icon. Square, about 24 px."
+      "info": "Replaces the built-in icon. Square: about 24 px (small) or 64 px (large)."
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "Size",
+      "options": [
+        { "value": "small", "label": "Small (40 px tile)" },
+        { "value": "large", "label": "Large (96 px tile)" }
+      ],
+      "default": "small"
     },
     {
       "type": "checkbox",

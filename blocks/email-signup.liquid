@@ -2,6 +2,12 @@
 
 {% assign block_settings = block.settings %}
 {% liquid
+  # Snosha (project addition): optional placeholder; falls back to the theme translation
+  assign email_placeholder = 'blocks.email_signup.placeholder' | t
+  if block_settings.placeholder != blank
+    assign email_placeholder = block_settings.placeholder
+  endif
+
   assign is_custom_input = false
   if block_settings.input_style == 'custom'
     assign is_custom_input = true
@@ -64,7 +70,7 @@
         autocorrect="off"
         autocapitalize="off"
         autocomplete="email"
-        placeholder="{{ 'blocks.email_signup.placeholder' | t }}"
+        placeholder="{{ email_placeholder | escape }}"
         required
         {% if form.errors and form.id == blank %}
           autofocus
@@ -633,6 +639,12 @@
       "default": "paragraph",
       "info": "t:info.edit_presets_in_theme_settings",
       "visible_if": "{{ block.settings.input_style == \"custom\" }}"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "info": "Leave blank to use the theme's default text."
     },
     {
       "type": "header",
