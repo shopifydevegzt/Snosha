@@ -1,0 +1,198 @@
+{%- comment -%}
+  Usage note (private, static theme block of sections/snosha-how-to-use.liquid, id "note").
+  The info box under the numbered steps. Text has an optional mobile variant (blank → main text).
+  Icon: built-in artwork from snippets/snosha-icon.liquid (default "sparkle_detail", identical to
+  Figma "Icon / sparkle-detail" 190:2713), or an uploaded image; decorative, so aria-hidden / alt="".
+  Styles: assets/dev1.css (.snosha-how-to-use__note); per-instance values are CSS variables set below.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign desktop_text = bs.text | strip
+  assign mobile_text = bs.text_mobile | strip
+  if desktop_text == blank
+    assign desktop_text = mobile_text
+  endif
+-%}
+{%- if desktop_text != blank or request.design_mode -%}
+  <div
+    class="snosha-how-to-use__note"
+    style="
+      --snosha-note-bg: {{ bs.background }};
+      --snosha-note-border: {{ bs.border_color }};
+      --snosha-note-color: {{ bs.text_color }};
+      --snosha-note-size: {{ bs.text_size }}px;
+      --snosha-note-size-mobile: {{ bs.text_size_mobile }}px;
+      --snosha-note-radius: {{ bs.radius }}px;
+      --snosha-note-padding-block: {{ bs.padding_block }}px;
+      --snosha-note-padding-inline: {{ bs.padding_inline }}px;
+      --snosha-note-icon-color: {{ bs.icon_color }};
+      --snosha-note-icon-size: {{ bs.icon_size }}px;
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- if bs.show_icon -%}
+      {%- if bs.icon_image != blank -%}
+        {{
+          bs.icon_image
+          | image_url: width: 96
+          | image_tag: width: bs.icon_size, height: bs.icon_size, alt: '', loading: 'lazy', class: 'snosha-how-to-use__note-icon'
+        }}
+      {%- else -%}
+        {%- render 'snosha-icon', icon: bs.icon, uid: block.id, class: 'snosha-how-to-use__note-icon' -%}
+      {%- endif -%}
+    {%- endif -%}
+    <p class="snosha-how-to-use__note-text">
+      {%- if mobile_text != blank and mobile_text != desktop_text -%}
+        <span class="snosha-how-to-use__text snosha-how-to-use__text--desktop">{{ desktop_text }}</span>
+        <span class="snosha-how-to-use__text snosha-how-to-use__text--mobile">{{ mobile_text }}</span>
+      {%- else -%}
+        <span class="snosha-how-to-use__text">{{ desktop_text }}</span>
+      {%- endif -%}
+    </p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Usage note",
+  "tag": null,
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "Note"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "text_mobile",
+      "label": "Note on mobile",
+      "info": "Optional. Leave blank to show the note above on mobile."
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size on mobile",
+      "min": 9,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "header",
+      "content": "Box"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_block",
+      "label": "Top / bottom padding",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "sparkle_detail", "label": "Sparkle" },
+        { "value": "sparkle", "label": "Sparkle (solid)" },
+        { "value": "tooth", "label": "Tooth" },
+        { "value": "timer", "label": "Timer" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "sonic", "label": "Sonic" },
+        { "value": "battery", "label": "Battery" }
+      ],
+      "default": "sparkle_detail",
+      "visible_if": "{{ block.settings.show_icon }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon image",
+      "info": "Replaces the icon above. Square image.",
+      "visible_if": "{{ block.settings.show_icon }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "info": "Applies to the built-in icons.",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ block.settings.show_icon }}"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18,
+      "visible_if": "{{ block.settings.show_icon }}"
+    }
+  ]
+}
+{% endschema %}

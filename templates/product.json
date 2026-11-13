@@ -466,9 +466,7 @@
               "type": "snosha-complementary",
               "settings": {
                 "heading": "كمّل روتينك",
-                "products": [
-                  "snosha-tongue-cleaner"
-                ],
+                "products": ["snosha-tongue-cleaner"],
                 "max_products": 2,
                 "subtitle_source": "description",
                 "heading_color": "{{ settings.color_palette.color6 }}",
@@ -579,9 +577,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_aEtTtq"
-                  ]
+                  "block_order": ["text_aEtTtq"]
                 },
                 "row_suitable_for": {
                   "type": "_accordion-row",
@@ -620,9 +616,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_suitable_for"
-                  ]
+                  "block_order": ["text_suitable_for"]
                 },
                 "row_not_suitable_for": {
                   "type": "_accordion-row",
@@ -661,9 +655,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_not_suitable_for"
-                  ]
+                  "block_order": ["text_not_suitable_for"]
                 },
                 "row_shipping": {
                   "type": "_accordion-row",
@@ -702,9 +694,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_shipping"
-                  ]
+                  "block_order": ["text_shipping"]
                 },
                 "row_returns": {
                   "type": "_accordion-row",
@@ -743,9 +733,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_returns"
-                  ]
+                  "block_order": ["text_returns"]
                 },
                 "row_warranty": {
                   "type": "_accordion-row",
@@ -784,9 +772,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_warranty"
-                  ]
+                  "block_order": ["text_warranty"]
                 }
               },
               "block_order": [
@@ -835,9 +821,529 @@
         "snosha_shadow_color": "#0d408012",
         "custom_class": ""
       }
+    },
+    "snosha_product_comparison_QWa4Cb": {
+      "type": "snosha-product-comparison",
+      "blocks": {
+        "snosha_comparison_row_JatJjB": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "عدد الاهتزازات",
+            "criterion_mobile": "",
+            "snosha_value": "42,000 اهتزازة في الدقيقة",
+            "snosha_value_mobile": "",
+            "manual_value": "حركة يدوية غير منتظمة بدون معدل ثابت",
+            "manual_value_mobile": "حركة غير منتظمة"
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_nfb7QR": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "إزالة الجير والبلاك",
+            "criterion_mobile": "",
+            "snosha_value": "تنظيف أعمق وأكثر انتظامًا في كل استخدام",
+            "snosha_value_mobile": "تنظيف أعمق وأكثر انتظامًا",
+            "manual_value": "يعتمد كليًا على مجهود ومهارة اليد",
+            "manual_value_mobile": "يعتمد على مهارة اليد"
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_nqpUdT": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "أوضاع التنظيف",
+            "criterion_mobile": "",
+            "snosha_value": "5 أوضاع: يومي – حساس – تبييض – تلميع – تدليك",
+            "snosha_value_mobile": "5 أوضاع لكل احتياج",
+            "manual_value": "وضع واحد فقط، لا يوجد تخصيص",
+            "manual_value_mobile": "وضع واحد فقط"
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_CWarBR": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "العناية باللثة",
+            "criterion_mobile": "",
+            "snosha_value": "مؤقت ذكي كل 30 ثانية يوجّهك ويمنع الضغط الزائد",
+            "snosha_value_mobile": "مؤقت ذكي كل 30 ثانية",
+            "manual_value": "لا يوجد تحكم، وخطر الفرك الزائد وارد",
+            "manual_value_mobile": "خطر الفرك الزائد"
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_EMYrxB": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "مقاومة الماء",
+            "criterion_mobile": "",
+            "snosha_value": "IPX7 — استخدام آمن داخل الحمام",
+            "snosha_value_mobile": "IPX7 — آمنة في الحمام",
+            "manual_value": "لا ينطبق",
+            "manual_value_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_LGDMwd": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "ملاءمة السفر",
+            "criterion_mobile": "",
+            "snosha_value": "حقيبة سفر مدمجة وبطارية تدوم حتى 120 يوم",
+            "snosha_value_mobile": "حقيبة سفر وبطارية 120 يوم",
+            "manual_value": "تحتاج غطاء منفصل وعرضة للتلوث",
+            "manual_value_mobile": "عرضة للتلوث"
+          },
+          "blocks": {}
+        },
+        "snosha_comparison_row_dtzdaH": {
+          "type": "_snosha-comparison-row",
+          "settings": {
+            "criterion": "التكلفة على المدى الطويل",
+            "criterion_mobile": "التكلفة طويلة المدى",
+            "snosha_value": "استبدال الرأس فقط كل 3 شهور",
+            "snosha_value_mobile": "استبدال الرأس فقط",
+            "manual_value": "استبدال الفرشاة بالكامل كل 3 شهور تقريبًا",
+            "manual_value_mobile": "استبدال كامل كل 3 شهور"
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<h2>ليه تشتري SNOSHA N2؟</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "static": true,
+          "settings": {
+            "text": "<p>قارن وشوف الفرق بنفسك</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "snosha_comparison_row_JatJjB",
+        "snosha_comparison_row_nfb7QR",
+        "snosha_comparison_row_nqpUdT",
+        "snosha_comparison_row_CWarBR",
+        "snosha_comparison_row_EMYrxB",
+        "snosha_comparison_row_LGDMwd",
+        "snosha_comparison_row_dtzdaH"
+      ],
+      "name": "Snosha comparison",
+      "settings": {
+        "criterion_label": "المعيار",
+        "criterion_label_mobile": "",
+        "manual_label": "الفرشاة اليدوية العادية",
+        "manual_label_mobile": "اليدوية العادية",
+        "brand_label": "SNOSHA",
+        "logo_width": 140,
+        "logo_width_mobile": 114,
+        "show_image": true,
+        "image": "shopify://shop_images/f1cecf0ee6a7167b513563bd6eedb32281839da4_1.png",
+        "image_mobile": "shopify://shop_images/f1cecf0ee6a7167b513563bd6eedb32281839da4_2.png",
+        "use_product_image": false,
+        "image_width": 400,
+        "image_overhang": 172,
+        "image_top": -88,
+        "image_rotation": 2.7,
+        "image_width_mobile": 92,
+        "image_overhang_mobile": 6,
+        "image_top_mobile": -128,
+        "background_start": "#0e3b6b",
+        "background_middle": "{{ settings.color_palette.color6 }}",
+        "background_end": "#0a2e55",
+        "background_angle": 69.3,
+        "background_angle_mobile": 83,
+        "heading_color": "#ffffff",
+        "subtitle_color": "#ffffffe0",
+        "show_glow": true,
+        "glow_color": "#63cdff",
+        "show_floor_shadow": true,
+        "floor_shadow_color": "#000d26",
+        "table_text_color": "#ffffff",
+        "table_background": "#ffffff17",
+        "table_border": "#ffffff33",
+        "table_divider": "#ffffff24",
+        "table_shadow": "#00143373",
+        "table_radius": 24,
+        "table_radius_mobile": 16,
+        "strip_background_top": "#ffffff",
+        "strip_background_bottom": "{{ settings.color_palette.color5 }}",
+        "strip_text": "{{ settings.color_palette.color6 }}",
+        "strip_border": "#ffffffe6",
+        "strip_divider": "#176bb024",
+        "strip_shadow": "#001a4080",
+        "strip_glow": "#63cdff73",
+        "strip_radius": 20,
+        "strip_radius_mobile": 14,
+        "padding_top": 60,
+        "padding_bottom": 140,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 52,
+        "custom_class": ""
+      }
+    },
+    "snosha_how_to_use_UGazpy": {
+      "type": "snosha-how-to-use",
+      "blocks": {
+        "snosha_how_to_use_step_jRT8qU": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "ضع كمية مناسبة من معجون الأسنان على رأس الفرشاة.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_zt8FMT": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "ضع الفرشاة داخل الفم أولًا، ثم شغّل الجهاز (لتجنب تناثر المعجون).",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_ENHQAg": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "اختر وضع التنظيف المناسب لاحتياجك.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_gABLKf": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "حرّك الفرشاة بزاوية 45 درجة على خط اللثة، بحركة بطيئة ذهابًا وإيابًا.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_qqiTzH": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "لا داعي للضغط بقوة؛ الفرشاة مصممة لتنظيف فعّال دون أي جهد إضافي منك.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_WcKF3k": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_rjzCet": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_49AW6L": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "note": {
+          "type": "_snosha-how-to-use-note",
+          "static": true,
+          "settings": {
+            "text": "يحتاج بعض المستخدمين من 3 إلى 5 أيام للتأقلم مع الإحساس الجديد لفرشاة الأسنان الكهربائية — وهذا أمر طبيعي تمامًا.",
+            "text_mobile": "",
+            "text_size": 14,
+            "text_size_mobile": 11,
+            "background": "{{ settings.color_palette.background }}",
+            "border_color": "{{ settings.color_palette.color2 }}",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "radius": 14,
+            "padding_block": 14,
+            "padding_inline": 20,
+            "show_icon": true,
+            "icon": "sparkle_detail",
+            "icon_color": "{{ settings.color_palette.color3 }}",
+            "icon_size": 18
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "snosha_how_to_use_step_jRT8qU",
+        "snosha_how_to_use_step_zt8FMT",
+        "snosha_how_to_use_step_ENHQAg",
+        "snosha_how_to_use_step_gABLKf",
+        "snosha_how_to_use_step_qqiTzH",
+        "snosha_how_to_use_step_WcKF3k",
+        "snosha_how_to_use_step_rjzCet",
+        "snosha_how_to_use_step_49AW6L"
+      ],
+      "name": "Snosha how to use",
+      "settings": {
+        "heading": "كيفية الاستخدام",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "heading_gap": 18,
+        "heading_gap_mobile": 14,
+        "background": "{{ settings.color_palette.background }}",
+        "panel_background": "{{ settings.color_palette.color5 }}",
+        "panel_border": "{{ settings.color_palette.color2 }}",
+        "panel_shadow": "#0D40800F",
+        "panel_radius": 16,
+        "panel_padding": 24,
+        "panel_padding_mobile": 14,
+        "show_note": true,
+        "step_gap": 16,
+        "step_text_color": "{{ settings.color_palette.color1 }}",
+        "step_size": 16,
+        "step_size_mobile": 12.5,
+        "step_line_height": 28,
+        "badge_start": "#63CDFF",
+        "badge_end": "#0F64A8",
+        "badge_text_color": "{{ settings.color_palette.background }}",
+        "badge_size": 30,
+        "badge_font_size": 14,
+        "badge_font_size_mobile": 11,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
+    },
+    "snosha_storage_care_KBtGfB": {
+      "type": "snosha-storage-care",
+      "blocks": {
+        "snosha_storage_tab_Wz4FBr": {
+          "type": "_snosha-storage-tab",
+          "settings": {
+            "title": "للاستخدام الآمن",
+            "title_mobile": "",
+            "default_open": true
+          },
+          "blocks": {
+            "snosha_storage_item_QLMg8b": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "المنتج مخصص لاستخدام البالغين، ويُستخدم من قِبل الأطفال تحت إشراف شخص بالغ فقط.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_YjTDdr": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_4hyPLW": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "في حال وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_Hqh7e4": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "يُمنع مشاركة فرشاة الأسنان مع الآخرين لأسباب صحية.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_xFmRt3": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "استخدم فقط الملحقات الأصلية المعتمدة من سنوشا.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_nBq6pw": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "فك الجهاز أو العبث بمكوناته الداخلية يؤدي لإلغاء الضمان.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_iDEgMM": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "يحتوي الجهاز على بطارية ليثيوم مدمجة، لذا يجب إبعاده عن مصادر الحرارة العالية لتفادي أي خطر.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "snosha_storage_item_QLMg8b",
+            "snosha_storage_item_YjTDdr",
+            "snosha_storage_item_4hyPLW",
+            "snosha_storage_item_Hqh7e4",
+            "snosha_storage_item_xFmRt3",
+            "snosha_storage_item_nBq6pw",
+            "snosha_storage_item_iDEgMM"
+          ]
+        },
+        "snosha_storage_tab_6VVbyy": {
+          "type": "_snosha-storage-tab",
+          "settings": {
+            "title": "للتنظيف والصيانة",
+            "title_mobile": "",
+            "default_open": false
+          },
+          "blocks": {
+            "snosha_storage_item_Gf3rTQ": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["snosha_storage_item_Gf3rTQ"]
+        },
+        "snosha_storage_tab_M7KaMq": {
+          "type": "_snosha-storage-tab",
+          "settings": {
+            "title": "للتخزين",
+            "title_mobile": "",
+            "default_open": false
+          },
+          "blocks": {
+            "snosha_storage_item_ecyQ68": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": ["snosha_storage_item_ecyQ68"]
+        },
+        "tab_style": {
+          "type": "_snosha-storage-tab-style",
+          "static": true,
+          "settings": {
+            "tab_font_size": 16,
+            "tab_font_size_mobile": 11.5,
+            "tab_padding_block": 10,
+            "tab_padding_block_mobile": 6,
+            "tab_padding": 24,
+            "tab_padding_mobile": 10,
+            "tab_radius": 100,
+            "tab_gap": 10,
+            "tab_gap_mobile": 6,
+            "tabs_card_gap": 22,
+            "tabs_card_gap_mobile": 16,
+            "tab_background": "{{ settings.color_palette.background }}",
+            "tab_text": "{{ settings.color_palette.color3 }}",
+            "tab_border": "{{ settings.color_palette.color2 }}",
+            "tab_active_start": "#63CDFF",
+            "tab_active_end": "#0F64A8",
+            "tab_active_text": "{{ settings.color_palette.background }}",
+            "tab_active_shadow": "#0F64A84D"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "snosha_storage_tab_Wz4FBr",
+        "snosha_storage_tab_6VVbyy",
+        "snosha_storage_tab_M7KaMq"
+      ],
+      "name": "Snosha storage & care",
+      "settings": {
+        "heading": "شروط الاستخدام والتخزين",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "heading_gap": 18,
+        "heading_gap_mobile": 14,
+        "background": "{{ settings.color_palette.background }}",
+        "hide_empty_tabs": false,
+        "empty_message": "سيتم إضافة المحتوى قريبًا",
+        "card_background": "{{ settings.color_palette.background }}",
+        "card_border": "{{ settings.color_palette.color2 }}",
+        "card_shadow": "#0D40800F",
+        "card_radius": 16,
+        "card_padding": 28,
+        "card_padding_mobile": 14,
+        "card_padding_top": 24,
+        "card_padding_bottom": 26,
+        "item_gap": 12,
+        "text_color": "{{ settings.color_palette.color1 }}",
+        "text_size": 16,
+        "text_size_mobile": 13,
+        "line_height": 28,
+        "show_marker": true,
+        "marker_color": "#63CDFF",
+        "marker_size": 26,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "snosha_product_comparison_QWa4Cb",
+    "snosha_how_to_use_UGazpy",
+    "snosha_storage_care_KBtGfB"
   ]
 }

@@ -1,0 +1,425 @@
+{%- comment -%}
+  Snosha — How to use (product page S09; Figma 190:10750 desktop, 190:11464 mobile).
+  Heading + light panel holding an ordered list of steps and an info note.
+  - Steps: private theme block _snosha-how-to-use-step (one <li> each; add / remove / drag to
+    reorder). Numbers are a CSS counter, so they always follow the rendered order.
+  - Note: private static theme block _snosha-how-to-use-note (id "note"), shown when "Show note" is on.
+  - All copy lives in the preset / block settings; nothing instructional is hardcoded here.
+  Styles: assets/dev1.css (.snosha-how-to-use); the {% style %} below is the per-instance bridge.
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  capture steps_markup
+    content_for 'blocks'
+  endcapture
+  if ss.show_note
+    capture note_markup
+      content_for 'block', type: '_snosha-how-to-use-note', id: 'note'
+    endcapture
+  endif
+  assign has_steps = false
+  if steps_markup != blank
+    assign has_steps = true
+  endif
+  assign has_note = false
+  if note_markup != blank
+    assign has_note = true
+  endif
+  assign heading = ss.heading | strip
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-how-to-use {
+    --snosha-htu-bg: {{ ss.background }};
+    --snosha-htu-padding-start: {{ ss.padding_top }}px;
+    --snosha-htu-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-htu-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-htu-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    --snosha-htu-heading-color: {{ ss.heading_color }};
+    --snosha-htu-heading-size: {{ ss.heading_size }}px;
+    --snosha-htu-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+    --snosha-htu-heading-gap: {{ ss.heading_gap }}px;
+    --snosha-htu-heading-gap-mobile: {{ ss.heading_gap_mobile }}px;
+    --snosha-htu-panel-bg: {{ ss.panel_background }};
+    --snosha-htu-panel-border: {{ ss.panel_border }};
+    --snosha-htu-panel-shadow: {{ ss.panel_shadow }};
+    --snosha-htu-panel-radius: {{ ss.panel_radius }}px;
+    --snosha-htu-panel-padding: {{ ss.panel_padding }}px;
+    --snosha-htu-panel-padding-mobile: {{ ss.panel_padding_mobile }}px;
+    --snosha-htu-step-gap: {{ ss.step_gap }}px;
+    --snosha-htu-step-color: {{ ss.step_text_color }};
+    --snosha-htu-step-size: {{ ss.step_size }}px;
+    --snosha-htu-step-size-mobile: {{ ss.step_size_mobile }}px;
+    --snosha-htu-step-line-height: {{ ss.step_line_height }}px;
+    --snosha-htu-badge-start: {{ ss.badge_start }};
+    --snosha-htu-badge-end: {{ ss.badge_end }};
+    --snosha-htu-badge-color: {{ ss.badge_text_color }};
+    --snosha-htu-badge-size: {{ ss.badge_size }}px;
+    --snosha-htu-badge-font-size: {{ ss.badge_font_size }}px;
+    --snosha-htu-badge-font-size-mobile: {{ ss.badge_font_size_mobile }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-how-to-use{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-how-to-use__inner">
+      {%- if heading != blank -%}
+        <h2 class="snosha-how-to-use__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      {%- if has_steps or has_note or request.design_mode -%}
+        <div class="snosha-how-to-use__panel">
+          {%- if has_steps -%}
+            <ol class="snosha-how-to-use__steps" role="list">
+              {{- steps_markup -}}
+            </ol>
+          {%- endif -%}
+          {{- note_markup -}}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha how to use",
+  "tag": "section",
+  "class": "snosha-how-to-use-section",
+  "blocks": [
+    { "type": "_snosha-how-to-use-step" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Steps are blocks: add, remove or drag them to reorder; numbers update automatically. The note is the \"Usage note\" block."
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Space below heading",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_gap_mobile",
+      "label": "Space below heading on mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Panel"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_background",
+      "label": "Panel background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_border",
+      "label": "Panel border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_shadow",
+      "label": "Panel shadow",
+      "info": "Set the opacity to 0 to remove the shadow.",
+      "alpha": true,
+      "default": "#0D40800F"
+    },
+    {
+      "type": "range",
+      "id": "panel_radius",
+      "label": "Panel corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "panel_padding",
+      "label": "Panel side padding",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "panel_padding_mobile",
+      "label": "Panel side padding on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Show note",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Steps"
+    },
+    {
+      "type": "range",
+      "id": "step_gap",
+      "label": "Space between steps",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "step_text_color",
+      "label": "Text color",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "range",
+      "id": "step_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "step_size_mobile",
+      "label": "Text size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12.5
+    },
+    {
+      "type": "range",
+      "id": "step_line_height",
+      "label": "Line height",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "badge_start",
+      "label": "Number badge gradient top",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_end",
+      "label": "Number badge gradient bottom",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Number color",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "label": "Number badge size",
+      "min": 20,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Number size",
+      "min": 8,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size_mobile",
+      "label": "Number size on mobile",
+      "min": 8,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha how to use",
+      "category": "Snosha",
+      "settings": {
+        "heading": "كيفية الاستخدام"
+      },
+      "blocks": {
+        "note": {
+          "type": "_snosha-how-to-use-note",
+          "static": true,
+          "settings": {
+            "text": "يحتاج بعض المستخدمين من 3 إلى 5 أيام للتأقلم مع الإحساس الجديد لفرشاة الأسنان الكهربائية — وهذا أمر طبيعي تمامًا."
+          }
+        },
+        "step_1": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "ضع كمية مناسبة من معجون الأسنان على رأس الفرشاة." }
+        },
+        "step_2": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "ضع الفرشاة داخل الفم أولًا، ثم شغّل الجهاز (لتجنب تناثر المعجون)." }
+        },
+        "step_3": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "اختر وضع التنظيف المناسب لاحتياجك." }
+        },
+        "step_4": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "حرّك الفرشاة بزاوية 45 درجة على خط اللثة، بحركة بطيئة ذهابًا وإيابًا." }
+        },
+        "step_5": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "لا داعي للضغط بقوة؛ الفرشاة مصممة لتنظيف فعّال دون أي جهد إضافي منك." }
+        },
+        "step_6": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع." }
+        },
+        "step_7": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز." }
+        },
+        "step_8": {
+          "type": "_snosha-how-to-use-step",
+          "settings": { "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر." }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4", "step_5", "step_6", "step_7", "step_8"]
+    }
+  ]
+}
+{% endschema %}

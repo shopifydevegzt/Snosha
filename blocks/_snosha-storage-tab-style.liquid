@@ -1,0 +1,216 @@
+{%- comment -%}
+  Storage & care — Tab style (private static theme block of sections/snosha-storage-care.liquid,
+  id "tab_style"). Holds the tab bar's appearance so the section stays under Shopify's 40-setting
+  advisory (Theme Check ExcessiveSettingsCount). It renders no visible markup: only the scoped
+  CSS variables (--snosha-care-tab-*) consumed by assets/dev1.css (.snosha-storage-care__tab*).
+  If this block is hidden, the CSS falls back to the Figma sizes and palette colors.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-storage-care {
+    --snosha-care-tab-size: {{ bs.tab_font_size }}px;
+    --snosha-care-tab-size-mobile: {{ bs.tab_font_size_mobile }}px;
+    --snosha-care-tab-padding-block: {{ bs.tab_padding_block }}px;
+    --snosha-care-tab-padding-block-mobile: {{ bs.tab_padding_block_mobile }}px;
+    --snosha-care-tab-padding: {{ bs.tab_padding }}px;
+    --snosha-care-tab-padding-mobile: {{ bs.tab_padding_mobile }}px;
+    --snosha-care-tab-gap: {{ bs.tab_gap }}px;
+    --snosha-care-tab-gap-mobile: {{ bs.tab_gap_mobile }}px;
+    --snosha-care-tabs-card-gap: {{ bs.tabs_card_gap }}px;
+    --snosha-care-tabs-card-gap-mobile: {{ bs.tabs_card_gap_mobile }}px;
+    --snosha-care-tab-radius: {{ bs.tab_radius }}px;
+    --snosha-care-tab-bg: {{ bs.tab_background }};
+    --snosha-care-tab-text: {{ bs.tab_text }};
+    --snosha-care-tab-border: {{ bs.tab_border }};
+    --snosha-care-tab-active-start: {{ bs.tab_active_start }};
+    --snosha-care-tab-active-end: {{ bs.tab_active_end }};
+    --snosha-care-tab-active-text: {{ bs.tab_active_text }};
+    --snosha-care-tab-active-shadow: {{ bs.tab_active_shadow }};
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Tab style",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Appearance of the tab bar. Tab labels are set on each tab block."
+    },
+    {
+      "type": "header",
+      "content": "Text and size"
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Label size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size_mobile",
+      "label": "Label size on mobile",
+      "min": 9,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11.5
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_block",
+      "label": "Top / bottom padding",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_block_mobile",
+      "label": "Top / bottom padding on mobile",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "tab_padding",
+      "label": "Side padding",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_mobile",
+      "label": "Side padding on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "tab_radius",
+      "label": "Corner radius",
+      "info": "Half the tab height or more gives a pill.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "tab_gap",
+      "label": "Space between tabs",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "tab_gap_mobile",
+      "label": "Space between tabs on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "tabs_card_gap",
+      "label": "Space between tabs and card",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "tabs_card_gap_mobile",
+      "label": "Space between tabs and card on mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Inactive tab"
+    },
+    {
+      "type": "color",
+      "id": "tab_background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_text",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_border",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "header",
+      "content": "Active tab"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_start",
+      "label": "Gradient start",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_end",
+      "label": "Gradient end",
+      "default": "#0F64A8"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text",
+      "label": "Text",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove the shadow.",
+      "alpha": true,
+      "default": "#0F64A84D"
+    }
+  ]
+}
+{% endschema %}
