@@ -30,7 +30,9 @@
           "blocks": {}
         }
       },
-      "block_order": ["announcement_BxgCk9"],
+      "block_order": [
+        "announcement_BxgCk9"
+      ],
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
@@ -38,8 +40,8 @@
         "background_color": "{{ settings.color_palette.color3 }}",
         "divider_width": 1,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 10,
-        "padding-block-end": 10
+        "padding-block-start": 15,
+        "padding-block-end": 15
       }
     },
     "header_section": {
@@ -81,7 +83,6 @@
           "blocks": {}
         }
       },
-      "disabled": true,
       "settings": {
         "logo_position": "center",
         "menu_position": "center",
@@ -125,11 +126,11 @@
         "enable_transparent_header_collection": false,
         "collection_inverse_logo": false,
         "text_color_transparent_collection": "",
-        "snosha_layout": false,
+        "snosha_layout": true,
         "snosha_actions_at_start": true,
         "snosha_icon_gap": 22,
-        "snosha_logo_offset_x": 0,
-        "snosha_logo_offset_y": 0,
+        "snosha_logo_offset_x": 18,
+        "snosha_logo_offset_y": 3.5,
         "snosha_padding_top": 22,
         "snosha_padding_bottom": 22,
         "snosha_padding_top_mobile": 9.5,
@@ -146,9 +147,9 @@
         "snosha_nav_marker": true,
         "snosha_nav_marker_color": "#63cdff73",
         "snosha_nav_border": false,
-        "snosha_menu_icon": "horizon",
+        "snosha_menu_icon": "snosha",
         "snosha_menu_icon_size": 24,
-        "snosha_drawer_title": "",
+        "snosha_drawer_title": "القائمة",
         "snosha_drawer_header_bg": "{{ settings.color_palette.color5 }}",
         "snosha_drawer_font_size": 16,
         "snosha_drawer_row_padding": 14,
@@ -159,5 +160,8 @@
       }
     }
   },
-  "order": ["header_section"]
+  "order": [
+    "header_announcements_9jGBFp",
+    "header_section"
+  ]
 }
