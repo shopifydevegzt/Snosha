@@ -94,6 +94,35 @@
     {% assign product_href = '#ProductInformation-' | append: section_id %}
     {% render 'skip-to-content-link', href: product_href, text: 'accessibility.skip_to_product_info' %}
   {% endif %}
+  {%- comment -%}
+    Snosha breadcrumbs (Figma 190:10205 / 190:10915), Snosha Buy Box only. Home → the collection the
+    product was opened from (or its first collection) → the product. Styles: assets/main.css.
+  {%- endcomment -%}
+  {%- if settings.snosha_buy_box and settings.snosha_show_breadcrumbs and request.page_type == 'product' and product != blank -%}
+    {%- liquid
+      assign crumb_collection = collection
+      if crumb_collection == blank
+        assign crumb_collection = product.collections.first
+      endif
+      assign crumb_home = settings.snosha_breadcrumbs_home | strip | default: 'الرئيسية'
+      assign crumb_label = settings.snosha_breadcrumbs_label | strip | default: 'مسار التنقل'
+    -%}
+    <nav class="snosha-breadcrumbs" aria-label="{{ crumb_label | escape }}">
+      <ol class="snosha-breadcrumbs__list">
+        <li class="snosha-breadcrumbs__item">
+          <a class="snosha-breadcrumbs__link" href="{{ routes.root_url }}">{{ crumb_home | escape }}</a>
+        </li>
+        {%- if crumb_collection != blank -%}
+          <li class="snosha-breadcrumbs__item">
+            <a class="snosha-breadcrumbs__link" href="{{ crumb_collection.url }}">{{ crumb_collection.title | escape }}</a>
+          </li>
+        {%- endif -%}
+        <li class="snosha-breadcrumbs__item">
+          <span class="snosha-breadcrumbs__current" aria-current="page">{{ product.title | escape }}</span>
+        </li>
+      </ol>
+    </nav>
+  {%- endif -%}
   <product-component
     class="{{ product_grid_class }}"
     data-product-grid-content

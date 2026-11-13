@@ -3,7 +3,7 @@
   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:10319 / 190:10320, mobile 190:11030 / 190:11031.
 
   Data sources (never blended):
-  1. Manual: the products picked in "Products" (order = picker order).
+  1. Manual: the products picked in "Products" (order = picker order), minus the product being viewed.
   2. Otherwise: the current product's complementary products from Shopify Search & Discovery,
      loaded through Horizon's native <product-recommendations> element (product-recommendations.js,
      intent "complementary", section hydration by data-hydration-key).
@@ -31,9 +31,16 @@
     endif
   endif
 
+  # The product being viewed is never recommended to itself (both sources); the order is kept and
+  # "Number of products" counts the products actually shown. Nothing left → the block hides.
+  assign exclude_id = main_product.id | default: 0
   assign item_count = 0
   if items != blank
-    assign item_count = items.size
+    for item in items
+      if item.id != exclude_id
+        assign item_count = item_count | plus: 1
+      endif
+    endfor
   endif
 -%}
 
@@ -56,7 +63,15 @@
       <p class="snosha-complementary__heading">{{ block_settings.heading | escape }}</p>
     {%- endif -%}
     <ul class="snosha-complementary__list" role="list">
-      {%- for item in items limit: max_products -%}
+      {%- assign shown_count = 0 -%}
+      {%- for item in items -%}
+        {%- if item.id == exclude_id -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- if shown_count >= max_products -%}
+          {%- break -%}
+        {%- endif -%}
+        {%- assign shown_count = shown_count | plus: 1 -%}
         {%- liquid
           assign variant = item.selected_or_first_available_variant
           assign card_link_id = 'SnoshaComplementaryLink-' | append: block.id | append: '-' | append: item.id
@@ -279,13 +294,13 @@
     {
       "type": "color",
       "id": "card_gradient_start",
-      "label": "Card background (start side)",
+      "label": "Card background (add-button side)",
       "default": "{{ settings.color_palette.color5 }}"
     },
     {
       "type": "color",
       "id": "card_gradient_end",
-      "label": "Card background (end side)",
+      "label": "Card background (image side)",
       "default": "{{ settings.color_palette.background }}"
     },
     {

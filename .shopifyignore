@@ -1,0 +1,3 @@
+# Keep editor atomic-save temp files (e.g. assets/main.css.tmp.<pid>.<hash>) out of
+# `shopify theme dev` / `theme push` uploads
+*.tmp.*

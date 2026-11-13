@@ -157,6 +157,7 @@
                   {%- continue -%}
                 {%- endif -%}
                 <li class="snosha-bundle__item" {{ block.shopify_attributes }}>
+                  {%- comment -%} Figma check tile (included in the bundle); decorative {%- endcomment -%}
                   <span class="snosha-bundle__thumb">
                     {%- if item.featured_image != blank -%}
                       {{
@@ -168,10 +169,11 @@
                       {{ 'product-1' | placeholder_svg_tag: 'snosha-bundle__placeholder' }}
                     {%- endif -%}
                   </span>
-
                   <span class="snosha-bundle__item-text">
                     {%- if item != blank -%}
-                      <a class="snosha-bundle__item-title" href="{{ item.url }}" dir="auto">{{ item.title | escape }}</a>
+                      <a class="snosha-bundle__item-title" href="{{ item.url }}" dir="auto">
+                        {{- item.title | escape -}}
+                      </a>
                       {%- assign item_description = item.description | strip_html | strip_newlines | strip -%}
                       {%- if item_description != blank -%}
                         <span class="snosha-bundle__item-description" dir="auto">
@@ -225,7 +227,10 @@
                     {%- endif -%}
                   </s>
                   {%- if section.settings.discount_label != blank -%}
-                    <span class="snosha-bundle__badge" dir="auto">{{ section.settings.discount_label | escape }} {{ discount }}%</span>
+                    <span class="snosha-bundle__badge" dir="auto">
+                      {{- section.settings.discount_label | escape }}
+                      {{ discount }}%</span
+                    >
                   {%- endif -%}
                 </p>
               {%- endif -%}
@@ -262,8 +267,12 @@
                         {%- for option_variant in bundle_product.variants -%}
                           <option
                             value="{{ option_variant.id }}"
-                            {% if option_variant.id == variant.id %}selected{% endif %}
-                            {% unless option_variant.available %}disabled{% endunless %}
+                            {% if option_variant.id == variant.id %}
+                              selected
+                            {% endif %}
+                            {% unless option_variant.available %}
+                              disabled
+                            {% endunless %}
                           >
                             {{ option_variant.title | escape }} — {{ option_variant.price | money | strip_html }}
                           </option>
@@ -312,9 +321,7 @@
   "tag": "section",
   "class": "snosha-bundle-section",
   "enabled_on": {
-    "templates": [
-      "index"
-    ]
+    "templates": ["index"]
   },
   "max_blocks": 3,
   "blocks": [
@@ -538,11 +545,7 @@
           }
         }
       },
-      "block_order": [
-        "component-1",
-        "component-2",
-        "component-3"
-      ]
+      "block_order": ["component-1", "component-2", "component-3"]
     }
   ]
 }

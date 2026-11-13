@@ -518,8 +518,31 @@
       "visible_if": "{{ section.settings.snosha_buy_box and section.settings.equal_columns == false }}"
     },
     {
+      "type": "checkbox",
+      "id": "snosha_show_breadcrumbs",
+      "label": "Show breadcrumbs",
+      "info": "Home / collection / product, above the gallery and Buy Box. The collection is the one the product was opened from, otherwise its first collection.",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_buy_box }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_breadcrumbs_home",
+      "label": "Breadcrumbs: home label",
+      "default": "الرئيسية",
+      "visible_if": "{{ section.settings.snosha_buy_box and section.settings.snosha_show_breadcrumbs }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_breadcrumbs_label",
+      "label": "Breadcrumbs: accessible name",
+      "info": "Read by screen readers for the breadcrumb navigation.",
+      "default": "مسار التنقل",
+      "visible_if": "{{ section.settings.snosha_buy_box and section.settings.snosha_show_breadcrumbs }}"
+    },
+    {
       "type": "paragraph",
-      "content": "Buy Box colors. Title, stars, buttons and quantity colors are set on their own blocks."
+      "content": "Buy Box colors (the breadcrumbs use the first two). Title, stars, buttons and quantity colors are set on their own blocks."
     },
     {
       "type": "color",

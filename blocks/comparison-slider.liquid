@@ -26,6 +26,11 @@
     assign ratio = 1
   endif
 
+  # Snosha (a11y): image_tag drops the alt attribute when the file has no alt text. Fall back to the
+  # visible before / after label, then to an explicit empty alt (never a missing attribute).
+  assign before_alt = block.settings.before_image.alt | default: block.settings.before_text | strip_html | strip
+  assign after_alt = block.settings.after_image.alt | default: block.settings.after_text | strip_html | strip
+
   render 'contrast-override', background_color: block.settings.slider_bg_color, section_id: block.id
 %}
 
@@ -65,7 +70,7 @@
             | image_tag:
               loading: 'lazy',
               class: 'before-image',
-              alt: block.settings.before_image.alt,
+              alt: before_alt,
               sizes: 'auto, 100vw',
               width: block.settings.before_image.width,
               height: block.settings.before_image.height,
@@ -100,7 +105,7 @@
             | image_tag:
               loading: 'lazy',
               class: 'after-image',
-              alt: block.settings.after_image.alt,
+              alt: after_alt,
               sizes: 'auto, 100vw',
               width: block.settings.after_image.width,
               height: block.settings.after_image.height,

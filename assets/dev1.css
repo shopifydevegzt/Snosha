@@ -81,16 +81,30 @@
     inline-size: var(--snosha-collections-card);
   }
 
-  /* Figma mobile card 97 x 152: 97px square image, 18px gap, 11 / 40 title; the card height
-     clips the title to its first line, as in Figma. */
+  /* Figma mobile card 97 x 152: 97px square image, 18px gap, 11px title centred in a 40px band.
+     Long titles ("فرشاة الأسنان الكهربائية") don't fit one 92–97px line: instead of clipping the
+     second line out of view, they show two lines (17px, centred in the same band) and end with an
+     ellipsis if a third would be needed (320px). A one-line title keeps Figma's text centre. */
   .resource-list__item {
     block-size: calc(var(--snosha-collections-card) + var(--snosha-collections-title-space));
-    overflow: clip;
   }
 
-  .collection-card .text-block.h3 > * {
-    font-size: 11px;
-    line-height: 40px;
+  @media screen and (max-width: 749px) {
+    .collection-card .text-block.h3 {
+      flex-direction: column;
+      justify-content: center;
+      min-block-size: 40px;
+    }
+
+    .collection-card .text-block.h3 > * {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+      font-size: 11px;
+      line-height: 17px;
+    }
   }
 
   /* ---------- Mobile progress (Figma Progress Row: 20px inset, 4px, 20px below the carousel) ----------
@@ -473,9 +487,16 @@
   }
 
   @media screen and (min-width: 750px) {
-    /* Figma Product Row is 560 tall for a 541.9 card */
+    /* Extra space under the cards, per instance ("Extra space below the cards" setting, default 0).
+       Figma 190:3846 (best sellers) is a fixed 560 row for a 541.9 card → 18.1; 190:3898 hugs it → 0. */
     .resource-list {
-      margin-block-end: 18.1px;
+      margin-block-end: var(--snosha-fc-row-extra, 0px);
+    }
+
+    /* Progress bar when the products don't fit the row (see "CAROUSEL PROGRESS"): aligned with the cards */
+    slideshow-component.resource-list__carousel {
+      --snosha-progress-inset: calc(var(--util-page-margin-offset) + var(--fc-inset));
+      --snosha-progress-space: 24px;
     }
 
     /* Figma Product Row clips its overflow at the container edge (no peeking cards in the page
@@ -833,42 +854,65 @@
     scroll-timeline: --snosha-carousel-scroll inline;
   }
 
+  /* Where the bar is shown: always below 750 (Figma mobile). At 750–989 / >= 990 only when the
+     section flags that its items don't fit the row there (.snosha-progress--tablet / --desktop, set
+     in Liquid from the item count and the per-row settings), so out-of-view cards stay discoverable;
+     rows that fit (the Figma desktop frames) get no bar. Horizon's mouse drag / touch swipe scroll it. */
   @media screen and (max-width: 749px) {
     slideshow-component.resource-list__carousel {
-      position: relative;
-      padding-block-end: calc(var(--snosha-progress-space) + 4px);
+      --snosha-progress-on: 1;
+      --snosha-progress-content: '';
+    }
+  }
 
-      &::before,
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    &.snosha-progress--tablet slideshow-component.resource-list__carousel {
+      --snosha-progress-on: 1;
+      --snosha-progress-content: '';
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    &.snosha-progress--desktop slideshow-component.resource-list__carousel {
+      --snosha-progress-on: 1;
+      --snosha-progress-content: '';
+    }
+  }
+
+  /* slideshow-component is position: relative natively; without the flags these rules draw nothing */
+  slideshow-component.resource-list__carousel {
+    padding-block-end: calc((var(--snosha-progress-space) + 4px) * var(--snosha-progress-on, 0));
+
+    &::before,
+    &::after {
+      content: var(--snosha-progress-content, none);
+      position: absolute;
+      inset-block-end: 0;
+      block-size: 4px;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    /* Track */
+    &::before {
+      inset-inline: var(--snosha-progress-inset);
+      background-color: var(--snosha-progress-track);
+    }
+
+    /* Fill (fallback sizing from the JS variable; 0 = Figma's initial width) */
+    &::after {
+      inset-inline-start: var(--snosha-progress-inset);
+      inline-size: calc(
+        (100% - 2 * var(--snosha-progress-inset)) *
+          (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+      );
+      background-image: linear-gradient(to right, var(--snosha-progress-start), var(--snosha-progress-end));
+    }
+
+    @supports (animation-timeline: scroll()) {
       &::after {
-        content: '';
-        position: absolute;
-        inset-block-end: 0;
-        block-size: 4px;
-        border-radius: 999px;
-        pointer-events: none;
-      }
-
-      /* Track */
-      &::before {
-        inset-inline: var(--snosha-progress-inset);
-        background-color: var(--snosha-progress-track);
-      }
-
-      /* Fill (fallback sizing from the JS variable; 0 = Figma's initial width) */
-      &::after {
-        inset-inline-start: var(--snosha-progress-inset);
-        inline-size: calc(
-          (100% - 2 * var(--snosha-progress-inset)) *
-            (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
-        );
-        background-image: linear-gradient(to right, var(--snosha-progress-start), var(--snosha-progress-end));
-      }
-
-      @supports (animation-timeline: scroll()) {
-        &::after {
-          animation: snosha-carousel-progress linear both;
-          animation-timeline: --snosha-carousel-scroll;
-        }
+        animation: snosha-carousel-progress linear both;
+        animation-timeline: --snosha-carousel-scroll;
       }
     }
   }
@@ -1148,14 +1192,26 @@
    - <  750px  Figma mobile: 280px cards, 12px gap, progress bar, View All under it.
    ========================================================================= */
 
+/* Card width, computed once on the native scroller (100cqi) and inherited as a plain length, so the
+   image height below can scale with it inside the card's own containers. */
+@property --snosha-blog-card-width {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 429.333px;
+}
+
 .snosha-blog {
   --blog-inset: 20px;
-  --blog-card-width: calc((1336px - 48px) / 3);
+  --blog-columns: var(--snosha-blog-columns-desktop, 3);
   --blog-image-height: var(--snosha-blog-image-height, 268px);
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    --blog-columns: var(--snosha-blog-columns-tablet, 2);
+  }
 
   @media screen and (max-width: 749px) {
     --blog-inset: 0px;
-    --blog-card-width: 280px;
+    --snosha-blog-card-width: 280px;
     --blog-image-height: var(--snosha-blog-image-height-mobile, 268px);
 
     /* Figma mobile: 56 / 40 padding (+ the View All row 26 + gap 14); heading → carousel 14 */
@@ -1241,10 +1297,28 @@
   slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
     /* Figma desktop: cards start 20px inside the 1376 container (72px at 1480); mobile: page margin */
     --gutter-slide-width: calc(var(--util-page-margin-offset) + var(--blog-inset));
+
+    /* >= 750: the cards share the row inside the gutters (Figma 429.333 = (1336 - 2 x 24) / 3 at
+       1480), so narrower desktops / tablets keep whole cards in view instead of a fixed width that
+       spills past the container. 100cqi = the full-bleed slideshow-container (same formula as the
+       featured collection's --snosha-fc-card-width). */
+    @media screen and (min-width: 750px) {
+      --snosha-blog-card-width: calc(
+        (
+            100cqi -
+              2 * (
+                max(
+                    var(--page-margin),
+                    (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
+                  ) + var(--blog-inset)
+              ) - (var(--blog-columns) - 1) * var(--resource-list-column-gap)
+          ) / var(--blog-columns)
+      );
+    }
   }
 
   .resource-list__carousel .resource-list__slide {
-    width: var(--blog-card-width);
+    width: var(--snosha-blog-card-width);
   }
 
   @media screen and (min-width: 750px) {
@@ -1263,6 +1337,12 @@
     --snosha-progress-track: var(--snosha-blog-progress-track);
     --snosha-progress-start: var(--snosha-blog-gradient-start);
     --snosha-progress-end: var(--snosha-blog-gradient-end);
+
+    /* >= 750, shown only when the posts don't fit the row: aligned with the cards, 24px under them */
+    @media screen and (min-width: 750px) {
+      --snosha-progress-inset: calc(var(--util-page-margin-offset) + var(--blog-inset));
+      --snosha-progress-space: 24px;
+    }
   }
 
   /* "Show mobile progress bar" off: no track / fill and no reserved space */
@@ -1282,6 +1362,16 @@
   .featured-blog-posts-card__image {
     aspect-ratio: auto;
     block-size: var(--blog-image-height);
+
+    /* Cards narrower than Figma's 429.333 (narrower desktops, tablet): the height shrinks with the
+       width at Figma's 268 / 429.333 rate, so the image keeps its proportion; full-width cards keep
+       the "Image height" setting exactly. */
+    @media screen and (min-width: 750px) {
+      block-size: min(
+        var(--blog-image-height),
+        var(--blog-image-height) - (429.333px - var(--snosha-blog-card-width)) * 0.6242
+      );
+    }
 
     :is(.resource-image__image, .blog-placeholder-svg) {
       aspect-ratio: auto;
@@ -1890,6 +1980,12 @@
     @media screen and (min-width: 750px) {
       font-size: 14px;
     }
+
+    /* Tap target = the full 24px line (Figma link frames are 24 tall); an inline link was only its
+       23px font box. The line box, and so the layout, is unchanged. */
+    & a {
+      display: inline-block;
+    }
   }
 
   /* Section colors unless the menu block sets its own text color */
@@ -2416,6 +2512,14 @@
     flex-direction: column;
     inline-size: 100%;
 
+    /* Mobile: the brush's visible pixels start 72px from the section edge at every width, so the centred
+       heading keeps 84px clear on both sides (20px margin + 64). At 390 / 375 the Figma line still fits
+       (222 / 207px for ~200px of text, centred as before); narrower phones wrap instead of running
+       under the brush (it overlapped by ~12px at 320). */
+    @media screen and (max-width: 749px) {
+      padding-inline: 64px;
+    }
+
     .text-block.h2 {
       --color: var(--snosha-comparison-heading);
 
@@ -2577,6 +2681,9 @@
     font-weight: 600;
 
     @media screen and (min-width: 750px) {
+      /* 12px clear of the strip: as the board narrows (~1024px) a long criterion wraps instead of
+         touching it; at 1480 the nearest text is 78px away, so the Figma layout is unchanged */
+      padding-inline-end: 12px;
       font-size: 15.5px;
     }
   }
@@ -2635,16 +2742,20 @@
   /* Compared product — on the end side (left in RTL) */
   .snosha-comparison__cell--manual {
     padding-inline: var(--snosha-comparison-manual-pad-start) var(--snosha-comparison-manual-pad-end);
-    text-align: center;
+    /* Figma mobile 190:11181: the values sit at the start of the column (right edge 91 = the content
+       box here); desktop centres them */
+    text-align: start;
     font-size: 10px;
     font-weight: 400;
 
     @media screen and (min-width: 750px) {
+      text-align: center;
       font-size: 14.5px;
     }
   }
 
   thead .snosha-comparison__cell--manual {
+    text-align: center;
     color: color-mix(in srgb, var(--snosha-comparison-text) 80%, transparent);
     font-size: 11px;
     font-weight: 600;

@@ -3,7 +3,7 @@
   Colors come from CSS: stroke/fill use currentColor; optional accents use
   --snosha-icon-accent and light inner fills use --snosha-icon-fill.
 
-  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart | arrow_left | discount | check | close | plus | chevron_down | document | wallet | cart | search
+  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart | arrow_left | discount | check | check_24 | close | plus | chevron_down | document | wallet | cart | search
   @param {string} [uid] - unique suffix for gradient IDs (e.g. block.id)
   @param {string} [class] - extra class names
 
@@ -263,6 +263,14 @@
       <path d="M5.73333 10.2667L10.2667 5.73333" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M7.13333 6.26667C7.13333 6.74531 6.74531 7.13333 6.26667 7.13333C5.78802 7.13333 5.4 6.74531 5.4 6.26667C5.4 5.78802 5.78802 5.4 6.26667 5.4C6.74531 5.4 7.13333 5.78802 7.13333 6.26667Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M10.6 9.73333C10.6 10.212 10.212 10.6 9.73333 10.6C9.25469 10.6 8.86667 10.212 8.86667 9.73333C8.86667 9.25469 9.25469 8.86667 9.73333 8.86667C10.212 8.86667 10.6 9.25469 10.6 9.73333Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  {%- when 'check_24' -%}
+    {%- comment -%}
+      Figma "Icon / check" as used in the homepage Bundle Item check tile (I190:3999;190:3008): a 24 × 24
+      vector, 1.6 stroke (a different vector from the 20-unit Buy Box check below).
+    {%- endcomment -%}
+    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M5 12L9 16L19 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   {%- when 'check' -%}
     {%- comment -%}

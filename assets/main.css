@@ -289,8 +289,13 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    /* Figma 190:3796: 0 30 50 rgba(8, 51, 115, .35) ("Product image shadow" setting) */
     filter: drop-shadow(
-      0 30px 50px color-mix(in srgb, var(--snosha-hero-end) 45%, transparent)
+      0 30px 50px
+        var(
+          --snosha-hero-image-shadow,
+          color-mix(in srgb, var(--snosha-hero-end) 45%, transparent)
+        )
     );
   }
 
@@ -2157,14 +2162,53 @@
     margin: 0;
     padding: 8px 0 0;
     list-style: none;
+    /* Narrow-row fallback below (rows < 310px, i.e. ~320px phones): the price gets its own line */
+    container: snosha-bundle-items / inline-size;
+  }
+
+  /* With the check tile, thumb and a store price such as "EGP 2,499.00" (93px), a 272px row left the
+     product name ~45px (six lines). Under 310px the price moves to its own line at the row end, so the
+     name keeps the text column; wider rows (Figma 342 at 390, 640 desktop) are unchanged. */
+  @container snosha-bundle-items (max-width: 309px) {
+    .snosha-bundle__item {
+      flex-wrap: wrap;
+      row-gap: 4px;
+    }
+
+    .snosha-bundle__item > .snosha-bundle__item-price {
+      flex: 0 0 100%;
+    }
   }
 
   .snosha-bundle__item {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding-block: 14px;
+    /* Figma's 1px divider is a stroke inside the 92px row (14 + 64 + 14): 1px less bottom padding */
+    padding-block: 14px 13px;
     border-block-end: 1px solid var(--snosha-bundle-border);
+  }
+
+  /* Figma check tile: 22px, radius 4, accent fill, white 24px check (visible 14 × 9) clipped to the tile */
+  .snosha-bundle__check {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: 22px;
+    block-size: 22px;
+    overflow: clip;
+    border-radius: 4px;
+    background-color: var(--snosha-bundle-accent);
+    color: var(--snosha-bundle-on-accent);
+  }
+
+  .snosha-bundle__check-icon {
+    flex: none;
+    inline-size: 24px;
+    block-size: 24px;
+    /* The vector is wider than the 22px tile (as in Figma); the tile clips it, not a max-width cap */
+    max-inline-size: none;
   }
 
   .snosha-bundle__thumb {
@@ -2199,11 +2243,21 @@
     line-height: 27px;
     text-decoration: none;
     overflow-wrap: anywhere;
-    text-align: right;
 
     &:is(a):hover {
       text-decoration: underline;
     }
+  }
+
+  /* The name keeps dir="auto" (correct bidi) but aligns with the row, i.e. the section's direction:
+     right in RTL even for a Latin name, left in LTR. (text-align: start / match-parent resolve against
+     the title's own auto direction in Chromium, which put Latin names on the left in RTL.) */
+  &:dir(rtl) .snosha-bundle__item-title {
+    text-align: right;
+  }
+
+  &:dir(ltr) .snosha-bundle__item-title {
+    text-align: left;
   }
 
   .snosha-bundle__item-description {
@@ -2248,11 +2302,14 @@
     padding-block: 16px 1px;
   }
 
-  .snosha-bundle__now {
+  .snosha-bundle__now,
+  .snosha-bundle__was {
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 0;
+  }
+  .snosha-bundle__now {
     color: var(--snosha-bundle-heading);
     font-family: var(--font-body--family);
     font-size: 16px;
@@ -2261,12 +2318,12 @@
     white-space: nowrap;
   }
 
-  .snosha-bundle__was {
+  /* .snosha-bundle__was {
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 0;
-  }
+  } */
 
   .snosha-bundle__compare {
     color: var(--snosha-bundle-text);
@@ -2283,20 +2340,20 @@
      (end-aligned). Same Figma type sizes and colours; markup and pricing logic unchanged. */
   @media screen and (max-width: 749px) {
     .snosha-bundle__total {
-      justify-content: flex-start;
+      justify-content: center;
       gap: 4px 12px;
     }
 
     .snosha-bundle__now {
-      display: contents;
+      /* display: contents; */
 
-      > span:not(.snosha-bundle__price) {
+      /* > span:not(.snosha-bundle__price) {
         flex: 1 0 auto;
-      }
+      } */
     }
 
     .snosha-bundle__was {
-      margin-inline-start: auto;
+      /* margin-inline-start: auto; */
     }
   }
 
@@ -2716,7 +2773,16 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
+  }
+
+  /* match-parent above is resolved against the title's own dir="auto" direction in Chromium, so a Latin
+     title would sit on the left in RTL: align explicitly with the section's direction instead */
+  &:dir(rtl) .snosha-reel__title {
     text-align: right;
+  }
+
+  &:dir(ltr) .snosha-reel__title {
+    text-align: left;
   }
 
   .snosha-reel__price {
@@ -2916,12 +2982,81 @@
      (sidebar min(50vw, 25rem) below 1200px, 1fr : 2fr from 1200px) are replaced here: the Buy Box track is
      its width setting plus half the gap (never more than half the row), the gallery takes the rest.
      Horizon draws the gap as half-gap padding on both columns; that stays, with the Buy Box column gap. */
+  /* ---------------- Breadcrumbs (Figma 190:10205 desktop · 190:10915 mobile) ----------------
+     Home / collection / product: 14 / 24 desktop, 11 / 24 mobile, 8px gaps, current page in the text
+     color, the rest muted. Figma spacing from the hero top: 40 desktop / 10 mobile above, 24 / 16 down
+     to the columns; the section's own row gap (the "Gap" setting) sits in between, so it is subtracted. */
+  .snosha-breadcrumbs {
+    padding-block-start: 10px;
+    margin-block-end: calc(16px - var(--gap, 0px));
+    color: var(--snosha-bb-muted);
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight);
+    font-size: 11px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      /* 20px inside the page container, like the columns below */
+      padding-block-start: 40px;
+      padding-inline: var(--snosha-hero-inset);
+      margin-block-end: calc(24px - var(--gap, 0px));
+      font-size: 14px;
+    }
+  }
+
+  .snosha-breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .snosha-breadcrumbs__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    /* Separator: visual only (empty alternative text for assistive technology) */
+    & + &::before {
+      content: "/" / "";
+    }
+  }
+
+  .snosha-breadcrumbs__link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--snosha-bb-text);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-bb-accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  .snosha-breadcrumbs__current {
+    color: var(--snosha-bb-text);
+  }
+
+  /* Figma Product Columns: a 1336 row inset 20px inside the 1376 page container (gallery 712 · 64 ·
+     Buy Box 560 at 1480); the global page width is unchanged */
+  --snosha-hero-inset: 20px;
+
   @media screen and (min-width: 750px) {
     .product-information__grid:not(
       .product-information__grid--half,
       .product-information--media-none
     ) {
       --gap: var(--snosha-columns-gap, 64px);
+
+      padding-inline: var(--snosha-hero-inset);
       --snosha-details-track: min(
         calc(var(--snosha-buybox-width, 560px) + var(--gap) / 2),
         50%
@@ -2940,6 +3075,12 @@
   /* Figma mobile Buy Box: 20px side padding (350 at 390), as the homepage FAQ; the gallery is full-bleed */
   @media screen and (max-width: 749px) {
     --page-margin: 20px;
+
+    /* Figma: thumb rail → Buy Box 16px (rail 430–496, Buy Box 512). The native rail box already
+       ends 2px below the 66px thumbs, so 14px are added under the gallery. */
+    .product-information__media {
+      margin-block-end: 14px;
+    }
   }
 
   .product-details {
@@ -3273,9 +3414,14 @@
     background: var(--snosha-capsule-bg);
     color: var(--snosha-capsule-text);
     text-decoration: none;
+    /* Browsers draw the 1.2px stroke as a whole device pixel (1px), which left the capsule 35.6 / 31.6
+       high; the Figma height is kept as a minimum instead (longer text still grows it) */
+    box-sizing: border-box;
+    min-block-size: 32px;
 
     @media screen and (min-width: 750px) {
       padding-block: max(0px, 8px - var(--snosha-capsule-border-width));
+      min-block-size: 36px;
     }
   }
 
@@ -3410,6 +3556,8 @@
       minmax(0, 1fr)
     );
     gap: 8px;
+    /* Figma 190:10294: the pills (2 × 272 + 8) leave 8px free at the inline end of the 560 Buy Box */
+    padding-inline-end: 8px;
   }
 
   &:not(:has(.snosha-trust__item)) {
@@ -3557,7 +3705,7 @@
     .snosha-complementary__item .snosha-complementary__card {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-areas: 'link add' 'price add';
+      grid-template-areas: "link add" "price add";
       row-gap: 0;
     }
 
@@ -3571,7 +3719,9 @@
       line-height: 22px;
     }
 
-    .snosha-complementary__item .snosha-complementary__card > :is(.snosha-complementary__form, .snosha-complementary__add) {
+    .snosha-complementary__item
+      .snosha-complementary__card
+      > :is(.snosha-complementary__form, .snosha-complementary__add) {
       grid-area: add;
       align-self: center;
     }
@@ -3585,8 +3735,9 @@
     padding-inline: 13px 9px;
     border: 1px solid var(--snosha-cx-border);
     border-radius: 18px;
+    /* Figma 190:10320: tint on the add-button side (inline end; left in RTL) fading to the image side */
     background: linear-gradient(
-      to left,
+      to right,
       var(--snosha-cx-card-start),
       var(--snosha-cx-card-end)
     );
@@ -3595,7 +3746,7 @@
 
   &:dir(ltr) .snosha-complementary__card {
     background: linear-gradient(
-      to right,
+      to left,
       var(--snosha-cx-card-start),
       var(--snosha-cx-card-end)
     );
@@ -3939,14 +4090,24 @@ media-gallery.media-gallery--snosha {
     }
   }
 
-  /* Figma "Main Image" area (contain only): from 46px below the stage top on desktop, centred 306 / 364 on mobile */
-  &:not(.media-gallery--snosha-cover)
-    .product-media-container--image
+  /* Figma "Main Image" (190:10219 desktop · 190:10927 mobile), contain only: the photo is drawn at
+     105.55% of the stage width (it bleeds past the edges; the stage clips it, and for the F1 renders only
+     transparent margin is cut) with its top 57 / 712 (desktop) and 34.5 / 352 (mobile) of the stage width
+     below the stage top. Every image keeps its own ratio (contain, top-anchored), so nothing is distorted;
+     padding % = share of the stage width. */
+  &:not(.media-gallery--snosha-cover) .product-media-container--image {
     .product-media {
-    padding-block: 8.24%;
+      inline-size: 105.55%;
+      margin-inline: -2.775%;
+      padding-block: 9.8% 0;
 
-    @media screen and (min-width: 750px) {
-      padding-block: 6.46% 0;
+      @media screen and (min-width: 750px) {
+        padding-block: 8.006% 0;
+      }
+    }
+
+    :is(img, .deferred-media__poster-image) {
+      object-position: 50% 0;
     }
   }
 

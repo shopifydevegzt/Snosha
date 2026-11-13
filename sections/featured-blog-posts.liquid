@@ -17,6 +17,25 @@
   endif
   assign view_all_label = section.settings.view_all_label | strip
   assign view_all_url = section.settings.view_all_url | default: section.settings.blog.url
+
+  # Snosha: cards per row = native "Columns" (>= 990) and at most 2 (750–989). When the posts don't
+  # fit, the progress bar is shown in that range too (assets/dev1.css), so every card can be reached.
+  assign snosha_item_count = max_items
+  if section.settings.blog != blank and section.settings.blog.articles_count > 0
+    assign snosha_item_count = section.settings.blog.articles_count | at_most: max_items
+  endif
+  assign snosha_columns_desktop = section.settings.columns | default: 3
+  assign snosha_columns_tablet = snosha_columns_desktop | at_most: 2
+  assign snosha_scroll_tablet = false
+  assign snosha_scroll_desktop = false
+  if snosha_progress
+    if snosha_item_count > snosha_columns_tablet
+      assign snosha_scroll_tablet = true
+    endif
+    if snosha_item_count > snosha_columns_desktop
+      assign snosha_scroll_desktop = true
+    endif
+  endif
 %}
 
 {%- if snosha_style -%}
@@ -36,6 +55,8 @@
       --snosha-blog-gradient-end: {{ section.settings.snosha_gradient_end }};
       --snosha-blog-mobile-padding-start: {{ section.settings.snosha_mobile_padding_top }}px;
       --snosha-blog-mobile-padding-end: {{ section.settings.snosha_mobile_padding_bottom }}px;
+      --snosha-blog-columns-desktop: {{ snosha_columns_desktop }};
+      --snosha-blog-columns-tablet: {{ snosha_columns_tablet }};
     }
   {% endstyle %}
 {%- endif -%}
@@ -53,6 +74,8 @@
     spacing-style
     gap-style
     {% if snosha_style %}snosha-blog{% unless snosha_progress %} snosha-blog--no-progress{% endunless %}{% endif %}
+    {% if snosha_scroll_tablet %}snosha-progress--tablet{% endif %}
+    {% if snosha_scroll_desktop %}snosha-progress--desktop{% endif %}
     {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
   "
   style="

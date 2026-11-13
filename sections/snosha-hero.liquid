@@ -19,6 +19,9 @@
     --snosha-hero-start: {{ section.settings.gradient_start }};
     --snosha-hero-mid: {{ section.settings.gradient_middle }};
     --snosha-hero-end: {{ section.settings.gradient_end }};
+    {%- if section.settings.image_shadow_color != blank %}
+    --snosha-hero-image-shadow: {{ section.settings.image_shadow_color }};
+    {%- endif %}
     --snosha-hero-text: {{ section.settings.text_color }};
     --snosha-hero-highlight: {{ section.settings.highlight_color }};
     --snosha-hero-chip-text: {{ section.settings.chip_text_color }};
@@ -283,6 +286,12 @@
       "id": "gradient_end",
       "label": "Gradient end",
       "default": "#0F64A8"
+    },
+    {
+      "type": "color",
+      "id": "image_shadow_color",
+      "label": "Product image shadow",
+      "default": "#08337359"
     },
     {
       "type": "color",

@@ -1,0 +1,2 @@
+# Editor atomic-save temp files (e.g. main.css.tmp.<pid>.<hash>) — never part of the theme
+*.tmp.*

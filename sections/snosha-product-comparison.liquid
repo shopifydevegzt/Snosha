@@ -95,7 +95,7 @@
 >
   <div class="section section--page-width">
     <div class="snosha-comparison__inner">
-      <div class="snosha-comparison__heading">
+      <div class="snosha-comparison__heading" id="SnoshaComparisonHeading-{{ section.id }}">
         {% content_for 'block', type: 'text', id: 'heading' %}
         {% content_for 'block', type: 'text', id: 'subtitle' %}
       </div>
@@ -107,7 +107,8 @@
         <span class="snosha-comparison__panel" aria-hidden="true"></span>
         <span class="snosha-comparison__strip" aria-hidden="true"></span>
 
-        <table class="snosha-comparison__table">
+        {%- comment -%} Accessible name = the section's visible heading + subtitle {%- endcomment -%}
+        <table class="snosha-comparison__table" aria-labelledby="SnoshaComparisonHeading-{{ section.id }}">
           <thead>
             <tr>
               <th scope="col" class="snosha-comparison__cell snosha-comparison__cell--criterion">

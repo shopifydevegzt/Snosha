@@ -22,7 +22,8 @@ shopify theme check --path . --output json   # machine-readable, for per-file fi
 
 - Linked store: `internal-zt-yzyuhhfk.myshopify.com`. The development theme is `#168066810072`; the live theme is "Horizon". Confirm with `shopify theme info` before validating; the user may switch stores.
 - A `theme dev` session is often **already running** on port 9292. Reuse it rather than starting a second one (that fails with `EADDRINUSE`). It hot-syncs local edits, including `config/*.json`.
-- Theme Check baseline: 9 pre-existing offenses in stock Horizon files, which are not ours: 2 `UnknownFilter` errors for `applicable_disclosures`, plus warnings in `header.liquid`, `divider.liquid` and `product-media-gallery-content.liquid`. Anything beyond these is new.
+- Theme Check baseline: 10 offenses. 9 are pre-existing in stock Horizon files, which are not ours: 2 `UnknownFilter` errors for `applicable_disclosures`, plus warnings in `header.liquid`, `divider.liquid` and `product-media-gallery-content.liquid`. The 10th is a known project warning: `ExcessiveSettingsCount` on `sections/snosha-product-comparison.liquid` (51 settings; reduction needs approval, see the plan). Anything beyond these is new.
+- `.shopifyignore` and `.gitignore` exclude editor temp files (`*.tmp.*`). Edit theme files with the editor tools, not `sed -i`: its transient temp file in a watched folder makes `theme dev` show "Failed to Upload Theme Files" until that path is recreated and deleted.
 - **Do not** `shopify theme push`, publish, commit or push unless explicitly asked.
 
 ## Architecture
@@ -42,6 +43,7 @@ shopify theme check --path . --output json   # machine-readable, for per-file fi
 4. `snippets/color-palette.liquid` → `--color-*` variables from the `color_palette` setting, including computed button hover colors
 5. `snippets/custom-design-tokens.liquid` → **project overrides** (project file)
 6. `assets/main.css` → **project section/component styles** (project file; linked once, after the tokens and before Shopify's compiled `{% stylesheet %}` bundle)
+7. `assets/dev1.css` → project styles of the sections built on the `dev1` branch (collections, featured collection, before/after, blog, why, FAQ, footer, header logo, product S06 / S09 / S10), linked right after `main.css`. No scope is defined in both files; merging it into `main.css` is pending approval.
 
 Key mechanics:
 - **Fonts.** The Theme Editor font pickers still say Inter. `custom-font.liquid` declares Cairo `@font-face` rules from files in Shopify Admin → Content → Files (`file_url`, Arabic and Latin subsets, weights 200–900) and overrides `--font-{body,heading,subheading,accent}--family`. Weights still come from the picker variant (`--font-*--weight`). That is why `type_accent_font` is `inter_n6`: accent supplies weight 600 for H2–H4, buttons and badges. Don't change the Cairo snippet or its position.
@@ -74,7 +76,7 @@ Key mechanics:
   - Use only Horizon's breakpoints (750px, 990px), or container queries where the layout depends on a component's own width.
   - No `!important`; no hardcoded brand colors (consume the section's color variables or palette tokens).
 - **No Liquid in static CSS.** Keep the per-instance variable bridge (a scoped `{% style %}` on `#shopify-section-{{ section.id }}` with values from settings) in the owning `.liquid` section, and consume those variables in `main.css`.
-- **`assets/main.js`** is reserved for Snosha-specific JavaScript when it's genuinely needed. It's loaded once as a module from `snippets/scripts.liquid` (`fetchpriority="low"`) and currently holds only `<snosha-care-carousel>` (Choose Your Care).
+- **`assets/main.js`** is reserved for Snosha-specific JavaScript when it's genuinely needed. It's loaded once as a module from `snippets/scripts.liquid` (`fetchpriority="low"`) and holds `<snosha-care-carousel>` and `<snosha-reels-carousel>` (shared `SnoshaSnapCarousel` base), `<snosha-bundle-hotspot>`, `<snosha-bundle-form>`, and a delegated product-gallery guard that re-aligns the selected slide after Horizon's non-adjacent thumbnail jump. `assets/snosha-tabs.js` (S10) and `assets/snosha-carousel-progress.js` (progress-bar fallback) are loaded by their sections.
   - When behavior is needed, add an isolated, idempotent module there (custom elements re-run on Theme Editor section reloads; clean up in `disconnectedCallback`).
   - Don't add JS that HTML/CSS or native Horizon components already cover.
 - **Global tokens stay where they are:** `custom-font.liquid`, `custom-design-tokens.liquid`, `theme-styles-variables.liquid`, `color-palette.liquid`. `main.css` doesn't redefine them.
@@ -91,6 +93,7 @@ Key mechanics:
 - Record changes, measurements and anything unverified in `FIGMA_THEME_SETTINGS_REPORT.md`.
 
 ### Known gaps in the test store
-- The store has **no products**, so product pages, real product cards and badges can't be checked.
-- There is **no Arabic locale** (`/ar` returns 404), so RTL has only been tested by injecting `dir="rtl"` markup in the browser.
-- The homepage still shows Horizon's placeholder content; Figma sections haven't been built yet.
+- The store has **5 products** (`snosha-f1` with 4 colour variants, `snosha-n2`, `snosha-tongue-cleaner`, `فرشاة-الأطفال`, `باندل-snosha`) and 7 collections. Product data doesn't match the Figma naming yet (merchant).
+- The storefront renders `<html lang="ar" dir="rtl">` (Arabic is the primary locale; `/ar` returns 404 because it's the default), so RTL is tested on the real storefront. LTR is checked by switching `dir` in the browser.
+- All homepage sections are built; `templates/product.json` is the only product template, so its product-specific sections (S06 / S09 / S10) render on every product.
+- No reviews app is installed (no ratings render).

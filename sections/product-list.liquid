@@ -8,6 +8,25 @@
 
   # Snosha: opt-in design (off by default, so other product lists are unchanged). Styles live in assets/dev1.css.
   assign snosha_style = section.settings.snosha_style
+
+  # Snosha: does the carousel scroll at tablet (750–989) / desktop (>= 990)? Then the shared progress
+  # bar is shown there too (assets/dev1.css), so the cards out of view can be found and dragged to.
+  assign snosha_item_count = max_items
+  if section.settings.collection != blank and shop.products_count != 0
+    assign snosha_item_count = section.settings.collection.products_count | at_most: max_items
+  endif
+  assign snosha_columns_tablet = section.settings.snosha_columns_tablet | default: 2
+  assign snosha_columns_desktop = section.settings.columns | default: 4
+  assign snosha_scroll_tablet = false
+  assign snosha_scroll_desktop = false
+  if snosha_style and section.settings.layout_type == 'carousel'
+    if snosha_item_count > snosha_columns_tablet
+      assign snosha_scroll_tablet = true
+    endif
+    if snosha_item_count > snosha_columns_desktop
+      assign snosha_scroll_desktop = true
+    endif
+  endif
 %}
 
 {%- if snosha_style -%}
@@ -28,6 +47,7 @@
       --snosha-fc-columns-desktop: {{ section.settings.columns | default: 4 }};
       --snosha-fc-columns-tablet: {{ section.settings.snosha_columns_tablet | default: 2 }};
       --snosha-fc-columns-mobile: {{ section.settings.snosha_columns_mobile | default: 2 }};
+      --snosha-fc-row-extra: {{ section.settings.snosha_row_extra_space | default: 0 }}px;
     }
   {% endstyle %}
 {%- endif -%}
@@ -45,6 +65,8 @@
     spacing-style
     gap-style
     {% if snosha_style %}snosha-featured-collection{% endif %}
+    {% if snosha_scroll_tablet %}snosha-progress--tablet{% endif %}
+    {% if snosha_scroll_desktop %}snosha-progress--desktop{% endif %}
     {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
   "
   style="
@@ -440,6 +462,14 @@
       "step": 1,
       "unit": "px",
       "default": 56,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "number",
+      "id": "snosha_row_extra_space",
+      "label": "Extra space below the cards (desktop, px)",
+      "info": "Space between the product row and the bottom padding, 750px and up.",
+      "default": 0,
       "visible_if": "{{ section.settings.snosha_style }}"
     },
     {

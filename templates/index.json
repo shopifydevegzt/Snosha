@@ -521,6 +521,7 @@
         "snosha_columns_mobile": 2,
         "snosha_mobile_padding_top": 56,
         "snosha_mobile_padding_bottom": 56,
+        "snosha_row_extra_space": 18.1,
         "snosha_title_color": "{{ settings.color_palette.color6 }}",
         "snosha_text_color": "{{ settings.color_palette.color1 }}",
         "snosha_accent_color": "{{ settings.color_palette.color3 }}",

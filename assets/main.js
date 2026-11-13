@@ -510,3 +510,98 @@ class SnoshaBundleForm extends HTMLElement {
 if (!customElements.get('snosha-bundle-form')) {
   customElements.define('snosha-bundle-form', SnoshaBundleForm);
 }
+
+/* -------------------------------------------------------------------------
+   Product gallery — keep the selected slide aligned after a thumbnail jump
+   (Snosha gallery only: .media-gallery--snosha, product page Buy Box layout).
+
+   Horizon jumps to a non-adjacent slide (thumbnail 1 → 3) by moving the target next to the current
+   slide, smooth-scrolling one step, then — when Scroller.finished resolves — putting the slide back
+   and scrolling to it instantly (assets/slideshow.js select()). Scroller.finished is a 50ms debounce
+   on scroll events, not the real end of the scroll: when the main thread stalls for > 50ms during the
+   step (slower phones, busy page), it resolves mid-animation, the DOM is restored, and the browser
+   then applies the rest of its smooth animation on top of the instant scroll, so the track rests
+   between slides (measured 86–492px off at 4× CPU throttling; exact when idle).
+
+   This guard leaves Horizon's code untouched. After a programmatic selection (thumbnails, zoom,
+   variant media) it waits for the browser's own `scrollend` and, if the selected slide isn't aligned
+   with the stage, scrolls it into place. Any user scroll, drag, swipe or wheel cancels it, so it never
+   fights the user. No timers or polling; one delegated listener set covers every gallery, including
+   sections the Theme Editor re-renders. Browsers without `scrollend` keep the native behavior.
+   ------------------------------------------------------------------------- */
+const GALLERY_SCROLLER = '.media-gallery--snosha slideshow-component > slideshow-container > slideshow-slides';
+
+if (!window.snoshaGalleryAlign && 'onscrollend' in window) {
+  window.snoshaGalleryAlign = true;
+
+  /** Selected slide awaiting a settled, aligned scroll, per slideshow. @type {WeakMap<Element, Element>} */
+  const pending = new WeakMap();
+
+  /** @param {EventTarget | null} target */
+  const galleryScroller = (target) =>
+    target instanceof Element ? target.closest(GALLERY_SCROLLER) : null;
+
+  /**
+   * Distance (px) between the slide's start edge and the scroller's start edge (padding included).
+   * @param {Element} scroller
+   * @param {Element} slide
+   */
+  const startOffset = (scroller, slide) => {
+    const style = getComputedStyle(scroller);
+    const padding = parseFloat(style.paddingInlineStart) || 0;
+    const slideRect = slide.getBoundingClientRect();
+    const scrollerRect = scroller.getBoundingClientRect();
+    return style.direction === 'rtl'
+      ? slideRect.right - (scrollerRect.right - padding)
+      : slideRect.left - (scrollerRect.left + padding);
+  };
+
+  document.addEventListener('slideshow:select', (event) => {
+    const slideshow = event.target;
+    if (!(slideshow instanceof Element) || !slideshow.querySelector(':scope > slideshow-container > slideshow-slides')) return;
+    if (!slideshow.closest('.media-gallery--snosha')) return;
+
+    const { trigger, slide } = /** @type {CustomEvent} */ (event).detail ?? {};
+    if (trigger === 'select' && slide instanceof Element) pending.set(slideshow, slide);
+    else pending.delete(slideshow); // the user scrolled to a slide: their position wins
+  });
+
+  // The user takes over: forget the pending alignment
+  for (const type of ['pointerdown', 'wheel', 'touchstart']) {
+    document.addEventListener(
+      type,
+      (event) => {
+        const scroller = galleryScroller(event.target);
+        const slideshow = scroller?.closest('slideshow-component');
+        if (slideshow) pending.delete(slideshow);
+      },
+      { capture: true, passive: true }
+    );
+  }
+
+  // scrollend doesn't bubble: listen in the capture phase
+  document.addEventListener(
+    'scrollend',
+    (event) => {
+      const scroller = event.target;
+      if (!(scroller instanceof Element) || !scroller.matches(GALLERY_SCROLLER)) return;
+
+      const slideshow = scroller.closest('slideshow-component');
+      const slide = slideshow && pending.get(slideshow);
+      if (!slideshow || !slide) return;
+
+      if (!slide.isConnected || slide.hasAttribute('hidden') || !scroller.contains(slide)) {
+        pending.delete(slideshow);
+        return;
+      }
+      if (slideshow.hasAttribute('dragging')) return;
+
+      const offset = startOffset(scroller, slide);
+      if (Math.abs(offset) <= 1) return; // aligned (also mid-jump, while Horizon has moved the slide)
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      scroller.scrollTo({ left: scroller.scrollLeft + offset, behavior: reduceMotion ? 'instant' : 'smooth' });
+    },
+    { capture: true }
+  );
+}
