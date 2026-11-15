@@ -3826,3 +3826,199 @@
     }
   }
 }
+
+/* =========================================================================
+   Snosha how to use video (product page S05)
+   sections/snosha-how-to-use-video.liquid + static block _snosha-video-play.
+   Player = Horizon's native <deferred-media> (assets/media.js) and its classes
+   (.deferred-media__poster-button, .deferred-media__playing, [data-media-loaded]); this block only
+   sizes the frame and styles the poster, overlay and play button.
+   Figma 190:10510 (1480: 400 × 711, radius 24, overlay 20 %, play 88) /
+   190:11221 (390: 300 × 533, radius 16, no overlay, play 56).
+   Section values: --snosha-video-*; play button values: --snosha-play-* (block inline variables).
+   ========================================================================= */
+.snosha-video {
+  padding-block: var(--snosha-video-padding-start-mobile) var(--snosha-video-padding-end-mobile);
+  background-color: var(--snosha-video-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-video-padding-start) var(--snosha-video-padding-end);
+  }
+
+  .snosha-video__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--snosha-video-align, center);
+    gap: var(--snosha-video-gap-mobile);
+
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container */
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-video-gap);
+      padding-inline: 20px;
+    }
+  }
+
+  .snosha-video__heading {
+    margin: 0;
+    max-inline-size: 100%;
+    color: var(--snosha-video-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-video-heading-size-mobile);
+    font-weight: 600;
+    line-height: 52px;
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-video-heading-size);
+    }
+  }
+
+  /* Frame: width from the settings, never wider than the column; height from the aspect ratio */
+  .snosha-video__frame {
+    position: relative;
+    inline-size: min(var(--snosha-video-width-mobile), 100%);
+    aspect-ratio: var(--snosha-video-ratio);
+
+    @media screen and (min-width: 750px) {
+      inline-size: min(var(--snosha-video-width), 100%);
+    }
+  }
+
+  /* Radius on deferred-media itself (not the frame), so Horizon's focus outline isn't clipped */
+  .snosha-video__player {
+    --size-style-aspect-ratio: var(--snosha-video-ratio);
+
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: hidden;
+    border-radius: var(--snosha-video-radius-mobile);
+
+    @media screen and (min-width: 750px) {
+      border-radius: var(--snosha-video-radius);
+    }
+  }
+
+  .snosha-video__poster {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+
+    picture {
+      display: block;
+      block-size: 100%;
+    }
+  }
+
+  /* Beats Horizon's `deferred-media[class] .deferred-media__poster-button img` (object-fit: cover) */
+  .snosha-video__player .snosha-video__poster-image,
+  .snosha-video__placeholder .snosha-video__poster-image {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: var(--snosha-video-fit);
+    object-position: var(--snosha-video-position-mobile);
+
+    @media screen and (min-width: 750px) {
+      object-position: var(--snosha-video-position);
+    }
+  }
+
+  /* Figma desktop "Video Cover" rgba(10, 41, 82, 0.2); none on mobile by default */
+  .snosha-video__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--snosha-video-overlay) var(--snosha-video-overlay-opacity-mobile), transparent);
+    pointer-events: none;
+
+    @media screen and (min-width: 750px) {
+      background-color: color-mix(in srgb, var(--snosha-video-overlay) var(--snosha-video-overlay-opacity), transparent);
+    }
+  }
+
+  /* Play button (inside Horizon's poster <button>; hidden with it once playback starts) */
+  .snosha-video__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    inline-size: var(--snosha-play-size-mobile);
+    block-size: var(--snosha-play-size-mobile);
+    margin: auto;
+    border-radius: 50%;
+    background-color: var(--snosha-play-bg);
+    color: var(--snosha-play-color);
+    box-shadow: 0 14px 34px var(--snosha-play-shadow);
+
+    @media screen and (min-width: 750px) {
+      inline-size: var(--snosha-play-size);
+      block-size: var(--snosha-play-size);
+    }
+  }
+
+  .snosha-video__play-icon {
+    display: block;
+    inline-size: var(--snosha-play-icon-size-mobile);
+    block-size: var(--snosha-play-icon-size-mobile);
+    object-fit: contain;
+
+    @media screen and (min-width: 750px) {
+      inline-size: var(--snosha-play-icon-size);
+      block-size: var(--snosha-play-icon-size);
+    }
+  }
+
+  /* Player rendered directly (no poster / autoplay) fills the frame */
+  .snosha-video__media {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+
+  /* Theme Editor only: no video yet */
+  .snosha-video__placeholder {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: hidden;
+    border-radius: var(--snosha-video-radius-mobile);
+    background-color: var(--color-background);
+
+    @media screen and (min-width: 750px) {
+      border-radius: var(--snosha-video-radius);
+    }
+  }
+
+  .snosha-video__placeholder-svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .snosha-video__editor-hint {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    padding: 8px 12px;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-size: 12px;
+    font-style: italic;
+    line-height: 18px;
+    text-align: center;
+  }
+}
