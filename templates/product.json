@@ -1071,6 +1071,7 @@
             "mobile_media": "stacked",
             "stack_gap_mobile": 12,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": 0,
             "body_line_height_mobile": 0,
             "list_label": "",
@@ -1094,6 +1095,9 @@
                 "offset": 0,
                 "spill_top": 0,
                 "spill_bottom": 0,
+                "image_zoom": 100,
+                "image_x": 0,
+                "image_y": 0,
                 "push_down": 0,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1102,7 +1106,10 @@
                 "border_style": "none",
                 "border_width": 1.5,
                 "border_color": "{{ settings.color_palette.color2 }}",
-                "radius_mobile": 16
+                "radius_mobile": 16,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": 0,
+                "image_y_mobile": 0
               },
               "blocks": {}
             }
@@ -1114,7 +1121,6 @@
           "settings": {
             "layout": "three",
             "heading": "التقنية المستخدمة — تنظيف سونيك",
-            "heading_fit_mobile": true,
             "subtitle": "",
             "body": "<p>تعمل N2 بتقنية الاهتزاز السونيك (Sonic) بمعدل يصل إلى 42,000 اهتزازة في الدقيقة. هذا المعدل العالي يحرّك اللعاب ومعجون الأسنان ليصلا إلى مناطق بين الأسنان يصعب على الفرشاة اليدوية الوصول إليها، فتحصل على تنظيف أعمق دون الحاجة للضغط بقوة.</p>",
             "note": "",
@@ -1136,6 +1142,7 @@
             "mobile_media": "stacked",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": true,
             "heading_trim_mobile": 0,
             "body_line_height_mobile": 24,
             "list_label": "",
@@ -1180,9 +1187,6 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/f1be9d766fd0f3b1c53a05f16b49e46f3f7ba497.png",
-                "image_y": 2,
-                "image_x_mobile": 7,
-                "image_y_mobile": 2,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 98.3,
@@ -1191,6 +1195,9 @@
                 "offset": 0,
                 "spill_top": 0,
                 "spill_bottom": 0,
+                "image_zoom": 100,
+                "image_x": 0,
+                "image_y": 2,
                 "push_down": 0,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1200,7 +1207,10 @@
                 "border_width": 1.5,
                 "border_color": "{{ settings.color_palette.color2 }}",
                 "ratio_mobile": 89.7,
-                "radius_mobile": 16
+                "radius_mobile": 16,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": 7,
+                "image_y_mobile": 2
               },
               "blocks": {}
             }
@@ -1237,6 +1247,7 @@
             "mobile_media": "beside_start",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": 0,
             "body_line_height_mobile": 0,
             "list_label": "",
@@ -1299,7 +1310,7 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/36ca2f3a97861d7a5e52eaad601f402e982e7c01_42387ac5-618d-47c5-9aba-44560bec88de.png",
-                "image_x": -1,
+                "image_mobile": "shopify://shop_images/box-contents-mobile-480x657-figma-exact.png",
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 69.6,
@@ -1308,6 +1319,9 @@
                 "offset": 44,
                 "spill_top": 18,
                 "spill_bottom": 66,
+                "image_zoom": 100,
+                "image_x": -1,
+                "image_y": 0,
                 "push_down": 0,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1318,7 +1332,10 @@
                 "border_color": "{{ settings.color_palette.color2 }}",
                 "ratio_mobile": 136.9,
                 "radius_mobile": 16,
-                "width_mobile": 160
+                "width_mobile": 160,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": 0,
+                "image_y_mobile": 0
               },
               "blocks": {}
             }
@@ -1357,6 +1374,7 @@
             "mobile_media": "behind_end",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": -17,
             "body_line_height_mobile": 0,
             "list_label": "",
@@ -1419,12 +1437,6 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/79592dc808b5b9dcd4928921de8c83f629e6a44d.png",
-                "image_zoom": 208,
-                "image_x": -5,
-                "image_y": -45,
-                "image_zoom_mobile": 94,
-                "image_x_mobile": 0,
-                "image_y_mobile": -50,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 306.7,
@@ -1433,6 +1445,9 @@
                 "offset": 93,
                 "spill_top": 46,
                 "spill_bottom": 76,
+                "image_zoom": 208,
+                "image_x": -5,
+                "image_y": -45,
                 "push_down": 0,
                 "tilt": 3,
                 "shadow": true,
@@ -1445,6 +1460,9 @@
                 "ratio_mobile": 71.7,
                 "radius_mobile": 16,
                 "width_mobile": 382,
+                "image_zoom_mobile": 94,
+                "image_x_mobile": 0,
+                "image_y_mobile": -50,
                 "offset_mobile": -103,
                 "top_mobile": 19.8
               },
@@ -1485,6 +1503,7 @@
             "mobile_media": "stacked",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": 0,
             "body_line_height_mobile": 0,
             "list_label": "",
@@ -1546,6 +1565,9 @@
                 "offset": 30,
                 "spill_top": 0,
                 "spill_bottom": 16,
+                "image_zoom": 100,
+                "image_x": 0,
+                "image_y": 0,
                 "push_down": 47,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1556,7 +1578,10 @@
                 "border_color": "{{ settings.color_palette.color2 }}",
                 "ratio_mobile": 56.9,
                 "radius_mobile": 16,
-                "width_mobile": 246
+                "width_mobile": 246,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": 0,
+                "image_y_mobile": 0
               },
               "blocks": {}
             }
@@ -1594,6 +1619,7 @@
             "mobile_media": "stacked",
             "stack_gap_mobile": 14,
             "copy_gap_mobile": 10,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": -6,
             "body_line_height_mobile": 0,
             "list_label": "مؤشرات الإضاءة",
@@ -1644,12 +1670,6 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/28678a5d2c0c4b0d92e5308ee978ad25fb18c97d.png",
-                "image_zoom": 136,
-                "image_x": -8,
-                "image_y": 11,
-                "image_zoom_mobile": 100,
-                "image_x_mobile": -6,
-                "image_y_mobile": 22,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 136.5,
@@ -1658,6 +1678,9 @@
                 "offset": 0,
                 "spill_top": 0,
                 "spill_bottom": 0,
+                "image_zoom": 136,
+                "image_x": -8,
+                "image_y": 11,
                 "push_down": 0,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1667,7 +1690,10 @@
                 "border_width": 1.5,
                 "border_color": "{{ settings.color_palette.color2 }}",
                 "ratio_mobile": 52.9,
-                "radius_mobile": 24
+                "radius_mobile": 24,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": -6,
+                "image_y_mobile": 22
               },
               "blocks": {}
             }
@@ -1704,6 +1730,7 @@
             "mobile_media": "behind_end",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
+            "heading_fit_mobile": false,
             "heading_trim_mobile": 0,
             "body_line_height_mobile": 0,
             "list_label": "",
@@ -1757,9 +1784,6 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/de9237c50070bae3bf8585717e417b62c48bb318.png",
-                "image_x": -13,
-                "image_y": 2,
-                "image_x_mobile": -6,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 124.4,
@@ -1768,6 +1792,9 @@
                 "offset": 100,
                 "spill_top": 68,
                 "spill_bottom": 36,
+                "image_zoom": 100,
+                "image_x": -13,
+                "image_y": 2,
                 "push_down": 0,
                 "shadow": false,
                 "shadow_color": "#051f4d4d",
@@ -1779,6 +1806,9 @@
                 "ratio_mobile": 161.9,
                 "radius_mobile": 16,
                 "width_mobile": 168,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": -6,
+                "image_y_mobile": 0,
                 "tilt_mobile": 5.2,
                 "offset_mobile": 16.4,
                 "top_mobile": -1.2
