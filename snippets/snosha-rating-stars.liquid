@@ -1,0 +1,37 @@
+{%- doc -%}
+  Five SVG stars with proportional fill (Figma "Icon / star" 190:2839).
+  Star i is filled clamp(rating − (i − 1), 0, 1) × 100 %: an empty star plus a filled star inside a
+  box of that width anchored at the inline start, so 4.8 = 4 full + 80 % of the 5th, filling from the
+  right in RTL and from the left in LTR. No masks or gradients, so no SVG ids to keep unique.
+  Purely visual: always aria-hidden. The caller provides the accessible rating text.
+  Shared by blocks/_snosha-reviews-rating.liquid (S08, prefix "snosha-reviews"),
+  blocks/snosha-product-rating.liquid and sections/snosha-judgeme-reviews.liquid (prefix "snosha-stars").
+  Styles: assets/dev1.css (S08: .snosha-reviews__star*; shared: .snosha-stars*).
+
+  @param {number} rating - rating on a 0–5 scale (values outside are clamped)
+  @param {string} [prefix] - BEM block for the class names, default "snosha-stars"
+
+  @example
+  {% render 'snosha-rating-stars', rating: 4.8 %}
+{%- enddoc -%}
+{%- liquid
+  assign prefix = prefix | default: 'snosha-stars'
+  assign rating = rating | default: 0 | at_least: 0 | at_most: 5
+-%}
+<span class="{{ prefix }}__stars" aria-hidden="true">
+  {%- for i in (1..5) -%}
+    {%- assign fill = rating | minus: forloop.index0 | times: 100 | at_least: 0 | at_most: 100 | round -%}
+    <span class="{{ prefix }}__star">
+      <svg class="{{ prefix }}__star-svg {{ prefix }}__star-svg--empty" viewBox="0 0 24 24" width="24" height="24" focusable="false">
+        <path d="M12 3L14.7 8.6L20.8 9.5L16.4 13.8L17.4 19.9L12 17L6.6 19.9L7.6 13.8L3.2 9.5L9.3 8.6L12 3Z" fill="currentColor"/>
+      </svg>
+      {%- if fill > 0 -%}
+        <span class="{{ prefix }}__star-fill" style="inline-size: {{ fill }}%;">
+          <svg class="{{ prefix }}__star-svg" viewBox="0 0 24 24" width="24" height="24" focusable="false">
+            <path d="M12 3L14.7 8.6L20.8 9.5L16.4 13.8L17.4 19.9L12 17L6.6 19.9L7.6 13.8L3.2 9.5L9.3 8.6L12 3Z" fill="currentColor"/>
+          </svg>
+        </span>
+      {%- endif -%}
+    </span>
+  {%- endfor -%}
+</span>

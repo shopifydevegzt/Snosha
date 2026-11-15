@@ -775,6 +775,49 @@
 }
 
 /* =========================================================================
+   SNOSHA — CAROUSEL ARROW BUTTON (shared look: S08 Reviews screenshots + Judge.me reviews)
+   One visual for both review carousels' round Previous / Next buttons. Only the look is shared:
+   S08's buttons are Horizon slideshow controls, Judge.me's are its own <button>s with its own
+   handlers — each keeps its markup, navigation, position and visibility rules in its section block.
+   Each section maps its own settings onto: --snosha-arrow-size / -bg / -border / -color / -shadow.
+   Icon: the Figma "arrow-left" (S08: inline snosha-icon "arrow_left"; Judge.me: the same path from
+   assets/snosha-arrow-left.svg as a mask) at 26/56 of the button; Figma shadow 0 2 3 + 0 12 14.
+   ========================================================================= */
+.snosha-reviews .snosha-reviews__arrow,
+.snosha-jdgm .jdgm-cards-carousel .jdgm-content > .jdgm-arrow {
+  --snosha-arrow-icon-size: calc(var(--snosha-arrow-size) * 26 / 56);
+
+  display: grid;
+  place-items: center;
+  inline-size: var(--snosha-arrow-size);
+  block-size: var(--snosha-arrow-size);
+  padding: 0;
+  border: 1px solid var(--snosha-arrow-border);
+  border-radius: 50%;
+  background-color: var(--snosha-arrow-bg);
+  color: var(--snosha-arrow-color);
+  box-shadow:
+    0 2px 3px color-mix(in srgb, var(--snosha-arrow-shadow) 37.5%, transparent),
+    0 12px 14px var(--snosha-arrow-shadow);
+  cursor: pointer;
+  translate: 0 -50%;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--snosha-arrow-color);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* =========================================================================
    SNOSHA — BEFORE / AFTER  (sections/snosha-before-after.liquid)
    Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3903 (1480), mobile 190:4222 (390).
    Native blocks inside: comparison-slider (drag / touch / keyboard / intro animation stay native),
@@ -3706,38 +3749,17 @@
     }
   }
 
+  /* Look: shared "SNOSHA — CAROUSEL ARROW BUTTON" rule; this section's settings mapped onto it. */
   .snosha-reviews__arrow {
+    --snosha-arrow-size: var(--snosha-reviews-arrow-size);
+    --snosha-arrow-bg: var(--snosha-reviews-arrow-bg);
+    --snosha-arrow-border: var(--snosha-reviews-arrow-border);
+    --snosha-arrow-color: var(--snosha-reviews-arrow-color);
+    --snosha-arrow-shadow: var(--snosha-reviews-arrow-shadow);
+
     position: absolute;
     top: calc(50% - 5px);
-    display: grid;
-    place-items: center;
-    inline-size: var(--snosha-reviews-arrow-size);
-    block-size: var(--snosha-reviews-arrow-size);
-    padding: 0;
-    border: 1px solid var(--snosha-reviews-arrow-border);
-    border-radius: 50%;
-    background-color: var(--snosha-reviews-arrow-bg);
-    color: var(--snosha-reviews-arrow-color);
-    box-shadow:
-      0 2px 3px color-mix(in srgb, var(--snosha-reviews-arrow-shadow) 37.5%, transparent),
-      0 12px 14px var(--snosha-reviews-arrow-shadow);
-    cursor: pointer;
     pointer-events: auto;
-    translate: 0 -50%;
-
-    &:disabled {
-      opacity: 0.45;
-      cursor: default;
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--snosha-reviews-arrow-color);
-      outline-offset: 3px;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      transition: opacity 0.2s ease;
-    }
   }
 
   .snosha-reviews__arrow--previous {
@@ -3750,8 +3772,8 @@
 
   .snosha-reviews__arrow-icon {
     display: block;
-    inline-size: calc(var(--snosha-reviews-arrow-size) * 26 / 56);
-    block-size: calc(var(--snosha-reviews-arrow-size) * 26 / 56);
+    inline-size: var(--snosha-arrow-icon-size);
+    block-size: var(--snosha-arrow-icon-size);
   }
 
   .snosha-reviews__arrow--previous:dir(rtl) .snosha-reviews__arrow-icon,
@@ -4020,5 +4042,471 @@
     font-style: italic;
     line-height: 18px;
     text-align: center;
+  }
+}
+
+/* =========================================================================
+   Snosha rating stars (shared component)
+   snippets/snosha-rating-stars.liquid with the default prefix "snosha-stars" (S08 keeps its own
+   prefix and CSS). Star i = empty SVG + filled SVG in a box of the filled width at the inline start.
+   Values: --snosha-stars-size / -gap / -fill / -empty from the owning block or section.
+   ========================================================================= */
+.snosha-stars__stars {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--snosha-stars-gap, 3px);
+}
+
+.snosha-stars__star {
+  position: relative;
+  flex: none;
+  inline-size: var(--snosha-stars-size, 18px);
+  block-size: var(--snosha-stars-size, 18px);
+  color: var(--snosha-stars-empty, var(--color-border));
+}
+
+.snosha-stars__star-svg {
+  display: block;
+  inline-size: var(--snosha-stars-size, 18px);
+  block-size: var(--snosha-stars-size, 18px);
+  max-inline-size: none;
+}
+
+.snosha-stars__star-fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  overflow: hidden;
+  color: var(--snosha-stars-fill, currentColor);
+}
+
+/* =========================================================================
+   Snosha product rating (Buy Box; blocks/snosha-product-rating.liquid)
+   Figma 190:10230 / 190:10941: stars 18 / gap 3, number Cairo SemiBold 16 / 27, number ↔ stars 8.
+   DOM stars → number, so in RTL the stars are on the right, as in Figma.
+   ========================================================================= */
+.snosha-rating {
+  display: flex;
+  justify-content: var(--snosha-rating-justify-mobile, flex-start);
+
+  @media screen and (min-width: 750px) {
+    justify-content: var(--snosha-rating-justify, flex-end);
+  }
+
+  .snosha-rating__inner {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--snosha-rating-gap, 8px);
+    color: var(--snosha-rating-color, var(--color-foreground));
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-rating-size, 16px);
+    font-weight: 600;
+    line-height: 27px;
+    text-decoration: none;
+  }
+
+  .snosha-rating__inner--link {
+    &:hover .snosha-rating__value {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+  }
+
+  .snosha-rating__count {
+    font-weight: 400;
+  }
+
+  .snosha-rating__hint {
+    font-size: 12px;
+    font-style: italic;
+    line-height: 18px;
+  }
+}
+
+/* =========================================================================
+   Snosha Judge.me reviews (product page; sections/snosha-judgeme-reviews.liquid +
+   static block _snosha-jdgm-cards-style). Figma 190:10390 (1480) / 190:11101 (390).
+   Judge.me's Cards Carousel (app block) renders and moves the cards; everything below is scoped to
+   .snosha-jdgm and only (a) sets Judge.me's OWN layout variables (--card-width, --jm-card-gap,
+   --visible-cards, declared in its carousels.css) on .jdgm-content — its JS positions the track from
+   the measured card offsets, so navigation follows — and (b) restyles its cards / arrows.
+   Judge.me sets some variables inline on .jdgm-widget, so overrides go on descendants / properties.
+   Judge.me's track moves left-to-right (translateX), so .jdgm-content stays LTR; card text is RTL.
+   ========================================================================= */
+.snosha-jdgm {
+  overflow-x: clip;
+  padding-block: var(--snosha-jdgm-padding-start-mobile) var(--snosha-jdgm-padding-end-mobile);
+  background-color: var(--snosha-jdgm-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-jdgm-padding-start) var(--snosha-jdgm-padding-end);
+  }
+
+  .snosha-jdgm__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container → 1336 track */
+    @media screen and (min-width: 750px) {
+      padding-inline: 20px;
+    }
+  }
+
+  .snosha-jdgm__heading {
+    margin: 0;
+    color: var(--snosha-jdgm-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-jdgm-heading-size-mobile);
+    font-weight: 600;
+    line-height: 52px;
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-jdgm-heading-size);
+    }
+  }
+
+  /* Summary (Figma 190:10394): DOM number → stars → count, so in RTL the number is on the right */
+  .snosha-jdgm__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .snosha-jdgm__rating {
+    color: var(--snosha-jdgm-rating-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-jdgm-rating-size-mobile);
+    font-weight: 600;
+    line-height: 40px;
+    white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-jdgm-rating-size);
+    }
+  }
+
+  .snosha-jdgm__count {
+    color: var(--snosha-jdgm-count-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-jdgm-count-size-mobile);
+    font-weight: 400;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-jdgm-count-size);
+    }
+  }
+
+  .snosha-jdgm__hint {
+    margin: 0;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  /* Mobile: the track runs to the screen edges (Figma), with the 20px inset kept on the first card */
+  .snosha-jdgm__carousel {
+    display: block;
+    align-self: stretch;
+    min-inline-size: 0;
+
+    @media screen and (max-width: 749px) {
+      margin-inline: -20px;
+    }
+  }
+
+  /* Mouse drag (assets/snosha-jdgm-carousel.js): no text selection while a horizontal drag is active */
+  .snosha-jdgm__carousel[data-dragging] {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  /* Mobile progress (Figma 190:11171: 350 × 4, 14px under the cards, fill 160 at the inline start).
+     S08's bar model — track + gradient fill growing from the inline start, from
+     --snosha-progress-initial to the full track with --snosha-carousel-progress (0–1). Display only:
+     the value is Judge.me's current review, written by assets/snosha-jdgm-carousel.js; shown only
+     once that position is known ([data-ready]). */
+  .snosha-jdgm__progress {
+    --snosha-progress-initial: 0.4571;
+
+    position: relative;
+    display: none;
+    block-size: var(--snosha-jdgm-progress-height, 4px);
+    margin-block-start: var(--snosha-jdgm-progress-space, 14px);
+    margin-inline: 20px;
+    border-radius: 999px;
+    background-color: var(--snosha-jdgm-progress-track, var(--color-border));
+    pointer-events: none;
+
+    @media screen and (max-width: 749px) {
+      &[data-ready] {
+        display: block;
+      }
+    }
+  }
+
+  .snosha-jdgm__progress-fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: calc(
+      100% *
+        (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+    );
+    border-radius: inherit;
+    background-image: linear-gradient(to right, var(--snosha-jdgm-progress-start), var(--snosha-jdgm-progress-end));
+
+    /* Same duration / easing as Judge.me's card movement, so the bar moves with the cards */
+    @media (prefers-reduced-motion: no-preference) {
+      transition: inline-size 0.6s cubic-bezier(0.36, 0.66, 0.04, 1);
+    }
+  }
+
+  /* ---------------- Judge.me Cards Carousel ---------------- */
+  .jdgm-cards-carousel {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body--family);
+  }
+
+  /* Our heading / product summary replace Judge.me's title / average (its average isn't guaranteed
+     to be the current product's) */
+  &.snosha-jdgm--own-heading .jdgm-cards-carousel .jdgm-title,
+  &.snosha-jdgm--own-summary .jdgm-cards-carousel .jdgm-header-info {
+    display: none;
+  }
+
+  &.snosha-jdgm--own-heading.snosha-jdgm--own-summary .jdgm-cards-carousel .jdgm-header {
+    display: none;
+  }
+
+  .jdgm-cards-carousel .jdgm-content {
+    --card-width: var(--snosha-jdgm-card-width-mobile, 160px);
+    --jm-card-gap: var(--snosha-jdgm-card-gap-mobile, 12px);
+    --visible-cards: 2;
+    /* Judge.me's own mobile-arrow switch (its "Hide arrows on mobile" sets it on the widget); set here
+       from "Show arrows on mobile" so mobile is never autoplay-only. Arrows are children of .jdgm-content. */
+    --jm-arrows-mobile: var(--snosha-jdgm-arrows-mobile, flex);
+
+    direction: ltr;
+    justify-content: flex-start;
+    gap: 0;
+    margin: 0;
+
+    @media screen and (max-width: 749px) {
+      padding-inline-start: 20px;
+    }
+
+    @media screen and (min-width: 750px) {
+      --card-width: var(--snosha-jdgm-card-width, 316px);
+      --jm-card-gap: var(--snosha-jdgm-card-gap, 24px);
+    }
+
+    /* Full cards that fit with the default 316 / 24 (used by Judge.me only for arrow visibility) */
+    @media screen and (min-width: 1150px) {
+      --visible-cards: 3;
+    }
+
+    @media screen and (min-width: 1480px) {
+      --visible-cards: 4;
+    }
+  }
+
+  /* Wider than Judge.me's "visible cards" box so the next card peeks in */
+  .jdgm-cards-carousel .jdgm-cards-wrapper {
+    max-width: none;
+  }
+
+  .jdgm-cards-carousel .jdgm-videos-container {
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  /* Card (Figma 316 × auto, photo 250 / 160 × auto, photo 130; radius 20; two-layer shadow) */
+  .jdgm-cards-carousel .jdgm-media-card {
+    border: 1px solid var(--snosha-jdgm-card-border, var(--color-border));
+    border-radius: var(--snosha-jdgm-card-radius, 20px);
+    box-shadow:
+      0 18px 38px -6px var(--snosha-jdgm-card-shadow, transparent),
+      0 2px 8px color-mix(in srgb, var(--snosha-jdgm-card-shadow, transparent) 50%, transparent);
+  }
+
+  &:dir(rtl) .jdgm-cards-carousel .jdgm-media-card {
+    direction: rtl;
+  }
+
+  .jdgm-cards-carousel .jdgm-media-card img {
+    display: block;
+    block-size: var(--snosha-jdgm-image-height-mobile, 130px);
+    object-fit: cover;
+
+    @media screen and (min-width: 750px) {
+      block-size: var(--snosha-jdgm-image-height, 250px);
+    }
+  }
+
+  /* Text: equal card heights from the clamp height (Judge.me's review length), no clipping */
+  .jdgm-cards-carousel .jdgm-media-card .jdgm-text {
+    --snosha-jdgm-line: 22px;
+
+    position: relative;
+    display: block;
+    min-height: calc(var(--line-clamp, 3) * var(--snosha-jdgm-line) + 18px);
+    max-height: none;
+    padding: 18px 20px 0;
+    font-size: var(--snosha-jdgm-text-size-mobile, 11px);
+    line-height: var(--snosha-jdgm-line);
+    text-align: start;
+
+    @media screen and (min-width: 750px) {
+      --snosha-jdgm-line: 28px;
+
+      font-size: var(--snosha-jdgm-text-size, 16px);
+    }
+
+    p {
+      max-width: none;
+      line-height: inherit;
+      text-align: start;
+    }
+
+    /* Figma quote mark (decorative glyph) */
+    &::before {
+      content: '\201D';
+      position: absolute;
+      inset-block-start: -2px;
+      inset-inline-end: 10px;
+      color: var(--snosha-jdgm-quote-color, transparent);
+      font-size: 35px;
+      font-weight: 700;
+      line-height: normal;
+      pointer-events: none;
+
+      @media screen and (min-width: 750px) {
+        font-size: 52px;
+      }
+    }
+  }
+
+  .jdgm-cards-carousel .jdgm-media-card .jdgm-rating-section {
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 20px 20px;
+
+    .jdgm-stars {
+      gap: 3px;
+    }
+
+    .jdgm-star {
+      font-size: 16px;
+    }
+
+    .jdgm-reviewer-info {
+      justify-content: flex-start;
+    }
+
+    .jdgm-reviewer-name {
+      font-size: var(--snosha-jdgm-name-size-mobile, 11px);
+      font-weight: 700;
+      line-height: 27px;
+
+      @media screen and (min-width: 750px) {
+        font-size: var(--snosha-jdgm-name-size, 16px);
+      }
+    }
+
+    :is(.jdgm-product-name, .jdgm-product-name a) {
+      color: var(--snosha-jdgm-meta-color, inherit);
+      font-size: 9.5px;
+      line-height: 20px;
+      text-decoration: none;
+
+      @media screen and (min-width: 750px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  /* Arrows: Judge.me's own <button>s (its click / keyboard / labels / loop), with the same look as
+     S08's (shared "SNOSHA — CAROUSEL ARROW BUTTON" rule; this block's settings mapped onto it).
+     Judge.me's icon is hidden and replaced by the S08 arrow-left (assets/snosha-arrow-left.svg as a
+     mask in the icon color). Overlap of the track: 16px (Figma). Visibility stays Judge.me's. */
+  .jdgm-cards-carousel .jdgm-content > .jdgm-arrow {
+    --snosha-arrow-size: var(--snosha-jdgm-arrow-size, 52px);
+    --snosha-arrow-bg: var(--snosha-jdgm-arrow-bg, var(--color-background));
+    --snosha-arrow-border: var(--snosha-jdgm-arrow-border, var(--color-border));
+    --snosha-arrow-color: var(--snosha-jdgm-arrow-icon, currentColor);
+    --snosha-arrow-shadow: var(--snosha-jdgm-arrow-shadow, transparent);
+
+    position: absolute;
+    inset-block-start: calc(50% - 11.5px);
+    z-index: 3;
+
+    svg {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+      inline-size: var(--snosha-arrow-icon-size);
+      block-size: var(--snosha-arrow-icon-size);
+      background-color: currentColor;
+      mask: url('snosha-arrow-left.svg') center / contain no-repeat;
+    }
+
+    /* Track is LTR: first-child = previous (left, arrow points left), last-child = next (mirrored) */
+    &:first-child {
+      inset-inline-start: -16px;
+    }
+
+    &:last-child {
+      inset-inline-end: -16px;
+
+      &::before {
+        scale: -1 1;
+      }
+    }
+
+    /* Only when "Show arrows on mobile" is on (Figma has no mobile arrows): 44px touch targets
+       inside the full-bleed track, vertically centred on the cards (on the photos when they have one). */
+    @media screen and (max-width: 749px) {
+      --snosha-arrow-size: 44px;
+
+      inset-block-start: 50%;
+
+      &:first-child {
+        inset-inline-start: 4px;
+      }
+
+      &:last-child {
+        inset-inline-end: 4px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .jdgm-cards-carousel .jdgm-content:has(.jdgm-media-card img) > .jdgm-arrow {
+      inset-block-start: calc(var(--snosha-jdgm-image-height-mobile, 130px) / 2);
+    }
   }
 }

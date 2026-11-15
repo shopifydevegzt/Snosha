@@ -1,0 +1,473 @@
+{%- comment -%}
+  Snosha — Judge.me product reviews (product page; Figma 190:10390 desktop, 190:11101 mobile).
+  Heading → product rating summary → Judge.me Cards Carousel (app block, @app slot).
+
+  Data (nothing typed in by the merchant, nothing hardcoded):
+  - Cards: Judge.me's Cards Carousel app block, placed in this section, with
+    "Reviews selection: Current product" (set on the Judge.me block). Judge.me renders and moves it.
+  - Summary: the CURRENT product's Shopify review metafields that Judge.me keeps in sync
+    (reviews.rating / reviews.rating_count), the same source as the Buy Box block
+    blocks/snosha-product-rating.liquid. Judge.me's own carousel header average is hidden while this
+    summary is on, so no store-wide or preview number can be shown as the product rating.
+    No synced rating → no summary on the storefront; editor-only hint in the Theme Editor.
+  - Stars: snippets/snosha-rating-stars.liquid (shared with S08 and the Buy Box block).
+
+  Layout: Judge.me's own CSS variables (--card-width, --jm-card-gap, --visible-cards), set on its
+  .jdgm-content, give 316px cards / 24 gap on desktop and 160 / 12 on mobile (two cards + a peek);
+  its JS moves the track by the measured card offsets, so navigation stays consistent. Card styling
+  is scoped CSS on Judge.me's classes inside .snosha-jdgm only (assets/dev1.css).
+  Known limits of Judge.me's carousel (no public API): LTR track movement, no mouse drag. Touch swipe
+  reliability and the read-only mobile progress bar: <snosha-jdgm-carousel> (assets/snosha-jdgm-carousel.js),
+  which reads Judge.me's rendered DOM only — see that file and SNOSHA_PROJECT_PLAN.md.
+  Card layout settings: static block _snosha-jdgm-cards-style (id "cards_style").
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+  assign anchor = ss.anchor | strip | remove: '#'
+
+  assign has_rating = false
+  assign rating_5 = 0
+  assign rating_count = 0
+  if product != blank
+    assign rating_metafield = product.metafields.reviews.rating
+    assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+    if rating_metafield != blank and rating_metafield.value.rating != blank and rating_count > 0
+      assign scale_max = rating_metafield.value.scale_max | default: 5 | times: 1.0
+      assign rating_5 = rating_metafield.value.rating | times: 5.0 | divided_by: scale_max | at_least: 0 | at_most: 5
+      assign has_rating = true
+    endif
+  endif
+  assign rating_text = rating_5 | round: 1 | append: ''
+  unless rating_text contains '.'
+    assign rating_text = rating_text | append: '.0'
+  endunless
+  assign count_text = ss.count_text | replace: '[count]', rating_count | strip
+
+  capture app_blocks
+    content_for 'blocks'
+  endcapture
+
+  # Storefront: no published reviews for this product (no synced rating) → no empty section.
+  # Opt-in "show" setting so instances saved before it existed (setting blank) also hide.
+  assign render_section = true
+  if ss.show_when_empty != true and has_rating == false and request.design_mode == false
+    assign render_section = false
+  endif
+
+  # Progress on unless explicitly unchecked (instances saved before the setting existed read it as blank).
+  assign show_progress = true
+  if ss.show_progress == false
+    assign show_progress = false
+  endif
+
+  assign root_classes = 'snosha-jdgm'
+  if ss.show_heading and heading != blank
+    assign root_classes = root_classes | append: ' snosha-jdgm--own-heading'
+  endif
+  if ss.show_summary
+    assign root_classes = root_classes | append: ' snosha-jdgm--own-summary'
+  endif
+-%}
+
+{%- if render_section -%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-jdgm {
+    --snosha-jdgm-bg: {{ ss.background }};
+    --snosha-jdgm-padding-start: {{ ss.padding_top }}px;
+    --snosha-jdgm-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-jdgm-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-jdgm-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    --snosha-jdgm-heading-color: {{ ss.heading_color }};
+    --snosha-jdgm-heading-size: {{ ss.heading_size }}px;
+    --snosha-jdgm-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+    --snosha-jdgm-rating-color: {{ ss.rating_color }};
+    --snosha-jdgm-rating-size: {{ ss.rating_size }}px;
+    --snosha-jdgm-rating-size-mobile: {{ ss.rating_size_mobile }}px;
+    --snosha-jdgm-count-color: {{ ss.count_color }};
+    --snosha-jdgm-count-size: {{ ss.count_size }}px;
+    --snosha-jdgm-count-size-mobile: {{ ss.count_size_mobile }}px;
+    --snosha-stars-size: {{ ss.star_size }}px;
+    --snosha-stars-gap: {{ ss.star_gap }}px;
+    --snosha-stars-fill: {{ ss.star_color }};
+    --snosha-stars-empty: {{ ss.star_empty_color }};
+    --snosha-jdgm-progress-height: {{ ss.progress_height | default: 4 }}px;
+    --snosha-jdgm-progress-space: {{ ss.progress_spacing | default: 14 }}px;
+    --snosha-jdgm-progress-track: {{ ss.progress_track | default: settings.color_palette.color2 }};
+    --snosha-jdgm-progress-start: {{ ss.progress_start | default: '#63CDFF' }};
+    --snosha-jdgm-progress-end: {{ ss.progress_end | default: '#0F64A8' }};
+  }
+{% endstyle %}
+{% content_for 'block', type: '_snosha-jdgm-cards-style', id: 'cards_style' %}
+
+<div
+  class="{{ root_classes }}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}"
+  {% if anchor != blank %}
+    id="{{ anchor | escape }}"
+  {% endif %}
+>
+  <div class="section section--page-width">
+    <div class="snosha-jdgm__inner">
+      {%- if ss.show_heading and heading != blank -%}
+        <h2 class="snosha-jdgm__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      {%- if ss.show_summary -%}
+        {%- if has_rating -%}
+          <div class="snosha-jdgm__summary">
+            <span class="visually-hidden">
+              {{- 'accessibility.rating' | t: rating: rating_text -}}
+              {%- if ss.show_count %} ({{ rating_count }} {{ 'content.reviews' | t }}){% endif -%}
+            </span>
+            <span class="snosha-jdgm__rating" dir="ltr" aria-hidden="true">{{ rating_text }} / 5</span>
+            {%- render 'snosha-rating-stars', rating: rating_5 -%}
+            {%- if ss.show_count and count_text != blank -%}
+              <span class="snosha-jdgm__count" aria-hidden="true">{{ count_text }}</span>
+            {%- endif -%}
+          </div>
+        {%- elsif request.design_mode -%}
+          <p class="snosha-jdgm__hint">Theme Editor only: no Judge.me rating is synced for this product yet (published reviews only; Judge.me sample reviews are preview-only), so the rating summary is hidden on the storefront.</p>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if app_blocks != blank -%}
+        <snosha-jdgm-carousel class="snosha-jdgm__carousel">
+          {{- app_blocks -}}
+          {%- if show_progress -%}
+            <span class="snosha-jdgm__progress" data-snosha-jdgm-progress aria-hidden="true">
+              <span class="snosha-jdgm__progress-fill"></span>
+            </span>
+          {%- endif -%}
+        </snosha-jdgm-carousel>
+        <script src="{{ 'snosha-jdgm-carousel.js' | asset_url }}" type="module" fetchpriority="low"></script>
+      {%- elsif request.design_mode -%}
+        <p class="snosha-jdgm__hint">Theme Editor only: add the Judge.me "Cards Carousel" app block to this section (Add block → Apps) and set "Reviews selection" to "Current product".</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha Judge.me reviews",
+  "tag": "section",
+  "class": "snosha-jdgm-section",
+  "blocks": [
+    { "type": "@app" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add Judge.me's Cards Carousel app block here with \"Reviews selection: Current product\". The rating summary comes from the product's Judge.me rating (no manual values). Card layout: \"Review cards style\" block."
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "info": "Hides Judge.me's own carousel title while on.",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 14,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32,
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "header",
+      "content": "Rating summary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show product rating summary",
+      "info": "The current product's Judge.me rating. Hides Judge.me's own carousel average while on.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rating_size",
+      "label": "Rating number size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "range",
+      "id": "rating_size_mobile",
+      "label": "Rating number size on mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 19,
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Rating number color",
+      "default": "{{ settings.color_palette.foreground }}",
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24,
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Space between stars",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 2,
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Filled star",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show number of reviews",
+      "default": true,
+      "visible_if": "{{ section.settings.show_summary }}"
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Number of reviews text",
+      "info": "[count] is replaced by the product's number of reviews.",
+      "visible_if": "{{ section.settings.show_summary and section.settings.show_count }}"
+    },
+    {
+      "type": "color",
+      "id": "count_color",
+      "label": "Number of reviews color",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.show_summary and section.settings.show_count }}"
+    },
+    {
+      "type": "range",
+      "id": "count_size",
+      "label": "Number of reviews size",
+      "min": 8,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14,
+      "visible_if": "{{ section.settings.show_summary and section.settings.show_count }}"
+    },
+    {
+      "type": "range",
+      "id": "count_size_mobile",
+      "label": "Number of reviews size on mobile",
+      "min": 8,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11,
+      "visible_if": "{{ section.settings.show_summary and section.settings.show_count }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile progress bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show progress bar on mobile",
+      "info": "Display only: follows the review shown first in Judge.me's carousel (swipes, autoplay). Hidden when the position can't be read.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "progress_height",
+      "label": "Progress bar height",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "range",
+      "id": "progress_spacing",
+      "label": "Space above progress bar",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 14,
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_track",
+      "label": "Progress track",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_start",
+      "label": "Progress fill start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_end",
+      "label": "Progress fill end",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "checkbox",
+      "id": "show_when_empty",
+      "label": "Show on products without reviews",
+      "info": "When off, the storefront hides this section if the product has no published Judge.me reviews (no synced rating). It is always shown in the Theme Editor.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anchor",
+      "info": "Lets the Buy Box rating link here (#anchor).",
+      "default": "snosha-reviews"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha Judge.me reviews",
+      "category": "Snosha",
+      "settings": {
+        "heading": "تجارب حقيقية من عملاء SNOSHA",
+        "count_text": "بناءً على ([count] تقييم)"
+      },
+      "blocks": {
+        "cards_style": {
+          "type": "_snosha-jdgm-cards-style",
+          "static": true
+        }
+      }
+    }
+  ]
+}
+{% endschema %}
