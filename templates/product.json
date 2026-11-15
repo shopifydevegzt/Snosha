@@ -1114,6 +1114,7 @@
           "settings": {
             "layout": "three",
             "heading": "التقنية المستخدمة — تنظيف سونيك",
+            "heading_fit_mobile": true,
             "subtitle": "",
             "body": "<p>تعمل N2 بتقنية الاهتزاز السونيك (Sonic) بمعدل يصل إلى 42,000 اهتزازة في الدقيقة. هذا المعدل العالي يحرّك اللعاب ومعجون الأسنان ليصلا إلى مناطق بين الأسنان يصعب على الفرشاة اليدوية الوصول إليها، فتحصل على تنظيف أعمق دون الحاجة للضغط بقوة.</p>",
             "note": "",
@@ -1179,6 +1180,9 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/f1be9d766fd0f3b1c53a05f16b49e46f3f7ba497.png",
+                "image_y": 2,
+                "image_x_mobile": 7,
+                "image_y_mobile": 2,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 98.3,
@@ -1295,6 +1299,7 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/36ca2f3a97861d7a5e52eaad601f402e982e7c01_42387ac5-618d-47c5-9aba-44560bec88de.png",
+                "image_x": -1,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 69.6,
@@ -1414,6 +1419,12 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/79592dc808b5b9dcd4928921de8c83f629e6a44d.png",
+                "image_zoom": 208,
+                "image_x": -5,
+                "image_y": -45,
+                "image_zoom_mobile": 94,
+                "image_x_mobile": 0,
+                "image_y_mobile": -50,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 306.7,
@@ -1633,6 +1644,12 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/28678a5d2c0c4b0d92e5308ee978ad25fb18c97d.png",
+                "image_zoom": 136,
+                "image_x": -8,
+                "image_y": 11,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": -6,
+                "image_y_mobile": 22,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 136.5,
@@ -1740,6 +1757,9 @@
               "static": true,
               "settings": {
                 "image": "shopify://shop_images/de9237c50070bae3bf8585717e417b62c48bb318.png",
+                "image_x": -13,
+                "image_y": 2,
+                "image_x_mobile": -6,
                 "image_alt": "",
                 "image_fit": "cover",
                 "ratio": 124.4,

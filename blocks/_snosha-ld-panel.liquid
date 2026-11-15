@@ -60,6 +60,9 @@
   if layout != 'text'
     assign classes = classes | append: ' snosha-long-description__panel--' | append: bs.list_style | append: ' snosha-long-description__panel--mobile-' | append: bs.mobile_media
   endif
+  if bs.heading_fit_mobile
+    assign classes = classes | append: ' snosha-long-description__panel--heading-fit'
+  endif
   unless has_media
     assign classes = classes | append: ' snosha-long-description__panel--no-media'
   endunless
@@ -362,6 +365,13 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_fit_mobile",
+      "label": "Keep the heading on one line on narrow phones",
+      "info": "Below the 390 px design width the heading shrinks with the screen (never under 16 px) instead of wrapping. The 390 px size is unchanged.",
+      "default": false
     },
     {
       "type": "range",

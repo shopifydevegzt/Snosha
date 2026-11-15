@@ -17,6 +17,8 @@
   #shopify-section-{{ section.id }} .snosha-long-description {
     --snosha-ld-heading-size: {{ bs.heading_size }}px;
     --snosha-ld-heading-size-mobile: {{ bs.heading_size_mobile }}px;
+    {%- comment -%} Mobile heading size per px of the 350 px Figma mobile column (panels with "keep heading on one line") {%- endcomment %}
+    --snosha-ld-heading-fit: {{ bs.heading_size_mobile | divided_by: 350.0 }};
     --snosha-ld-intro-heading-size-mobile: {{ bs.intro_heading_size_mobile }}px;
     --snosha-ld-heading-line-height: {{ bs.heading_line_height }}px;
     --snosha-ld-heading-weight: {{ bs.heading_weight }};

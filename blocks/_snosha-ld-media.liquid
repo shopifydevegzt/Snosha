@@ -25,6 +25,59 @@
     else
       assign ratio_mobile = image_mobile.aspect_ratio
     endif
+
+    comment
+      Image box placement (desktop, then mobile/tablet). The <img> box keeps the picture's own
+      proportions and is sized like cover / contain / stretch relative to the frame, placed at the
+      Shopify focal point, then moved and zoomed by the Image block settings. The frame clips it.
+      Zooming and moving therefore act on the whole picture (object-fit would crop it first).
+      w / h: image box size in % of the frame; x / y: translate in % of the image box.
+    endcomment
+    assign fit = bs.image_fit | default: 'cover'
+    for pass in (1..2)
+      if pass == 1
+        assign img = image
+        assign ratio_setting = bs.ratio
+        assign move_x = bs.image_x | default: 0 | times: 0.01
+        assign move_y = bs.image_y | default: 0 | times: 0.01
+      else
+        assign img = image_mobile
+        assign ratio_setting = bs.ratio_mobile
+        assign move_x = bs.image_x_mobile | default: 0 | times: 0.01
+        assign move_y = bs.image_y_mobile | default: 0 | times: 0.01
+      endif
+      assign image_ratio = img.aspect_ratio | times: 1.0
+      if ratio_setting > 0
+        assign frame_ratio = 100.0 | divided_by: ratio_setting
+      else
+        assign frame_ratio = image_ratio
+      endif
+      assign kw = image_ratio | divided_by: frame_ratio
+      assign kh = frame_ratio | divided_by: image_ratio
+      case fit
+        when 'fill'
+          assign kw = 1.0
+          assign kh = 1.0
+        when 'contain'
+          assign kw = kw | at_most: 1.0
+          assign kh = kh | at_most: 1.0
+        else
+          assign kw = kw | at_least: 1.0
+          assign kh = kh | at_least: 1.0
+      endcase
+      assign focal = img.presentation.focal_point | default: '50% 50%' | remove: '%' | split: ' '
+      assign fx = focal[0] | default: 50 | times: 0.01
+      assign fy = focal[1] | default: 50 | times: 0.01
+      assign tx = 1.0 | minus: kw | times: fx | plus: move_x | divided_by: kw | times: 100 | round: 3
+      assign ty = 1.0 | minus: kh | times: fy | plus: move_y | divided_by: kh | times: 100 | round: 3
+      assign kw = kw | times: 100 | round: 3
+      assign kh = kh | times: 100 | round: 3
+      if pass == 1
+        assign place = '--snosha-ld-image-w: ' | append: kw | append: '%; --snosha-ld-image-h: ' | append: kh | append: '%; --snosha-ld-image-x: ' | append: tx | append: '%; --snosha-ld-image-y: ' | append: ty | append: '%;'
+      else
+        assign place = place | append: ' --snosha-ld-image-w-mobile: ' | append: kw | append: '%; --snosha-ld-image-h-mobile: ' | append: kh | append: '%; --snosha-ld-image-x-mobile: ' | append: tx | append: '%; --snosha-ld-image-y-mobile: ' | append: ty | append: '%;'
+      endif
+    endfor
   endif
 -%}
 {%- if image != blank or request.design_mode -%}
@@ -52,10 +105,9 @@
       --snosha-ld-media-tilt-mobile: {{ bs.tilt_mobile | default: 0 }}deg;
       --snosha-ld-media-offset-mobile: {{ bs.offset_mobile | default: 0 }}px;
       --snosha-ld-media-top-mobile: {{ bs.top_mobile | default: 0 }}px;
-      {%- if image != blank %}
-        --snosha-ld-media-focal: {{ image.presentation.focal_point | default: 'center' }};
-        --snosha-ld-media-focal-mobile: {{ image_mobile.presentation.focal_point | default: 'center' }};
-      {%- endif %}
+      --snosha-ld-image-zoom: {{ bs.image_zoom | default: 100 | divided_by: 100.0 }};
+      --snosha-ld-image-zoom-mobile: {{ bs.image_zoom_mobile | default: 100 | divided_by: 100.0 }};
+      {{ place }}
       {%- if bs.shadow %} --snosha-ld-media-shadow: {{ bs.shadow_color }};{% endif %}
       {%- if bs.border_style != 'none' %}
         --snosha-ld-media-border: {{ bs.border_width }}px {{ bs.border_style }} {{ bs.border_color }};
@@ -186,6 +238,39 @@
     },
     {
       "type": "range",
+      "id": "image_zoom",
+      "label": "Image zoom",
+      "info": "Enlarges or shrinks the picture inside its frame (the frame size does not change).",
+      "min": 50,
+      "max": 250,
+      "step": 2,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_x",
+      "label": "Move image horizontally",
+      "info": "% of the frame width. Positive moves right.",
+      "min": -50,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_y",
+      "label": "Move image vertically",
+      "info": "% of the frame height. Positive moves down.",
+      "min": -50,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
       "id": "push_down",
       "label": "Move down",
       "info": "Starts the image lower in its column (the panel grows with it).",
@@ -284,6 +369,36 @@
       "id": "width_mobile",
       "label": "Width on mobile (px)",
       "info": "Leave empty for the full width (or 160 px when the image sits beside or behind the list)."
+    },
+    {
+      "type": "range",
+      "id": "image_zoom_mobile",
+      "label": "Image zoom on mobile",
+      "min": 50,
+      "max": 250,
+      "step": 2,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_x_mobile",
+      "label": "Move image horizontally on mobile",
+      "min": -50,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_y_mobile",
+      "label": "Move image vertically on mobile",
+      "min": -50,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 0
     },
     {
       "type": "number",

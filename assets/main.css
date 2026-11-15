@@ -4578,17 +4578,34 @@ media-gallery.media-gallery--snosha {
       block-size: 100%;
     }
 
+    /* The image box keeps the picture's own proportions; its size and position (cover / contain /
+       stretch, Shopify focal point, Image block "zoom / move") are computed in
+       blocks/_snosha-ld-media.liquid as % of the frame, so they scale at every width. Zoom and move
+       act on the whole picture and the frame (overflow: hidden) clips it — object-fit would crop
+       the picture before it could be moved. Anchored physically (top / left): the translate values
+       are physical too, matching Figma's placement in both directions. */
     .snosha-long-description__image {
+      position: absolute;
+      inset: 0 auto auto 0;
       display: block;
-      inline-size: 100%;
-      block-size: 100%;
-      object-fit: cover;
-      /* The image's focal point from Shopify Files (Admin → Content → Files → Edit) */
-      object-position: var(--snosha-ld-media-focal-mobile, center);
+      inline-size: var(--snosha-ld-image-w-mobile, 100%);
+      max-inline-size: none;
+      block-size: var(--snosha-ld-image-h-mobile, 100%);
+      object-fit: fill;
+      transform: translate(var(--snosha-ld-image-x-mobile, 0%), var(--snosha-ld-image-y-mobile, 0%))
+        scale(var(--snosha-ld-image-zoom-mobile, 1));
 
       @media screen and (min-width: 990px) {
-        object-position: var(--snosha-ld-media-focal, center);
+        inline-size: var(--snosha-ld-image-w, 100%);
+        block-size: var(--snosha-ld-image-h, 100%);
+        transform: translate(var(--snosha-ld-image-x, 0%), var(--snosha-ld-image-y, 0%))
+          scale(var(--snosha-ld-image-zoom, 1));
       }
+    }
+
+    /* Editor placeholder: fills the frame */
+    .snosha-long-description__image--placeholder {
+      object-fit: contain;
     }
   }
 
@@ -4675,6 +4692,43 @@ media-gallery.media-gallery--snosha {
     }
   }
 
+  /* Phones below the 390 px Figma frame. The panel is a size container, so 100cqi = its content
+     width (350 px at 390, the Figma mobile column). Every rule below equals Figma at 390. */
+  @media screen and (max-width: 749px) {
+    .snosha-long-description__panel {
+      container-type: inline-size;
+    }
+
+    /* Opt-in per panel (Sonic): the heading scales with the column below 390 so it keeps one line;
+       21 px at 350 px, never under 16 px, never above the Typography size. */
+    .snosha-long-description__panel--heading-fit .snosha-long-description__heading {
+      font-size: clamp(
+        16px,
+        calc(100cqi * var(--snosha-ld-heading-fit, 0.06)),
+        var(--snosha-ld-heading-size-mobile, 21px)
+      );
+    }
+
+    /* Image beside the list (Figma Box contents): 160 px at 390, shrinking faster than the column
+       below it (0.8 px per px) so the rows keep their text width; floor 65 % of the set width.
+       Keeps the frame's own aspect ratio. */
+    .snosha-long-description__panel--mobile-beside_start,
+    .snosha-long-description__panel--mobile-beside_end {
+      .snosha-long-description__media-frame {
+        inline-size: clamp(
+          calc(var(--snosha-ld-media-width-mobile, 160px) * 0.65),
+          calc(var(--snosha-ld-media-width-mobile, 160px) - (350px - 100cqi) * 0.8),
+          var(--snosha-ld-media-width-mobile, 160px)
+        );
+      }
+    }
+
+    /* Stacked images (Sonic, Battery) stop growing past 480 px on large phones (Figma: 350 at 390). */
+    .snosha-long-description__panel--mobile-stacked .snosha-long-description__media-frame {
+      max-inline-size: min(100%, 480px);
+    }
+  }
+
   /* Tablet (no Figma frame): mobile structure, image capped so it never dominates the panel */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .snosha-long-description__media-frame {
@@ -4686,6 +4740,17 @@ media-gallery.media-gallery--snosha {
       .snosha-long-description__media-frame {
         inline-size: calc(var(--snosha-ld-media-width-mobile, 160px) * 1.6);
       }
+    }
+
+    /* The mobile "behind the list" edge offset can be negative so the image bleeds off a phone
+       screen (Figma Cleaning modes: 83 px past the edge at 390). On tablets the page has a wide
+       gutter instead, so the image stops at the content edge rather than being cut by the screen. */
+    .snosha-long-description__panel--mobile-behind_end .snosha-long-description__media-frame {
+      margin-inline: auto max(var(--snosha-ld-media-offset-mobile, 0px), 0px);
+    }
+
+    .snosha-long-description__panel--mobile-behind_start .snosha-long-description__media-frame {
+      margin-inline: max(var(--snosha-ld-media-offset-mobile, 0px), 0px) auto;
     }
   }
 
@@ -4707,9 +4772,11 @@ media-gallery.media-gallery--snosha {
       transform: rotate(var(--snosha-ld-media-tilt, 0deg));
     }
 
-    /* Figma "Mode Image": drop shadow -14 24 44, rotates with the image */
+    /* Figma "Mode Image": drop shadow -14 24 44 that follows the product's outline (alpha), not the
+       frame's rectangle — a box-shadow outlined the transparent part of the PNG as a tilted
+       rectangle (LD-001). Rotates with the image. */
     .snosha-long-description__media-frame--shadow {
-      /* box-shadow: -14px 24px 44px 0 var(--snosha-ld-media-shadow, transparent); */
+      filter: drop-shadow(-14px 24px 44px var(--snosha-ld-media-shadow, transparent));
     }
 
     /* Figma "Water Image": 1.5 px dashed frame */
@@ -4741,6 +4808,12 @@ media-gallery.media-gallery--snosha {
     flex-direction: column;
     gap: var(--snosha-ld-item-gap-mobile, 12px);
     min-inline-size: 0;
+
+    /* Label and list take the group's full width (Figma Battery: 404 px rows, label on the text side);
+       the rows inside the list keep the group's alignment. */
+    > * {
+      align-self: stretch;
+    }
 
     > .snosha-long-description__list {
       align-items: inherit;
