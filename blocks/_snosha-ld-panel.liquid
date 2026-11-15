@@ -1,0 +1,476 @@
+{%- comment -%}
+  Long Description — Panel (private theme block of sections/snosha-long-description.liquid).
+  One content group: heading + body, an optional image (static child block _snosha-ld-media,
+  id "media") and an optional list (_snosha-ld-item blocks).
+  Layouts (≥ 990 px):
+    text  — heading + body only (Intro, Figma 190:10528)
+    three — copy | image | list columns (Sonic technology, Figma 190:10531)
+    two   — copy with the list under it | image (Box contents, Figma 190:10552)
+  Below 990 px the panel stacks: copy, then the image, then the list ("stacked", Figma 190:11241),
+  or copy above a row with the image beside the list ("beside", Figma 190:11264).
+  Column widths are Figma reference pixels; they become proportional (fr) columns, so the panel
+  keeps the Figma proportions at every desktop width without a fixed height.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign layout = bs.layout | default: 'three'
+
+  capture items_markup
+    content_for 'blocks'
+  endcapture
+  assign items_markup = items_markup | strip
+  assign has_items = false
+  if items_markup != blank and layout != 'text'
+    assign has_items = true
+  endif
+
+  assign has_media = false
+  if layout != 'text'
+    capture media_markup
+      content_for 'block', type: '_snosha-ld-media', id: 'media'
+    endcapture
+    assign media_markup = media_markup | strip
+    if media_markup != blank
+      assign has_media = true
+    endif
+  endif
+
+  assign heading = bs.heading | strip
+  assign subtitle = bs.subtitle | strip
+  assign body = bs.body | strip
+  assign note = bs.note | strip
+  assign list_label = bs.list_label | strip
+  assign heading_tag = 'h3'
+  if layout == 'text'
+    assign heading_tag = 'h2'
+  endif
+
+  assign copy_width = bs.copy_width | default: 420 | at_least: 1
+  assign media_width = bs.media_width | default: 412 | at_least: 1
+  assign list_width = bs.list_width | default: 466 | at_least: 1
+  if layout == 'three'
+    assign columns = 'minmax(0, ' | append: copy_width | append: 'fr) minmax(0, ' | append: media_width | append: 'fr) minmax(0, ' | append: list_width | append: 'fr)'
+  elsif layout == 'two'
+    assign columns = 'minmax(0, ' | append: copy_width | append: 'fr) minmax(0, ' | append: media_width | append: 'fr)'
+  else
+    assign columns = 'minmax(0, 1fr)'
+  endif
+
+  assign classes = 'snosha-long-description__panel snosha-long-description__panel--' | append: layout
+  if layout != 'text'
+    assign classes = classes | append: ' snosha-long-description__panel--' | append: bs.list_style | append: ' snosha-long-description__panel--mobile-' | append: bs.mobile_media
+  endif
+  unless has_media
+    assign classes = classes | append: ' snosha-long-description__panel--no-media'
+  endunless
+  unless has_items
+    assign classes = classes | append: ' snosha-long-description__panel--no-items'
+  endunless
+-%}
+<div
+  class="{{ classes }}"
+  style="
+    --snosha-ld-columns: {{ columns }};
+    --snosha-ld-align: {{ bs.vertical_align | default: 'start' }};
+    --snosha-ld-inset-start: {{ bs.inset_start }}px;
+    --snosha-ld-extra-top: {{ bs.extra_top }}px;
+    --snosha-ld-copy-offset: {{ bs.copy_offset }}px;
+    --snosha-ld-list-offset: {{ bs.list_offset }}px;
+    --snosha-ld-column-gap: {{ bs.column_gap }}px;
+    --snosha-ld-heading-gap: {{ bs.heading_gap }}px;
+    --snosha-ld-list-gap: {{ bs.list_gap }}px;
+    --snosha-ld-stack-gap-mobile: {{ bs.stack_gap_mobile }}px;
+    --snosha-ld-item-gap: {{ bs.item_gap }}px;
+    --snosha-ld-item-gap-mobile: {{ bs.item_gap_mobile }}px;
+    {%- if bs.body_max_width > 0 %} --snosha-ld-body-max-width: {{ bs.body_max_width }}px;{% endif %}
+    {%- if bs.item_max_width > 0 %} --snosha-ld-item-max-width: {{ bs.item_max_width }}px;{% endif %}
+    {%- if bs.body_line_height_mobile > 0 %} --snosha-ld-panel-body-line-height-mobile: {{ bs.body_line_height_mobile }}px;{% endif %}
+    {%- if bs.item_desc_color != blank %} --snosha-ld-panel-item-desc-color: {{ bs.item_desc_color }};{% endif %}
+    {%- if bs.item_desc_color_mobile != blank %} --snosha-ld-panel-item-desc-color-mobile: {{ bs.item_desc_color_mobile }};{% endif %}
+    {%- if bs.body_color != blank %} --snosha-ld-panel-body-color: {{ bs.body_color }};{% endif %}
+    {%- if bs.tile_border_color != blank %} --snosha-ld-panel-tile-border: {{ bs.tile_border_color }};{% endif %}
+    {%- if bs.copy_gap_mobile > 0 %} --snosha-ld-copy-gap-mobile: {{ bs.copy_gap_mobile }}px;{% endif %}
+    --snosha-ld-list-inset-end: {{ bs.list_inset_end | default: 18 }}px;
+    --snosha-ld-heading-trim: {{ bs.heading_trim | default: 0 }}px;
+    --snosha-ld-heading-trim-mobile: {{ bs.heading_trim_mobile | default: 0 }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if heading != blank or subtitle != blank or body != blank or note != blank -%}
+    <div class="snosha-long-description__copy">
+      {%- if heading != blank -%}
+        <{{ heading_tag }} class="snosha-long-description__heading">{{ heading }}</{{ heading_tag }}>
+      {%- endif -%}
+      {%- if subtitle != blank -%}
+        <p class="snosha-long-description__subtitle">{{ subtitle }}</p>
+      {%- endif -%}
+      {%- if body != blank -%}
+        <div class="snosha-long-description__body">{{ body }}</div>
+      {%- endif -%}
+      {%- if note != blank -%}
+        <p class="snosha-long-description__note">{{ note }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if has_media -%}
+    <div class="snosha-long-description__media">{{ media_markup }}</div>
+  {%- endif -%}
+
+  {%- if has_items -%}
+    {%- if list_label != blank -%}
+      <div class="snosha-long-description__list-group snosha-long-description__list-area">
+        <p class="snosha-long-description__list-label">{{ list_label }}</p>
+        <ul class="snosha-long-description__list" role="list">
+          {{- items_markup -}}
+        </ul>
+      </div>
+    {%- else -%}
+      <ul class="snosha-long-description__list snosha-long-description__list-area" role="list">
+        {{- items_markup -}}
+      </ul>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Panel",
+  "tag": null,
+  "blocks": [
+    { "type": "_snosha-ld-item" },
+    { "type": "_snosha-ld-indicator" }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "text", "label": "Text only" },
+        { "value": "three", "label": "Text | Image | List" },
+        { "value": "two", "label": "Text and list | Image" }
+      ],
+      "default": "three"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "info": "Optional line under the heading."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "note",
+      "label": "Note",
+      "info": "Optional emphasized line under the body."
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body color override",
+      "info": "Leave empty to use the section's body color.",
+      "alpha": true
+    },
+    {
+      "type": "header",
+      "content": "Desktop layout"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical alignment",
+      "options": [
+        { "value": "start", "label": "Top" },
+        { "value": "center", "label": "Middle" }
+      ],
+      "default": "start",
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "extra_top",
+      "label": "Extra space above",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "inset_start",
+      "label": "Inner padding on the text side",
+      "info": "Figma uses 20 px; the opposite side is always 20 px.",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "number",
+      "id": "copy_width",
+      "label": "Text column width",
+      "info": "Figma reference pixels at the 1336 px content width. Columns keep these proportions.",
+      "default": 420,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "number",
+      "id": "media_width",
+      "label": "Image column width",
+      "default": 412,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "number",
+      "id": "list_width",
+      "label": "List column width",
+      "default": 466,
+      "visible_if": "{{ block.settings.layout == 'three' }}"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Space between columns",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 17,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "copy_offset",
+      "label": "Text offset from the top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "list_offset",
+      "label": "List offset from the top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.layout == 'three' }}"
+    },
+    {
+      "type": "range",
+      "id": "list_inset_end",
+      "label": "List distance from the outer edge",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18,
+      "visible_if": "{{ block.settings.layout == 'three' }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Space below heading",
+      "info": "Also the space between the subtitle, body and note.",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_trim",
+      "label": "Pull content up below the heading",
+      "info": "Reduces the space right after the heading only.",
+      "min": -30,
+      "max": 0,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "body_max_width",
+      "label": "Body maximum width",
+      "info": "In pixels. Leave empty for the full column width.",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "list_gap",
+      "label": "Space between body and list",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 10,
+      "visible_if": "{{ block.settings.layout == 'two' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile and tablet layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_media",
+      "label": "Image position",
+      "options": [
+        { "value": "stacked", "label": "Between text and list" },
+        { "value": "beside_start", "label": "Beside the list (text side)" },
+        { "value": "beside_end", "label": "Beside the list (opposite side)" },
+        { "value": "behind_end", "label": "Behind the list (opposite side)" },
+        { "value": "behind_start", "label": "Behind the list (text side)" }
+      ],
+      "default": "stacked",
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "stack_gap_mobile",
+      "label": "Space between rows on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "copy_gap_mobile",
+      "label": "Space between heading, body and note on mobile",
+      "info": "0 uses the space between rows.",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_trim_mobile",
+      "label": "Pull content up below the heading on mobile",
+      "min": -30,
+      "max": 0,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "body_line_height_mobile",
+      "label": "Body line height on mobile",
+      "info": "0 uses the Typography block value.",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "List"
+    },
+    {
+      "type": "text",
+      "id": "list_label",
+      "label": "List label",
+      "info": "Optional small heading above the list.",
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "select",
+      "id": "list_style",
+      "label": "Icon tile style",
+      "info": "Large: 56 px tile (44 px on mobile). Large with smaller mobile icons: same tiles, 20 px icons on mobile. Medium: 48 px (44 px). Compact: 48 px (38 px, smaller mobile text).",
+      "options": [
+        { "value": "large", "label": "Large" },
+        { "value": "large_scaled", "label": "Large, smaller mobile icons" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "compact", "label": "Compact" }
+      ],
+      "default": "large",
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "number",
+      "id": "item_max_width",
+      "label": "Row maximum width",
+      "info": "In pixels, desktop only. Leave empty for the full column width.",
+      "default": 362,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "label": "Space between rows",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 64,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "range",
+      "id": "item_gap_mobile",
+      "label": "Space between rows on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "color",
+      "id": "item_desc_color",
+      "label": "Description color override",
+      "info": "Leave empty to use the section's list description color.",
+      "alpha": true,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "color",
+      "id": "item_desc_color_mobile",
+      "label": "Description color override on mobile",
+      "info": "Leave empty to use the color above.",
+      "alpha": true,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_border_color",
+      "label": "Tile border color override",
+      "info": "Leave empty to use the section's tile border color.",
+      "alpha": true,
+      "visible_if": "{{ block.settings.layout != 'text' }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Panel",
+      "settings": {
+        "layout": "three"
+      }
+    }
+  ]
+}
+{% endschema %}

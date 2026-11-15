@@ -3,7 +3,7 @@
   Colors come from CSS: stroke/fill use currentColor; optional accents use
   --snosha-icon-accent and light inner fills use --snosha-icon-fill.
 
-  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart | arrow_left | discount | check | check_24 | close | plus | chevron_down | document | wallet | cart | search
+  @param {string} icon - sonic | battery | sliders | brush_head | sparkle | truck | package | exchange | shield_check | tooth | sparkle_detail | timer | heart | arrow_left | discount | check | check_24 | close | plus | chevron_down | document | wallet | cart | search | brush_body | cable | stand | tooth_outline | leaf | diamond | waves | arrow_up | power
   @param {string} [uid] - unique suffix for gradient IDs (e.g. block.id)
   @param {string} [class] - extra class names
 
@@ -314,5 +314,58 @@
     <svg class="{{ classes }}" viewBox="0 0 18 18" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
       <path d="M2.25 3H3.75L5.55 11.25H13.8L15.3 6H5.25" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M7.875 14.25C7.875 14.8713 7.37132 15.375 6.75 15.375C6.12868 15.375 5.625 14.8713 5.625 14.25C5.625 13.6287 6.12868 13.125 6.75 13.125C7.37132 13.125 7.875 13.6287 7.875 14.25ZM13.875 14.25C13.875 14.8713 13.3713 15.375 12.75 15.375C12.1287 15.375 11.625 14.8713 11.625 14.25C11.625 13.6287 12.1287 13.125 12.75 13.125C13.3713 13.125 13.875 13.6287 13.875 14.25Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    {%- comment -%}
+      Long Description "Box Contents" icons (Figma 190:10557 / 190:10570 / 190:10575, 22 px; the same
+      drawings at 18 px on mobile: 190:11273 / 190:11292 / 190:11299). 22 px grid; the stroke stays
+      1.6 px at any rendered size, as in Figma. The faded detail uses Figma's 0.55 opacity.
+    {%- endcomment -%}
+  {%- when 'brush_body' -%}
+    <svg class="{{ classes }}" viewBox="0 0 22 22" width="22" height="22" fill="none" aria-hidden="true" focusable="false">
+      <path d="M11 2.29199C12.5188 2.29199 13.75 3.52321 13.75 5.04199V16.9587C13.75 18.4774 12.5188 19.7087 11 19.7087C9.48122 19.7087 8.25 18.4774 8.25 16.9587V5.04199C8.25 3.52321 9.48122 2.29199 11 2.29199ZM12.4667 7.33288C12.4667 8.1429 11.81 8.79954 11 8.79954C10.19 8.79954 9.53333 8.1429 9.53333 7.33288C9.53333 6.52286 10.19 5.86621 11 5.86621C11.81 5.86621 12.4667 6.52286 12.4667 7.33288Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      <path d="M11 11V12.375M11 14.2083V15.5833" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'cable' -%}
+    <svg class="{{ classes }}" viewBox="0 0 22 22" width="22" height="22" fill="none" aria-hidden="true" focusable="false">
+      <path d="M6.1875 8.25H15.8125C17.4578 8.25 18.7917 9.58382 18.7917 11.2292C18.7917 12.8745 17.4578 14.2083 15.8125 14.2083H6.1875C4.54215 14.2083 3.20833 12.8745 3.20833 11.2292C3.20833 9.58382 4.54215 8.25 6.1875 8.25Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      <path d="M7.33333 11.2295H14.6667" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'stand' -%}
+    <svg class="{{ classes }}" viewBox="0 0 22 22" width="22" height="22" fill="none" aria-hidden="true" focusable="false">
+      <path d="M9.16667 2.75H12.8333V12.8333H9.16667V2.75ZM6.41667 19.2503C6.41667 16.5003 7.79167 14.667 11 14.667C14.2083 14.667 15.5833 16.5003 15.5833 19.2503H6.41667Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+    {%- comment -%}
+      Long Description "Cleaning modes" icons (Figma 190:10587 Clean, 190:10592 Sensitive,
+      190:10602 Polish, 190:10609 Massage; 24 px, the same drawings at 20 px on mobile).
+      tooth_outline is Figma's Clean tooth: a different drawing from the filled 'tooth' above.
+    {%- endcomment -%}
+  {%- when 'tooth_outline' -%}
+    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M7 3.5C9 3.5 10 4.5 12 4.5C14 4.5 15 3.5 17 3.5C19.5 3.5 21 5.7 20 9.5C19.3 12.2 18.5 17.1 17 21C16.4 22.6 14.6 22.6 14 20.5C13.6 19 13 16 12 16C11 16 10.4 19 10 20.5C9.4 22.6 7.6 22.6 7 21C5.5 17.1 4.7 12.2 4 9.5C3 5.7 4.5 3.5 7 3.5Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'leaf' -%}
+    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M5 19C13 21 19 15 19 5C9 5 3 11 5 19ZM5 19C8 13 12 10 16 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'diamond' -%}
+    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M7 4H17L21 9L12 20L3 9L7 4ZM3 9H21M12 20L8.5 9L12 4L15.5 9L12 20Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'waves' -%}
+    <svg class="{{ classes }}" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M3 9C6 7 9 11 12 9C15 7 18 7 21 9M3 15C6 13 9 17 12 15C15 13 18 13 21 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+    {%- comment -%}
+      Long Description "Brush heads" / "Water & power" icons (Figma 190:10630 arrow-up, 190:10671 power).
+      Figma draws them on a 22 px grid in a 22 px box; the viewBox keeps that drawing size inside the
+      24 px box used by the neighbouring 24 px icons.
+    {%- endcomment -%}
+  {%- when 'arrow_up' -%}
+    <svg class="{{ classes }}" viewBox="-1 -1 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M11 17.4163V4.58301M5.5 10.083L11 4.58301L16.5 10.083" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  {%- when 'power' -%}
+    <svg class="{{ classes }}" viewBox="-1 -1 24 24" width="24" height="24" fill="none" aria-hidden="true" focusable="false">
+      <path d="M11 2.75V10.0833M5.775 5.95801C4.76065 6.98801 4.07336 8.29483 3.79948 9.71427C3.5256 11.1337 3.67736 12.6024 4.23568 13.9359C4.794 15.2693 5.73398 16.408 6.9375 17.2088C8.14102 18.0097 9.55439 18.4369 11 18.4369C12.4456 18.4369 13.859 18.0097 15.0625 17.2088C16.266 16.408 17.206 15.2693 17.7643 13.9359C18.3226 12.6024 18.4744 11.1337 18.2005 9.71427C17.9266 8.29483 17.2393 6.98801 16.225 5.95801" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
     </svg>
 {%- endcase -%}

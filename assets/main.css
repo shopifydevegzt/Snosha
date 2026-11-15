@@ -4231,3 +4231,733 @@ media-gallery.media-gallery--snosha {
     }
   }
 }
+
+/* ==========================================================================
+   Snosha — Long Description (product page)
+   Figma: desktop 190:10527 (1480 px), mobile 190:11237 (390 px).
+   Markup: sections/snosha-long-description.liquid → blocks/_snosha-ld-panel.liquid
+   (+ _snosha-ld-media, _snosha-ld-item, _snosha-ld-typography).
+   Variables come from the section, the Typography block and inline panel / image styles;
+   the fallbacks below are the Figma values.
+   Structure: < 990 px stacked (Figma mobile structure); ≥ 990 px columns.
+   Text sizes, tiles and icons switch at 750 px.
+   ========================================================================== */
+.snosha-long-description {
+  /* Figma mobile gutter: 20 px (the theme's page margin is 24 px at 390 px) */
+  --snosha-ld-gutter-mobile: 20px;
+  /* Figma desktop inner inset on the image / list side */
+  --snosha-ld-inset-end: 20px;
+  /* Three-column list: rows sit 18 px from the outer edge (Figma "Sonic Features" padding) */
+  --snosha-ld-list-inset-end: 18px;
+  /* Mobile: image ↔ list gap when the image sits beside the list (Figma "Media Row") */
+  --snosha-ld-beside-gap: 12px;
+
+  background: linear-gradient(
+    to bottom,
+    var(--snosha-ld-bg-start, transparent),
+    var(--snosha-ld-bg-end, transparent)
+  );
+  padding-block: var(--snosha-ld-padding-start-mobile, 40px)
+    var(--snosha-ld-padding-end-mobile, 64px);
+  color: var(--snosha-ld-body-color);
+  /* Local only: off-canvas or spilling decorative images never create page-level scrolling. */
+  overflow-x: clip;
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-ld-padding-start, 60px)
+      var(--snosha-ld-padding-end, 60px);
+  }
+
+  .snosha-long-description__panels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-ld-panel-gap-mobile, 48px);
+    min-inline-size: 0;
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-ld-panel-gap, 60px);
+    }
+  }
+
+  /* ---------- Panel: list styles (tile, icon, row geometry) ---------- */
+  .snosha-long-description__panel--large {
+    /* Figma Sonic: 56 px tile / 24 px icon, 16 px gap, text 4 px down; mobile 44 px tile, 12 px gap */
+    --snosha-ld-tile: 56px;
+    --snosha-ld-tile-mobile: 44px;
+    --snosha-ld-icon: 24px;
+    --snosha-ld-icon-mobile: 24px;
+    --snosha-ld-item-inner-gap: 16px;
+    --snosha-ld-item-inner-gap-mobile: 12px;
+    --snosha-ld-item-align: flex-start;
+    --snosha-ld-item-text-pad: 4px;
+    --snosha-ld-item-text-gap: 1px;
+    --snosha-ld-tile-shadow-offset: 0 8px 16px 0;
+  }
+
+  .snosha-long-description__panel--large_scaled {
+    /* Figma Cleaning modes: Large tiles, but the mode icons shrink to 20 px on mobile; title and
+       description 1 px tighter than Sonic */
+    --snosha-ld-tile: 56px;
+    --snosha-ld-tile-mobile: 44px;
+    --snosha-ld-icon: 24px;
+    --snosha-ld-icon-mobile: 20px;
+    --snosha-ld-item-inner-gap: 16px;
+    --snosha-ld-item-inner-gap-mobile: 12px;
+    --snosha-ld-item-align: flex-start;
+    --snosha-ld-item-text-pad: 4px;
+    --snosha-ld-item-text-gap: -1px;
+    --snosha-ld-tile-shadow-offset: 0 8px 16px 0;
+  }
+
+  .snosha-long-description__panel--medium {
+    /* 48 px tile (44 px on mobile), text top-aligned 1 px down */
+    --snosha-ld-tile: 48px;
+    --snosha-ld-tile-mobile: 44px;
+    --snosha-ld-icon: 24px;
+    --snosha-ld-icon-mobile: 24px;
+    --snosha-ld-item-inner-gap: 14px;
+    --snosha-ld-item-inner-gap-mobile: 12px;
+    --snosha-ld-item-align: flex-start;
+    --snosha-ld-item-text-pad: 1px;
+    --snosha-ld-item-text-gap: -1px;
+    --snosha-ld-tile-shadow-offset: 0 6px 14px 0;
+  }
+
+  .snosha-long-description__panel--compact {
+    /* Figma Box contents: 48 px tile / 22 px icon, centred text; mobile 38 px tile / 18 px icon, 8 px gap */
+    --snosha-ld-tile: 48px;
+    --snosha-ld-tile-mobile: 38px;
+    --snosha-ld-icon: 22px;
+    --snosha-ld-icon-mobile: 18px;
+    --snosha-ld-item-inner-gap: 14px;
+    --snosha-ld-item-inner-gap-mobile: 8px;
+    --snosha-ld-item-align: center;
+    --snosha-ld-item-text-pad: 0px;
+    --snosha-ld-item-text-gap: -1px;
+    --snosha-ld-tile-shadow-offset: 0 6px 14px 0;
+  }
+
+  /* ---------- Panel grid ---------- */
+  .snosha-long-description__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "media"
+      "list";
+    row-gap: var(--snosha-ld-stack-gap-mobile, 10px);
+    min-inline-size: 0;
+    padding-inline: var(--snosha-ld-gutter-mobile);
+
+    @media screen and (min-width: 750px) {
+      padding-inline: var(--snosha-ld-inset-start, 20px)
+        var(--snosha-ld-inset-end);
+      padding-block-start: var(--snosha-ld-extra-top, 0px);
+    }
+  }
+
+  /* Mobile and tablet structure (Figma mobile frames) */
+  @media screen and (max-width: 989px) {
+    .snosha-long-description__panel--no-media {
+      grid-template-areas:
+        "copy"
+        "list";
+    }
+
+    .snosha-long-description__panel--no-items {
+      grid-template-areas:
+        "copy"
+        "media";
+    }
+
+    .snosha-long-description__panel--text,
+    .snosha-long-description__panel--no-media.snosha-long-description__panel--no-items {
+      grid-template-areas: "copy";
+    }
+
+    /* Figma Box contents: text above a row with the image on the text side, the list beside it */
+    .snosha-long-description__panel--mobile-beside_start:not(
+      .snosha-long-description__panel--no-media,
+      .snosha-long-description__panel--no-items
+    ) {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas:
+        "copy copy"
+        "media list";
+      column-gap: var(--snosha-ld-beside-gap);
+      align-items: center;
+    }
+
+    .snosha-long-description__panel--mobile-beside_end:not(
+      .snosha-long-description__panel--no-media,
+      .snosha-long-description__panel--no-items
+    ) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "copy copy"
+        "list media";
+      column-gap: var(--snosha-ld-beside-gap);
+      align-items: center;
+    }
+  }
+
+  /* Desktop columns (Figma desktop frame) */
+  @media screen and (min-width: 990px) {
+    .snosha-long-description__panel {
+      grid-template-columns: var(--snosha-ld-columns, minmax(0, 1fr));
+      column-gap: var(--snosha-ld-column-gap, 0px);
+      row-gap: 0;
+      align-items: var(--snosha-ld-align, start);
+    }
+
+    .snosha-long-description__panel--three {
+      grid-template-areas: "copy media list";
+    }
+
+    .snosha-long-description__panel--two {
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "copy media"
+        "list media";
+      row-gap: var(--snosha-ld-list-gap, 10px);
+    }
+
+    .snosha-long-description__panel--text {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "copy";
+    }
+  }
+
+  /* ---------- Copy ---------- */
+  .snosha-long-description__copy {
+    grid-area: copy;
+    display: flex;
+    flex-direction: column;
+    gap: var(
+      --snosha-ld-copy-gap-mobile,
+      var(--snosha-ld-stack-gap-mobile, 10px)
+    );
+    min-inline-size: 0;
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-ld-heading-gap, 18px);
+    }
+
+    @media screen and (min-width: 990px) {
+      padding-block-start: var(--snosha-ld-copy-offset, 0px);
+    }
+  }
+
+  .snosha-long-description__heading {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--snosha-ld-heading-weight, 700);
+    font-size: var(--snosha-ld-heading-size-mobile, 21px);
+    line-height: var(--snosha-ld-heading-line-height, 52px);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--snosha-ld-heading-color);
+    /* Keeps the copy's own spacing (Figma "وصف  المنتج" has a double space). */
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    /* Optional pull-up of the next line (Figma Cleaning modes / Battery: clipped 52 px heading boxes) */
+    margin-block-end: var(--snosha-ld-heading-trim-mobile, 0px);
+
+    @media screen and (min-width: 750px) {
+      margin-block-end: var(--snosha-ld-heading-trim, 0px);
+      font-size: var(--snosha-ld-heading-size, 32px);
+    }
+  }
+
+  /* Figma Cleaning modes subtitle: SemiBold 24/40 (mobile Medium 16) */
+  .snosha-long-description__subtitle {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: var(--snosha-ld-subtitle-weight-mobile, 500);
+    font-size: var(--snosha-ld-subtitle-size-mobile, 16px);
+    line-height: var(--snosha-ld-subtitle-line-height-mobile, 24px);
+    letter-spacing: 0;
+    color: var(--snosha-ld-accent-text-color);
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-weight: var(--snosha-ld-subtitle-weight, 600);
+      font-size: var(--snosha-ld-subtitle-size, 24px);
+      line-height: var(--snosha-ld-subtitle-line-height, 40px);
+    }
+  }
+
+  /* Figma Battery note and "مؤشرات الإضاءة" label: SemiBold 14/24 (mobile 12/24) */
+  .snosha-long-description__note,
+  .snosha-long-description__list-label {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-weight: var(--snosha-ld-note-weight, 600);
+    font-size: var(--snosha-ld-note-size-mobile, 12px);
+    line-height: var(--snosha-ld-note-line-height, 24px);
+    letter-spacing: 0;
+    color: var(--snosha-ld-accent-text-color);
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-ld-note-size, 14px);
+    }
+  }
+
+  .snosha-long-description__body {
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight, 400);
+    font-size: var(--snosha-ld-body-size-mobile, 13.5px);
+    line-height: var(
+      --snosha-ld-panel-body-line-height-mobile,
+      var(--snosha-ld-body-line-height-mobile, 28px)
+    );
+    letter-spacing: 0;
+    color: var(--snosha-ld-panel-body-color, var(--snosha-ld-body-color));
+    overflow-wrap: break-word;
+
+    > * {
+      margin: 0;
+    }
+
+    > * + * {
+      margin-block-start: 0.75em;
+    }
+
+    @media screen and (min-width: 750px) {
+      max-inline-size: var(--snosha-ld-body-max-width, none);
+      font-size: var(--snosha-ld-body-size, 16px);
+      line-height: var(--snosha-ld-body-line-height, 28px);
+    }
+  }
+
+  /* Text-only panel (Figma Intro: 32/52 + 18/32; mobile 22/52 + 12/24) */
+  .snosha-long-description__panel--text {
+    .snosha-long-description__heading {
+      font-size: var(--snosha-ld-intro-heading-size-mobile, 22px);
+
+      @media screen and (min-width: 750px) {
+        font-size: var(--snosha-ld-heading-size, 32px);
+      }
+    }
+
+    .snosha-long-description__body {
+      font-size: var(--snosha-ld-intro-body-size-mobile, 12px);
+      line-height: var(
+        --snosha-ld-panel-body-line-height-mobile,
+        var(--snosha-ld-intro-body-line-height-mobile, 24px)
+      );
+
+      @media screen and (min-width: 750px) {
+        font-size: var(--snosha-ld-intro-body-size, 18px);
+        line-height: var(--snosha-ld-intro-body-line-height, 32px);
+      }
+    }
+  }
+
+  /* ---------- Image ---------- */
+  .snosha-long-description__media {
+    grid-area: media;
+    position: relative;
+    isolation: isolate;
+    min-inline-size: 0;
+  }
+
+  .snosha-long-description__media-frame {
+    position: relative;
+    overflow: hidden;
+    inline-size: var(--snosha-ld-media-width-mobile, 100%);
+    max-inline-size: 100%;
+    margin-inline: auto;
+    aspect-ratio: var(--snosha-ld-media-ratio-mobile, 1);
+    border-radius: var(--snosha-ld-media-radius-mobile, 16px);
+    transform: rotate(var(--snosha-ld-media-tilt-mobile, 0deg));
+
+    picture {
+      display: block;
+      block-size: 100%;
+    }
+
+    .snosha-long-description__image {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+      /* The image's focal point from Shopify Files (Admin → Content → Files → Edit) */
+      object-position: var(--snosha-ld-media-focal-mobile, center);
+
+      @media screen and (min-width: 990px) {
+        object-position: var(--snosha-ld-media-focal, center);
+      }
+    }
+  }
+
+  /* Decorative floor shadow (Figma "Brush Floor" 190:10584: 260 × 42 ellipse, blur 12, 26 px under
+     the image column, on its outer edge). Desktop only, as in Figma. */
+  .snosha-long-description__media-floor {
+    display: none;
+
+    @media screen and (min-width: 990px) {
+      position: absolute;
+      inset-block-start: calc(100% + 26px);
+      inset-inline-end: 0;
+      z-index: -1;
+      display: block;
+      inline-size: 69%;
+      block-size: 42px;
+      border-radius: 50%;
+      background: var(--snosha-ld-media-floor, transparent);
+      filter: blur(12px);
+      pointer-events: none;
+    }
+  }
+
+  .snosha-long-description__media-frame--contain
+    .snosha-long-description__image {
+    object-fit: contain;
+  }
+
+  /* Figma's Cleaning modes images are stretched to their frames; this reproduces that with the
+     Figma exports. Real photos should be prepared at the frame ratio and use "Fill (crop)". */
+  .snosha-long-description__media-frame--fill .snosha-long-description__image {
+    object-fit: fill;
+  }
+
+  @media screen and (max-width: 989px) {
+    .snosha-long-description__panel--mobile-beside_start,
+    .snosha-long-description__panel--mobile-beside_end {
+      .snosha-long-description__media-frame {
+        inline-size: var(--snosha-ld-media-width-mobile, 160px);
+      }
+    }
+
+    /* Figma Cleaning modes / Water & power: the image sits behind the rows on one side and may run
+       past the screen edge. It shares the list's grid area with zero height, so it never changes the
+       panel's height; the section clips it horizontally (overflow-x: clip), the rows stay on top. */
+    .snosha-long-description__panel--mobile-behind_end,
+    .snosha-long-description__panel--mobile-behind_start {
+      &:not(
+        .snosha-long-description__panel--no-media,
+        .snosha-long-description__panel--no-items
+      ) {
+        grid-template-areas:
+          "copy"
+          "list";
+
+        .snosha-long-description__media {
+          grid-area: list;
+          align-self: start;
+          z-index: 0;
+          block-size: 0;
+        }
+
+        .snosha-long-description__list-area {
+          position: relative;
+          z-index: 1;
+        }
+
+        .snosha-long-description__media-frame {
+          inline-size: var(--snosha-ld-media-width-mobile, 160px);
+          max-inline-size: none;
+          margin-block-start: var(--snosha-ld-media-top-mobile, 0px);
+        }
+      }
+    }
+
+    .snosha-long-description__panel--mobile-behind_end
+      .snosha-long-description__media-frame {
+      margin-inline: auto var(--snosha-ld-media-offset-mobile, 0px);
+    }
+
+    .snosha-long-description__panel--mobile-behind_start
+      .snosha-long-description__media-frame {
+      margin-inline: var(--snosha-ld-media-offset-mobile, 0px) auto;
+    }
+  }
+
+  /* Tablet (no Figma frame): mobile structure, image capped so it never dominates the panel */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .snosha-long-description__media-frame {
+      max-inline-size: min(100%, 560px);
+    }
+
+    .snosha-long-description__panel--mobile-beside_start,
+    .snosha-long-description__panel--mobile-beside_end {
+      .snosha-long-description__media-frame {
+        inline-size: calc(var(--snosha-ld-media-width-mobile, 160px) * 1.6);
+      }
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .snosha-long-description__media-frame {
+      inline-size: var(--snosha-ld-media-width, 100%);
+      max-inline-size: none;
+      /* Aligned to the outer edge, optionally inset from it (Figma Box image: 44 px). */
+      margin-inline: auto var(--snosha-ld-media-offset, 0px);
+      /* Spill above / below the panel without changing the panel's height (no fixed heights);
+         "Move down" starts the image lower (Figma Brush heads: 47 px). */
+      margin-block: calc(
+          var(--snosha-ld-media-push, 0px) -
+            var(--snosha-ld-media-spill-top, 0px)
+        )
+        calc(var(--snosha-ld-media-spill-bottom, 0px) * -1);
+      aspect-ratio: var(--snosha-ld-media-ratio, 1);
+      border-radius: var(--snosha-ld-media-radius, 24px);
+      transform: rotate(var(--snosha-ld-media-tilt, 0deg));
+    }
+
+    /* Figma "Mode Image": drop shadow -14 24 44, rotates with the image */
+    .snosha-long-description__media-frame--shadow {
+      /* box-shadow: -14px 24px 44px 0 var(--snosha-ld-media-shadow, transparent); */
+    }
+
+    /* Figma "Water Image": 1.5 px dashed frame */
+    .snosha-long-description__media-frame--border {
+      border: var(--snosha-ld-media-border, 0 none);
+    }
+  }
+
+  /* ---------- List ---------- */
+  .snosha-long-description__list {
+    grid-area: list;
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-ld-item-gap-mobile, 12px);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 990px) {
+      gap: var(--snosha-ld-item-gap, 64px);
+    }
+  }
+
+  /* List with a label above it (Figma Battery "Indicators": label + rows, same gap) */
+  .snosha-long-description__list-group {
+    grid-area: list;
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-ld-item-gap-mobile, 12px);
+    min-inline-size: 0;
+
+    > .snosha-long-description__list {
+      align-items: inherit;
+    }
+
+    @media screen and (min-width: 990px) {
+      gap: var(--snosha-ld-item-gap, 64px);
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    /* Three columns: rows on the outer edge of the list column (Figma "Sonic Features") */
+    .snosha-long-description__panel--three .snosha-long-description__list-area {
+      align-items: flex-end;
+      padding-block-start: var(--snosha-ld-list-offset, 0px);
+      padding-inline-end: var(--snosha-ld-list-inset-end);
+    }
+
+    /* Two columns: rows under the body, on the text side (Figma "Box Items") */
+    .snosha-long-description__panel--two .snosha-long-description__list-area {
+      align-items: flex-start;
+    }
+  }
+
+  .snosha-long-description__item {
+    display: flex;
+    align-items: center;
+    gap: var(--snosha-ld-item-inner-gap-mobile, 12px);
+    min-inline-size: 0;
+
+    @media screen and (min-width: 750px) {
+      align-items: var(--snosha-ld-item-align, center);
+      gap: var(--snosha-ld-item-inner-gap, 16px);
+    }
+
+    @media screen and (min-width: 990px) {
+      inline-size: 100%;
+      max-inline-size: var(--snosha-ld-item-max-width, none);
+    }
+  }
+
+  .snosha-long-description__tile {
+    /* The icon set reads these (snippets/snosha-icon.liquid). */
+    --snosha-icon-accent: var(--snosha-ld-icon-accent);
+    --snosha-icon-fill: var(--snosha-ld-tile-bg);
+
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: var(--snosha-ld-tile-mobile, 44px);
+    block-size: var(--snosha-ld-tile-mobile, 44px);
+    overflow: hidden;
+    border: 1px solid
+      var(--snosha-ld-panel-tile-border, var(--snosha-ld-tile-border));
+    border-radius: 50%;
+    background: var(--snosha-ld-tile-bg);
+    box-shadow: var(--snosha-ld-tile-shadow-offset, 0 8px 16px 0)
+      var(--snosha-ld-tile-shadow, transparent);
+    color: var(--snosha-ld-icon-color);
+
+    svg,
+    .snosha-long-description__icon-image {
+      display: block;
+      flex: none;
+      inline-size: var(--snosha-ld-icon-mobile, 24px);
+      block-size: auto;
+    }
+
+    /* Figma "Icon / brush-head" keeps its 24 × 7 drawing at every tile size. */
+    .snosha-icon--brush_head {
+      inline-size: 24px;
+    }
+
+    @media screen and (min-width: 750px) {
+      inline-size: var(--snosha-ld-tile, 56px);
+      block-size: var(--snosha-ld-tile, 56px);
+
+      svg,
+      .snosha-long-description__icon-image {
+        inline-size: var(--snosha-ld-icon, 24px);
+      }
+
+      .snosha-icon--brush_head {
+        inline-size: 24px;
+      }
+    }
+  }
+
+  .snosha-long-description__item-text {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 0;
+
+    @media screen and (min-width: 750px) {
+      gap: 0;
+      padding-block-start: var(--snosha-ld-item-text-pad, 0px);
+    }
+  }
+
+  .snosha-long-description__item-title {
+    font-family: var(--font-heading--family);
+    font-weight: var(--snosha-ld-item-title-weight, 700);
+    font-size: var(--snosha-ld-item-title-size-mobile, 14.5px);
+    line-height: var(--snosha-ld-item-title-line-height, 27px);
+    letter-spacing: 0;
+    color: var(--snosha-ld-item-title-color);
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-ld-item-title-size, 16px);
+    }
+  }
+
+  .snosha-long-description__item-desc {
+    font-family: var(--font-body--family);
+    font-weight: var(--font-body--weight, 400);
+    font-size: var(--snosha-ld-item-desc-size-mobile, 12px);
+    line-height: var(--snosha-ld-item-desc-line-height, 24px);
+    letter-spacing: 0;
+    color: var(
+      --snosha-ld-panel-item-desc-color-mobile,
+      var(--snosha-ld-panel-item-desc-color, var(--snosha-ld-item-desc-color))
+    );
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      margin-block-start: var(--snosha-ld-item-text-gap, 0px);
+      font-size: var(--snosha-ld-item-desc-size, 14px);
+      color: var(
+        --snosha-ld-panel-item-desc-color,
+        var(--snosha-ld-item-desc-color)
+      );
+    }
+  }
+
+  /* Compact list on mobile (Figma Box contents: 12.5 / 10.5 px beside the image) */
+  @media screen and (max-width: 749px) {
+    .snosha-long-description__panel--compact {
+      .snosha-long-description__item-title {
+        font-size: var(--snosha-ld-compact-title-size-mobile, 12.5px);
+      }
+
+      .snosha-long-description__item-desc {
+        font-size: var(--snosha-ld-compact-desc-size-mobile, 10.5px);
+      }
+    }
+  }
+
+  /* ---------- Indicator light rows (Figma Battery "LED Row" 190:10639) ---------- */
+  .snosha-long-description__item--indicator {
+    /* 52 px tile on every screen, 14 px to the text, rows centred (Figma desktop and mobile) */
+    --snosha-ld-tile: 52px;
+    --snosha-ld-tile-mobile: 52px;
+    --snosha-ld-item-inner-gap: 14px;
+    --snosha-ld-item-inner-gap-mobile: 14px;
+    --snosha-ld-tile-shadow-offset: 0 6px 14px 0;
+    --snosha-ld-item-align: center;
+
+    .snosha-long-description__item-text {
+      gap: 2px;
+      padding-block-start: 0;
+    }
+
+    .snosha-long-description__item-desc {
+      margin-block-start: 0;
+    }
+  }
+
+  .snosha-long-description__tile--indicator {
+    position: relative;
+
+    /* 15 px light with a glow in its own color (Figma: 1 px spread, 8 px blur, 55 %) */
+    .snosha-long-description__light {
+      display: block;
+      inline-size: 15px;
+      block-size: 15px;
+      border-radius: 50%;
+      background: var(--snosha-ld-light, currentcolor);
+      box-shadow: 0 0 8px 1px
+        color-mix(
+          in srgb,
+          var(--snosha-ld-light, currentcolor) 55%,
+          transparent
+        );
+    }
+
+    /* "Flashing" state: 27 px dashed ring around the light (Figma static ring image) */
+    .snosha-long-description__light-ring {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      inline-size: 27px;
+      block-size: 27px;
+      color: var(--snosha-ld-light, currentcolor);
+    }
+  }
+
+  /* Optional pulse (Theme Editor "Pulse animation", off by default; never with reduced motion) */
+  @media (prefers-reduced-motion: no-preference) {
+    .snosha-long-description__tile--pulse {
+      .snosha-long-description__light,
+      .snosha-long-description__light-ring {
+        animation: snosha-ld-light-pulse 1.2s ease-in-out infinite;
+      }
+    }
+  }
+}
+
+@keyframes snosha-ld-light-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}

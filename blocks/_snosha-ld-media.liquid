@@ -1,0 +1,311 @@
+{%- comment -%}
+  Long Description — Image (private static theme block of blocks/_snosha-ld-panel.liquid, id "media").
+  Desktop image + optional mobile/tablet image (< 990 px; falls back to the desktop image) in one
+  <picture>, so only one file is downloaded per breakpoint.
+  Ratios are "height as % of width" (empty = the image's own ratio). On desktop the image can be
+  narrower than its column, offset from the outer edge, and spill above / below the panel
+  (Figma "Box Image" 805 × 560 inside a 920 × 476 stage: 87.5 % wide, 44 px from the outer edge,
+  18 px above and 66 px below). The spill uses negative margins, never a fixed height.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign image = bs.image | default: bs.image_mobile
+  assign image_mobile = bs.image_mobile | default: image
+
+  if image != blank
+    assign alt = bs.image_alt | default: image.alt | strip_html | escape
+
+    if bs.ratio > 0
+      assign ratio = '100 / ' | append: bs.ratio
+    else
+      assign ratio = image.aspect_ratio
+    endif
+    if bs.ratio_mobile > 0
+      assign ratio_mobile = '100 / ' | append: bs.ratio_mobile
+    else
+      assign ratio_mobile = image_mobile.aspect_ratio
+    endif
+  endif
+-%}
+{%- if image != blank or request.design_mode -%}
+  {%- if bs.floor_shadow -%}
+    <span
+      class="snosha-long-description__media-floor"
+      style="--snosha-ld-media-floor: {{ bs.floor_color }};"
+      aria-hidden="true"
+    ></span>
+  {%- endif -%}
+  <div
+    class="snosha-long-description__media-frame snosha-long-description__media-frame--{{ bs.image_fit | default: 'cover' }}{% if bs.shadow %} snosha-long-description__media-frame--shadow{% endif %}{% if bs.border_style != 'none' %} snosha-long-description__media-frame--border{% endif %}"
+    style="
+      --snosha-ld-media-ratio: {{ ratio | default: '1' }};
+      --snosha-ld-media-ratio-mobile: {{ ratio_mobile | default: '1' }};
+      --snosha-ld-media-radius: {{ bs.radius }}px;
+      --snosha-ld-media-radius-mobile: {{ bs.radius_mobile }}px;
+      --snosha-ld-media-width: {{ bs.width }}%;
+      --snosha-ld-media-offset: {{ bs.offset }}px;
+      --snosha-ld-media-spill-top: {{ bs.spill_top }}px;
+      --snosha-ld-media-spill-bottom: {{ bs.spill_bottom }}px;
+      {%- if bs.width_mobile > 0 %} --snosha-ld-media-width-mobile: {{ bs.width_mobile }}px;{% endif %}
+      --snosha-ld-media-push: {{ bs.push_down | default: 0 }}px;
+      --snosha-ld-media-tilt: {{ bs.tilt | default: 0 }}deg;
+      --snosha-ld-media-tilt-mobile: {{ bs.tilt_mobile | default: 0 }}deg;
+      --snosha-ld-media-offset-mobile: {{ bs.offset_mobile | default: 0 }}px;
+      --snosha-ld-media-top-mobile: {{ bs.top_mobile | default: 0 }}px;
+      {%- if image != blank %}
+        --snosha-ld-media-focal: {{ image.presentation.focal_point | default: 'center' }};
+        --snosha-ld-media-focal-mobile: {{ image_mobile.presentation.focal_point | default: 'center' }};
+      {%- endif %}
+      {%- if bs.shadow %} --snosha-ld-media-shadow: {{ bs.shadow_color }};{% endif %}
+      {%- if bs.border_style != 'none' %}
+        --snosha-ld-media-border: {{ bs.border_width }}px {{ bs.border_style }} {{ bs.border_color }};
+      {%- endif %}
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- if image != blank -%}
+      <picture>
+        {%- if bs.image_mobile != blank -%}
+          <source
+            media="(max-width: 989px)"
+            srcset="{{ image_mobile | image_url: width: 400 }} 400w, {{ image_mobile | image_url: width: 600 }} 600w, {{ image_mobile | image_url: width: 800 }} 800w, {{ image_mobile | image_url: width: 1200 }} 1200w"
+            sizes="(min-width: 750px) 50vw, 100vw"
+            width="{{ image_mobile.width }}"
+            height="{{ image_mobile.height }}"
+          >
+        {%- endif -%}
+        {{
+          image
+          | image_url: width: 1840
+          | image_tag:
+            class: 'snosha-long-description__image',
+            alt: alt,
+            widths: '400, 600, 800, 1000, 1200, 1600, 1840',
+            sizes: '(min-width: 990px) 60vw, 100vw',
+            loading: 'lazy'
+        }}
+      </picture>
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'snosha-long-description__image snosha-long-description__image--placeholder' }}
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile and tablet image",
+      "info": "Below 990 px. Falls back to the image above."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Alt text",
+      "info": "Leave empty to use the image's own alt text from Files."
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Fit",
+      "options": [
+        { "value": "cover", "label": "Fill (crop)" },
+        { "value": "contain", "label": "Fit (no crop)" },
+        { "value": "fill", "label": "Stretch to the frame" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "number",
+      "id": "ratio",
+      "label": "Height (% of width)",
+      "info": "Leave empty to use the image's own ratio."
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "label": "Width (% of its column)",
+      "min": 50,
+      "max": 100,
+      "step": 0.5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "offset",
+      "label": "Distance from the outer edge",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "spill_top",
+      "label": "Extend above the panel",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "spill_bottom",
+      "label": "Extend below the panel",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "push_down",
+      "label": "Move down",
+      "info": "Starts the image lower in its column (the panel grows with it).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "tilt",
+      "label": "Tilt (degrees)",
+      "info": "Positive values turn clockwise. Leave empty for none."
+    },
+    {
+      "type": "checkbox",
+      "id": "shadow",
+      "label": "Drop shadow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Drop shadow color",
+      "alpha": true,
+      "default": "#051F4D4D",
+      "visible_if": "{{ block.settings.shadow }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "floor_shadow",
+      "label": "Floor shadow under the image",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "floor_color",
+      "label": "Floor shadow color",
+      "alpha": true,
+      "default": "#0D336621",
+      "visible_if": "{{ block.settings.floor_shadow }}"
+    },
+    {
+      "type": "select",
+      "id": "border_style",
+      "label": "Frame border",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "solid", "label": "Solid" },
+        { "value": "dashed", "label": "Dashed" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Frame border width",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1.5,
+      "visible_if": "{{ block.settings.border_style != 'none' }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Frame border color",
+      "alpha": true,
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ block.settings.border_style != 'none' }}"
+    },
+    {
+      "type": "header",
+      "content": "Mobile and tablet"
+    },
+    {
+      "type": "number",
+      "id": "ratio_mobile",
+      "label": "Height (% of width)",
+      "info": "Leave empty to use the image's own ratio."
+    },
+    {
+      "type": "range",
+      "id": "radius_mobile",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "number",
+      "id": "width_mobile",
+      "label": "Width on mobile (px)",
+      "info": "Leave empty for the full width (or 160 px when the image sits beside or behind the list)."
+    },
+    {
+      "type": "number",
+      "id": "tilt_mobile",
+      "label": "Tilt on mobile (degrees)",
+      "info": "Leave empty for none."
+    },
+    {
+      "type": "paragraph",
+      "content": "Image behind the list (panel setting): position it with the two values below."
+    },
+    {
+      "type": "number",
+      "id": "offset_mobile",
+      "label": "Distance from the edge (px)",
+      "info": "Negative values push the image past the edge of the screen; it is clipped there."
+    },
+    {
+      "type": "number",
+      "id": "top_mobile",
+      "label": "Distance from the top of the list (px)"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,433 @@
+{%- comment -%}
+  Long Description — Typography (private static theme block of sections/snosha-long-description.liquid,
+  id "typography"). Holds the text sizes, line heights and weights so the section stays under
+  Shopify's 40-setting advisory (Theme Check ExcessiveSettingsCount). It renders no visible markup:
+  only scoped CSS variables (--snosha-ld-*) consumed by assets/main.css (.snosha-long-description).
+  If this block is hidden, the CSS falls back to the Figma values.
+  Figma: headings Cairo Bold 32/52 (mobile 21/52; Intro 22/52); body 16/28 (mobile 13.5/28);
+  Intro body 18/32 (mobile 12/24); list title Bold 16/27 (mobile 14.5/27); list description
+  14/24 (mobile 12/24); compact list on mobile (Box contents) 12.5 / 10.5; subtitle SemiBold 24/40
+  (mobile Medium 16/24, Cleaning modes); note and list label SemiBold 14/24 (mobile 12/24, Battery).
+  Indicator rows use the list title / description sizes (identical in Figma).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-long-description {
+    --snosha-ld-heading-size: {{ bs.heading_size }}px;
+    --snosha-ld-heading-size-mobile: {{ bs.heading_size_mobile }}px;
+    --snosha-ld-intro-heading-size-mobile: {{ bs.intro_heading_size_mobile }}px;
+    --snosha-ld-heading-line-height: {{ bs.heading_line_height }}px;
+    --snosha-ld-heading-weight: {{ bs.heading_weight }};
+    --snosha-ld-body-size: {{ bs.body_size }}px;
+    --snosha-ld-body-size-mobile: {{ bs.body_size_mobile }}px;
+    --snosha-ld-body-line-height: {{ bs.body_line_height }}px;
+    --snosha-ld-body-line-height-mobile: {{ bs.body_line_height_mobile }}px;
+    --snosha-ld-intro-body-size: {{ bs.intro_body_size }}px;
+    --snosha-ld-intro-body-size-mobile: {{ bs.intro_body_size_mobile }}px;
+    --snosha-ld-intro-body-line-height: {{ bs.intro_body_line_height }}px;
+    --snosha-ld-intro-body-line-height-mobile: {{ bs.intro_body_line_height_mobile }}px;
+    --snosha-ld-item-title-size: {{ bs.item_title_size }}px;
+    --snosha-ld-item-title-size-mobile: {{ bs.item_title_size_mobile }}px;
+    --snosha-ld-item-title-line-height: {{ bs.item_title_line_height }}px;
+    --snosha-ld-item-title-weight: {{ bs.item_title_weight }};
+    --snosha-ld-item-desc-size: {{ bs.item_desc_size }}px;
+    --snosha-ld-item-desc-size-mobile: {{ bs.item_desc_size_mobile }}px;
+    --snosha-ld-item-desc-line-height: {{ bs.item_desc_line_height }}px;
+    --snosha-ld-compact-title-size-mobile: {{ bs.compact_title_size_mobile }}px;
+    --snosha-ld-compact-desc-size-mobile: {{ bs.compact_desc_size_mobile }}px;
+    --snosha-ld-subtitle-size: {{ bs.subtitle_size }}px;
+    --snosha-ld-subtitle-size-mobile: {{ bs.subtitle_size_mobile }}px;
+    --snosha-ld-subtitle-line-height: {{ bs.subtitle_line_height }}px;
+    --snosha-ld-subtitle-line-height-mobile: {{ bs.subtitle_line_height_mobile }}px;
+    --snosha-ld-subtitle-weight: {{ bs.subtitle_weight }};
+    --snosha-ld-subtitle-weight-mobile: {{ bs.subtitle_weight_mobile }};
+    --snosha-ld-note-size: {{ bs.note_size }}px;
+    --snosha-ld-note-size-mobile: {{ bs.note_size_mobile }}px;
+    --snosha-ld-note-line-height: {{ bs.note_line_height }}px;
+    --snosha-ld-note-weight: {{ bs.note_weight }};
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Typography",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Text sizes for every panel in this section. \"Mobile\" applies below 750 px."
+    },
+    {
+      "type": "header",
+      "content": "Headings"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Size",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Size on mobile",
+      "min": 14,
+      "max": 40,
+      "step": 0.5,
+      "unit": "px",
+      "default": 21
+    },
+    {
+      "type": "range",
+      "id": "intro_heading_size_mobile",
+      "label": "Text-only panel: size on mobile",
+      "min": 14,
+      "max": 40,
+      "step": 0.5,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Line height",
+      "min": 16,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "header",
+      "content": "Body text"
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "body_size_mobile",
+      "label": "Size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13.5
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "body_line_height_mobile",
+      "label": "Line height on mobile",
+      "info": "A panel can override this value.",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Text-only panel body (Intro)"
+    },
+    {
+      "type": "range",
+      "id": "intro_body_size",
+      "label": "Size",
+      "min": 10,
+      "max": 28,
+      "step": 0.5,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "intro_body_size_mobile",
+      "label": "Size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "intro_body_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "intro_body_line_height_mobile",
+      "label": "Line height on mobile",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "List titles"
+    },
+    {
+      "type": "range",
+      "id": "item_title_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_title_size_mobile",
+      "label": "Size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14.5
+    },
+    {
+      "type": "range",
+      "id": "item_title_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 27
+    },
+    {
+      "type": "select",
+      "id": "item_title_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "header",
+      "content": "List descriptions"
+    },
+    {
+      "type": "range",
+      "id": "item_desc_size",
+      "label": "Size",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "item_desc_size_mobile",
+      "label": "Size on mobile",
+      "min": 8,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "item_desc_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Compact list on mobile"
+    },
+    {
+      "type": "paragraph",
+      "content": "Used by panels whose list style is \"Compact\" (e.g. Box contents beside its image)."
+    },
+    {
+      "type": "range",
+      "id": "compact_title_size_mobile",
+      "label": "Title size on mobile",
+      "min": 8,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12.5
+    },
+    {
+      "type": "range",
+      "id": "compact_desc_size_mobile",
+      "label": "Description size on mobile",
+      "min": 8,
+      "max": 16,
+      "step": 0.5,
+      "unit": "px",
+      "default": 10.5
+    },
+    {
+      "type": "header",
+      "content": "Subtitles"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Size",
+      "min": 12,
+      "max": 40,
+      "step": 0.5,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Size on mobile",
+      "min": 10,
+      "max": 30,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtitle_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "subtitle_line_height_mobile",
+      "label": "Line height on mobile",
+      "min": 14,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight_mobile",
+      "label": "Weight on mobile",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "header",
+      "content": "Notes and list labels"
+    },
+    {
+      "type": "range",
+      "id": "note_size",
+      "label": "Size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "note_size_mobile",
+      "label": "Size on mobile",
+      "min": 8,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "note_line_height",
+      "label": "Line height",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "note_weight",
+      "label": "Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    }
+  ]
+}
+{% endschema %}

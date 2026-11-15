@@ -1,0 +1,90 @@
+{%- comment -%}
+  Long Description — Indicator light row (private theme block of blocks/_snosha-ld-panel.liquid).
+  Figma "LED Row" 190:10639 (desktop) / 190:11386 (mobile): 52 px white tile with a 15 px light
+  that glows in its own color, + title + description.
+  Styles:
+    glow — the light only (Figma "ثبات أحمر" / "ثبات أخضر": steady)
+    ring — the light + a dashed ring (Figma "وميض أحمر": flashing, drawn statically in Figma)
+  "Pulse" is an optional CSS animation, off by default, and never runs when the visitor prefers
+  reduced motion. No JavaScript. The meaning is always carried by the title text, not the color.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign title = bs.title | strip
+  assign description = bs.description | strip
+  assign light_style = bs.light_style | default: 'glow'
+-%}
+{%- if title != blank or description != blank or request.design_mode -%}
+  <li
+    class="snosha-long-description__item snosha-long-description__item--indicator"
+    style="--snosha-ld-light: {{ bs.light_color }};"
+    {{ block.shopify_attributes }}
+  >
+    <span
+      class="snosha-long-description__tile snosha-long-description__tile--indicator{% if bs.pulse %} snosha-long-description__tile--pulse{% endif %}"
+      aria-hidden="true"
+    >
+      {%- if light_style == 'ring' -%}
+        <svg class="snosha-long-description__light-ring" viewBox="0 0 27 27" width="27" height="27" fill="none" focusable="false">
+          <circle cx="13.5" cy="13.5" r="12.75" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="3.337 3.337"/>
+        </svg>
+      {%- endif -%}
+      <span class="snosha-long-description__light"></span>
+    </span>
+    <span class="snosha-long-description__item-text">
+      {%- if title != blank -%}
+        <span class="snosha-long-description__item-title">{{ title }}</span>
+      {%- endif -%}
+      {%- if description != blank -%}
+        <span class="snosha-long-description__item-desc">{{ description }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Indicator light",
+  "tag": null,
+  "settings": [
+    {
+      "type": "color",
+      "id": "light_color",
+      "label": "Light color",
+      "default": "#E5484D"
+    },
+    {
+      "type": "select",
+      "id": "light_style",
+      "label": "Style",
+      "options": [
+        { "value": "glow", "label": "Light with glow (steady)" },
+        { "value": "ring", "label": "Light with dashed ring (flashing)" }
+      ],
+      "default": "glow"
+    },
+    {
+      "type": "checkbox",
+      "id": "pulse",
+      "label": "Pulse animation",
+      "info": "Off in Figma. Never plays for visitors who prefer reduced motion.",
+      "default": false
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Indicator light"
+    }
+  ]
+}
+{% endschema %}

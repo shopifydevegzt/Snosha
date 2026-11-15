@@ -1,0 +1,92 @@
+{%- comment -%}
+  Long Description — List row (private theme block of blocks/_snosha-ld-panel.liquid).
+  Icon tile + title + optional description (Figma "Feature Item" 190:10537, "Box Item" 426:5068).
+  The icon comes from snippets/snosha-icon.liquid, or from an uploaded image. Tile size, gaps and
+  text sizes come from the panel's "Icon tile style" and the section's Typography block.
+  Renders nothing on the storefront when both title and description are empty.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign title = bs.title | strip
+  assign description = bs.description | strip
+-%}
+{%- if title != blank or description != blank or request.design_mode -%}
+  <li class="snosha-long-description__item" {{ block.shopify_attributes }}>
+    <span class="snosha-long-description__tile" aria-hidden="true">
+      {%- if bs.icon_image != blank -%}
+        {{- bs.icon_image | image_url: width: 72 | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'snosha-long-description__icon-image' -}}
+      {%- elsif bs.icon != 'none' -%}
+        {%- render 'snosha-icon', icon: bs.icon, uid: block.id -%}
+      {%- endif -%}
+    </span>
+    <span class="snosha-long-description__item-text">
+      {%- if title != blank -%}
+        <span class="snosha-long-description__item-title">{{ title }}</span>
+      {%- endif -%}
+      {%- if description != blank -%}
+        <span class="snosha-long-description__item-desc">{{ description }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "List row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "gauge", "label": "Vibration gauge" },
+        { "value": "drop", "label": "Drop" },
+        { "value": "sparkle_detail", "label": "Sparkle" },
+        { "value": "brush_body", "label": "Brush body" },
+        { "value": "brush_head", "label": "Brush head" },
+        { "value": "package", "label": "Package" },
+        { "value": "cable", "label": "Cable" },
+        { "value": "stand", "label": "Stand" },
+        { "value": "tooth", "label": "Tooth" },
+        { "value": "timer", "label": "Timer" },
+        { "value": "check", "label": "Check" },
+        { "value": "sonic", "label": "Sonic" },
+        { "value": "sliders", "label": "Modes" },
+        { "value": "battery", "label": "Battery" },
+        { "value": "shield_check", "label": "Shield" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "tooth_outline", "label": "Tooth (outline)" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "diamond", "label": "Diamond" },
+        { "value": "waves", "label": "Waves" },
+        { "value": "arrow_up", "label": "Arrow up" },
+        { "value": "power", "label": "Power" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "sparkle_detail"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon image",
+      "info": "Replaces the icon. Square, about 24 px."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
+  "presets": [
+    {
+      "name": "List row"
+    }
+  ]
+}
+{% endschema %}

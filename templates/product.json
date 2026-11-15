@@ -466,7 +466,9 @@
               "type": "snosha-complementary",
               "settings": {
                 "heading": "كمّل روتينك",
-                "products": ["snosha-tongue-cleaner"],
+                "products": [
+                  "snosha-tongue-cleaner"
+                ],
                 "max_products": 2,
                 "subtitle_source": "description",
                 "heading_color": "{{ settings.color_palette.color6 }}",
@@ -577,7 +579,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_aEtTtq"]
+                  "block_order": [
+                    "text_aEtTtq"
+                  ]
                 },
                 "row_suitable_for": {
                   "type": "_accordion-row",
@@ -616,7 +620,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_suitable_for"]
+                  "block_order": [
+                    "text_suitable_for"
+                  ]
                 },
                 "row_not_suitable_for": {
                   "type": "_accordion-row",
@@ -655,7 +661,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_not_suitable_for"]
+                  "block_order": [
+                    "text_not_suitable_for"
+                  ]
                 },
                 "row_shipping": {
                   "type": "_accordion-row",
@@ -694,7 +702,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_shipping"]
+                  "block_order": [
+                    "text_shipping"
+                  ]
                 },
                 "row_returns": {
                   "type": "_accordion-row",
@@ -733,7 +743,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_returns"]
+                  "block_order": [
+                    "text_returns"
+                  ]
                 },
                 "row_warranty": {
                   "type": "_accordion-row",
@@ -772,7 +784,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_warranty"]
+                  "block_order": [
+                    "text_warranty"
+                  ]
                 }
               },
               "block_order": [
@@ -812,6 +826,9 @@
         "snosha_buy_box": true,
         "snosha_details_width": 560,
         "snosha_column_gap": 64,
+        "snosha_show_breadcrumbs": true,
+        "snosha_breadcrumbs_home": "الرئيسية",
+        "snosha_breadcrumbs_label": "مسار التنقل",
         "snosha_text_color": "{{ settings.color_palette.foreground }}",
         "snosha_muted_color": "{{ settings.color_palette.color1 }}",
         "snosha_label_color": "{{ settings.color_palette.color6 }}",
@@ -1025,6 +1042,808 @@
         "custom_class": ""
       }
     },
+    "snosha_long_description": {
+      "type": "snosha-long-description",
+      "blocks": {
+        "intro": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "text",
+            "heading": "وصف  المنتج",
+            "subtitle": "",
+            "body": "<p>فرشاة أسنان Snosha N2 مصممة لتقدّم تجربة تنظيف احترافية داخل المنزل، بتقنية سونيك تجمع بين القوة والأمان على الأسنان واللثة. صُنعت الفرشاة طبقًا لمعايير السلامة الصينية المعتمدة GB4706.1-2005 وGB4706.59-2008 وGB39669-2020 — وهي تفاصيل تعكس جدية سنوشا في اختيار منتج آمن وموثوق لعملائها.</p>",
+            "note": "",
+            "body_color": "",
+            "vertical_align": "start",
+            "extra_top": 52,
+            "inset_start": 20,
+            "copy_width": 420,
+            "media_width": 412,
+            "list_width": 466,
+            "column_gap": 17,
+            "copy_offset": 0,
+            "list_offset": 0,
+            "list_inset_end": 18,
+            "heading_gap": 18,
+            "heading_trim": 0,
+            "body_max_width": 957,
+            "list_gap": 10,
+            "mobile_media": "stacked",
+            "stack_gap_mobile": 12,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": 0,
+            "body_line_height_mobile": 0,
+            "list_label": "",
+            "list_style": "large",
+            "item_max_width": 362,
+            "item_gap": 64,
+            "item_gap_mobile": 12,
+            "item_desc_color": "",
+            "item_desc_color_mobile": "",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image_alt": "",
+                "image_fit": "cover",
+                "radius": 24,
+                "width": 100,
+                "offset": 0,
+                "spill_top": 0,
+                "spill_bottom": 0,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "radius_mobile": 16
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": []
+        },
+        "sonic": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "three",
+            "heading": "التقنية المستخدمة — تنظيف سونيك",
+            "subtitle": "",
+            "body": "<p>تعمل N2 بتقنية الاهتزاز السونيك (Sonic) بمعدل يصل إلى 42,000 اهتزازة في الدقيقة. هذا المعدل العالي يحرّك اللعاب ومعجون الأسنان ليصلا إلى مناطق بين الأسنان يصعب على الفرشاة اليدوية الوصول إليها، فتحصل على تنظيف أعمق دون الحاجة للضغط بقوة.</p>",
+            "note": "",
+            "body_color": "",
+            "vertical_align": "start",
+            "extra_top": 0,
+            "inset_start": 24,
+            "copy_width": 420,
+            "media_width": 412,
+            "list_width": 466,
+            "column_gap": 17,
+            "copy_offset": 72,
+            "list_offset": 61,
+            "list_inset_end": 18,
+            "heading_gap": 18,
+            "heading_trim": 0,
+            "body_max_width": 400,
+            "list_gap": 10,
+            "mobile_media": "stacked",
+            "stack_gap_mobile": 10,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": 0,
+            "body_line_height_mobile": 24,
+            "list_label": "",
+            "list_style": "large",
+            "item_max_width": 362,
+            "item_gap": 64,
+            "item_gap_mobile": 12,
+            "item_desc_color": "",
+            "item_desc_color_mobile": "",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "sonic_rate": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "gauge",
+                "title": "42,000 اهتزازة/دقيقة",
+                "description": "معدل سونيك عالي وثابت"
+              },
+              "blocks": {}
+            },
+            "sonic_reach": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "drop",
+                "title": "يحرّك اللعاب والمعجون",
+                "description": "ليصلا بين الأسنان وأماكن يصعب الوصول لها"
+              },
+              "blocks": {}
+            },
+            "sonic_deep": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "sparkle_detail",
+                "title": "تنظيف أعمق بدون ضغط",
+                "description": "من غير أي جهد إضافي منك"
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/f1be9d766fd0f3b1c53a05f16b49e46f3f7ba497.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 98.3,
+                "radius": 24,
+                "width": 100,
+                "offset": 0,
+                "spill_top": 0,
+                "spill_bottom": 0,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 89.7,
+                "radius_mobile": 16
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "sonic_rate",
+            "sonic_reach",
+            "sonic_deep"
+          ]
+        },
+        "box": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "two",
+            "heading": "محتويات العبوة",
+            "subtitle": "",
+            "body": "<p>كل اللي محتاجه في علبة واحدة — جاهزة للاستخدام والسفر من أول يوم.</p>",
+            "note": "",
+            "body_color": "",
+            "vertical_align": "start",
+            "extra_top": 0,
+            "inset_start": 16,
+            "copy_width": 420,
+            "media_width": 920,
+            "list_width": 466,
+            "column_gap": 0,
+            "copy_offset": 8,
+            "list_offset": 0,
+            "list_inset_end": 18,
+            "heading_gap": 14,
+            "heading_trim": 0,
+            "body_max_width": 400,
+            "list_gap": 10,
+            "mobile_media": "beside_start",
+            "stack_gap_mobile": 10,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": 0,
+            "body_line_height_mobile": 0,
+            "list_label": "",
+            "list_style": "compact",
+            "item_max_width": 392,
+            "item_gap": 22,
+            "item_gap_mobile": 8,
+            "item_desc_color": "#0f64a8",
+            "item_desc_color_mobile": "",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "box_body": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "brush_body",
+                "title": "جسم الفرشاة × 1",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "box_heads": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "brush_head",
+                "title": "8 رؤوس فرشاة",
+                "description": "6 للتنظيف العميق + 2 للأسنان الحساسة"
+              },
+              "blocks": {}
+            },
+            "box_case": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "package",
+                "title": "حقيبة سفر × 1",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "box_cable": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "cable",
+                "title": "كابل شحن Type-C × 1",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "box_stand": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "stand",
+                "title": "حامل الفرشاة × 1",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/36ca2f3a97861d7a5e52eaad601f402e982e7c01_42387ac5-618d-47c5-9aba-44560bec88de.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 69.6,
+                "radius": 20,
+                "width": 87.5,
+                "offset": 44,
+                "spill_top": 18,
+                "spill_bottom": 66,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 136.9,
+                "radius_mobile": 16,
+                "width_mobile": 160
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "box_body",
+            "box_heads",
+            "box_case",
+            "box_cable",
+            "box_stand"
+          ]
+        },
+        "modes": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "three",
+            "heading": "5 أوضاع تنظيف",
+            "subtitle": "احتياجات مختلفة… فرشاة واحدة.",
+            "body": "<p>فرشاة SNOSHA N2 بتديك 5 أوضاع تختار منها الوضع المثالي لروتينك — من التنظيف اليومي لحد العناية باللثة.</p>",
+            "note": "",
+            "body_color": "#4c85b3e6",
+            "vertical_align": "start",
+            "extra_top": 0,
+            "inset_start": 20,
+            "copy_width": 411,
+            "media_width": 376.8,
+            "list_width": 548.2,
+            "column_gap": 0,
+            "copy_offset": 130,
+            "list_offset": 20,
+            "list_inset_end": 18,
+            "heading_gap": 18,
+            "heading_trim": -4,
+            "body_max_width": 360,
+            "list_gap": 10,
+            "mobile_media": "behind_end",
+            "stack_gap_mobile": 10,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": -17,
+            "body_line_height_mobile": 0,
+            "list_label": "",
+            "list_style": "large_scaled",
+            "item_max_width": 362,
+            "item_gap": 52,
+            "item_gap_mobile": 12,
+            "item_desc_color": "#4c85b3e6",
+            "item_desc_color_mobile": "",
+            "tile_border_color": "#efeded"
+          },
+          "blocks": {
+            "modes_clean": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "tooth_outline",
+                "title": "Clean",
+                "description": "للتنظيف اليومي"
+              },
+              "blocks": {}
+            },
+            "modes_sensitive": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "leaf",
+                "title": "Sensitive",
+                "description": "تنظيف ألطف للأسنان الحساسة"
+              },
+              "blocks": {}
+            },
+            "modes_white": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "sparkle_detail",
+                "title": "White",
+                "description": "يستهدف التصبغات السطحية"
+              },
+              "blocks": {}
+            },
+            "modes_polish": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "diamond",
+                "title": "Polish",
+                "description": "لإحساس أنعم ولمعان أوضح"
+              },
+              "blocks": {}
+            },
+            "modes_massage": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "waves",
+                "title": "Massage",
+                "description": "عناية لطيفة باللثة"
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/79592dc808b5b9dcd4928921de8c83f629e6a44d.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 306.7,
+                "radius": 0,
+                "width": 55,
+                "offset": 93,
+                "spill_top": 46,
+                "spill_bottom": 76,
+                "push_down": 0,
+                "tilt": 3,
+                "shadow": true,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": true,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 71.7,
+                "radius_mobile": 16,
+                "width_mobile": 382,
+                "offset_mobile": -103,
+                "top_mobile": 19.8
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "modes_clean",
+            "modes_sensitive",
+            "modes_white",
+            "modes_polish",
+            "modes_massage"
+          ]
+        },
+        "brush": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "two",
+            "heading": "رؤوس الفرشاة",
+            "subtitle": "",
+            "body": "<p>تأتي الفرشاة مع 8 رؤوس دوبونت: 6 رؤوس للتنظيف العميق اليومي، ورأسان مخصصان للأسنان الحساسة — مع مؤشر تلاشي لون يُنبّهك عند اقتراب موعد التغيير.</p>",
+            "note": "",
+            "body_color": "",
+            "vertical_align": "start",
+            "extra_top": 0,
+            "inset_start": 20,
+            "copy_width": 454,
+            "media_width": 882,
+            "list_width": 466,
+            "column_gap": 0,
+            "copy_offset": 22,
+            "list_offset": 0,
+            "list_inset_end": 18,
+            "heading_gap": 14,
+            "heading_trim": 0,
+            "body_max_width": 392,
+            "list_gap": 26,
+            "mobile_media": "stacked",
+            "stack_gap_mobile": 10,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": 0,
+            "body_line_height_mobile": 0,
+            "list_label": "",
+            "list_style": "medium",
+            "item_max_width": 392,
+            "item_gap": 20,
+            "item_gap_mobile": 10,
+            "item_desc_color": "",
+            "item_desc_color_mobile": "#71a1c5",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "brush_replace": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "timer",
+                "title": "استبدال كل 3 شهور",
+                "description": "مؤشر تلاشي اللون ينبّهك تلقائيًا"
+              },
+              "blocks": {}
+            },
+            "brush_fit": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "check",
+                "title": "تركيب بسيط",
+                "description": "ضع الرأس موازيًا لزر التشغيل واضغط بلطف حتى يثبت"
+              },
+              "blocks": {}
+            },
+            "brush_gap": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "sonic",
+                "title": "الفجوة الطفيفة طبيعية",
+                "description": "مقصودة للسماح بالاهتزاز أثناء الاستخدام"
+              },
+              "blocks": {}
+            },
+            "brush_remove": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "arrow_up",
+                "title": "للإزالة",
+                "description": "اسحب الرأس للأعلى برفق"
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/4357625d82ffb6d884326ba3646a01f0d90a5a96.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 69.6,
+                "radius": 20,
+                "width": 72.5,
+                "offset": 30,
+                "spill_top": 0,
+                "spill_bottom": 16,
+                "push_down": 47,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 56.9,
+                "radius_mobile": 16,
+                "width_mobile": 246
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "brush_replace",
+            "brush_fit",
+            "brush_gap",
+            "brush_remove"
+          ]
+        },
+        "battery": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "three",
+            "heading": "البطارية والشحن",
+            "subtitle": "",
+            "body": "<p>تعمل الفرشاة ببطارية ليثيوم 18650 سعة 1200 مللي أمبير، تدوم حتى 120 يومًا من الاستخدام اليومي بشحنة واحدة كاملة. الشحن عبر منفذ Type-C ويستغرق من ساعتين إلى 3 ساعات فقط — من الشاحن أو بنك الطاقة أو أي منفذ USB.</p>",
+            "note": "يُنصح بفصل الجهاز عن الشاحن بعد اكتمال الشحن، والتأكد من شحنه بالكامل قبل أول استخدام.",
+            "body_color": "",
+            "vertical_align": "center",
+            "extra_top": 0,
+            "inset_start": 20,
+            "copy_width": 404,
+            "media_width": 400,
+            "list_width": 404,
+            "column_gap": 64,
+            "copy_offset": 0,
+            "list_offset": 0,
+            "list_inset_end": 0,
+            "heading_gap": 16,
+            "heading_trim": 0,
+            "body_max_width": 404,
+            "list_gap": 10,
+            "mobile_media": "stacked",
+            "stack_gap_mobile": 14,
+            "copy_gap_mobile": 10,
+            "heading_trim_mobile": -6,
+            "body_line_height_mobile": 0,
+            "list_label": "مؤشرات الإضاءة",
+            "list_style": "medium",
+            "item_max_width": 404,
+            "item_gap": 18,
+            "item_gap_mobile": 10,
+            "item_desc_color": "",
+            "item_desc_color_mobile": "",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "battery_low": {
+              "type": "_snosha-ld-indicator",
+              "settings": {
+                "light_color": "#e5484d",
+                "light_style": "ring",
+                "pulse": false,
+                "title": "وميض أحمر",
+                "description": "بطارية منخفضة — وقت الشحن"
+              },
+              "blocks": {}
+            },
+            "battery_charging": {
+              "type": "_snosha-ld-indicator",
+              "settings": {
+                "light_color": "#e5484d",
+                "light_style": "glow",
+                "pulse": false,
+                "title": "ثبات أحمر",
+                "description": "جاري الشحن الآن"
+              },
+              "blocks": {}
+            },
+            "battery_full": {
+              "type": "_snosha-ld-indicator",
+              "settings": {
+                "light_color": "#22c55e",
+                "light_style": "glow",
+                "pulse": false,
+                "title": "ثبات أخضر",
+                "description": "اكتمل الشحن بالكامل"
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/28678a5d2c0c4b0d92e5308ee978ad25fb18c97d.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 136.5,
+                "radius": 24,
+                "width": 100,
+                "offset": 0,
+                "spill_top": 0,
+                "spill_bottom": 0,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 52.9,
+                "radius_mobile": 24
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "battery_low",
+            "battery_charging",
+            "battery_full"
+          ]
+        },
+        "water": {
+          "type": "_snosha-ld-panel",
+          "settings": {
+            "layout": "two",
+            "heading": "مقاومة الماء وزر التشغيل",
+            "subtitle": "",
+            "body": "<p>تحمل N2 تصنيف مقاومة ماء IPX7، ما يجعلها آمنة تمامًا للاستخدام والشطف داخل الحمام — وزر واحد بسيط يتحكم في كل شيء.</p>",
+            "note": "",
+            "body_color": "",
+            "vertical_align": "start",
+            "extra_top": 0,
+            "inset_start": 20,
+            "copy_width": 454,
+            "media_width": 882,
+            "list_width": 466,
+            "column_gap": 0,
+            "copy_offset": 0,
+            "list_offset": 0,
+            "list_inset_end": 18,
+            "heading_gap": 18,
+            "heading_trim": 0,
+            "body_max_width": 400,
+            "list_gap": 26,
+            "mobile_media": "behind_end",
+            "stack_gap_mobile": 10,
+            "copy_gap_mobile": 0,
+            "heading_trim_mobile": 0,
+            "body_line_height_mobile": 0,
+            "list_label": "",
+            "list_style": "medium",
+            "item_max_width": 392,
+            "item_gap": 20,
+            "item_gap_mobile": 12,
+            "item_desc_color": "",
+            "item_desc_color_mobile": "",
+            "tile_border_color": ""
+          },
+          "blocks": {
+            "water_ipx7": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "drop",
+                "title": "IPX7 مقاومة للماء",
+                "description": "اشطفها تحت الماء الجاري بأمان تام"
+              },
+              "blocks": {}
+            },
+            "water_press": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "power",
+                "title": "ضغطة واحدة",
+                "description": "لتشغيل الفرشاة"
+              },
+              "blocks": {}
+            },
+            "water_hold": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "timer",
+                "title": "ضغطة مطوّلة (3 ثوانٍ)",
+                "description": "لإيقاف التشغيل"
+              },
+              "blocks": {}
+            },
+            "water_modes": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "sliders",
+                "title": "ضغطة أثناء التشغيل",
+                "description": "للتنقل بين الأوضاع الخمسة"
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/de9237c50070bae3bf8585717e417b62c48bb318.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 124.4,
+                "radius": 24,
+                "width": 61,
+                "offset": 100,
+                "spill_top": 68,
+                "spill_bottom": 36,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "dashed",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 161.9,
+                "radius_mobile": 16,
+                "width_mobile": 168,
+                "tilt_mobile": 5.2,
+                "offset_mobile": 16.4,
+                "top_mobile": -1.2
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "water_ipx7",
+            "water_press",
+            "water_hold",
+            "water_modes"
+          ]
+        },
+        "typography": {
+          "type": "_snosha-ld-typography",
+          "static": true,
+          "settings": {
+            "heading_size": 32,
+            "heading_size_mobile": 21,
+            "intro_heading_size_mobile": 22,
+            "heading_line_height": 52,
+            "heading_weight": "700",
+            "body_size": 16,
+            "body_size_mobile": 13.5,
+            "body_line_height": 28,
+            "body_line_height_mobile": 28,
+            "intro_body_size": 18,
+            "intro_body_size_mobile": 12,
+            "intro_body_line_height": 32,
+            "intro_body_line_height_mobile": 24,
+            "item_title_size": 16,
+            "item_title_size_mobile": 14.5,
+            "item_title_line_height": 27,
+            "item_title_weight": "700",
+            "item_desc_size": 14,
+            "item_desc_size_mobile": 12,
+            "item_desc_line_height": 24,
+            "compact_title_size_mobile": 12.5,
+            "compact_desc_size_mobile": 10.5,
+            "subtitle_size": 24,
+            "subtitle_size_mobile": 16,
+            "subtitle_line_height": 40,
+            "subtitle_line_height_mobile": 24,
+            "subtitle_weight": "600",
+            "subtitle_weight_mobile": "500",
+            "note_size": 14,
+            "note_size_mobile": 12,
+            "note_line_height": 24,
+            "note_weight": "600"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "intro",
+        "sonic",
+        "box",
+        "modes",
+        "brush",
+        "battery",
+        "water"
+      ],
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 64,
+        "panel_gap": 60,
+        "panel_gap_mobile": 48,
+        "background_start": "#ffffff",
+        "background_end": "{{ settings.color_palette.color2 }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "accent_text_color": "{{ settings.color_palette.color6 }}",
+        "body_color": "#4c85b3",
+        "item_title_color": "{{ settings.color_palette.color6 }}",
+        "item_desc_color": "#4c85b3",
+        "icon_color": "{{ settings.color_palette.color3 }}",
+        "icon_accent_color": "{{ settings.color_palette.color4 }}",
+        "tile_color": "#ffffff",
+        "tile_border_color": "{{ settings.color_palette.color2 }}",
+        "tile_shadow_color": "#0d408014",
+        "custom_class": ""
+      }
+    },
     "snosha_how_to_use_UGazpy": {
       "type": "snosha-how-to-use",
       "blocks": {
@@ -1135,7 +1954,7 @@
         "background": "{{ settings.color_palette.background }}",
         "panel_background": "{{ settings.color_palette.color5 }}",
         "panel_border": "{{ settings.color_palette.color2 }}",
-        "panel_shadow": "#0D40800F",
+        "panel_shadow": "#0d40800f",
         "panel_radius": 16,
         "panel_padding": 24,
         "panel_padding_mobile": 14,
@@ -1145,8 +1964,8 @@
         "step_size": 16,
         "step_size_mobile": 12.5,
         "step_line_height": 28,
-        "badge_start": "#63CDFF",
-        "badge_end": "#0F64A8",
+        "badge_start": "#63cdff",
+        "badge_end": "#0f64a8",
         "badge_text_color": "{{ settings.color_palette.background }}",
         "badge_size": 30,
         "badge_font_size": 14,
@@ -1253,7 +2072,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["snosha_storage_item_Gf3rTQ"]
+          "block_order": [
+            "snosha_storage_item_Gf3rTQ"
+          ]
         },
         "snosha_storage_tab_M7KaMq": {
           "type": "_snosha-storage-tab",
@@ -1272,7 +2093,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["snosha_storage_item_ecyQ68"]
+          "block_order": [
+            "snosha_storage_item_ecyQ68"
+          ]
         },
         "tab_style": {
           "type": "_snosha-storage-tab-style",
@@ -1292,10 +2115,10 @@
             "tab_background": "{{ settings.color_palette.background }}",
             "tab_text": "{{ settings.color_palette.color3 }}",
             "tab_border": "{{ settings.color_palette.color2 }}",
-            "tab_active_start": "#63CDFF",
-            "tab_active_end": "#0F64A8",
+            "tab_active_start": "#63cdff",
+            "tab_active_end": "#0f64a8",
             "tab_active_text": "{{ settings.color_palette.background }}",
-            "tab_active_shadow": "#0F64A84D"
+            "tab_active_shadow": "#0f64a84d"
           },
           "blocks": {}
         }
@@ -1318,7 +2141,7 @@
         "empty_message": "سيتم إضافة المحتوى قريبًا",
         "card_background": "{{ settings.color_palette.background }}",
         "card_border": "{{ settings.color_palette.color2 }}",
-        "card_shadow": "#0D40800F",
+        "card_shadow": "#0d40800f",
         "card_radius": 16,
         "card_padding": 28,
         "card_padding_mobile": 14,
@@ -1330,7 +2153,7 @@
         "text_size_mobile": 13,
         "line_height": 28,
         "show_marker": true,
-        "marker_color": "#63CDFF",
+        "marker_color": "#63cdff",
         "marker_size": 26,
         "padding_top": 60,
         "padding_bottom": 60,
@@ -1343,6 +2166,7 @@
   "order": [
     "main",
     "snosha_product_comparison_QWa4Cb",
+    "snosha_long_description",
     "snosha_how_to_use_UGazpy",
     "snosha_storage_care_KBtGfB"
   ]
