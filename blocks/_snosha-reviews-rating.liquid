@@ -1,0 +1,330 @@
+{%- comment -%}
+  Reviews — Rating summary (private static theme block of sections/snosha-reviews-screenshots.liquid,
+  id "rating"). Figma 190:10783 (desktop) / 190:11552 (mobile).
+  The rating is a MANUAL Theme Editor value (0–5, step 0.1); it is not read from any review app and
+  not computed from the screenshots. The number and the stars both come from that one setting.
+  - Number: "<rating> / 5"; format "one decimal" (4.8, 5.0) or "trim .0" (4.8, 5). Isolated as LTR.
+  - Stars: 5 inline SVGs (Figma "Icon / star" 190:2839 path). Star i is filled
+    clamp(rating − (i − 1), 0, 1) × 100 %: an empty star + a filled star in a clipping box of that
+    width anchored at the inline start, so 4.8 = 4 full + 80 % of the 5th, from the right in RTL.
+    No masks / IDs needed.
+  - Review count: optional number; blank = "not set" (shows "—" or hides, per setting), 0 is shown as 0.
+    Text template with [count]. Never derived from the screenshot blocks.
+  - Accessibility: one visually hidden sentence ("[rating]" template); stars and number are aria-hidden.
+  Styles: assets/dev1.css (.snosha-reviews__rating); values are the inline variables below.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign rating = bs.rating | default: 0 | at_least: 0 | at_most: 5
+  assign rating_text = rating | round: 1 | append: ''
+  if bs.rating_format == 'trim'
+    if rating_text contains '.0'
+      assign rating_text = rating_text | remove: '.0'
+    endif
+  else
+    unless rating_text contains '.'
+      assign rating_text = rating_text | append: '.0'
+    endunless
+  endif
+
+  assign rating_label = bs.rating_label | default: '[rating] / 5' | replace: '[rating]', rating_text | strip
+
+  assign show_count = bs.show_count
+  assign count_value = ''
+  if bs.review_count == blank
+    if bs.count_unset == 'hide'
+      assign show_count = false
+    else
+      assign count_value = '—'
+    endif
+  else
+    assign count_value = bs.review_count | at_least: 0 | round
+  endif
+  assign count_text = bs.count_text | replace: '[count]', count_value | strip
+  if count_text == blank
+    assign show_count = false
+  endif
+-%}
+<div
+  class="snosha-reviews__rating"
+  style="
+    --snosha-rating-bg: {{ bs.pill_background }};
+    --snosha-rating-border: {{ bs.pill_border }};
+    --snosha-rating-radius: {{ bs.pill_radius }}px;
+    --snosha-rating-shadow: {{ bs.pill_shadow }};
+    --snosha-rating-star: {{ bs.star_color }};
+    --snosha-rating-star-empty: {{ bs.star_empty_color }};
+    --snosha-rating-star-size: {{ bs.star_size }}px;
+    --snosha-rating-star-size-mobile: {{ bs.star_size_mobile }}px;
+    --snosha-rating-star-gap: {{ bs.star_gap }}px;
+    --snosha-rating-star-gap-mobile: {{ bs.star_gap_mobile }}px;
+    --snosha-rating-color: {{ bs.rating_color }};
+    --snosha-rating-size: {{ bs.rating_size }}px;
+    --snosha-rating-size-mobile: {{ bs.rating_size_mobile }}px;
+    --snosha-rating-count-color: {{ bs.count_color }};
+    --snosha-rating-count-size: {{ bs.count_size }}px;
+    --snosha-rating-count-size-mobile: {{ bs.count_size_mobile }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  <span class="visually-hidden">{{ rating_label }}</span>
+
+  {%- if bs.show_rating -%}
+    <span class="snosha-reviews__rating-value" dir="ltr" aria-hidden="true">{{ rating_text }} / 5</span>
+  {%- endif -%}
+
+  {%- if bs.show_stars -%}
+    <span class="snosha-reviews__stars" aria-hidden="true">
+      {%- for i in (1..5) -%}
+        {%- assign fill = rating | minus: forloop.index0 | times: 100 | at_least: 0 | at_most: 100 | round -%}
+        <span class="snosha-reviews__star">
+          <svg class="snosha-reviews__star-svg snosha-reviews__star-svg--empty" viewBox="0 0 24 24" width="24" height="24" focusable="false">
+            <path d="M12 3L14.7 8.6L20.8 9.5L16.4 13.8L17.4 19.9L12 17L6.6 19.9L7.6 13.8L3.2 9.5L9.3 8.6L12 3Z" fill="currentColor"/>
+          </svg>
+          {%- if fill > 0 -%}
+            <span class="snosha-reviews__star-fill" style="inline-size: {{ fill }}%;">
+              <svg class="snosha-reviews__star-svg" viewBox="0 0 24 24" width="24" height="24" focusable="false">
+                <path d="M12 3L14.7 8.6L20.8 9.5L16.4 13.8L17.4 19.9L12 17L6.6 19.9L7.6 13.8L3.2 9.5L9.3 8.6L12 3Z" fill="currentColor"/>
+              </svg>
+            </span>
+          {%- endif -%}
+        </span>
+      {%- endfor -%}
+    </span>
+  {%- endif -%}
+
+  {%- if show_count -%}
+    <span class="snosha-reviews__count">{{ count_text }}</span>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Rating summary",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Set manually. The rating and the number of reviews are not read from a review app or from the screenshots."
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Rating out of 5",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "default": 4.8
+    },
+    {
+      "type": "select",
+      "id": "rating_format",
+      "label": "Number format",
+      "options": [
+        { "value": "one_decimal", "label": "Always one decimal (5.0)" },
+        { "value": "trim", "label": "Hide .0 (5)" }
+      ],
+      "default": "one_decimal"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Screen reader text",
+      "info": "Read instead of the stars and number. [rating] is replaced by the rating."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating number",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stars",
+      "label": "Show stars",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Number of reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show number of reviews",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "Number of reviews",
+      "info": "Leave blank if unknown. 0 is shown as 0.",
+      "visible_if": "{{ block.settings.show_count }}"
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Review count text",
+      "info": "[count] is replaced by the number of reviews.",
+      "visible_if": "{{ block.settings.show_count }}"
+    },
+    {
+      "type": "select",
+      "id": "count_unset",
+      "label": "When the number is blank",
+      "options": [
+        { "value": "dash", "label": "Show — (as in the design)" },
+        { "value": "hide", "label": "Hide the text" }
+      ],
+      "default": "dash",
+      "visible_if": "{{ block.settings.show_count }}"
+    },
+    {
+      "type": "header",
+      "content": "Stars"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Filled star",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "star_size_mobile",
+      "label": "Star size on mobile",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Space between stars",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "star_gap_mobile",
+      "label": "Space between stars on mobile",
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "color",
+      "id": "rating_color",
+      "label": "Rating number",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "range",
+      "id": "rating_size",
+      "label": "Rating number size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "rating_size_mobile",
+      "label": "Rating number size on mobile",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "count_color",
+      "label": "Review count",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "range",
+      "id": "count_size",
+      "label": "Review count size",
+      "min": 8,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "count_size_mobile",
+      "label": "Review count size on mobile",
+      "min": 8,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 9.5
+    },
+    {
+      "type": "header",
+      "content": "Pill"
+    },
+    {
+      "type": "color",
+      "id": "pill_background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "pill_border",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "range",
+      "id": "pill_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "pill_shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#0D40801F"
+    }
+  ]
+}
+{% endschema %}

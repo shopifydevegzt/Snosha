@@ -1,0 +1,562 @@
+{%- comment -%}
+  Snosha — Reviews screenshots (product page S08; Figma 190:10779 desktop, 190:11550 mobile).
+  Heading → rating pill (static block _snosha-reviews-rating, id "rating") → screenshot carousel →
+  progress bar.
+  Carousel = Horizon's native slideshow (snippets/slideshow.liquid + slideshow-slide.liquid,
+  <slideshow-component> in assets/slideshow.js): scroll-snap, swipe / drag, RTL, Theme Editor block
+  selection. Each _snosha-review-screenshot block outputs one card followed by <!--snosha-review-end-->;
+  the cards are split here and wrapped in slideshow-slide in block order (first = inline start).
+  Arrows: Figma-styled buttons passed as `slideshow_arrows`, wired to the native component
+  (ref="previous" / "next" → disabled at the ends; on:click="slideshow-component/previous|next").
+  Progress: the shared Snosha carousel progress (same model, variables, keyframes and scroll-timeline
+  as the homepage carousels; assets/dev1.css "SNOSHA — CAROUSEL PROGRESS"), here as the interactive
+  <snosha-carousel-progress> from assets/snosha-carousel-progress.js, rendered in the slideshow's
+  `controls` slot: click / tap / drag / arrow keys / Home / End to navigate.
+  No other JS. Styles: assets/dev1.css (.snosha-reviews); per-instance values via {% style %} below.
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+
+  capture cards_markup
+    content_for 'blocks'
+  endcapture
+  assign card_parts = cards_markup | split: '<!--snosha-review-end-->'
+
+  assign slide_count = 0
+  capture slides
+    for part in card_parts
+      unless part contains 'snosha-reviews__card'
+        continue
+      endunless
+      render 'slideshow-slide', index: slide_count, children: part, class: 'snosha-reviews__slide'
+      assign slide_count = slide_count | plus: 1
+    endfor
+  endcapture
+
+  assign carousel_id = 'SnoshaReviews-' | append: section.id
+  capture slideshow_attributes
+    echo 'id="' | append: carousel_id | append: '"'
+  endcapture
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-reviews {
+    --snosha-reviews-bg: {{ ss.background }};
+    --snosha-reviews-padding-start: {{ ss.padding_top }}px;
+    --snosha-reviews-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-reviews-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-reviews-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    --snosha-reviews-gap: {{ ss.gap }}px;
+    --snosha-reviews-gap-mobile: {{ ss.gap_mobile }}px;
+    --snosha-reviews-heading-color: {{ ss.heading_color }};
+    --snosha-reviews-heading-size: {{ ss.heading_size }}px;
+    --snosha-reviews-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+    --snosha-reviews-per-view: {{ ss.cards_per_view }};
+    --snosha-reviews-card-width-mobile: {{ ss.card_width_mobile }}px;
+    --snosha-reviews-card-ratio: {{ ss.card_ratio }};
+    --snosha-reviews-card-gap: {{ ss.card_gap }}px;
+    --snosha-reviews-card-gap-mobile: {{ ss.card_gap_mobile }}px;
+    --snosha-reviews-card-radius: {{ ss.card_radius }}px;
+    --snosha-reviews-card-shadow: {{ ss.card_shadow }};
+    --snosha-reviews-arrow-bg: {{ ss.arrow_background }};
+    --snosha-reviews-arrow-color: {{ ss.arrow_icon_color }};
+    --snosha-reviews-arrow-border: {{ ss.arrow_border }};
+    --snosha-reviews-arrow-shadow: {{ ss.arrow_shadow }};
+    --snosha-reviews-arrow-size: {{ ss.arrow_size }}px;
+    --snosha-reviews-progress-track: {{ ss.progress_track }};
+    --snosha-reviews-progress-start: {{ ss.progress_start }};
+    --snosha-reviews-progress-end: {{ ss.progress_end }};
+    --snosha-reviews-progress-height: {{ ss.progress_height }}px;
+    --snosha-reviews-placeholder-bg: {{ ss.placeholder_background }};
+    --snosha-reviews-placeholder-border: {{ ss.placeholder_border }};
+    --snosha-reviews-placeholder-border-width: {{ ss.placeholder_border_width }}px;
+    --snosha-reviews-placeholder-color: {{ ss.placeholder_color }};
+  }
+{% endstyle %}
+
+<div class="snosha-reviews{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-reviews__inner">
+      {%- if heading != blank -%}
+        <h2 class="snosha-reviews__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      {% content_for 'block', type: '_snosha-reviews-rating', id: 'rating' %}
+
+      {%- if slide_count > 0 -%}
+        <div class="snosha-reviews__carousel">
+          {%- assign arrows = '' -%}
+          {%- if ss.show_arrows -%}
+            {%- capture arrows -%}
+              <div class="snosha-reviews__arrows">
+                <button
+                  type="button"
+                  class="snosha-reviews__arrow snosha-reviews__arrow--previous"
+                  ref="previous"
+                  on:click="slideshow-component/previous"
+                  aria-label="{{ 'accessibility.slideshow_previous' | t | escape }}"
+                >
+                  {%- render 'snosha-icon', icon: 'arrow_left', class: 'snosha-reviews__arrow-icon' -%}
+                </button>
+                <button
+                  type="button"
+                  class="snosha-reviews__arrow snosha-reviews__arrow--next"
+                  ref="next"
+                  on:click="slideshow-component/next"
+                  aria-label="{{ 'accessibility.slideshow_next' | t | escape }}"
+                >
+                  {%- render 'snosha-icon', icon: 'arrow_left', class: 'snosha-reviews__arrow-icon' -%}
+                </button>
+              </div>
+            {%- endcapture -%}
+          {%- endif -%}
+
+          {%- assign progress_control = '' -%}
+          {%- if ss.show_progress -%}
+            {%- capture progress_control -%}
+              <snosha-carousel-progress
+                class="snosha-reviews__progress{% if ss.progress_desktop %} snosha-reviews__progress--desktop{% endif %}"
+                role="scrollbar"
+                aria-controls="{{ carousel_id }}"
+                aria-orientation="horizontal"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                aria-label="{{ 'accessibility.slideshow' | t | escape }}"
+                tabindex="0"
+              >
+                <span class="snosha-reviews__progress-fill"></span>
+              </snosha-carousel-progress>
+            {%- endcapture -%}
+          {%- endif -%}
+
+          {%- render 'slideshow',
+            ref: 'snoshaReviews',
+            class: 'snosha-reviews__slideshow',
+            slides: slides,
+            slide_count: slide_count,
+            show_arrows: false,
+            slideshow_arrows: arrows,
+            controls: progress_control,
+            animate_arrows: false,
+            auto_hide_controls: false,
+            infinite: false,
+            initial_slide: 0,
+            attributes: slideshow_attributes
+          -%}
+
+          {%- if ss.show_progress -%}
+            <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha reviews",
+  "tag": "section",
+  "class": "snosha-reviews-section",
+  "blocks": [
+    { "type": "_snosha-review-screenshot" }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Rating and number of reviews: \"Rating summary\" block. Each screenshot is a block: add, remove or drag to reorder."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 14,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "label": "Cards per view on desktop",
+      "info": "From 990 px. Tablets show 2.",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width on mobile",
+      "min": 150,
+      "max": 350,
+      "step": 2,
+      "unit": "px",
+      "default": 238
+    },
+    {
+      "type": "range",
+      "id": "card_ratio",
+      "label": "Card height",
+      "info": "Percentage of the card width (Figma 68 %).",
+      "min": 40,
+      "max": 200,
+      "step": 2,
+      "unit": "%",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Space between cards",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mobile",
+      "label": "Space between cards on mobile",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "color",
+      "id": "card_shadow",
+      "label": "Card shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#0D387329"
+    },
+    {
+      "type": "header",
+      "content": "Placeholder cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_placeholders",
+      "label": "Show placeholder cards on the storefront",
+      "info": "Cards without a screenshot. They are always shown in the Theme Editor.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Placeholder text"
+    },
+    {
+      "type": "select",
+      "id": "placeholder_icon",
+      "label": "Placeholder icon",
+      "options": [
+        { "value": "image", "label": "Image" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "placeholder_icon_image",
+      "label": "Custom placeholder icon",
+      "info": "Replaces the icon above."
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder icon and text",
+      "alpha": true,
+      "default": "#176BB08C"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_background",
+      "label": "Placeholder background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_border",
+      "label": "Dashed border color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "placeholder_border_width",
+      "label": "Dashed border width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Arrows"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows (from 750 px)",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow button size",
+      "min": 32,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 56,
+      "visible_if": "{{ section.settings.show_arrows }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ section.settings.show_arrows }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_icon_color",
+      "label": "Arrow icon",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.show_arrows }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border",
+      "label": "Arrow border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.show_arrows }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_shadow",
+      "label": "Arrow shadow",
+      "alpha": true,
+      "default": "#082E6652",
+      "visible_if": "{{ section.settings.show_arrows }}"
+    },
+    {
+      "type": "header",
+      "content": "Progress bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show progress bar on mobile",
+      "info": "Hidden automatically when all cards fit.",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "progress_desktop",
+      "label": "Also show it from 750 px",
+      "default": false,
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "range",
+      "id": "progress_height",
+      "label": "Height",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_track",
+      "label": "Track",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_start",
+      "label": "Fill gradient start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "color",
+      "id": "progress_end",
+      "label": "Fill gradient end",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.show_progress }}"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between items",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Space between items on mobile",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 104
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha reviews screenshots",
+      "category": "Snosha",
+      "settings": {
+        "heading": "تجارب حقيقية من عملاء SNOSHA",
+        "placeholder_text": "سكرين شوت رأي العميل"
+      },
+      "blocks": {
+        "rating": {
+          "type": "_snosha-reviews-rating",
+          "static": true,
+          "settings": {
+            "rating": 4.8,
+            "rating_label": "التقييم [rating] من 5",
+            "count_text": "بناءً على ([count] تقييم)"
+          }
+        },
+        "screenshot_1": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "1", "alt": "لقطة شاشة لرأي عميل", "position_y": 93 }
+        },
+        "screenshot_2": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "2", "alt": "لقطة شاشة لرأي عميل", "position_y": 94 }
+        },
+        "screenshot_3": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "3", "alt": "لقطة شاشة لرأي عميل", "position_y": 100 }
+        },
+        "screenshot_4": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "4", "alt": "لقطة شاشة لرأي عميل", "position_y": 94, "dashed_border": true }
+        },
+        "placeholder_5": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "none" }
+        },
+        "placeholder_6": {
+          "type": "_snosha-review-screenshot",
+          "settings": { "builtin_image": "none" }
+        }
+      },
+      "block_order": ["screenshot_1", "screenshot_2", "screenshot_3", "screenshot_4", "placeholder_5", "placeholder_6"]
+    }
+  ]
+}
+{% endschema %}

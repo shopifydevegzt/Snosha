@@ -698,9 +698,12 @@
 }
 
 /* =========================================================================
-   SNOSHA — CAROUSEL PROGRESS (shared by #4 Collections, #5 Featured collection and #12 Blog)
+   SNOSHA — CAROUSEL PROGRESS (shared by #4 Collections, #5 Featured collection, #12 Blog and,
+   with the same model / variables / keyframes / timeline name, product page S08 Reviews screenshots)
    Mobile progress bar under Horizon's native resource-list carousel, drawn as ::before (track)
    and ::after (fill) of the native slideshow-component. No markup, no carousel logic of its own.
+   S08 needs a clickable bar, so it draws the same fill on a real element (<snosha-carousel-progress>,
+   interactive part of assets/snosha-carousel-progress.js); see .snosha-reviews__progress.
    - The fill is bound to the real scroll position of Horizon's scroller with a named
      scroll-timeline (follows RTL: it grows from the inline start). It starts at the Figma width
      (--snosha-progress-initial) and reaches the full track at the end of the scroll.
@@ -3430,5 +3433,396 @@
   .snosha-contact__sparkle--4 {
     top: 156.5px;
     left: 52.5px;
+  }
+}
+
+/* =========================================================================
+   Snosha reviews screenshots (product page S08)
+   sections/snosha-reviews-screenshots.liquid + blocks _snosha-reviews-rating (static) and
+   _snosha-review-screenshot; carousel = Horizon slideshow (slideshow-component > slideshow-container
+   > slideshow-slides > slideshow-slide); progress = shared carousel progress, interactive variant
+   (<snosha-carousel-progress>, assets/snosha-carousel-progress.js).
+   Figma 190:10779 (1480) / 190:11550 (390). Section values: --snosha-reviews-* (section bridge);
+   rating values: --snosha-rating-* (block inline variables); card values: --snosha-card-*.
+   ========================================================================= */
+.snosha-reviews {
+  padding-block: var(--snosha-reviews-padding-start-mobile) var(--snosha-reviews-padding-end-mobile);
+  background-color: var(--snosha-reviews-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-reviews-padding-start) var(--snosha-reviews-padding-end);
+  }
+
+  .snosha-reviews__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--snosha-reviews-gap-mobile);
+
+    /* Figma desktop: 20px inset in the 1376 container → 1336 carousel */
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-reviews-gap);
+      padding-inline: 20px;
+    }
+  }
+
+  .snosha-reviews__heading {
+    margin: 0;
+    color: var(--snosha-reviews-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-reviews-heading-size-mobile);
+    font-weight: 600;
+    line-height: 52px;
+    text-align: center;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-reviews-heading-size);
+    }
+  }
+
+  /* ---------------- Rating pill (Figma 190:10783 / 190:11552) ---------------- */
+  /* DOM: value → stars → count, so in RTL the value is on the right and the count on the left. */
+  .snosha-reviews__rating {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-inline-size: min(256px, 100%);
+    max-inline-size: 100%;
+    padding: 6px 14px;
+    border: 1px solid var(--snosha-rating-border);
+    border-radius: var(--snosha-rating-radius);
+    background-color: var(--snosha-rating-bg);
+    box-shadow: 0 10px 12px var(--snosha-rating-shadow);
+
+    @media screen and (min-width: 750px) {
+      justify-content: center;
+      gap: 14px;
+      min-inline-size: 0;
+      padding: 10px 22px;
+    }
+  }
+
+  .snosha-reviews__rating-value {
+    color: var(--snosha-rating-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-rating-size-mobile);
+    font-weight: 600;
+    line-height: 25px;
+    white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-rating-size);
+      line-height: 40px;
+    }
+  }
+
+  .snosha-reviews__count {
+    color: var(--snosha-rating-count-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-rating-count-size-mobile);
+    font-weight: 400;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-rating-count-size);
+    }
+  }
+
+  /* Stars: each star = empty SVG + filled SVG inside a box of the filled width, anchored at the
+     inline start (right in RTL), so partial stars fill from the reading start. */
+  .snosha-reviews__stars {
+    --snosha-star-size: var(--snosha-rating-star-size-mobile);
+
+    display: flex;
+    align-items: center;
+    gap: var(--snosha-rating-star-gap-mobile);
+
+    @media screen and (min-width: 750px) {
+      --snosha-star-size: var(--snosha-rating-star-size);
+
+      gap: var(--snosha-rating-star-gap);
+    }
+  }
+
+  .snosha-reviews__star {
+    position: relative;
+    flex: none;
+    inline-size: var(--snosha-star-size);
+    block-size: var(--snosha-star-size);
+    color: var(--snosha-rating-star-empty);
+  }
+
+  .snosha-reviews__star-svg {
+    display: block;
+    inline-size: var(--snosha-star-size);
+    block-size: var(--snosha-star-size);
+    max-inline-size: none;
+  }
+
+  .snosha-reviews__star-fill {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    overflow: hidden;
+    color: var(--snosha-rating-star);
+  }
+
+  /* ---------------- Carousel (Figma 190:10792 / 190:11566) ---------------- */
+  .snosha-reviews__carousel {
+    /* Shared carousel progress API (see "SNOSHA — CAROUSEL PROGRESS"): Figma fill 88 / 350 at rest */
+    --snosha-progress-inset: 0px;
+    --snosha-progress-initial: 0.2514;
+    --snosha-progress-track: var(--snosha-reviews-progress-track);
+    --snosha-progress-start: var(--snosha-reviews-progress-start);
+    --snosha-progress-end: var(--snosha-reviews-progress-end);
+
+    position: relative;
+    align-self: stretch;
+    /* Lets the progress fill (a sibling subtree of the scroller) use its scroll-timeline */
+    timeline-scope: --snosha-carousel-scroll;
+
+    /* Figma mobile: the track runs to the screen edges, with a 20px start inset */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(-1 * var(--page-margin));
+    }
+  }
+
+  /* Horizon's container clips horizontally (for its sliding arrows) and paints a background;
+     here the arrows overhang the track by 20px as in Figma, and the section color shows through. */
+  .snosha-reviews__slideshow > slideshow-container {
+    overflow: visible;
+    background-color: transparent;
+  }
+
+  .snosha-reviews__slideshow > slideshow-container > slideshow-slides {
+    gap: var(--snosha-reviews-card-gap-mobile);
+    padding: 8px 20px;
+    scroll-padding-inline: 20px;
+    scroll-timeline: --snosha-carousel-scroll inline;
+
+    /* Figma desktop viewport: 20px above / 30px below the cards (room for the shadows) */
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-reviews-card-gap);
+      padding: 20px 0 30px;
+      scroll-padding-inline: 0;
+    }
+  }
+
+  /* Mobile: Figma 238px cards (one + a peek of the next); tablet: 2 per view; desktop: setting (3) */
+  .snosha-reviews__slideshow .snosha-reviews__slide {
+    --slide-width: min(var(--snosha-reviews-card-width-mobile), calc(100% - 40px));
+
+    scroll-snap-align: start;
+
+    @media screen and (min-width: 750px) {
+      --slide-width: calc((100% - var(--snosha-reviews-card-gap)) / 2);
+    }
+
+    @media screen and (min-width: 990px) {
+      --slide-width: calc(
+        (100% - (var(--snosha-reviews-per-view) - 1) * var(--snosha-reviews-card-gap)) / var(--snosha-reviews-per-view)
+      );
+    }
+  }
+
+  /* Card: Figma 429 × 292 (238 × 162), radius 22, two-layer shadow; height from the width ratio */
+  .snosha-reviews__card {
+    position: relative;
+    aspect-ratio: 100 / var(--snosha-reviews-card-ratio);
+    overflow: clip;
+    border-radius: var(--snosha-reviews-card-radius);
+    box-shadow:
+      0 22px 44px -8px var(--snosha-reviews-card-shadow),
+      0 3px 8px color-mix(in srgb, var(--snosha-reviews-card-shadow) 50%, transparent);
+  }
+
+  .snosha-reviews__card--dashed,
+  .snosha-reviews__card--placeholder {
+    border: var(--snosha-reviews-placeholder-border-width) dashed var(--snosha-reviews-placeholder-border);
+  }
+
+  .snosha-reviews__image {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: var(--snosha-card-fit, cover);
+    object-position: var(--snosha-card-position, 50% 50%);
+  }
+
+  /* Placeholder (Figma 190:10798): icon 32 + 8 + text 12 / 20 SemiBold, centered */
+  .snosha-reviews__card--placeholder {
+    background-color: var(--snosha-reviews-placeholder-bg);
+  }
+
+  .snosha-reviews__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    block-size: 100%;
+    padding: 8px;
+    color: var(--snosha-reviews-placeholder-color);
+    text-align: center;
+  }
+
+  .snosha-reviews__placeholder-icon {
+    display: block;
+    flex: none;
+    inline-size: 32px;
+    block-size: 32px;
+    object-fit: contain;
+  }
+
+  .snosha-reviews__placeholder-text {
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .snosha-reviews__editor-hint {
+    font-size: 10px;
+    font-style: italic;
+    line-height: 14px;
+  }
+
+  /* ---------------- Arrows (Figma 190:10812 / 190:10814), from 750px ---------------- */
+  /* Previous sits at the inline start (right in RTL), next at the inline end. The Figma
+     "arrow-left" icon points left: flipped for previous in RTL and for next in LTR. */
+  .snosha-reviews__arrows {
+    display: none;
+
+    @media screen and (min-width: 750px) {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: block;
+      pointer-events: none;
+    }
+  }
+
+  .snosha-reviews__arrow {
+    position: absolute;
+    top: calc(50% - 5px);
+    display: grid;
+    place-items: center;
+    inline-size: var(--snosha-reviews-arrow-size);
+    block-size: var(--snosha-reviews-arrow-size);
+    padding: 0;
+    border: 1px solid var(--snosha-reviews-arrow-border);
+    border-radius: 50%;
+    background-color: var(--snosha-reviews-arrow-bg);
+    color: var(--snosha-reviews-arrow-color);
+    box-shadow:
+      0 2px 3px color-mix(in srgb, var(--snosha-reviews-arrow-shadow) 37.5%, transparent),
+      0 12px 14px var(--snosha-reviews-arrow-shadow);
+    cursor: pointer;
+    pointer-events: auto;
+    translate: 0 -50%;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-reviews-arrow-color);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: opacity 0.2s ease;
+    }
+  }
+
+  .snosha-reviews__arrow--previous {
+    inset-inline-start: -20px;
+  }
+
+  .snosha-reviews__arrow--next {
+    inset-inline-end: -20px;
+  }
+
+  .snosha-reviews__arrow-icon {
+    display: block;
+    inline-size: calc(var(--snosha-reviews-arrow-size) * 26 / 56);
+    block-size: calc(var(--snosha-reviews-arrow-size) * 26 / 56);
+  }
+
+  .snosha-reviews__arrow--previous:dir(rtl) .snosha-reviews__arrow-icon,
+  .snosha-reviews__arrow--next:dir(ltr) .snosha-reviews__arrow-icon {
+    scale: -1 1;
+  }
+
+  /* ---------------- Progress (Figma 190:11591): 350 × 4 at 390, 12px below the cards ---------------- */
+  /* Shared carousel progress model on a real, clickable element (<snosha-carousel-progress> in the
+     slideshow's controls slot). The element is 16px taller than the bar (easier to tap / drag);
+     negative margins keep the gap. */
+  .snosha-reviews__progress {
+    position: relative;
+    display: block;
+    block-size: calc(var(--snosha-reviews-progress-height) + 16px);
+    margin-block: calc(var(--snosha-reviews-gap-mobile) - 8px) -8px;
+    margin-inline: 20px;
+    cursor: pointer;
+    touch-action: pan-y;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      inset-block-start: 8px;
+      block-size: var(--snosha-reviews-progress-height);
+      border-radius: 999px;
+      background-color: var(--snosha-progress-track);
+    }
+
+    &[data-ready]:not([data-scrollable]) {
+      display: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-reviews-progress-end);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    @media screen and (min-width: 750px) {
+      display: none;
+      margin-block-start: calc(var(--snosha-reviews-gap) - 8px);
+      margin-inline: 0;
+    }
+  }
+
+  .snosha-reviews__progress--desktop {
+    @media screen and (min-width: 750px) {
+      display: block;
+    }
+  }
+
+  /* Fill: same as the shared ::after — starts at --snosha-progress-initial at the inline start and
+     grows to the full track; scroll-timeline where supported, --snosha-carousel-progress otherwise. */
+  .snosha-reviews__progress-fill {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-start: var(--snosha-progress-inset);
+    inline-size: calc(
+      (100% - 2 * var(--snosha-progress-inset)) *
+        (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+    );
+    block-size: var(--snosha-reviews-progress-height);
+    border-radius: 999px;
+    background-image: linear-gradient(to right, var(--snosha-progress-start), var(--snosha-progress-end));
+    pointer-events: none;
+
+    @supports (animation-timeline: scroll()) {
+      animation: snosha-carousel-progress linear both;
+      animation-timeline: --snosha-carousel-scroll;
+    }
   }
 }

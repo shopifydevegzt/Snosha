@@ -1,0 +1,201 @@
+{%- comment -%}
+  Review screenshot card (private theme block of sections/snosha-reviews-screenshots.liquid).
+  One card per block; the section wraps each card in Horizon's slideshow-slide (split marker
+  <!--snosha-review-end--> after the card), so blocks can be added, removed and dragged to reorder.
+  Image source, in order: "Image" picker → "Built-in Figma screenshot" (assets/snosha-review-screenshot-N.jpg,
+  the 4 screenshots from Figma 190:10794–10797) → none = placeholder card.
+  Optional mobile image (<picture> source below 750px); blank → the main image.
+  Crop: object-fit + object-position from the block (Figma crops the tall screenshots near the bottom).
+  Placeholder cards are clearly not reviews: they show the section's placeholder icon + text, and are
+  hidden on the storefront unless the section's "Show placeholder cards" is on (always shown in the editor).
+  Styles: assets/dev1.css (.snosha-reviews__card).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign ss = section.settings
+  assign image = bs.image
+  assign image_mobile = bs.image_mobile
+  assign builtin = bs.builtin_image | default: 'none'
+
+  assign has_image = false
+  if image != blank or builtin != 'none'
+    assign has_image = true
+  endif
+
+  assign render_card = true
+  if has_image == false and ss.show_placeholders == false and request.design_mode == false
+    assign render_card = false
+  endif
+
+  assign alt = bs.alt | strip
+  if alt == blank and image != blank
+    assign alt = image.alt
+  endif
+
+  assign mobile_width = ss.card_width_mobile | default: 238
+  assign mobile_width_2x = mobile_width | times: 2
+  capture sizes
+    echo '(min-width: 990px) 430px, (min-width: 750px) 50vw, ' | append: mobile_width | append: 'px'
+  endcapture
+
+  case builtin
+    when '3'
+      assign builtin_width = 1080
+      assign builtin_height = 1548
+    else
+      assign builtin_width = 540
+      assign builtin_height = 1206
+  endcase
+  assign builtin_file = 'snosha-review-screenshot-' | append: builtin | append: '.jpg'
+-%}
+{%- if render_card -%}
+  <div
+    class="snosha-reviews__card{% if has_image == false %} snosha-reviews__card--placeholder{% elsif bs.dashed_border %} snosha-reviews__card--dashed{% endif %}"
+    style="--snosha-card-fit: {{ bs.image_fit }}; --snosha-card-position: {{ bs.position_x }}% {{ bs.position_y }}%;"
+    {{ block.shopify_attributes }}
+  >
+    {%- if has_image -%}
+      <picture>
+        {%- if image_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ image_mobile | image_url: width: mobile_width }} 1x, {{ image_mobile | image_url: width: mobile_width_2x }} 2x"
+          >
+        {%- endif -%}
+        {%- if image != blank -%}
+          {{
+            image
+            | image_url: width: 1080
+            | image_tag:
+              widths: '300, 480, 640, 860, 1080',
+              sizes: sizes,
+              alt: alt,
+              loading: 'lazy',
+              class: 'snosha-reviews__image'
+          }}
+        {%- else -%}
+          <img
+            class="snosha-reviews__image"
+            src="{{ builtin_file | asset_url }}"
+            width="{{ builtin_width }}"
+            height="{{ builtin_height }}"
+            alt="{{ alt | escape }}"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </picture>
+    {%- else -%}
+      <div class="snosha-reviews__placeholder">
+        {%- if ss.placeholder_icon_image != blank -%}
+          {{
+            ss.placeholder_icon_image
+            | image_url: width: 96
+            | image_tag: alt: '', loading: 'lazy', class: 'snosha-reviews__placeholder-icon'
+          }}
+        {%- elsif ss.placeholder_icon == 'image' -%}
+          <svg class="snosha-reviews__placeholder-icon" viewBox="0 0 32 32" width="32" height="32" fill="none" aria-hidden="true" focusable="false">
+            <path d="M8 4H24C26.2091 4 28 5.79086 28 8V24C28 26.2091 26.2091 28 24 28H8C5.79086 28 4 26.2091 4 24V8C4 5.79086 5.79086 4 8 4Z" stroke="currentColor" stroke-width="1.86667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.6667 12C14.6667 13.4728 13.4728 14.6667 12 14.6667C10.5272 14.6667 9.33333 13.4728 9.33333 12C9.33333 10.5272 10.5272 9.33333 12 9.33333C13.4728 9.33333 14.6667 10.5272 14.6667 12Z" stroke="currentColor" stroke-width="1.86667" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M28 20L21.3333 13.3333L9.33333 25.3333" stroke="currentColor" stroke-width="1.86667" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {%- endif -%}
+        {%- assign placeholder_text = ss.placeholder_text | strip -%}
+        {%- if placeholder_text != blank -%}
+          <span class="snosha-reviews__placeholder-text">{{ placeholder_text }}</span>
+        {%- endif -%}
+        {%- if request.design_mode and ss.show_placeholders == false -%}
+          <span class="snosha-reviews__editor-hint">Theme Editor only: placeholder, hidden on the storefront. Add an image to show this card.</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <!--snosha-review-end-->
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Review screenshot",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Screenshot",
+      "info": "A real customer review screenshot. Without an image (and without a built-in screenshot) the card is a placeholder."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Screenshot on mobile",
+      "info": "Optional. Blank uses the screenshot above."
+    },
+    {
+      "type": "select",
+      "id": "builtin_image",
+      "label": "Built-in Figma screenshot",
+      "info": "Used only when no screenshot is selected above.",
+      "options": [
+        { "value": "none", "label": "None (placeholder)" },
+        { "value": "1", "label": "Figma screenshot 1" },
+        { "value": "2", "label": "Figma screenshot 2" },
+        { "value": "3", "label": "Figma screenshot 3" },
+        { "value": "4", "label": "Figma screenshot 4" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Alt text",
+      "info": "Describe the screenshot for screen readers. Blank uses the image's own alt text."
+    },
+    {
+      "type": "header",
+      "content": "Crop"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Fill the card (crop)" },
+        { "value": "contain", "label": "Show the whole image" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "position_x",
+      "label": "Horizontal position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "position_y",
+      "label": "Vertical position",
+      "info": "0 % shows the top of a tall screenshot, 100 % the bottom.",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "checkbox",
+      "id": "dashed_border",
+      "label": "Dashed border",
+      "info": "Uses the placeholder border color and width.",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review screenshot"
+    }
+  ]
+}
+{% endschema %}
