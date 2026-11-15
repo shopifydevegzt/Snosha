@@ -330,77 +330,6 @@
         "padding-block-end": 0
       }
     },
-    "17947393906b9ee200": {
-      "type": "_blocks",
-      "blocks": {
-        "judge_me_reviews_cards_carousel_efTNpw": {
-          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "show_sample_reviews": true,
-            "reviews_selection": "current_product",
-            "products": [],
-            "filter_pinned": false,
-            "filter_featured": false,
-            "filter_custom_tags": "",
-            "star_rating": "all",
-            "show_review_media": true,
-            "display_order": "media_first",
-            "no_image_fallback": "review_text_only",
-            "max_reviews": 20,
-            "review_length": "medium",
-            "text_size": "medium",
-            "image_ratio": "1",
-            "reviews_shown": 4,
-            "show_reviewer_name": true,
-            "show_product_name": true,
-            "hide_arrows_mobile": true,
-            "arrows_position": "sides",
-            "max_width": 1100,
-            "corner_styling": "soft",
-            "header_text_color": "#000000",
-            "text_color": "#000000",
-            "card_color": "#F9F9F9",
-            "stars_color": "",
-            "arrows_color": "#000000",
-            "transition_speed": 5,
-            "header_text": "Customers are saying",
-            "show_average_rating": true,
-            "rating_display": "default"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_cards_carousel_efTNpw"
-      ],
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "background_media": "none",
-        "background_color": "",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_color": "",
-        "border_radius": 0,
-        "padding-block-start": 0,
-        "padding-block-end": 0
-      }
-    },
     "snosha_how_to_use_video_GapFrW": {
       "type": "snosha-how-to-use-video",
       "blocks": {
@@ -723,13 +652,119 @@
         "padding_bottom_mobile": 40,
         "custom_class": ""
       }
+    },
+    "snosha_judgeme_reviews_XzyhEW": {
+      "type": "snosha-judgeme-reviews",
+      "blocks": {
+        "judge_me_reviews_cards_carousel_Hippba": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": false,
+            "reviews_selection": "current_product",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "all",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "product_image",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1",
+            "reviews_shown": 4,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "sides",
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#f9f9f9",
+            "stars_color": "#176bb0",
+            "arrows_color": "#000000",
+            "transition_speed": 0,
+            "header_text": "",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        },
+        "cards_style": {
+          "type": "_snosha-jdgm-cards-style",
+          "static": true,
+          "settings": {
+            "card_width": 316,
+            "card_width_mobile": 160,
+            "card_gap": 24,
+            "card_gap_mobile": 12,
+            "image_height": 250,
+            "image_height_mobile": 130,
+            "card_radius": 20,
+            "card_border": "{{ settings.color_palette.color2 }}",
+            "card_shadow": "#0d38731f",
+            "text_size": 16,
+            "text_size_mobile": 11,
+            "name_size": 16,
+            "name_size_mobile": 11,
+            "meta_color": "#5a5a59bf",
+            "quote_color": "#63cdff4d",
+            "show_arrows_mobile": false,
+            "arrow_size": 52,
+            "arrow_background": "#fffffff7",
+            "arrow_border": "{{ settings.color_palette.color2 }}",
+            "arrow_icon_color": "{{ settings.color_palette.color3 }}",
+            "arrow_shadow": "#082e664d"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_Hippba"
+      ],
+      "name": "Snosha Judge.me reviews",
+      "settings": {
+        "show_heading": true,
+        "heading": "تجارب حقيقية من عملاء SNOSHA",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "show_summary": true,
+        "rating_size": 24,
+        "rating_size_mobile": 19,
+        "rating_color": "{{ settings.color_palette.foreground }}",
+        "star_size": 24,
+        "star_gap": 2,
+        "star_color": "{{ settings.color_palette.color3 }}",
+        "star_empty_color": "{{ settings.color_palette.color2 }}",
+        "show_count": true,
+        "count_text": "بناءً على ([count] تقييم)",
+        "count_color": "{{ settings.color_palette.color1 }}",
+        "count_size": 14,
+        "count_size_mobile": 11,
+        "show_progress": true,
+        "progress_height": 4,
+        "progress_spacing": 14,
+        "progress_track": "{{ settings.color_palette.color2 }}",
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "background": "{{ settings.color_palette.background }}",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "show_when_empty": false,
+        "anchor": "snosha-reviews",
+        "custom_class": ""
+      }
     }
   },
   "order": [
     "main",
-    "17947393906b9ee200",
     "snosha_how_to_use_video_GapFrW",
     "snosha_reviews_screenshots_3qAiTE",
-    "snosha_contact_ddCeP6"
+    "snosha_contact_ddCeP6",
+    "snosha_judgeme_reviews_XzyhEW"
   ]
 }

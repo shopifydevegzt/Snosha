@@ -4233,12 +4233,6 @@
     }
   }
 
-  /* Mouse drag (assets/snosha-jdgm-carousel.js): no text selection while a horizontal drag is active */
-  .snosha-jdgm__carousel[data-dragging] {
-    cursor: grabbing;
-    user-select: none;
-  }
-
   /* Mobile progress (Figma 190:11171: 350 × 4, 14px under the cards, fill 160 at the inline start).
      S08's bar model — track + gradient fill growing from the inline start, from
      --snosha-progress-initial to the full track with --snosha-carousel-progress (0–1). Display only:
