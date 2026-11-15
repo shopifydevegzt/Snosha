@@ -11,9 +11,23 @@
 
   # Snosha: does the carousel scroll at tablet (750–989) / desktop (>= 990)? Then the shared progress
   # bar is shown there too (assets/dev1.css), so the cards out of view can be found and dragged to.
+  # Snosha (opt-in, product pages): leave the product being viewed out of the list. 0 = off, so
+  # every other instance (homepage) keeps the original loop below unchanged.
+  assign snosha_skip_id = 0
+  if snosha_style and section.settings.snosha_exclude_current and product != blank
+    assign snosha_skip_id = product.id
+  endif
+
   assign snosha_item_count = max_items
   if section.settings.collection != blank and shop.products_count != 0
-    assign snosha_item_count = section.settings.collection.products_count | at_most: max_items
+    assign snosha_collection_count = section.settings.collection.products_count
+    if snosha_skip_id != 0
+      assign snosha_current_collection_ids = product.collections | map: 'id'
+      if snosha_current_collection_ids contains section.settings.collection.id
+        assign snosha_collection_count = snosha_collection_count | minus: 1
+      endif
+    endif
+    assign snosha_item_count = snosha_collection_count | at_most: max_items
   endif
   assign snosha_columns_tablet = section.settings.snosha_columns_tablet | default: 2
   assign snosha_columns_desktop = section.settings.columns | default: 4
@@ -82,7 +96,36 @@
   </div>
 
   {% capture list_items %}
-    {% if section.settings.collection != blank and shop.products_count != 0 %}
+    {% if section.settings.collection != blank and shop.products_count != 0 and snosha_skip_id != 0 %}
+      {%- comment -%}
+        Snosha "Hide the product being viewed": one extra product is fetched so the list still holds
+        max_items products when the current one is skipped; separators go before every item after
+        the first, so a skipped last item never leaves an empty slide.
+      {%- endcomment -%}
+      {% assign snosha_page_size = max_items | plus: 1 %}
+      {% assign snosha_shown = 0 %}
+      {% paginate section.settings.collection.products by snosha_page_size %}
+        {% for product in section.settings.collection.products limit: snosha_page_size %}
+          {% if product.id == snosha_skip_id or snosha_shown >= max_items %}
+            {% continue %}
+          {% endif %}
+          {% if snosha_shown > 0 %}
+            <!--@list/split-->
+          {% endif %}
+          <div
+            class="resource-list__item"
+          >
+            {% content_for 'block',
+              type: '_product-card',
+              id: 'static-product-card',
+              closest.product: product,
+              product_view_context: 'collection'
+            %}
+          </div>
+          {% assign snosha_shown = snosha_shown | plus: 1 %}
+        {% endfor %}
+      {% endpaginate %}
+    {% elsif section.settings.collection != blank and shop.products_count != 0 %}
       {% paginate section.settings.collection.products by max_items %}
         {% for product in section.settings.collection.products limit: max_items %}
         <div
@@ -440,6 +483,14 @@
       "max": 3,
       "step": 1,
       "default": 2,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_exclude_current",
+      "label": "Hide the product being viewed",
+      "info": "Product pages: the collection's products are shown without the current product (e.g. related products). No effect elsewhere.",
+      "default": false,
       "visible_if": "{{ section.settings.snosha_style }}"
     },
     {

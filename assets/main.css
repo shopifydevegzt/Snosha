@@ -5133,3 +5133,90 @@ media-gallery.media-gallery--snosha {
     }
   }
 }
+
+/* ==========================================================================
+   Snosha — Related products on the product page ("منتجات ذات صلة")
+   Figma: desktop 190:10816 (1480 px), mobile 190:11593 (390 px).
+   Reuses the homepage best-sellers setup unchanged: native sections/product-list.liquid with
+   "Snosha featured collection style" (cards, badges, rating, price, CTA, quick add, carousel and
+   progress bar all from assets/dev1.css, .snosha-featured-collection). Spacing that has a section
+   setting is set there (desktop gap 62 / padding 60-54 / extra space below cards 15.6; mobile
+   padding 40-40). This block holds only what has no setting, enabled by the section's Custom CSS
+   class "snosha-related-products"; the homepage instance does not have it. Two classes outrank
+   dev1.css (loaded later).
+   ========================================================================== */
+.snosha-featured-collection.snosha-related-products {
+  @media screen and (max-width: 749px) {
+    /* Figma mobile: title row → cards 33 px (84 → 117), cards → progress bar 33 px (400 → 433) */
+    row-gap: 33px;
+
+    slideshow-component.resource-list__carousel {
+      --snosha-progress-space: 33px;
+    }
+
+    /* Figma mobile title: Cairo Bold 24 / 38 (the H2 preset is SemiBold) */
+    .section-resource-list__header .text-block.h2 {
+      --font-h2--weight: 700;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    /* Figma desktop: the row is not clipped at the container edge, the next / previous cards show in
+       the page gutters (vertical room kept for the hover shadow, as on the homepage) */
+    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+      clip-path: inset(-48px 0);
+    }
+
+    /* Arrows (native carousel arrows, shown when the section's arrow style is not "None"):
+       Figma 52 px circles, 46 px from the viewport edges, 97 % white, 1 px border, soft double shadow,
+       26 px chevron. The native button keeps its markup, label, RTL flip and disabled state. */
+    .resource-list__carousel slideshow-arrows {
+      padding-inline: calc(var(--util-page-margin-offset) - 6px);
+      mix-blend-mode: normal;
+    }
+
+    slideshow-arrows .slideshow-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: 52px;
+      block-size: 52px;
+      min-inline-size: 52px;
+      min-block-size: 52px;
+      padding: 0;
+      border: 1px solid var(--snosha-fc-discount-border);
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--snosha-fc-on-accent) 97%, transparent);
+      box-shadow:
+        0 2px 6px color-mix(in srgb, var(--snosha-fc-title) 12%, transparent),
+        0 10px 26px color-mix(in srgb, var(--snosha-fc-title) 30%, transparent);
+      color: var(--snosha-fc-title);
+      opacity: 1;
+      animation: none;
+
+      & .svg-wrapper {
+        display: none;
+      }
+
+      &::before {
+        content: '';
+        inline-size: 26px;
+        block-size: 26px;
+        background-color: currentColor;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M9.16667 4.58333L15.5833 11L9.16667 17.4167' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+          center / 26px 26px no-repeat;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--snosha-fc-accent);
+        outline-offset: 2px;
+      }
+
+      &[disabled] {
+        display: flex;
+        opacity: 0.4;
+        cursor: default;
+      }
+    }
+  }
+}
