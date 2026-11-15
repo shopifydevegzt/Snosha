@@ -5034,3 +5034,102 @@ media-gallery.media-gallery--snosha {
     opacity: 0.3;
   }
 }
+
+/* ==========================================================================
+   Snosha — Before / After on the product page
+   Figma: desktop 190:10376 (1480 px), mobile 190:11087 (390 px).
+   Reuses the homepage section sections/snosha-before-after.liquid with the native Horizon
+   comparison-slider block. Everything shared — slider behaviour (native), 3 px divider, 34 × 58 /
+   29 × 48 handle and grips, chip look, RTL clipping fix, focus ring, image framing — stays in
+   assets/dev1.css (.snosha-before-after). This block holds only the product differences:
+   stacked centred heading + description + full-width slider, slider ratio, chip size / position.
+   Enabled by the section's Custom CSS class "snosha-before-after--product"; the homepage instance
+   does not have it, so it is unaffected. The compound selector outranks dev1.css (loaded later).
+   ========================================================================== */
+.snosha-before-after.snosha-before-after--product {
+  /* Figma mobile gutter 20 px (the theme's page margin is 24 px at 390) */
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  /* Stacked layout at every width (the homepage switches to two columns at 990) */
+  .snosha-before-after__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-inline-end: 0;
+    padding-inline: 0;
+
+    @media screen and (min-width: 750px) {
+      /* Figma 1376 container with a 20 px inner inset -> 1336 px content, 24 px gaps */
+      gap: 24px;
+      padding-inline: 20px;
+    }
+  }
+
+  /* Heading: H2 preset (desktop 32 / 52 / 600 = Figma); mobile 22 / 52 in Figma's 328 px box,
+     which gives its two-line break */
+  .text-block.h2 {
+    @media screen and (max-width: 749px) {
+      --font-h2--size: 22px;
+      --font-h2--line-height: 52px;
+
+      max-inline-size: 328px;
+      margin-inline: auto;
+    }
+  }
+
+  /* Description: 18 / 32 (shared rule) in an 860 px centred column; mobile 12 / 32 full width */
+  .text-block.paragraph {
+    max-inline-size: 860px;
+    margin-inline: auto;
+
+    @media screen and (max-width: 749px) {
+      max-inline-size: none;
+      font-size: 12px;
+    }
+  }
+
+  /* Slider: full content width, Figma ratios (mobile 358 / 260 -> 350 × 254 at 390;
+     desktop 1336 × 560), radius 24 at every width */
+  .comparison-slider {
+    aspect-ratio: 358 / 260;
+    border-radius: 24px;
+
+    @media screen and (min-width: 990px) {
+      aspect-ratio: 1336 / 560;
+    }
+  }
+
+  /* Chips: Figma desktop 20 / 18 SemiBold, 8 × 20 padding, pill, 26 px from the top,
+     "قبل" 21 px from the start (right), "بعد" 23 px from the end (left).
+     Mobile keeps the shared 45 × 21 chip, 12 px from the top: 11 px / 24 px from the edges. */
+  [data-orientation='horizontal'] .comparison-slider__text {
+    @media screen and (min-width: 750px) {
+      inset-block-start: 26px;
+      padding: 8px 20px;
+      border-radius: 999px;
+
+      > * {
+        font-size: 20px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  [data-orientation='horizontal'] .comparison-slider__text--before {
+    inset-inline-start: 11px;
+
+    @media screen and (min-width: 750px) {
+      inset-inline-start: 21px;
+    }
+  }
+
+  [data-orientation='horizontal'] .comparison-slider__text--after {
+    inset-inline-end: 24px;
+
+    @media screen and (min-width: 750px) {
+      inset-inline-end: 23px;
+    }
+  }
+}
