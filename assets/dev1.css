@@ -3088,3 +3088,347 @@
     }
   }
 }
+
+/* =========================================================================
+   Snosha contact CTA (product page S14)
+   sections/snosha-contact.liquid + static blocks _snosha-contact-content / -whatsapp / -email.
+   Figma 190:10844 (1480) / 190:11633 (390). Section values: --snosha-contact-* (section bridge);
+   block values: inline variables on each block root (--snosha-contact-logo-* / heading / text,
+   --snosha-cta-*). No JavaScript.
+   ========================================================================= */
+.snosha-contact {
+  padding-block: var(--snosha-contact-padding-start-mobile) var(--snosha-contact-padding-end-mobile);
+  background-color: var(--snosha-contact-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-contact-padding-start) var(--snosha-contact-padding-end);
+  }
+
+  .snosha-contact__inner {
+    /* Figma mobile gutter is 20px (the page margin is 24px at 390) */
+    @media screen and (max-width: 749px) {
+      margin-inline: calc(20px - var(--page-margin));
+    }
+
+    /* Figma desktop: 20px inset in the 1376 container → 1336 card */
+    @media screen and (min-width: 750px) {
+      padding-inline: 20px;
+    }
+  }
+
+  /* Card: content-driven height. Figma desktop 38 / 36 padding, 1px border, radius 22, 39.64deg;
+     mobile 28 / 18 padding, no border, radius 20, 75.87deg; shadow 0 24 56 on both. */
+  .snosha-contact__card {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--snosha-contact-gap-mobile);
+    padding: var(--snosha-contact-card-padding-block-mobile) var(--snosha-contact-card-padding-inline-mobile);
+    border: var(--snosha-contact-card-border-width-mobile) solid var(--snosha-contact-card-border);
+    border-radius: var(--snosha-contact-card-radius-mobile);
+    background-image: linear-gradient(
+      var(--snosha-contact-card-angle-mobile),
+      var(--snosha-contact-card-start) 8.7533%,
+      var(--snosha-contact-card-middle) 54.125%,
+      var(--snosha-contact-card-end) 91.247%
+    );
+    box-shadow: 0 24px 56px var(--snosha-contact-card-shadow);
+    text-align: center;
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-contact-gap);
+      padding: var(--snosha-contact-card-padding-start) var(--snosha-contact-card-padding-inline)
+        var(--snosha-contact-card-padding-end);
+      border-width: var(--snosha-contact-card-border-width);
+      border-radius: var(--snosha-contact-card-radius);
+      background-image: linear-gradient(
+        var(--snosha-contact-card-angle),
+        var(--snosha-contact-card-start) 8.7533%,
+        var(--snosha-contact-card-middle) 54.125%,
+        var(--snosha-contact-card-end) 91.247%
+      );
+    }
+  }
+
+  /* ---------------- Content block: logo, heading, description ---------------- */
+  .snosha-contact__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--snosha-contact-gap-mobile);
+    inline-size: 100%;
+
+    @media screen and (min-width: 750px) {
+      gap: var(--snosha-contact-gap);
+    }
+  }
+
+  .snosha-contact__logo {
+    inline-size: var(--snosha-contact-logo-width-mobile);
+    max-inline-size: 100%;
+
+    @media screen and (min-width: 750px) {
+      inline-size: var(--snosha-contact-logo-width);
+    }
+  }
+
+  .snosha-contact__logo-image {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+
+  .snosha-contact__logo-text {
+    color: var(--snosha-contact-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .snosha-contact__heading {
+    margin: 0;
+    color: var(--snosha-contact-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: var(--snosha-contact-heading-size-mobile);
+    font-weight: 700;
+    line-height: var(--snosha-contact-heading-line-height);
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-contact-heading-size);
+    }
+  }
+
+  .snosha-contact__text {
+    margin: 0;
+    color: var(--snosha-contact-text-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-contact-text-size-mobile);
+    font-weight: 400;
+    line-height: 28px;
+    overflow-wrap: break-word;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-contact-text-size);
+    }
+  }
+
+  /* ---------------- Buttons ---------------- */
+  /* DOM: WhatsApp → email. Mobile: stacked, full width (WhatsApp on top, as in Figma).
+     Desktop: one centered row, row-reverse so WhatsApp is on the left and email on the right in RTL
+     (Figma); wraps instead of overflowing when labels are long. */
+  .snosha-contact__actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--snosha-contact-button-gap);
+    inline-size: 100%;
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row-reverse;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  /* Figma pill: 13 / 28 padding, gap 10, Cairo SemiBold 16 / 26 (mobile 14), icon 22 at inline-start */
+  .snosha-contact__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-inline-size: 0;
+    padding: var(--snosha-cta-padding-block) var(--snosha-cta-padding-inline);
+    border: var(--snosha-cta-border-width) solid var(--snosha-cta-border);
+    border-radius: var(--snosha-cta-radius);
+    background-color: var(--snosha-cta-bg);
+    color: var(--snosha-cta-color);
+    font-family: var(--font-body--family);
+    font-size: var(--snosha-cta-size-mobile);
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: break-word;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition: background-color 0.2s ease;
+    }
+
+    @media screen and (min-width: 750px) {
+      flex: 0 1 auto;
+      font-size: var(--snosha-cta-size);
+    }
+
+    &:is(a):hover {
+      background-color: var(--snosha-cta-bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-cta-focus);
+      outline-offset: 3px;
+    }
+  }
+
+  /* Figma: 0 14 28 shadow + 0 0 30 2 glow */
+  .snosha-contact__button--whatsapp {
+    box-shadow: 0 14px 28px var(--snosha-cta-shadow), 0 0 30px 2px var(--snosha-cta-glow);
+  }
+
+  /* Figma: translucent white, 1.2px border, 7px backdrop blur */
+  .snosha-contact__button--email {
+    backdrop-filter: blur(var(--snosha-cta-blur));
+  }
+
+  .snosha-contact__icon {
+    display: block;
+    flex: none;
+    inline-size: var(--snosha-cta-icon-size);
+    block-size: var(--snosha-cta-icon-size);
+    color: var(--snosha-cta-icon-color);
+    object-fit: contain;
+  }
+
+  .snosha-contact__label {
+    min-inline-size: 0;
+  }
+
+  /* Theme Editor only: button without a valid destination (not a link) */
+  .snosha-contact__button--inactive {
+    flex-wrap: wrap;
+    opacity: 0.7;
+    cursor: default;
+  }
+
+  .snosha-contact__editor-hint {
+    flex-basis: 100%;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  /* Description desktop / mobile variants (only output when the mobile text differs) */
+  .snosha-contact__variant--desktop {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+
+  .snosha-contact__variant--mobile {
+    @media screen and (min-width: 750px) {
+      display: none;
+    }
+  }
+
+  /* ---------------- Decorations (desktop by default) ---------------- */
+  /* Positions are the Figma card coordinates (physical sides on purpose: decorative, not content). */
+  .snosha-contact__decor {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: none;
+    opacity: var(--snosha-contact-decor-opacity);
+    pointer-events: none;
+  }
+
+  &.snosha-contact--decor-mobile .snosha-contact__decor {
+    @media screen and (max-width: 749px) {
+      display: block;
+    }
+  }
+
+  &.snosha-contact--decor-desktop .snosha-contact__decor {
+    @media screen and (min-width: 750px) {
+      display: block;
+    }
+  }
+
+  /* 190:10847 dashed ring (Figma PNG) */
+  .snosha-contact__ring {
+    position: absolute;
+    top: -151px;
+    left: -151px;
+    display: block;
+    inline-size: 420px;
+    block-size: 420px;
+    max-inline-size: none;
+  }
+
+  /* 190:10848 ring: r 189.5, 1px stroke at 18% */
+  .snosha-contact__circle {
+    position: absolute;
+    top: 109px;
+    right: -165px;
+    inline-size: 380px;
+    block-size: 380px;
+    border: 1px solid color-mix(in srgb, var(--snosha-contact-decor-color) 18%, transparent);
+    border-radius: 50%;
+  }
+
+  /* 190:10849–10851 dots */
+  .snosha-contact__dot {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .snosha-contact__dot--1 {
+    top: 79px;
+    right: 90px;
+    inline-size: 5px;
+    block-size: 5px;
+    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 45%, transparent);
+  }
+
+  .snosha-contact__dot--2 {
+    top: 239px;
+    left: 159px;
+    inline-size: 4px;
+    block-size: 4px;
+    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 40%, transparent);
+  }
+
+  .snosha-contact__dot--3 {
+    top: 49px;
+    right: 272px;
+    inline-size: 3px;
+    block-size: 3px;
+    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 35%, transparent);
+  }
+
+  /* 190:10868–10871 sparkles: 24px vector (the 11px instances center an unclipped 24px vector) */
+  .snosha-contact__sparkle {
+    position: absolute;
+    display: block;
+    inline-size: 24px;
+    block-size: 24px;
+    color: var(--snosha-contact-sparkle-color);
+  }
+
+  .snosha-contact__sparkle--1 {
+    top: 33px;
+    left: 205px;
+  }
+
+  .snosha-contact__sparkle--2 {
+    top: 216.5px;
+    right: 263.5px;
+  }
+
+  .snosha-contact__sparkle--3 {
+    top: 56.5px;
+    right: 143.5px;
+  }
+
+  .snosha-contact__sparkle--4 {
+    top: 156.5px;
+    left: 52.5px;
+  }
+}

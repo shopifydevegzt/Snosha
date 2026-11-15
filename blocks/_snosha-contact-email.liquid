@@ -1,0 +1,259 @@
+{%- comment -%}
+  Contact — Email button (private static theme block of sections/snosha-contact.liquid, id "email").
+  The link is built from the "Contact email address" setting: mailto:<address>[?subject=<subject>].
+  Basic validation: exactly one "@", something before it, a "." after it, and no spaces, quotes,
+  angle brackets, commas, semicolons or "?" (which would break the mailto URL). Invalid or blank →
+  nothing on the storefront (no broken mailto: link); in the Theme Editor a non-link preview with a hint.
+  Subject: url_encode, with "+" (space) turned into %20. Real <a> with target="_blank"
+  rel="noopener noreferrer" (as requested; mailto: opens the visitor's mail app or webmail handler, which
+  the browser / OS controls, so a new tab is not guaranteed). Icon: inline Figma mail icon (190:10865,
+  currentColor), or a custom image. Styles: assets/dev1.css (.snosha-contact__button--email).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign email = bs.email | strip
+  assign email_ok = false
+  if email != blank and email contains '@' and email contains '.'
+    assign email_ok = true
+    assign parts = email | split: '@'
+    if parts.size != 2 or parts[0] == blank or parts[1] == blank
+      assign email_ok = false
+    endif
+    unless parts[1] contains '.'
+      assign email_ok = false
+    endunless
+    # characters that would break or extend the mailto: URL / attribute
+    if email contains ' ' or email contains ',' or email contains ';' or email contains '?'
+      assign email_ok = false
+    endif
+    if email contains '"' or email contains '<' or email contains '>' or email contains '&'
+      assign email_ok = false
+    endif
+    if email contains '(' or email contains ')' or email contains '[' or email contains ']'
+      assign email_ok = false
+    endif
+  endif
+
+  assign href = ''
+  if email_ok
+    assign href = 'mailto:' | append: email
+    assign subject = bs.subject | strip
+    if subject != blank
+      assign encoded = subject | url_encode | replace: '+', '%20'
+      assign href = href | append: '?subject=' | append: encoded
+    endif
+  endif
+  assign label = bs.label | strip
+-%}
+{%- if bs.show_button and label != blank -%}
+  {%- capture inner -%}
+    {%- if bs.icon_image != blank -%}
+      {{
+        bs.icon_image
+        | image_url: width: 96
+        | image_tag: width: bs.icon_size, height: bs.icon_size, alt: '', loading: 'lazy', class: 'snosha-contact__icon'
+      }}
+    {%- else -%}
+      <svg class="snosha-contact__icon" viewBox="0 0 22 22" width="22" height="22" fill="none" aria-hidden="true" focusable="false">
+        <path d="M5.5 4.58333H16.5C18.0188 4.58333 19.25 5.81455 19.25 7.33333V14.6667C19.25 16.1854 18.0188 17.4167 16.5 17.4167H5.5C3.98122 17.4167 2.75 16.1854 2.75 14.6667V7.33333C2.75 5.81455 3.98122 4.58333 5.5 4.58333Z" stroke="currentColor" stroke-width="1.55833" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.75 6.41667L11 11.9167L19.25 6.41667" stroke="currentColor" stroke-width="1.55833" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    {%- endif -%}
+    <span class="snosha-contact__label">{{ label | escape }}</span>
+  {%- endcapture -%}
+  {%- capture button_style -%}
+    --snosha-cta-bg: {{ bs.background }};
+    --snosha-cta-bg-hover: {{ bs.hover_background }};
+    --snosha-cta-color: {{ bs.text_color }};
+    --snosha-cta-border: {{ bs.border_color }};
+    --snosha-cta-border-width: {{ bs.border_width | default: 0 | at_least: 0 }}px;
+    --snosha-cta-focus: {{ bs.text_color }};
+    --snosha-cta-radius: {{ bs.radius }}px;
+    --snosha-cta-blur: {{ bs.blur }}px;
+    --snosha-cta-icon-color: {{ bs.icon_color }};
+    --snosha-cta-icon-size: {{ bs.icon_size }}px;
+    --snosha-cta-size: {{ bs.font_size }}px;
+    --snosha-cta-size-mobile: {{ bs.font_size_mobile }}px;
+    --snosha-cta-padding-block: {{ bs.padding_block }}px;
+    --snosha-cta-padding-inline: {{ bs.padding_inline }}px;
+  {%- endcapture -%}
+  {%- if href != blank -%}
+    <a
+      class="snosha-contact__button snosha-contact__button--email"
+      href="{{ href | escape }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="{{ button_style | strip_newlines }}"
+      {{ block.shopify_attributes }}
+    >
+      {{- inner -}}
+      <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
+    </a>
+  {%- elsif request.design_mode -%}
+    <span
+      class="snosha-contact__button snosha-contact__button--email snosha-contact__button--inactive"
+      style="{{ button_style | strip_newlines }}"
+      {{ block.shopify_attributes }}
+    >
+      {{- inner -}}
+      <span class="snosha-contact__editor-hint">Theme Editor only: enter a valid contact email address. The button is hidden on the storefront until then.</span>
+    </span>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Email button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show email button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Contact email address",
+      "info": "For example support@yourstore.com. The button is hidden until a valid address is entered. It opens the visitor's email app."
+    },
+    {
+      "type": "text",
+      "id": "subject",
+      "label": "Email subject",
+      "info": "Optional."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label"
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon image",
+      "info": "Replaces the email icon. Square image."
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "info": "Applies to the built-in email icon.",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "alpha": true,
+      "default": "#FFFFFF17"
+    },
+    {
+      "type": "color",
+      "id": "hover_background",
+      "label": "Background on hover",
+      "alpha": true,
+      "default": "#FFFFFF2E"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Also used for the keyboard focus ring.",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "alpha": true,
+      "default": "#FFFFFF59"
+    },
+    {
+      "type": "number",
+      "id": "border_width",
+      "label": "Border width (px)",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "blur",
+      "label": "Background blur",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 7
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Text size on mobile",
+      "min": 10,
+      "max": 22,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_block",
+      "label": "Top / bottom padding",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    }
+  ]
+}
+{% endschema %}

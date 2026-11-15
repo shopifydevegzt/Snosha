@@ -1,0 +1,276 @@
+{%- comment -%}
+  Contact — WhatsApp button (private static theme block of sections/snosha-contact.liquid, id "whatsapp").
+  The link is built from the "WhatsApp phone number" setting: https://wa.me/<digits>[?text=<message>].
+  Normalisation (no country code is ever invented):
+  - allowed characters: digits, spaces, + - ( ) . ; anything else (letters, Arabic-Indic digits…) → invalid;
+  - the number must be international: start with "+" or "00" ("00" is dropped); a number without
+    either (e.g. a local 010… number) is invalid rather than guessed;
+  - 8 to 15 digits (E.164).
+  Invalid or blank number → nothing on the storefront (no broken wa.me link); in the Theme Editor a
+  non-link preview with a hint. Message: url_encode, with "+" (space) turned into %20.
+  Real <a> with target="_blank" rel="noopener noreferrer" and a visually hidden "opens in a new
+  window" note. Icon: inline Figma WhatsApp logo (190:10860, currentColor; default color #25D366), or
+  a custom image. Styles: assets/dev1.css (.snosha-contact__button--whatsapp).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign raw = bs.phone | strip
+  assign digits = ''
+  assign phone_ok = true
+  if raw == blank
+    assign phone_ok = false
+  endif
+
+  assign chars = raw | split: ''
+  for char in chars
+    if '0123456789' contains char
+      assign digits = digits | append: char
+    elsif ' +-().' contains char
+      continue
+    else
+      assign phone_ok = false
+    endif
+  endfor
+
+  assign first_char = raw | slice: 0, 1
+  assign first_two = digits | slice: 0, 2
+  assign after_first = raw | slice: 1, 64
+  if after_first contains '+'
+    # "+" is only allowed as the very first character
+    assign phone_ok = false
+  endif
+  if first_char == '+'
+    # international format, digits already collected
+  elsif first_two == '00'
+    assign digits = digits | remove_first: '00'
+  else
+    assign phone_ok = false
+  endif
+
+  assign first_digit = digits | slice: 0, 1
+  if digits.size < 8 or digits.size > 15 or first_digit == '0'
+    assign phone_ok = false
+  endif
+
+  assign href = ''
+  if phone_ok
+    assign href = 'https://wa.me/' | append: digits
+    assign message = bs.message | strip
+    if message != blank
+      assign encoded = message | url_encode | replace: '+', '%20'
+      assign href = href | append: '?text=' | append: encoded
+    endif
+  endif
+  assign label = bs.label | strip
+-%}
+{%- if bs.show_button and label != blank -%}
+  {%- capture inner -%}
+    {%- if bs.icon_image != blank -%}
+      {{
+        bs.icon_image
+        | image_url: width: 96
+        | image_tag: width: bs.icon_size, height: bs.icon_size, alt: '', loading: 'lazy', class: 'snosha-contact__icon'
+      }}
+    {%- else -%}
+      <svg class="snosha-contact__icon" viewBox="0 0 22 22" width="22" height="22" fill="none" aria-hidden="true" focusable="false">
+        <path d="M11 1.83333C5.94 1.83333 1.83333 5.94 1.83333 11C1.83333 12.6225 2.255 14.1442 2.9975 15.4642L1.83333 20.1667L6.6825 19.0392C8.00626 19.7663 9.48973 20.1537 11 20.1667C16.06 20.1667 20.1667 16.06 20.1667 11C20.1667 5.94 16.06 1.83333 11 1.83333ZM11 18.5167C9.53333 18.5167 8.15833 18.1225 6.96667 17.435L6.6825 17.27L3.80417 17.9392L4.49167 15.1342L4.30833 14.8408C3.6952 13.6572 3.41032 12.331 3.48333 11C3.48333 6.85667 6.85667 3.48333 11 3.48333C15.1433 3.48333 18.5167 6.85667 18.5167 11C18.5167 15.1433 15.1433 18.5167 11 18.5167Z" fill="currentColor"/>
+        <path d="M15.18 12.8242C14.9508 12.7142 13.8325 12.1642 13.6217 12.0817C13.4108 12.0083 13.2642 11.9717 13.1083 12.2008C12.9617 12.43 12.5217 12.9342 12.3933 13.09C12.265 13.2367 12.1275 13.255 11.8983 13.145C11.6692 13.035 10.9358 12.7875 10.065 12.0175C9.38667 11.4125 8.92833 10.67 8.8 10.4408C8.67167 10.2117 8.78167 10.0925 8.90083 9.97333C9.00167 9.8725 9.13 9.7075 9.24 9.57C9.35 9.4325 9.38667 9.34083 9.46917 9.185C9.5425 9.03833 9.50583 8.90083 9.45083 8.78167C9.39583 8.67167 8.9375 7.55333 8.75417 7.095C8.57083 6.655 8.3875 6.71 8.24083 6.71H7.80083C7.65417 6.71 7.3975 6.765 7.19583 6.99417C6.985 7.22333 6.39833 7.77333 6.39833 8.89167C6.39833 10.01 7.21417 11.0917 7.32417 11.2475C7.43417 11.3942 8.92833 13.695 11.2017 14.6758C11.7425 14.9142 12.1642 15.0517 12.4942 15.1525C13.035 15.3267 13.53 15.2992 13.9242 15.2442C14.3642 15.18 15.2717 14.6942 15.455 14.1625C15.6475 13.6308 15.6475 13.1817 15.5925 13.0808C15.5375 12.9892 15.3817 12.9342 15.1525 12.8242H15.18Z" fill="currentColor"/>
+      </svg>
+    {%- endif -%}
+    <span class="snosha-contact__label">{{ label | escape }}</span>
+  {%- endcapture -%}
+  {%- capture button_style -%}
+    --snosha-cta-bg: {{ bs.background }};
+    --snosha-cta-bg-hover: {{ bs.hover_background }};
+    --snosha-cta-color: {{ bs.text_color }};
+    --snosha-cta-border: {{ bs.border_color }};
+    --snosha-cta-border-width: 0px;
+    --snosha-cta-focus: {{ bs.border_color }};
+    --snosha-cta-radius: {{ bs.radius }}px;
+    --snosha-cta-shadow: {{ bs.shadow_color }};
+    --snosha-cta-glow: {{ bs.glow_color }};
+    --snosha-cta-icon-color: {{ bs.icon_color }};
+    --snosha-cta-icon-size: {{ bs.icon_size }}px;
+    --snosha-cta-size: {{ bs.font_size }}px;
+    --snosha-cta-size-mobile: {{ bs.font_size_mobile }}px;
+    --snosha-cta-padding-block: {{ bs.padding_block }}px;
+    --snosha-cta-padding-inline: {{ bs.padding_inline }}px;
+  {%- endcapture -%}
+  {%- if href != blank -%}
+    <a
+      class="snosha-contact__button snosha-contact__button--whatsapp"
+      href="{{ href | escape }}"
+      target="_blank"
+      rel="noopener noreferrer"
+      style="{{ button_style | strip_newlines }}"
+      {{ block.shopify_attributes }}
+    >
+      {{- inner -}}
+      <span class="visually-hidden">{{ 'accessibility.new_window' | t }}</span>
+    </a>
+  {%- elsif request.design_mode -%}
+    <span
+      class="snosha-contact__button snosha-contact__button--whatsapp snosha-contact__button--inactive"
+      style="{{ button_style | strip_newlines }}"
+      {{ block.shopify_attributes }}
+    >
+      {{- inner -}}
+      <span class="snosha-contact__editor-hint">Theme Editor only: enter the WhatsApp number with its country code (starting with + or 00). The button is hidden on the storefront until the number is valid.</span>
+    </span>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "WhatsApp button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show WhatsApp button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "WhatsApp phone number",
+      "info": "Include the country code, starting with + or 00 (for example +20 100 123 4567). Spaces, dashes and brackets are removed. The button is hidden until a valid number is entered."
+    },
+    {
+      "type": "textarea",
+      "id": "message",
+      "label": "Pre-filled WhatsApp message",
+      "info": "Optional. Added to the chat when the visitor opens WhatsApp."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label"
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon image",
+      "info": "Replaces the WhatsApp logo. Square image."
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "info": "Applies to the built-in WhatsApp logo.",
+      "default": "#25D366"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "hover_background",
+      "label": "Background on hover",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Keyboard focus ring",
+      "info": "The button has no border in the design; this colors the focus outline.",
+      "alpha": true,
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#001A4066"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#63CDFF66"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Text size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Text size on mobile",
+      "min": 10,
+      "max": 22,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_block",
+      "label": "Top / bottom padding",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    }
+  ]
+}
+{% endschema %}

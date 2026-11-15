@@ -1,0 +1,227 @@
+{%- comment -%}
+  Contact — Content (private static theme block of sections/snosha-contact.liquid, id "content").
+  Logo, heading and description of the contact card.
+  Logo source: this block's "Logo" picker → Theme settings → Logo (inverse, for dark backgrounds)
+  → Theme settings → Logo → the shop name as text. Rendered at its own aspect ratio, no filters.
+  Description: optional mobile text (blank → main text), toggled with CSS at 750px.
+  Styles: assets/dev1.css (.snosha-contact__content); values are the inline variables below.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign logo = bs.logo_image | default: settings.logo_inverse | default: settings.logo
+  assign logo_alt = bs.logo_alt | strip
+  if logo_alt == blank
+    assign logo_alt = logo.alt | default: shop.name
+  endif
+  assign heading = bs.heading | strip
+  assign description = bs.description | strip
+  assign description_mobile = bs.description_mobile | strip
+  if description == blank
+    assign description = description_mobile
+  endif
+  assign logo_width_2x = bs.logo_width | at_least: bs.logo_width_mobile | times: 2
+  capture logo_sizes
+    echo '(min-width: 750px) ' | append: bs.logo_width | append: 'px, ' | append: bs.logo_width_mobile | append: 'px'
+  endcapture
+-%}
+<div
+  class="snosha-contact__content"
+  style="
+    --snosha-contact-logo-width: {{ bs.logo_width }}px;
+    --snosha-contact-logo-width-mobile: {{ bs.logo_width_mobile }}px;
+    --snosha-contact-heading-color: {{ bs.heading_color }};
+    --snosha-contact-heading-size: {{ bs.heading_size }}px;
+    --snosha-contact-heading-size-mobile: {{ bs.heading_size_mobile }}px;
+    --snosha-contact-heading-line-height: {{ bs.heading_line_height }}px;
+    --snosha-contact-text-color: {{ bs.description_color }};
+    --snosha-contact-text-size: {{ bs.description_size }}px;
+    --snosha-contact-text-size-mobile: {{ bs.description_size_mobile }}px;
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if bs.show_logo -%}
+    <div class="snosha-contact__logo">
+      {%- if logo != blank -%}
+        {{
+          logo
+          | image_url: width: logo_width_2x
+          | image_tag:
+            alt: logo_alt,
+            loading: 'lazy',
+            class: 'snosha-contact__logo-image',
+            sizes: logo_sizes
+        }}
+      {%- else -%}
+        <span class="snosha-contact__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if heading != blank -%}
+    <h2 class="snosha-contact__heading">{{ heading }}</h2>
+  {%- endif -%}
+
+  {%- if bs.show_description and description != blank -%}
+    <p class="snosha-contact__text">
+      {%- if description_mobile != blank and description_mobile != description -%}
+        <span class="snosha-contact__variant snosha-contact__variant--desktop">{{ description }}</span>
+        <span class="snosha-contact__variant snosha-contact__variant--mobile">{{ description_mobile }}</span>
+      {%- else -%}
+        {{ description }}
+      {%- endif -%}
+    </p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Content",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "label": "Show logo",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo",
+      "info": "Optional. Blank uses Theme settings → Logo (the inverse logo for dark backgrounds if set, otherwise the main logo). Use a white logo on the dark card.",
+      "visible_if": "{{ block.settings.show_logo }}"
+    },
+    {
+      "type": "text",
+      "id": "logo_alt",
+      "label": "Logo alt text",
+      "info": "Blank uses the image's alt text or the store name.",
+      "visible_if": "{{ block.settings.show_logo }}"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 40,
+      "max": 240,
+      "step": 2,
+      "unit": "px",
+      "default": 140,
+      "visible_if": "{{ block.settings.show_logo }}"
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Logo width on mobile",
+      "min": 40,
+      "max": 240,
+      "step": 2,
+      "unit": "px",
+      "default": 100,
+      "visible_if": "{{ block.settings.show_logo }}"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 16,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 21
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading line height",
+      "min": 20,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 52
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description",
+      "label": "Description",
+      "visible_if": "{{ block.settings.show_description }}"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "description_mobile",
+      "label": "Description on mobile",
+      "info": "Optional. Leave blank to show the description above on mobile.",
+      "visible_if": "{{ block.settings.show_description }}"
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "alpha": true,
+      "default": "#FFFFFFCC",
+      "visible_if": "{{ block.settings.show_description }}"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description size",
+      "min": 10,
+      "max": 24,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16,
+      "visible_if": "{{ block.settings.show_description }}"
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "label": "Description size on mobile",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13,
+      "visible_if": "{{ block.settings.show_description }}"
+    }
+  ]
+}
+{% endschema %}
