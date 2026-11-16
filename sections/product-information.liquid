@@ -36,8 +36,17 @@
     assign initial_quantity = current_variant.quantity_rule.min | default: 1
   %}
 
+  {%- comment -%}
+    Snosha (with "Use Snosha Buy Box style"): .sticky-add-to-cart--snosha turns the floating card into a
+    full-width bar (assets/main.css, "SNOSHA — STICKY ADD TO CART") and adds <snosha-sticky-quantity>
+    (assets/main.js), which steps the main form's native quantity selector. Visibility, variant morphs and
+    the add itself stay with Horizon's sticky-add-to-cart.js.
+  {%- endcomment -%}
   <sticky-add-to-cart
-    class="sticky-add-to-cart"
+    class="sticky-add-to-cart{% if section.settings.snosha_buy_box %} sticky-add-to-cart--snosha{% endif %}"
+    {% if section.settings.snosha_buy_box %}
+      style="--snosha-bb-text: {{ section.settings.snosha_text_color }}; --snosha-bb-muted: {{ section.settings.snosha_muted_color }}; --snosha-bb-label: {{ section.settings.snosha_label_color }}; --snosha-bb-accent: {{ section.settings.snosha_accent_color }}; --snosha-bb-tint: {{ section.settings.snosha_tint_color }}; --snosha-bb-border: {{ section.settings.snosha_border_color }}; --snosha-bb-shadow: {{ section.settings.snosha_shadow_color }};"
+    {% endif %}
     data-variant-available="{{ current_variant.available }}"
     data-product-id="{{ product.id }}"
     data-current-variant-id="{{ current_variant.id }}"
@@ -121,6 +130,37 @@
         {% render 'price', product_resource: product, show_sale_price_first: true %}
       </div>
 
+      {% if section.settings.snosha_buy_box %}
+        <snosha-sticky-quantity
+          class="sticky-add-to-cart__quantity"
+          role="group"
+          aria-label="{{ 'products.product.quantity' | t }}"
+        >
+          <button
+            type="button"
+            class="sticky-add-to-cart__quantity-button button-unstyled"
+            data-step="-1"
+            {% if initial_quantity <= 1 %}
+              disabled
+            {% endif %}
+          >
+            <span class="visually-hidden">{{ 'accessibility.decrease_quantity' | t }}</span>
+            <span class="svg-wrapper" aria-hidden="true">{{- 'icon-minus.svg' | inline_asset_content -}}</span>
+          </button>
+          <span class="sticky-add-to-cart__quantity-value" data-quantity-value aria-live="polite">
+            {{- initial_quantity -}}
+          </span>
+          <button
+            type="button"
+            class="sticky-add-to-cart__quantity-button button-unstyled"
+            data-step="1"
+          >
+            <span class="visually-hidden">{{ 'accessibility.increase_quantity' | t }}</span>
+            <span class="svg-wrapper" aria-hidden="true">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+          </button>
+        </snosha-sticky-quantity>
+      {% endif %}
+
       <button
         type="button"
         class="sticky-add-to-cart__button add-to-cart-button button"
@@ -148,18 +188,21 @@
                 {{- 'products.product.sold_out' | t -}}
               {%- endif -%}
             </span>
-            <span
-              ref="quantityDisplay"
-              {% if current_variant.available and initial_quantity > 1 %}
-                style="display: inline;"
-              {% else %}
-                style="display: none;"
-              {% endif %}
+            {%- comment -%} Wrapper: lets the Snosha bar hide the "(n)" suffix its stepper replaces {%- endcomment -%}
+            <span class="sticky-add-to-cart__quantity-suffix"
+              ><span
+                ref="quantityDisplay"
+                {% if current_variant.available and initial_quantity > 1 %}
+                  style="display: inline;"
+                {% else %}
+                  style="display: none;"
+                {% endif %}
+              >
+                {{- ' (' -}}
+                <span ref="quantityNumber">{{- initial_quantity -}}</span>
+                {{- ')' -}}
+              </span></span
             >
-              {{- ' (' -}}
-              <span ref="quantityNumber">{{- initial_quantity -}}</span>
-              {{- ')' -}}
-            </span>
           </span>
         </span>
         <span class="add-to-cart__added">

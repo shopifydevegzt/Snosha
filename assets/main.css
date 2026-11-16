@@ -5244,3 +5244,228 @@ media-gallery.media-gallery--snosha {
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — STICKY ADD TO CART  (native sticky bar, sections/product-information.liquid)
+   With "Use Snosha Buy Box style" the native <sticky-add-to-cart> gets .sticky-add-to-cart--snosha
+   and the section's Buy Box colors (--snosha-bb-*). Horizon draws it as a 600px floating card
+   (left: 50% + translateX(-50%), pill radius, bordered ::before); from 750px this replaces it with a
+   full-width bar on the viewport bottom edge: white, top border + soft shadow, content aligned to the
+   page container. RTL: product (image · title · price) at the start (right), quantity + button at the end.
+   Below 750px Horizon's own full-width mobile bar is kept; only the Snosha stepper is left out there.
+   Show / hide, variant morphs and the add itself are Horizon's (assets/sticky-add-to-cart.js); the stepper
+   is <snosha-sticky-quantity> (assets/main.js). Specificity: Shopify's {% stylesheet %} bundle loads
+   after this file, so every override here is one class stronger than the native rule it replaces.
+   ========================================================================= */
+.sticky-add-to-cart--snosha {
+  /* The stepper replaces the button's "(n)" quantity suffix */
+  .sticky-add-to-cart__quantity-suffix {
+    display: none;
+  }
+
+  .sticky-add-to-cart__quantity {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sticky-add-to-cart__bar {
+      inset-inline: 0;
+      bottom: 0;
+      width: auto;
+      transform: translateY(calc(100% + 24px));
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        'image info  quantity button'
+        'image price quantity button';
+      align-items: center;
+      column-gap: 12px;
+      row-gap: 2px;
+      /* Inner content follows the page container (Custom 1376px + fluid page margin) */
+      padding-block: 12px calc(12px + var(--safe-area-inset-bottom, 0px));
+      padding-inline: max(var(--page-margin, 24px), calc((100% - var(--page-content-width, 100%)) / 2));
+      border-block-start: 1px solid var(--snosha-bb-border);
+      border-radius: 0;
+      background: var(--color-background);
+      box-shadow: 0 -6px 24px var(--snosha-bb-shadow);
+
+      /* Native glass border / background layer of the floating card */
+      &::before {
+        content: none;
+      }
+
+      &[data-stuck='true'] {
+        transform: translateY(0);
+      }
+
+      @media screen and (min-width: 990px) {
+        column-gap: 16px;
+        padding-block: 14px calc(14px + var(--safe-area-inset-bottom, 0px));
+      }
+    }
+
+    &:not([data-variant-available='true']) .sticky-add-to-cart__bar {
+      transform: translateY(calc(100% + 24px));
+    }
+
+    .sticky-add-to-cart__image {
+      grid-area: image;
+      block-size: 52px;
+      border: 1px solid var(--snosha-bb-border);
+      border-radius: 12px;
+      background: var(--snosha-bb-tint);
+
+      @media screen and (min-width: 990px) {
+        block-size: 60px;
+      }
+    }
+
+    .sticky-add-to-cart__info {
+      grid-area: info;
+      align-self: end;
+
+      &[data-has-image='false'] {
+        padding-inline-start: 0;
+      }
+    }
+
+    .sticky-add-to-cart__title {
+      color: var(--snosha-bb-label);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 15px;
+      line-height: 24px;
+
+      @media screen and (min-width: 990px) {
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
+
+    .sticky-add-to-cart__variant {
+      display: none;
+    }
+
+    .sticky-add-to-cart__price {
+      grid-area: price;
+      align-self: start;
+      min-inline-size: 0;
+
+      [ref='priceContainer'] {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0 8px;
+      }
+
+      .price {
+        color: var(--snosha-bb-text);
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 16px;
+        line-height: 24px;
+        white-space: nowrap;
+      }
+
+      .compare-at-price {
+        color: var(--snosha-bb-muted);
+        font-family: var(--font-body--family);
+        font-weight: var(--font-body--weight);
+        font-size: 13px;
+        line-height: 20px;
+        text-decoration: line-through;
+        text-decoration-color: currentcolor;
+        white-space: nowrap;
+        opacity: 1;
+      }
+    }
+
+    /* Quantity stepper (Snosha): mirrors the Buy Box quantity selector */
+    .sticky-add-to-cart__quantity {
+      grid-area: quantity;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      block-size: 48px;
+      padding-inline: 5px;
+      border: 1px solid var(--snosha-bb-border);
+      border-radius: 12px;
+      background: var(--color-background);
+
+      &[hidden] {
+        display: none;
+      }
+
+      @media screen and (min-width: 990px) {
+        block-size: 52px;
+      }
+    }
+
+    .sticky-add-to-cart__quantity-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: 34px;
+      block-size: 34px;
+      border-radius: 50%;
+      color: var(--snosha-bb-accent);
+      cursor: pointer;
+
+      .svg-wrapper,
+      svg {
+        inline-size: 14px;
+        block-size: 14px;
+      }
+
+      &:hover:not(:disabled) {
+        background: var(--snosha-bb-tint);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--snosha-bb-accent);
+        outline-offset: 1px;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+    }
+
+    .sticky-add-to-cart__quantity-value {
+      min-inline-size: 28px;
+      color: var(--snosha-bb-text);
+      font-family: var(--font-heading--family);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Native primary button, Buy Box proportions */
+    .sticky-add-to-cart__button {
+      grid-area: button;
+      block-size: 48px;
+      padding-block: 0;
+      padding-inline: 24px;
+      border-radius: 12px;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 15px;
+      line-height: 24px;
+      text-transform: none;
+      white-space: nowrap;
+
+      .add-to-cart-text > .svg-wrapper {
+        display: none;
+      }
+
+      @media screen and (min-width: 990px) {
+        block-size: 52px;
+        padding-inline: 40px;
+        font-size: 16px;
+      }
+    }
+  }
+}

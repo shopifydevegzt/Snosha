@@ -605,3 +605,105 @@ if (!window.snoshaGalleryAlign && 'onscrollend' in window) {
     { capture: true }
   );
 }
+
+/* -------------------------------------------------------------------------
+   <snosha-sticky-quantity> — quantity stepper in the Snosha sticky add-to-cart bar
+   (sections/product-information.liquid, rendered only with "Use Snosha Buy Box style").
+
+   Horizon's sticky bar has no quantity control: its button "clicks" the main Buy Box button, so the
+   quantity added is always the main form's. This stepper therefore never holds its own quantity — it
+   calls the main form's native <quantity-selector-component>.updateQuantity(±1) (same min / max /
+   step / cart-quantity rules as the Buy Box − / +), which dispatches Horizon's quantity-selector:update
+   event that sticky-add-to-cart.js already listens to. The displayed number and disabled states are
+   read back from the native selector. Hidden when the main form has no quantity selector.
+   ------------------------------------------------------------------------- */
+class SnoshaStickyQuantity extends HTMLElement {
+  /** @type {AbortController | null} */
+  #abort = null;
+
+  connectedCallback() {
+    this.#abort?.abort();
+    this.#abort = new AbortController();
+    const { signal } = this.#abort;
+
+    this.addEventListener('click', this.#onClick, { signal });
+    // Cart changes (drawer, other forms) can move the effective max: refresh before interaction
+    this.addEventListener('pointerenter', this.#sync, { signal });
+    this.addEventListener('focusin', this.#sync, { signal });
+
+    document.addEventListener(
+      'quantity-selector:update',
+      (event) => {
+        if (/** @type {CustomEvent} */ (event).detail?.cartLine) return; // cart drawer lines
+        this.#sync();
+      },
+      { signal }
+    );
+
+    // Variant change: the sticky bar and the Buy Box are morphed from the server response
+    // (resetting this number); re-read the native selector once that settles.
+    this.closest('.shopify-section')?.addEventListener(
+      'shopify:product:select',
+      (event) => {
+        const { promise } = /** @type {CustomEvent & { promise?: Promise<unknown> }} */ (event);
+        promise?.then(() => requestAnimationFrame(this.#sync)).catch(() => {});
+      },
+      { signal }
+    );
+
+    this.#sync();
+  }
+
+  disconnectedCallback() {
+    this.#abort?.abort();
+    this.#abort = null;
+  }
+
+  /** The main Buy Box form's native quantity selector (same lookup as sticky-add-to-cart.js). */
+  #selector() {
+    const sticky = /** @type {HTMLElement | null} */ (this.closest('sticky-add-to-cart'));
+    const section = this.closest('.shopify-section');
+    const productId = sticky?.dataset.productId;
+    if (!section || !productId) return null;
+    return /** @type {(HTMLElement & { updateQuantity?: (step: number) => void }) | null} */ (
+      section.querySelector(
+        `product-form-component[data-product-id="${CSS.escape(productId)}"] quantity-selector-component`
+      )
+    );
+  }
+
+  /** @param {MouseEvent} event */
+  #onClick = (event) => {
+    const button = event.target instanceof Element ? event.target.closest('button[data-step]') : null;
+    if (!(button instanceof HTMLButtonElement) || button.disabled) return;
+    const selector = this.#selector();
+    if (typeof selector?.updateQuantity !== 'function') return;
+    selector.updateQuantity(Number(button.dataset.step) || 0);
+    this.#sync();
+  };
+
+  #sync = () => {
+    const selector = this.#selector();
+    const input = selector?.querySelector('input[name="quantity"]');
+    if (!selector || !(input instanceof HTMLInputElement)) {
+      this.hidden = true;
+      return;
+    }
+    this.hidden = false;
+
+    const value = this.querySelector('[data-quantity-value]');
+    if (value) value.textContent = input.value;
+
+    const minus = selector.querySelector('button[name="minus"]');
+    const plus = selector.querySelector('button[name="plus"]');
+    for (const button of this.querySelectorAll('button[data-step]')) {
+      if (!(button instanceof HTMLButtonElement)) continue;
+      const source = button.dataset.step === '-1' ? minus : plus;
+      if (source instanceof HTMLButtonElement) button.disabled = source.disabled;
+    }
+  };
+}
+
+if (!customElements.get('snosha-sticky-quantity')) {
+  customElements.define('snosha-sticky-quantity', SnoshaStickyQuantity);
+}

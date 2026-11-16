@@ -113,7 +113,6 @@
           endif
 
           assign item_media = variant.featured_media | default: item.featured_media
-          assign variant_media_url = item_media.preview_image | image_url: width: 100
         -%}
         <li class="snosha-complementary__item">
           <product-card
@@ -165,10 +164,15 @@
                   {%- form 'product', item, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
                     <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
                     <input type="hidden" name="quantity" value="{{ variant.quantity_rule.min | default: 1 }}">
+                    {%- comment -%}
+                      Fly-to-cart is off for this block only: "false" makes Horizon's add-to-cart-component
+                      (assets/product-form.js handleClick) skip creating the <fly-to-cart> clone. The add
+                      request, cart events, drawer and the button's own "added" state are unchanged.
+                      No variant media attribute: it only fed that clone (and its image preload).
+                    {%- endcomment -%}
                     <add-to-cart-component
                       ref="addToCartButtonContainer"
-                      data-product-variant-media="{{ variant_media_url }}"
-                      data-add-to-cart-animation="{{ settings.add_to_cart_animation }}"
+                      data-add-to-cart-animation="false"
                     >
                       <button
                         type="submit"

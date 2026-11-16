@@ -724,3 +724,44 @@ No option overflows at either width.
 - **Section-level inner padding:** many Figma sections add 20px inside the 1376px container (content 1336). That belongs to each section's padding settings when the sections are built.
 - **Password page:** it now loads the design tokens, so the width and gutters work there. It still doesn't load the Cairo snippet (unchanged, per the "don't modify Cairo" rule).
 - **Gutters between 750 and 1480px** are interpolated. No Figma tablet frame exists to confirm them.
+
+## 11. Product page pre-QA fixes (2026-11-16): complementary fly-to-cart, full-width sticky add to cart
+
+### 11.1 Complementary products: no fly-to-cart
+- **Cause:** `blocks/snosha-complementary.liquid` passed the global `settings.add_to_cart_animation` (on) to Horizon's `add-to-cart-component`. On click, `assets/product-form.js` (`handleClick` → `#animateFlyToCart`) appended a `<fly-to-cart>` element that travels from the "+" button to `.header-actions__cart-icon`.
+- **Fix (block only):** `data-add-to-cart-animation="false"` on that component. The `data-product-variant-media` attribute and its `variant_media_url` assign were removed too, because they only fed the clone and its image preload. The global setting is unchanged, so the Buy Box button and the sticky bar still animate.
+- **Measured (dev preview, 1480px):** complementary add → `/cart.js` +1 `snosha-tongue-cleaner`, cart bubble updated, drawer contents re-rendered, 0 `<fly-to-cart>` created. Main Buy Box add in the same session → 1 created. Rapid clicks: each click adds one (native Horizon has no in-flight guard; the Buy Box behaves the same way).
+
+### 11.2 Sticky add to cart: full-width bar (≥ 750px)
+- **Component:** Horizon's native `<sticky-add-to-cart>` (`sections/product-information.liquid` + `assets/sticky-add-to-cart.js`); no second component was added. The floating card came from the section's `{% stylesheet %}`: `width: 600px`, `left: 50%` + `translateX(-50%)`, a pill radius and a bordered glass `::before`.
+- **Markup** (only with "Use Snosha Buy Box style"):
+  - the modifier class `sticky-add-to-cart--snosha`;
+  - the Buy Box color settings bridged as `--snosha-bb-*`;
+  - a `<snosha-sticky-quantity>` stepper;
+  - a wrapper around the "(n)" quantity suffix so the bar can hide it.
+- **Stepper** (`assets/main.js`): it calls the main form's native `quantity-selector-component.updateQuantity(±1)` and reads the value and disabled states back. The quantity added is still the main form's, so the native rules apply: min, max, step and cart quantity.
+- **CSS** (`assets/main.css`, "SNOSHA — STICKY ADD TO CART"):
+  - grid: `image | title / price | quantity | button` (RTL: product on the right);
+  - `inset-inline: 0`, `bottom: 0`, radius 0, white `--color-background`;
+  - a 1px `--snosha-bb-border` top border and a soft `--snosha-bb-shadow`;
+  - inline padding `max(--page-margin, (100% - --page-content-width) / 2)`.
+  - Selectors are one class stronger than the native rules because the `{% stylesheet %}` bundle loads after `main.css`.
+- **Below 750px:** Horizon's mobile bar is unchanged, and the stepper is hidden there.
+- **Measured** (`getBoundingClientRect`, bar stuck, `scrollWidth - clientWidth` = 0 at every width):
+
+| Viewport | Bar | Inline padding | Image | Quantity | Button |
+|---|---|---|---|---|---|
+| 1480 | 0–1480, h 89 | 52 | 60 (x 1368–1428) | 112×52 | 181×52 (x 52) |
+| 1366 | 0–1366 | 49.1 | 60 | 112×52 | 181×52 |
+| 1200 | 0–1200 | 44.8 | 60 | 112×52 | 181×52 |
+| 1024 | 0–1024 | 40.3 | 60 | 112×52 | 181×52 |
+| 990 | 0–990 | 39.4 | 60 | 112×52 | 181×52 |
+| 900 / 750 | full, h 77 | 37.1 / 33.2 | 52 | 112×48 | 142×48 |
+| 749 / 390 | native mobile bar (flex, full width) | 11.2 | 52 | hidden | 52×52 icon |
+
+- **Behavior checked:** stepper +, +, − → main input 3 → 2, and the stepper shows the same. Sticky add → cart `snosha-f1 ×2`. Show and hide are still native.
+
+### 11.3 Not verified
+- Verified at 900px: a colour change with quantity 2 → the sticky variant ID updates, the stepper still shows 2, and + then gives 3 in both. The variant image swap wasn't confirmed, because the test variants share one image.
+- Not verified: sold-out and unavailable variants (the bar is hidden natively), the Theme Editor, and real devices / Safari.
+- Mobile title truncation at 390px ("F1…") is native Horizon (the variant title shares the info column). It's left for the page-wide visual QA.
