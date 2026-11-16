@@ -1,0 +1,69 @@
+{%- doc -%}
+  Snosha — linked colour products in the product page variant picker.
+
+  Source: the product metafield custom.linked_color_products (list of product references), e.g. the
+  four separate SNOSHA N2 colour products. Each colour is a real link to the product's own URL, so it
+  works without JavaScript, in new tabs and with modified clicks. With the variant picker setting
+  "Enable AJAX navigation for linked products" on (and outside the Theme Editor), <snosha-linked-colors>
+  (assets/snosha-linked-products.js) swaps the product page's sections in place with the Section
+  Rendering API and updates the URL; anything it cannot do safely falls back to the normal link.
+
+  Rendered by snippets/variant-main-picker.liquid on the product page only. Styles: Horizon's swatch
+  classes + assets/dev1.css (.snosha-linked-colors).
+
+  @param {object} product_resource - the product being viewed
+  @param {object} linked_products - the metafield value (array of products)
+  @param {object} block - the variant picker block
+  @param {string} [legend] - row label (the colour option name)
+  @param {string} [current_label] - the viewed product's colour name
+  @param {boolean} [standalone] - true when the native picker is not rendered (single-variant product)
+{%- enddoc -%}
+{%- liquid
+  assign block_settings = block.settings
+
+  assign current_listed = false
+  for linked_item in linked_products
+    if linked_item.id == product_resource.id
+      assign current_listed = true
+      break
+    endif
+  endfor
+
+  assign ajax_enabled = false
+  if block_settings.snosha_linked_ajax and request.design_mode == false
+    assign ajax_enabled = true
+  endif
+
+  assign row_legend = legend | default: 'اللون'
+-%}
+<snosha-linked-colors
+  class="snosha-linked-colors variant-picker variant-picker--{{ block_settings.alignment }}{% if standalone %} spacing-style{% endif %}"
+  {% if standalone %}
+    style="{% render 'spacing-style', settings: block_settings %}"
+  {% endif %}
+  data-product-id="{{ product_resource.id }}"
+  data-template="{{ product_resource.template_suffix }}"
+  data-ajax="{{ ajax_enabled }}"
+>
+  <nav aria-label="{{ row_legend | escape }}">
+    <fieldset class="variant-option variant-option--buttons variant-option--swatches">
+      <legend>
+        {{- row_legend | escape -}}
+        {%- if current_label != blank -%}
+          <span class="variant-option__swatch-value">{{ current_label | escape }}</span>
+        {%- endif -%}
+      </legend>
+      {%- unless current_listed -%}
+        {%- render 'snosha-linked-color-item', item: product_resource, current_product: product_resource -%}
+      {%- endunless -%}
+      {%- for linked_item in linked_products -%}
+        {%- if linked_item != blank -%}
+          {%- render 'snosha-linked-color-item', item: linked_item, current_product: product_resource -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </fieldset>
+  </nav>
+</snosha-linked-colors>
+{%- if ajax_enabled -%}
+  <script src="{{ 'snosha-linked-products.js' | asset_url }}" type="module" fetchpriority="low"></script>
+{%- endif -%}

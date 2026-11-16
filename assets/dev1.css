@@ -409,6 +409,26 @@
     }
   }
 
+  /* Mobile carousel cards: Figma fixed 165 x 283 (homepage only; the collection grid sizes cards by content) */
+  @media screen and (max-width: 749px) {
+    .product-card__content.product-grid__card {
+      block-size: 283px;
+      overflow: clip;
+    }
+  }
+
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT CARD (shared look)
+   Native _product-card (gallery, product-title, custom-liquid description, review, price,
+   custom-liquid CTA) styled once for:
+   - .snosha-featured-collection  homepage best sellers (sections/product-list.liquid, carousel)
+   - .snosha-collection-grid      collection page grid (sections/main-collection.liquid, opt-in)
+   Sizes come from the --fc-* metrics each scope defines; colors from --snosha-fc-* (bridged by
+   each section's settings).
+   ========================================================================= */
+:is(.snosha-featured-collection, .snosha-collection-grid) {
   /* ---------------- Product card ---------------- */
   /* Two classes to outrank Horizon's .product-grid__card.product-grid__card (compiled bundle, loaded later) */
   .product-card__content.product-grid__card {
@@ -428,11 +448,6 @@
       border: var(--border-width) var(--border-style) var(--border-color);
       border-radius: inherit;
       pointer-events: none;
-    }
-
-    @media screen and (max-width: 749px) {
-      block-size: 283px;
-      overflow: clip;
     }
 
     /* A custom-liquid block that printed nothing (e.g. no description) must not add a gap */
@@ -4502,5 +4517,471 @@
     .jdgm-cards-carousel .jdgm-content:has(.jdgm-media-card img) > .jdgm-arrow {
       inset-block-start: calc(var(--snosha-jdgm-image-height-mobile, 130px) / 2);
     }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BREADCRUMBS (snippets/snosha-breadcrumbs.liquid)
+   Colors: --snosha-ch-text / --snosha-ch-accent from the owning section, palette otherwise.
+   ========================================================================= */
+.snosha-breadcrumbs {
+  color: var(--snosha-ch-text, var(--color-foreground));
+  font-size: 14px;
+  line-height: 24px;
+
+  @media screen and (max-width: 749px) {
+    font-size: 13px;
+    line-height: 22px;
+  }
+}
+
+.snosha-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.snosha-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.snosha-breadcrumbs__link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--snosha-ch-accent, currentColor);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--snosha-ch-accent, currentColor);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.snosha-breadcrumbs__current {
+  overflow: hidden;
+  color: var(--snosha-ch-title, var(--color-foreground));
+  font-family: var(--font-accent--family);
+  font-weight: var(--font-accent--weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* The chevron points in the reading direction (left in RTL) */
+.snosha-breadcrumbs__separator {
+  flex: none;
+  opacity: 0.7;
+
+  &:dir(ltr) {
+    scale: -1 1;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — COLLECTION HEADER (sections/snosha-collection-header.liquid)
+   Compact band: breadcrumbs → H1 → description (clamped), optional collection image at the
+   inline end. Values: --snosha-ch-* (section bridge).
+   ========================================================================= */
+.snosha-collection-header {
+  padding-block: var(--snosha-ch-padding-start-mobile) var(--snosha-ch-padding-end-mobile);
+  background-color: var(--snosha-ch-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-ch-padding-start) var(--snosha-ch-padding-end);
+  }
+
+  .snosha-collection-header__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+
+  .snosha-collection-header__text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 8px;
+    min-inline-size: 0;
+  }
+
+  &.snosha-collection-header--center .snosha-collection-header__text {
+    align-items: center;
+    text-align: center;
+
+    .snosha-breadcrumbs__list {
+      justify-content: center;
+    }
+  }
+
+  /* With an image, the text sits next to it (start-aligned) from 750px */
+  @media screen and (min-width: 750px) {
+    &.snosha-collection-header--has-image .snosha-collection-header__text {
+      align-items: flex-start;
+      text-align: start;
+
+      .snosha-breadcrumbs__list {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  .snosha-collection-header__title {
+    margin: 0;
+    color: var(--snosha-ch-title);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--snosha-ch-title-size-mobile);
+    line-height: 1.4;
+    text-wrap: balance;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-ch-title-size);
+    }
+  }
+
+  .snosha-collection-header__description {
+    max-inline-size: 720px;
+    color: var(--snosha-ch-text);
+    font-size: 14px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 16px;
+      line-height: 28px;
+    }
+
+    & > :first-child {
+      margin-block-start: 0;
+    }
+
+    & > :last-child {
+      margin-block-end: 0;
+    }
+
+    & a {
+      color: var(--snosha-ch-accent);
+    }
+  }
+
+  /* Clamp (0 = full description) */
+  &.snosha-collection-header--clamp .snosha-collection-header__description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--snosha-ch-description-lines);
+    line-clamp: var(--snosha-ch-description-lines);
+    overflow: hidden;
+  }
+
+  .snosha-collection-header__media {
+    flex: none;
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: var(--color-background);
+
+    @media screen and (min-width: 750px) {
+      inline-size: min(var(--snosha-ch-image-width), 40%);
+      border-radius: 20px;
+    }
+  }
+
+  .snosha-collection-header__image {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+
+    @media screen and (min-width: 750px) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  &.snosha-collection-header--image-desktop-only .snosha-collection-header__media {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — COLLECTION GRID (sections/main-collection.liquid, "Snosha collection style")
+   Native main-collection: filters block (filters, sorting, count, grid density, mobile drawer)
+   and the native _product-card with the shared "SNOSHA — PRODUCT CARD" look. This block sets the
+   card metrics for a fluid grid, the column cap and the filter bar look.
+   Values: --snosha-cc-* and --snosha-fc-* (section bridge).
+   ========================================================================= */
+.snosha-collection-grid {
+  /* Card metrics, desktop (same as the homepage card, Figma 190:3844) */
+  --fc-inset: 0px;
+  --fc-image-radius: 16px;
+  --fc-after-image: 14px;
+  --fc-pad: 12px;
+  --fc-gap: 6px;
+  --fc-end-space: 20px;
+  --fc-title-size: 16px;
+  --fc-title-lh: 27px;
+  --fc-desc-size: 14px;
+  --fc-desc-lh: 24px;
+  --fc-caption-size: 12px;
+  --fc-caption-lh: 20px;
+  --fc-star-box: 22.9px;
+  --fc-star-step: 22.6px;
+  --fc-star-size: 19.75px;
+  --fc-price-pt: 4px;
+  --fc-price-gap: 10px;
+  --fc-badge-size: 12px;
+  --fc-badge-lh: 18px;
+  --fc-badge-pad-block: 4px;
+  --fc-badge-pad-inline: 12px;
+  --fc-badge-radius: 8px;
+  --fc-badge-border: 1px;
+  --fc-compare-size: 14px;
+  --fc-compare-lh: 22px;
+  --fc-price-size: 18px;
+  --fc-price-lh: 28px;
+  --fc-cta-size: 16px;
+  --fc-cta-lh: 26px;
+  --fc-cta-gap: 10px;
+  --fc-cta-icon: 18px;
+  --fc-label-top: 14px;
+  --fc-label-side: 12px;
+
+  @media screen and (max-width: 749px) {
+    /* Mobile: readable sizes for two ~170px columns (the homepage mobile carousel uses Figma's
+       scaled-down card; a grid page needs legible text) */
+    --fc-image-radius: 12px;
+    --fc-after-image: 10px;
+    --fc-pad: 10px;
+    --fc-gap: 4px;
+    --fc-end-space: 14px;
+    --fc-title-size: 13px;
+    --fc-title-lh: 21px;
+    --fc-desc-size: 12px;
+    --fc-desc-lh: 19px;
+    --fc-caption-size: 11px;
+    --fc-caption-lh: 17px;
+    --fc-star-box: 16px;
+    --fc-star-step: 15px;
+    --fc-star-size: 13px;
+    --fc-price-pt: 2px;
+    --fc-price-gap: 6px;
+    --fc-badge-size: 10px;
+    --fc-badge-lh: 15px;
+    --fc-badge-pad-block: 2px;
+    --fc-badge-pad-inline: 7px;
+    --fc-badge-radius: 6px;
+    --fc-compare-size: 11px;
+    --fc-compare-lh: 17px;
+    --fc-price-size: 14px;
+    --fc-price-lh: 21px;
+    --fc-cta-size: 13px;
+    --fc-cta-lh: 21px;
+    --fc-cta-gap: 6px;
+    --fc-cta-icon: 14px;
+    --fc-label-top: 8px;
+    --fc-label-side: 8px;
+  }
+
+  /* Column cap: at most --snosha-cc-columns, never narrower than --snosha-cc-min-card (fewer
+     columns on smaller screens). Default view only — the native grid-density "zoom out" view and
+     the organic layout stay native. Mobile columns stay native ("Mobile card size"). */
+  .product-grid--grid[product-grid-view='default'] {
+    @media screen and (min-width: 750px) {
+      --product-grid-columns-desktop: repeat(
+        auto-fill,
+        minmax(
+          max(
+            var(--snosha-cc-min-card),
+            calc((100% - (var(--snosha-cc-columns) - 1) * var(--snosha-cc-col-gap)) / var(--snosha-cc-columns))
+          ),
+          1fr
+        )
+      );
+    }
+  }
+
+  /* Product images on the light brand surface (transparent / white product shots) */
+  .card-gallery {
+    background-color: var(--snosha-cc-image-bg);
+  }
+
+  /* Collection modifier: badges at the inline start (top right in Arabic) on every width. The shared
+     card rule keeps the homepage's Figma desktop placement (inline end); Horizon's "top-right" badge
+     position is inline end too, i.e. top left in RTL. */
+  .product-badges {
+    inset-inline: var(--fc-label-side) auto;
+    align-items: flex-start;
+  }
+
+  /* Narrow cards: the discount badge moves under the price instead of overflowing */
+  product-price [ref='priceContainer'] {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  /* Equal heights are native (stretched grid cells, .product-card height 100 %); the price row and
+     the CTA sit at the bottom so they line up across a row whatever the title / rating length. */
+  .product-card__content.product-grid__card > :is(product-price, :has(> product-price)) {
+    margin-block-start: auto;
+  }
+
+  /* Titles: two lines in the grid (the homepage carousel keeps one) */
+  .product-card__content .text-block.h5 {
+    &,
+    & > * {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      white-space: normal;
+    }
+  }
+
+  /* ---------------- Filter bar (native filters block) ---------------- */
+  /* Desktop: one rounded bar — filters (pills) | applied-filter clear | count | sorting | density */
+  .facets--horizontal {
+    @media screen and (min-width: 750px) {
+      padding-inline: 16px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 16px;
+      background-color: var(--color-background);
+    }
+  }
+
+  .facets--horizontal .facets__summary {
+    @media screen and (min-width: 750px) {
+      gap: 6px;
+      align-items: center;
+      block-size: 40px;
+      padding-inline: 14px 12px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 999px;
+      color: var(--snosha-fc-title);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 14px;
+
+      &:hover {
+        border-color: var(--snosha-fc-accent);
+      }
+    }
+  }
+
+  .facets--horizontal .facets__panel[open] > .facets__summary {
+    @media screen and (min-width: 750px) {
+      border-color: var(--snosha-fc-accent);
+      color: var(--snosha-fc-accent);
+    }
+  }
+
+  .facets--horizontal .products-count-wrapper {
+    color: var(--snosha-fc-text);
+    font-size: 14px;
+  }
+
+  .facets__clear-all-link {
+    color: var(--snosha-fc-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Mobile: the native "Filter" + density bar as one light rounded bar above the grid */
+  .facets-toggle {
+    @media screen and (max-width: 749px) {
+      margin-inline: var(--margin-lg, 16px);
+      margin-block: 0 16px;
+      padding-inline: 14px 10px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 12px;
+      background-color: var(--color-background);
+    }
+  }
+
+  .facets-toggle__button {
+    color: var(--snosha-fc-title);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+  }
+
+  .filter-count-bubble {
+    background-color: var(--snosha-fc-accent);
+    color: var(--snosha-fc-on-accent);
+  }
+}
+
+/* =========================================================================
+   SNOSHA — LINKED COLOUR PRODUCTS  (snippets/snosha-linked-colors.liquid,
+   snippets/snosha-linked-color-item.liquid, assets/snosha-linked-products.js)
+   The row reuses Horizon's variant picker swatch classes (.variant-option--swatches,
+   .variant-option__button-label--has-swatch, .swatch), so size, shape, colours, hover and the
+   selected outline follow the theme's swatch settings. Colours are links, not radios, so the
+   states Horizon draws from :has(:checked) / label selectors are mapped here.
+   ========================================================================= */
+.snosha-linked-colors {
+  display: block;
+
+  /* Followed by the native picker (multi-variant product): same gap as between two option rows */
+  &:not(.spacing-style) {
+    margin-block-end: var(--padding-lg);
+  }
+
+  /* Horizon applies the swatch radius to label elements only */
+  .variant-option__button-label--has-swatch {
+    border-radius: var(--variant-picker-swatch-radius);
+    text-decoration: none;
+  }
+
+  /* Active product = Horizon's checked swatch outline */
+  .variant-option__button-label--has-swatch[aria-current='page'] {
+    --focus-outline: var(--focus-outline-width) solid var(--color-selected-variant-border);
+
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .variant-option__button-label--has-swatch:focus-visible {
+    outline: var(--focus-outline-width) solid var(--color-foreground);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .snosha-linked-colors__item--sold-out .swatch {
+    opacity: var(--opacity-subdued-text, 0.6);
+  }
+
+  a[aria-busy='true'] {
+    cursor: progress;
+  }
+}
+
+/* While another colour loads: the product section dims and its purchase controls ignore pointer
+   input, so nothing is added for the product that is about to be replaced. */
+main[data-snosha-linked-loading] .shopify-section:has(snosha-linked-colors) {
+  opacity: 0.6;
+  cursor: progress;
+
+  :is(product-form-component, sticky-add-to-cart) {
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity var(--animation-speed, 0.2s) var(--animation-easing, ease);
   }
 }

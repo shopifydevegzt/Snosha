@@ -1,0 +1,63 @@
+{%- doc -%}
+  Snosha — one linked colour product, rendered as a real link styled with Horizon's native swatch
+  (same classes as the variant picker's swatch labels). Used by snippets/snosha-linked-colors.liquid.
+
+  Swatch and label come from the product's own option value that carries a Shopify swatch (its
+  selected / first available value, e.g. "أبيض"); without one, the product image and title are used.
+
+  @param {object} item - the linked product
+  @param {object} current_product - the product being viewed
+{%- enddoc -%}
+{%- liquid
+  assign item_swatch = null
+  assign item_label = item.title
+  for item_option in item.options_with_values
+    for item_value in item_option.values
+      if item_value.selected and item_value.swatch
+        assign item_swatch = item_value.swatch
+        assign item_label = item_value.name
+        break
+      endif
+    endfor
+    if item_swatch
+      break
+    endif
+  endfor
+
+  # Same format as the <title> in snippets/meta-tags.liquid ("page title – shop name")
+  assign item_document_title = item.metafields.global.title_tag | default: item.title
+  unless item_document_title contains shop.name
+    assign item_document_title = item_document_title | append: ' – ' | append: shop.name
+  endunless
+
+  assign item_classes = 'variant-option__button-label variant-option__button-label--has-swatch snosha-linked-colors__item'
+  if item.available == false
+    assign item_classes = item_classes | append: ' snosha-linked-colors__item--sold-out'
+  endif
+-%}
+<a
+  class="{{ item_classes }}"
+  href="{{ item.url }}"
+  data-product-id="{{ item.id }}"
+  data-template="{{ item.template_suffix }}"
+  data-document-title="{{ item_document_title | escape }}"
+  aria-label="{{ item_label | escape }}{% if item.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+  {% if item.id == current_product.id %}
+    aria-current="page"
+  {% endif %}
+>
+  {%- if item_swatch -%}
+    {%- render 'swatch',
+      swatch: item_swatch,
+      variant_image: item.selected_or_first_available_variant.featured_media,
+      mode: 'unscaled'
+    -%}
+  {%- elsif item.featured_media -%}
+    <span
+      class="swatch swatch--unscaled"
+      style="--swatch-background: url({{ item.featured_media | image_url: width: 80 }});"
+    ></span>
+  {%- else -%}
+    <span class="swatch swatch--unscaled swatch--unavailable"></span>
+  {%- endif -%}
+</a>
