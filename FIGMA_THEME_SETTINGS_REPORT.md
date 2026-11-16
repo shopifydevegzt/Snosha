@@ -765,3 +765,14 @@ No option overflows at either width.
 - Verified at 900px: a colour change with quantity 2 → the sticky variant ID updates, the stepper still shows 2, and + then gives 3 in both. The variant image swap wasn't confirmed, because the test variants share one image.
 - Not verified: sold-out and unavailable variants (the bar is hidden natively), the Theme Editor, and real devices / Safari.
 - Mobile title truncation at 390px ("F1…") is native Horizon (the variant title shares the info column). It's left for the page-wide visual QA.
+
+## 12. Product page final QA + CSS corrections (2026-11-16)
+Full audit (Figma `190:10187` / `190:10905` against dev theme #168066810072 serving `main`), with before/after measurements, is in `SNOSHA_PRODUCT_PAGE_FINAL_QA_REPORT.md`. Evidence is in `docs/figma-validation/product-page-qa/`.
+
+**Changed (`assets/main.css` only), each verified at 1480 and 390:**
+- Long Description: icons (Sonic mobile 20; Brush and Water 22 / 20); Cleaning Modes `overflow-y: clip` at ≥990; shadow blur 22.
+- Quantity stepper order "+" / "−" (Buy Box and sticky bar).
+- Recommended products: mobile heading padding.
+- Scoped overrides for `dev1.css` sections: FAQ 14 px on product-page mobile; comparison mobile `overflow-y: clip`; Judge.me card and track padding.
+
+**Blocked:** Reels (not on the served theme) and every template-setting fix. The local `templates/product.json` does not contain the merchant's Theme Editor change, so it was left untouched.

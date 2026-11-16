@@ -3321,6 +3321,15 @@
         color: var(--snosha-bb-accent);
       }
 
+      /* Figma: "+" at the inline start (right in RTL), "−" at the inline end */
+      .quantity-plus {
+        order: -1;
+      }
+
+      .quantity-minus {
+        order: 1;
+      }
+
       /* Figma "−" / "+": Cairo Bold 16 (mobile) / 18 (desktop) glyphs, ~8.5 / ~10px wide. Horizon's 14-unit
          icons draw an 8.3 / 13.6 visible bar, so the icon box is 14 / 16px (visible ~8.5 / ~9.8px). */
       :is(.quantity-minus, .quantity-plus) svg {
@@ -4099,15 +4108,16 @@ media-gallery.media-gallery--snosha {
     .product-media {
       inline-size: 105.55%;
       margin-inline: -2.775%;
-      padding-block: 9.8% 0;
+      /* padding-block: 9.8% 0; */
 
       @media screen and (min-width: 750px) {
-        padding-block: 8.006% 0;
+        /* padding-block: 8.006% 0; */
       }
     }
 
     :is(img, .deferred-media__poster-image) {
       object-position: 50% 0;
+      object-fit: cover;
     }
   }
 
@@ -4281,11 +4291,11 @@ media-gallery.media-gallery--snosha {
 
   /* ---------- Panel: list styles (tile, icon, row geometry) ---------- */
   .snosha-long-description__panel--large {
-    /* Figma Sonic: 56 px tile / 24 px icon, 16 px gap, text 4 px down; mobile 44 px tile, 12 px gap */
+    /* Figma Sonic: 56 px tile / 24 px icon, 16 px gap, text 4 px down; mobile 44 px tile / 20 px icon, 12 px gap */
     --snosha-ld-tile: 56px;
     --snosha-ld-tile-mobile: 44px;
     --snosha-ld-icon: 24px;
-    --snosha-ld-icon-mobile: 24px;
+    --snosha-ld-icon-mobile: 20px;
     --snosha-ld-item-inner-gap: 16px;
     --snosha-ld-item-inner-gap-mobile: 12px;
     --snosha-ld-item-align: flex-start;
@@ -4310,11 +4320,12 @@ media-gallery.media-gallery--snosha {
   }
 
   .snosha-long-description__panel--medium {
-    /* 48 px tile (44 px on mobile), text top-aligned 1 px down */
+    /* 48 px tile / 22 px icon (44 px tile / 20 px icon on mobile; Figma Brush heads, Water),
+       text top-aligned 1 px down */
     --snosha-ld-tile: 48px;
     --snosha-ld-tile-mobile: 44px;
-    --snosha-ld-icon: 24px;
-    --snosha-ld-icon-mobile: 24px;
+    --snosha-ld-icon: 22px;
+    --snosha-ld-icon-mobile: 20px;
     --snosha-ld-item-inner-gap: 14px;
     --snosha-ld-item-inner-gap-mobile: 12px;
     --snosha-ld-item-align: flex-start;
@@ -4592,13 +4603,19 @@ media-gallery.media-gallery--snosha {
       max-inline-size: none;
       block-size: var(--snosha-ld-image-h-mobile, 100%);
       object-fit: fill;
-      transform: translate(var(--snosha-ld-image-x-mobile, 0%), var(--snosha-ld-image-y-mobile, 0%))
+      transform: translate(
+          var(--snosha-ld-image-x-mobile, 0%),
+          var(--snosha-ld-image-y-mobile, 0%)
+        )
         scale(var(--snosha-ld-image-zoom-mobile, 1));
 
       @media screen and (min-width: 990px) {
         inline-size: var(--snosha-ld-image-w, 100%);
         block-size: var(--snosha-ld-image-h, 100%);
-        transform: translate(var(--snosha-ld-image-x, 0%), var(--snosha-ld-image-y, 0%))
+        transform: translate(
+            var(--snosha-ld-image-x, 0%),
+            var(--snosha-ld-image-y, 0%)
+          )
           scale(var(--snosha-ld-image-zoom, 1));
       }
     }
@@ -4606,6 +4623,15 @@ media-gallery.media-gallery--snosha {
     /* Editor placeholder: fills the frame */
     .snosha-long-description__image--placeholder {
       object-fit: contain;
+    }
+  }
+
+  /* Figma's Cleaning modes frame (190:10580) clips its contents: the tilted product shows as a
+     straight-edged body crop and the floor ellipse stays hidden. Only this panel archetype clips
+     (Box, Brush and Water images overflow their panels in Figma too), and only vertically. */
+  @media screen and (min-width: 990px) {
+    .snosha-long-description__panel--large_scaled {
+      overflow-y: clip;
     }
   }
 
@@ -4701,7 +4727,8 @@ media-gallery.media-gallery--snosha {
 
     /* Opt-in per panel (Sonic): the heading scales with the column below 390 so it keeps one line;
        21 px at 350 px, never under 16 px, never above the Typography size. */
-    .snosha-long-description__panel--heading-fit .snosha-long-description__heading {
+    .snosha-long-description__panel--heading-fit
+      .snosha-long-description__heading {
       font-size: clamp(
         16px,
         calc(100cqi * var(--snosha-ld-heading-fit, 0.06)),
@@ -4717,14 +4744,17 @@ media-gallery.media-gallery--snosha {
       .snosha-long-description__media-frame {
         inline-size: clamp(
           calc(var(--snosha-ld-media-width-mobile, 160px) * 0.65),
-          calc(var(--snosha-ld-media-width-mobile, 160px) - (350px - 100cqi) * 0.8),
+          calc(
+            var(--snosha-ld-media-width-mobile, 160px) - (350px - 100cqi) * 0.8
+          ),
           var(--snosha-ld-media-width-mobile, 160px)
         );
       }
     }
 
     /* Stacked images (Sonic, Battery) stop growing past 480 px on large phones (Figma: 350 at 390). */
-    .snosha-long-description__panel--mobile-stacked .snosha-long-description__media-frame {
+    .snosha-long-description__panel--mobile-stacked
+      .snosha-long-description__media-frame {
       max-inline-size: min(100%, 480px);
     }
   }
@@ -4745,11 +4775,13 @@ media-gallery.media-gallery--snosha {
     /* The mobile "behind the list" edge offset can be negative so the image bleeds off a phone
        screen (Figma Cleaning modes: 83 px past the edge at 390). On tablets the page has a wide
        gutter instead, so the image stops at the content edge rather than being cut by the screen. */
-    .snosha-long-description__panel--mobile-behind_end .snosha-long-description__media-frame {
+    .snosha-long-description__panel--mobile-behind_end
+      .snosha-long-description__media-frame {
       margin-inline: auto max(var(--snosha-ld-media-offset-mobile, 0px), 0px);
     }
 
-    .snosha-long-description__panel--mobile-behind_start .snosha-long-description__media-frame {
+    .snosha-long-description__panel--mobile-behind_start
+      .snosha-long-description__media-frame {
       margin-inline: max(var(--snosha-ld-media-offset-mobile, 0px), 0px) auto;
     }
   }
@@ -4776,7 +4808,10 @@ media-gallery.media-gallery--snosha {
        frame's rectangle — a box-shadow outlined the transparent part of the PNG as a tilted
        rectangle (LD-001). Rotates with the image. */
     .snosha-long-description__media-frame--shadow {
-      filter: drop-shadow(-14px 24px 44px var(--snosha-ld-media-shadow, transparent));
+      /* drop-shadow's blur is a standard deviation: Figma blur 44 = 22 here (44 rendered 2x softer) */
+      filter: drop-shadow(
+        -14px 24px 22px var(--snosha-ld-media-shadow, transparent)
+      );
     }
 
     /* Figma "Water Image": 1.5 px dashed frame */
@@ -5113,7 +5148,7 @@ media-gallery.media-gallery--snosha {
   /* Chips: Figma desktop 20 / 18 SemiBold, 8 × 20 padding, pill, 26 px from the top,
      "قبل" 21 px from the start (right), "بعد" 23 px from the end (left).
      Mobile keeps the shared 45 × 21 chip, 12 px from the top: 11 px / 24 px from the edges. */
-  [data-orientation='horizontal'] .comparison-slider__text {
+  [data-orientation="horizontal"] .comparison-slider__text {
     @media screen and (min-width: 750px) {
       inset-block-start: 26px;
       padding: 8px 20px;
@@ -5126,7 +5161,7 @@ media-gallery.media-gallery--snosha {
     }
   }
 
-  [data-orientation='horizontal'] .comparison-slider__text--before {
+  [data-orientation="horizontal"] .comparison-slider__text--before {
     inset-inline-start: 11px;
 
     @media screen and (min-width: 750px) {
@@ -5134,7 +5169,7 @@ media-gallery.media-gallery--snosha {
     }
   }
 
-  [data-orientation='horizontal'] .comparison-slider__text--after {
+  [data-orientation="horizontal"] .comparison-slider__text--after {
     inset-inline-end: 24px;
 
     @media screen and (min-width: 750px) {
@@ -5164,9 +5199,13 @@ media-gallery.media-gallery--snosha {
   --snosha-fc-row-extra: 15.6px;
 }
 
-.snosha-featured-collection:is(.snosha-related-products, .snosha-recommended-products) {
+.snosha-featured-collection:is(
+  .snosha-related-products,
+  .snosha-recommended-products
+) {
   /* Heading: product-list puts it in the header, Recommended products in the blocks area */
-  :is(.section-resource-list__header, .section-resource-list__content) :is(h2, p) {
+  :is(.section-resource-list__header, .section-resource-list__content)
+    :is(h2, p) {
     margin: 0;
   }
 
@@ -5179,15 +5218,24 @@ media-gallery.media-gallery--snosha {
     }
 
     /* Figma mobile title: Cairo Bold 24 / 38 (the H2 preset is SemiBold) */
-    :is(.section-resource-list__header, .section-resource-list__content) .text-block.h2 {
+    :is(.section-resource-list__header, .section-resource-list__content)
+      .text-block.h2 {
       --font-h2--weight: 700;
+    }
+
+    /* Figma title row 44: 38 px line + 3 px above and below. dev1.css sets the padding on the
+       product-list header only; Recommended products renders its heading in the content area. */
+    .section-resource-list__content .text-block.h2 {
+      padding-block: 3px;
     }
   }
 
   @media screen and (min-width: 750px) {
     /* Figma desktop: the row is not clipped at the container edge, the next / previous cards show in
        the page gutters (vertical room kept for the hover shadow, as on the homepage) */
-    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides {
       clip-path: inset(-48px 0);
     }
 
@@ -5210,7 +5258,11 @@ media-gallery.media-gallery--snosha {
       padding: 0;
       border: 1px solid var(--snosha-fc-discount-border);
       border-radius: 50%;
-      background-color: color-mix(in srgb, var(--snosha-fc-on-accent) 97%, transparent);
+      background-color: color-mix(
+        in srgb,
+        var(--snosha-fc-on-accent) 97%,
+        transparent
+      );
       box-shadow:
         0 2px 6px color-mix(in srgb, var(--snosha-fc-title) 12%, transparent),
         0 10px 26px color-mix(in srgb, var(--snosha-fc-title) 30%, transparent);
@@ -5223,7 +5275,7 @@ media-gallery.media-gallery--snosha {
       }
 
       &::before {
-        content: '';
+        content: "";
         inline-size: 26px;
         block-size: 26px;
         background-color: currentColor;
@@ -5276,14 +5328,17 @@ media-gallery.media-gallery--snosha {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto auto;
       grid-template-areas:
-        'image info  quantity button'
-        'image price quantity button';
+        "image info  quantity button"
+        "image price quantity button";
       align-items: center;
       column-gap: 12px;
       row-gap: 2px;
       /* Inner content follows the page container (Custom 1376px + fluid page margin) */
       padding-block: 12px calc(12px + var(--safe-area-inset-bottom, 0px));
-      padding-inline: max(var(--page-margin, 24px), calc((100% - var(--page-content-width, 100%)) / 2));
+      padding-inline: max(
+        var(--page-margin, 24px),
+        calc((100% - var(--page-content-width, 100%)) / 2)
+      );
       border-block-start: 1px solid var(--snosha-bb-border);
       border-radius: 0;
       background: var(--color-background);
@@ -5294,7 +5349,7 @@ media-gallery.media-gallery--snosha {
         content: none;
       }
 
-      &[data-stuck='true'] {
+      &[data-stuck="true"] {
         transform: translateY(0);
       }
 
@@ -5304,7 +5359,7 @@ media-gallery.media-gallery--snosha {
       }
     }
 
-    &:not([data-variant-available='true']) .sticky-add-to-cart__bar {
+    &:not([data-variant-available="true"]) .sticky-add-to-cart__bar {
       transform: translateY(calc(100% + 24px));
     }
 
@@ -5324,7 +5379,7 @@ media-gallery.media-gallery--snosha {
       grid-area: info;
       align-self: end;
 
-      &[data-has-image='false'] {
+      &[data-has-image="false"] {
         padding-inline-start: 0;
       }
     }
@@ -5351,7 +5406,7 @@ media-gallery.media-gallery--snosha {
       align-self: start;
       min-inline-size: 0;
 
-      [ref='priceContainer'] {
+      [ref="priceContainer"] {
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;
@@ -5430,6 +5485,15 @@ media-gallery.media-gallery--snosha {
         opacity: 0.4;
         cursor: default;
       }
+
+      /* Same order as the Buy Box stepper: "+" at the inline start, "−" at the inline end */
+      &[data-step='1'] {
+        order: -1;
+      }
+
+      &[data-step='-1'] {
+        order: 1;
+      }
     }
 
     .sticky-add-to-cart__quantity-value {
@@ -5466,6 +5530,48 @@ media-gallery.media-gallery--snosha {
         padding-inline: 40px;
         font-size: 16px;
       }
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT PAGE QA CORRECTIONS for sections styled in assets/dev1.css
+   (FAQ, product comparison, Judge.me reviews). dev1.css loads after this file, so each selector is
+   stronger than the dev1.css rule it adjusts. Measurements: SNOSHA_PRODUCT_PAGE_FINAL_QA_REPORT.md.
+   ========================================================================= */
+
+/* FAQ, product page only (Figma 190:11436): question and answer 14 px on mobile. The homepage FAQ
+   keeps 16 px (its own Figma), so the scope is the page that renders the product information section. */
+body:has(.product-information) .snosha-faq {
+  @media screen and (max-width: 749px) {
+    .accordion .details__header {
+      font-size: 14px;
+    }
+
+    .details-content .text-block {
+      font-size: 14px;
+    }
+  }
+}
+
+/* Product comparison, mobile (Figma 190:11173): the glass panel's 0 24 60 shadow ends at the section
+   edge instead of spilling ~30 px onto the next (white) section. Desktop is unchanged. */
+.snosha-comparison {
+  @media screen and (max-width: 749px) {
+    overflow-y: clip;
+  }
+}
+
+/* Judge.me cards (Figma 190:10390 / 190:11101): 18 px under the card content; on mobile the
+   carousel has 8 px above and below the cards. */
+.snosha-jdgm .jdgm-cards-carousel {
+  .jdgm-media-card {
+    padding-block-end: 18px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .jdgm-cards-wrapper {
+      padding-block: 8px;
     }
   }
 }
