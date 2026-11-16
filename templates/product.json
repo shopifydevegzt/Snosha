@@ -452,9 +452,7 @@
               "type": "snosha-complementary",
               "settings": {
                 "heading": "كمّل روتينك",
-                "products": [
-                  "snosha-tongue-cleaner"
-                ],
+                "products": ["snosha-tongue-cleaner"],
                 "max_products": 2,
                 "subtitle_source": "description",
                 "heading_color": "{{ settings.color_palette.color6 }}",
@@ -565,9 +563,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_aEtTtq"
-                  ]
+                  "block_order": ["text_aEtTtq"]
                 },
                 "row_suitable_for": {
                   "type": "_accordion-row",
@@ -606,9 +602,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_suitable_for"
-                  ]
+                  "block_order": ["text_suitable_for"]
                 },
                 "row_not_suitable_for": {
                   "type": "_accordion-row",
@@ -647,9 +641,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_not_suitable_for"
-                  ]
+                  "block_order": ["text_not_suitable_for"]
                 },
                 "row_shipping": {
                   "type": "_accordion-row",
@@ -688,9 +680,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_shipping"
-                  ]
+                  "block_order": ["text_shipping"]
                 },
                 "row_returns": {
                   "type": "_accordion-row",
@@ -729,9 +719,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_returns"
-                  ]
+                  "block_order": ["text_returns"]
                 },
                 "row_warranty": {
                   "type": "_accordion-row",
@@ -770,9 +758,7 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": [
-                    "text_warranty"
-                  ]
+                  "block_order": ["text_warranty"]
                 }
               },
               "block_order": [
@@ -1118,11 +1104,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "heading",
-        "body",
-        "comparison"
-      ],
+      "block_order": ["heading", "body", "comparison"],
       "name": "Snosha before / after",
       "settings": {
         "padding_top": 60,
@@ -1308,11 +1290,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "sonic_rate",
-            "sonic_reach",
-            "sonic_deep"
-          ]
+          "block_order": ["sonic_rate", "sonic_reach", "sonic_deep"]
         },
         "box": {
           "type": "_snosha-ld-panel",
@@ -1791,11 +1769,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "battery_low",
-            "battery_charging",
-            "battery_full"
-          ]
+          "block_order": ["battery_low", "battery_charging", "battery_full"]
         },
         "water": {
           "type": "_snosha-ld-panel",
@@ -2215,9 +2189,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "snosha_storage_item_Gf3rTQ"
-          ]
+          "block_order": ["snosha_storage_item_Gf3rTQ"]
         },
         "snosha_storage_tab_M7KaMq": {
           "type": "_snosha-storage-tab",
@@ -2236,9 +2208,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "snosha_storage_item_ecyQ68"
-          ]
+          "block_order": ["snosha_storage_item_ecyQ68"]
         },
         "tab_style": {
           "type": "_snosha-storage-tab-style",
@@ -2463,9 +2433,7 @@
           ]
         }
       },
-      "block_order": [
-        "header"
-      ],
+      "block_order": ["header"],
       "name": "t:names.product_recommendations",
       "settings": {
         "product": "{{ closest.product }}",
@@ -2554,9 +2522,7 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "product_list_text_YFtzcL"
-          ]
+          "block_order": ["product_list_text_YFtzcL"]
         },
         "static-product-card": {
           "type": "_product-card",
@@ -2725,6 +2691,433 @@
         "snosha_gradient_start": "#63cdff",
         "snosha_gradient_end": "#0f64a8"
       }
+    },
+    "snosha_how_to_use_video_GapFrW": {
+      "type": "snosha-how-to-use-video",
+      "blocks": {
+        "play": {
+          "type": "_snosha-video-play",
+          "static": true,
+          "settings": {
+            "show_button": true,
+            "background": "{{ settings.color_palette.background }}",
+            "icon_color": "{{ settings.color_palette.color3 }}",
+            "shadow": "#00337366",
+            "size": 88,
+            "size_mobile": 56,
+            "icon_size": 24,
+            "icon_size_mobile": 24
+          },
+          "blocks": {}
+        }
+      },
+      "name": "Snosha how to use video",
+      "settings": {
+        "show_heading": true,
+        "heading": "طريقة الاستخدام",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+        "video_url": "",
+        "aspect_ratio": "9 / 16",
+        "video_width": 400,
+        "video_width_mobile": 300,
+        "radius": 24,
+        "radius_mobile": 16,
+        "poster": "shopify://shop_images/00de51074797b29995a8ed6f5c67c648377c10f8.png",
+        "poster_fit": "cover",
+        "poster_position_x": 39,
+        "poster_position_x_mobile": 45,
+        "poster_position_y": 50,
+        "overlay_color": "#0a2952",
+        "overlay_opacity": 20,
+        "overlay_opacity_mobile": 0,
+        "autoplay": false,
+        "loop": false,
+        "muted": false,
+        "controls": true,
+        "alignment": "center",
+        "background": "{{ settings.color_palette.background }}",
+        "gap": 28,
+        "gap_mobile": 14,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
+    },
+    "snosha_reviews_screenshots_3qAiTE": {
+      "type": "snosha-reviews-screenshots",
+      "blocks": {
+        "snosha_review_screenshot_U8PnTH": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "1",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 93,
+            "dashed_border": false
+          },
+          "blocks": {}
+        },
+        "snosha_review_screenshot_W4NzWA": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "2",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 94,
+            "dashed_border": false
+          },
+          "blocks": {}
+        },
+        "snosha_review_screenshot_3aVYyD": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "3",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 100,
+            "dashed_border": false
+          },
+          "blocks": {}
+        },
+        "snosha_review_screenshot_zanyab": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "4",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 94,
+            "dashed_border": true
+          },
+          "blocks": {}
+        },
+        "snosha_review_screenshot_4NAXmW": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "4",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 94,
+            "dashed_border": true
+          },
+          "blocks": {}
+        },
+        "snosha_review_screenshot_ri9rif": {
+          "type": "_snosha-review-screenshot",
+          "settings": {
+            "builtin_image": "4",
+            "alt": "لقطة شاشة لرأي عميل",
+            "image_fit": "cover",
+            "position_x": 50,
+            "position_y": 94,
+            "dashed_border": true
+          },
+          "blocks": {}
+        },
+        "rating": {
+          "type": "_snosha-reviews-rating",
+          "static": true,
+          "settings": {
+            "rating": 4.8,
+            "rating_format": "one_decimal",
+            "rating_label": "التقييم [rating] من 5",
+            "show_rating": true,
+            "show_stars": true,
+            "show_count": true,
+            "review_count": 6,
+            "count_text": "بناءً على ([count] تقييمات)",
+            "count_unset": "dash",
+            "star_color": "{{ settings.color_palette.color3 }}",
+            "star_empty_color": "{{ settings.color_palette.color2 }}",
+            "star_size": 24,
+            "star_size_mobile": 16,
+            "star_gap": 2,
+            "star_gap_mobile": 1,
+            "rating_color": "{{ settings.color_palette.foreground }}",
+            "rating_size": 24,
+            "rating_size_mobile": 14,
+            "count_color": "{{ settings.color_palette.color1 }}",
+            "count_size": 14,
+            "count_size_mobile": 9.5,
+            "pill_background": "{{ settings.color_palette.background }}",
+            "pill_border": "{{ settings.color_palette.color2 }}",
+            "pill_radius": 100,
+            "pill_shadow": "#0d40801f"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "snosha_review_screenshot_U8PnTH",
+        "snosha_review_screenshot_W4NzWA",
+        "snosha_review_screenshot_3aVYyD",
+        "snosha_review_screenshot_zanyab",
+        "snosha_review_screenshot_4NAXmW",
+        "snosha_review_screenshot_ri9rif"
+      ],
+      "name": "Snosha reviews screenshots",
+      "settings": {
+        "heading": "تجارب حقيقية من عملاء SNOSHA",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 18,
+        "cards_per_view": 3,
+        "card_width_mobile": 238,
+        "card_ratio": 68,
+        "card_gap": 24,
+        "card_gap_mobile": 12,
+        "card_radius": 22,
+        "card_shadow": "#0d387329",
+        "show_placeholders": false,
+        "placeholder_text": "سكرين شوت رأي العميل",
+        "placeholder_icon": "image",
+        "placeholder_color": "#176bb08c",
+        "placeholder_background": "{{ settings.color_palette.color5 }}",
+        "placeholder_border": "#ffffff",
+        "placeholder_border_width": 5,
+        "show_arrows": true,
+        "arrow_size": 56,
+        "arrow_background": "{{ settings.color_palette.background }}",
+        "arrow_icon_color": "{{ settings.color_palette.color3 }}",
+        "arrow_border": "{{ settings.color_palette.color2 }}",
+        "arrow_shadow": "#082e6652",
+        "show_progress": true,
+        "progress_desktop": false,
+        "progress_height": 4,
+        "progress_track": "{{ settings.color_palette.color2 }}",
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "background": "{{ settings.color_palette.color5 }}",
+        "gap": 20,
+        "gap_mobile": 12,
+        "padding_top": 60,
+        "padding_bottom": 104,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
+    },
+    "snosha_contact_ddCeP6": {
+      "type": "snosha-contact",
+      "blocks": {
+        "whatsapp": {
+          "type": "_snosha-contact-whatsapp",
+          "static": true,
+          "settings": {
+            "show_button": true,
+            "phone": "+201001234567",
+            "message": "",
+            "label": "تواصل عبر واتساب",
+            "icon_color": "#25d366",
+            "icon_size": 22,
+            "background": "{{ settings.color_palette.background }}",
+            "hover_background": "{{ settings.color_palette.color5 }}",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "border_color": "#ffffff",
+            "radius": 100,
+            "shadow_color": "#001a4066",
+            "glow_color": "#63cdff66",
+            "font_size": 16,
+            "font_size_mobile": 14,
+            "padding_block": 13,
+            "padding_inline": 28
+          },
+          "blocks": {}
+        },
+        "email": {
+          "type": "_snosha-contact-email",
+          "static": true,
+          "settings": {
+            "show_button": true,
+            "email": "support@yourstore.com",
+            "subject": "",
+            "label": "راسلنا عبر البريد الإلكتروني",
+            "icon_color": "#ffffff",
+            "icon_size": 22,
+            "background": "#ffffff17",
+            "hover_background": "#ffffff2e",
+            "text_color": "#ffffff",
+            "border_color": "#ffffff59",
+            "border_width": 1.2,
+            "radius": 100,
+            "blur": 7,
+            "font_size": 16,
+            "font_size_mobile": 14,
+            "padding_block": 13,
+            "padding_inline": 28
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_snosha-contact-content",
+          "static": true,
+          "settings": {
+            "show_logo": true,
+            "logo_image": "shopify://shop_images/SNOSHA_93f3c6b6-649c-4ba5-886d-16e6453d3ed1.png",
+            "logo_alt": "",
+            "logo_width": 140,
+            "logo_width_mobile": 100,
+            "heading": "فريق SNOSHA في خدمتك",
+            "heading_color": "#ffffff",
+            "heading_size": 32,
+            "heading_size_mobile": 21,
+            "heading_line_height": 52,
+            "show_description": true,
+            "description": "تواصل معنا لأي استفسار عن منتجاتنا أو طلبك أو الشحن — فريقنا جاهز للرد عليك في أسرع وقت.",
+            "description_mobile": "",
+            "description_color": "#ffffffcc",
+            "description_size": 16,
+            "description_size_mobile": 13
+          },
+          "blocks": {}
+        }
+      },
+      "name": "Snosha contact",
+      "settings": {
+        "card_start": "#0e3b6b",
+        "card_middle": "{{ settings.color_palette.color6 }}",
+        "card_end": "#0a2e55",
+        "card_angle": 39.6,
+        "card_angle_mobile": 75.9,
+        "card_border": "{{ settings.color_palette.color2 }}",
+        "card_border_width": 1,
+        "card_border_width_mobile": 0,
+        "card_radius": 22,
+        "card_radius_mobile": 20,
+        "card_shadow": "#001a4059",
+        "card_padding_top": 38,
+        "card_padding_bottom": 36,
+        "card_padding_inline": 24,
+        "card_padding_block_mobile": 28,
+        "card_padding_inline_mobile": 18,
+        "content_gap": 13,
+        "content_gap_mobile": 14,
+        "button_gap": 14,
+        "background": "{{ settings.color_palette.background }}",
+        "show_decor_desktop": true,
+        "show_decor_mobile": false,
+        "decor_opacity": 100,
+        "decor_color": "#63cdff",
+        "sparkle_color": "#ffffff61",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "custom_class": ""
+      }
+    },
+    "snosha_judgeme_reviews_XzyhEW": {
+      "type": "snosha-judgeme-reviews",
+      "blocks": {
+        "judge_me_reviews_cards_carousel_Hippba": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": false,
+            "reviews_selection": "current_product",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "all",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "product_image",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1",
+            "reviews_shown": 4,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "sides",
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#f9f9f9",
+            "stars_color": "#176bb0",
+            "arrows_color": "#000000",
+            "transition_speed": 0,
+            "header_text": "",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        },
+        "cards_style": {
+          "type": "_snosha-jdgm-cards-style",
+          "static": true,
+          "settings": {
+            "card_width": 316,
+            "card_width_mobile": 160,
+            "card_gap": 24,
+            "card_gap_mobile": 12,
+            "image_height": 250,
+            "image_height_mobile": 130,
+            "card_radius": 20,
+            "card_border": "{{ settings.color_palette.color2 }}",
+            "card_shadow": "#0d38731f",
+            "text_size": 16,
+            "text_size_mobile": 11,
+            "name_size": 16,
+            "name_size_mobile": 11,
+            "meta_color": "#5a5a59bf",
+            "quote_color": "#63cdff4d",
+            "show_arrows_mobile": false,
+            "arrow_size": 52,
+            "arrow_background": "#fffffff7",
+            "arrow_border": "{{ settings.color_palette.color2 }}",
+            "arrow_icon_color": "{{ settings.color_palette.color3 }}",
+            "arrow_shadow": "#082e664d"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": ["judge_me_reviews_cards_carousel_Hippba"],
+      "name": "Snosha Judge.me reviews",
+      "settings": {
+        "show_heading": true,
+        "heading": "تجارب حقيقية من عملاء SNOSHA",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "show_summary": true,
+        "rating_size": 24,
+        "rating_size_mobile": 19,
+        "rating_color": "{{ settings.color_palette.foreground }}",
+        "star_size": 24,
+        "star_gap": 2,
+        "star_color": "{{ settings.color_palette.color3 }}",
+        "star_empty_color": "{{ settings.color_palette.color2 }}",
+        "show_count": true,
+        "count_text": "بناءً على ([count] تقييم)",
+        "count_color": "{{ settings.color_palette.color1 }}",
+        "count_size": 14,
+        "count_size_mobile": 11,
+        "show_progress": true,
+        "progress_height": 4,
+        "progress_spacing": 14,
+        "progress_track": "{{ settings.color_palette.color2 }}",
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "background": "{{ settings.color_palette.background }}",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "show_when_empty": false,
+        "anchor": "snosha-reviews",
+        "custom_class": ""
+      }
     }
   },
   "order": [
@@ -2734,6 +3127,10 @@
     "snosha_long_description",
     "snosha_how_to_use_UGazpy",
     "snosha_storage_care_KBtGfB",
+    "snosha_how_to_use_video_GapFrW",
+    "snosha_reviews_screenshots_3qAiTE",
+    "snosha_contact_ddCeP6",
+    "snosha_judgeme_reviews_XzyhEW",
     "product_recommendations_snosha",
     "product_list_also_like"
   ]

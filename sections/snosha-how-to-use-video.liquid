@@ -1,0 +1,638 @@
+{%- comment -%}
+  Snosha — How to use video (product page S05; Figma 190:10510 desktop, 190:11221 mobile).
+  Heading + one vertical video with a poster, an overlay and a play button.
+
+  Player: Horizon's native <deferred-media> (assets/media.js, loaded globally by snippets/scripts.liquid)
+  with its markup contract — poster <button ref="deferredMediaPlayButton" on:click="/showDeferredMedia">
+  + <template> holding the player; on click Horizon clones the player in, starts it (play() for <video>
+  with autoplay), focuses it, hides the poster (.deferred-media__playing / [data-media-loaded]) and
+  pauses other media on the page. No Snosha JavaScript.
+  Not the native `video` block: for uploaded videos it can't take a custom / mobile poster, it always
+  plays muted, and it has no overlay / play-button / controls settings; changing it would affect
+  every section that uses it.
+
+  Source priority: Shopify-hosted video → YouTube / Vimeo URL → none (storefront: nothing is rendered;
+  Theme Editor: placeholder + hint). Both video settings accept dynamic sources (e.g. a product metafield).
+  Poster priority: poster → video preview image (Shopify-hosted only); mobile poster → poster.
+  Without a poster (or with autoplay) the player is rendered directly.
+  Autoplay forces muted playback (browser policy); otherwise "Muted" is the merchant's choice.
+
+  Styles: assets/dev1.css (.snosha-video); per-instance values via {% style %} below.
+  Play button appearance: static block _snosha-video-play (id "play").
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+
+  assign video = ss.video
+  assign video_url = ss.video_url
+  assign source = 'none'
+  if video != blank
+    assign source = 'uploaded'
+  elsif video_url != blank and video_url.id != blank
+    assign source = video_url.type
+  endif
+
+  assign poster = ss.poster
+  if poster == blank and source == 'uploaded'
+    assign poster = video.preview_image
+  endif
+  assign poster_mobile = ss.poster_mobile | default: poster
+
+  assign autoplay = ss.autoplay
+  assign muted = ss.muted
+  if autoplay
+    assign muted = true
+  endif
+
+  assign use_poster = false
+  if source != 'none' and autoplay == false and poster != blank
+    assign use_poster = true
+  endif
+
+  # Without a poster and without autoplay, the player's own controls are the only way to start it.
+  assign show_controls = ss.controls
+  if use_poster == false and autoplay == false
+    assign show_controls = true
+  endif
+
+  assign video_title = heading | strip_html | default: shop.name
+
+  # ---- Poster image delivery ------------------------------------------------------------------
+  # The poster is drawn into the frame with object-fit. With "cover", an image proportionally wider
+  # than the frame is scaled to the frame HEIGHT, so it is drawn wider than the frame:
+  #   drawn width = frame width × max(1, (frame height / frame width) × poster aspect ratio)
+  # With "contain" it is never drawn wider than the frame:
+  #   drawn width = frame width × min(1, (frame height / frame width) × poster aspect ratio)
+  # `sizes` uses these drawn widths (not the frame width), per breakpoint and per poster.
+  # Candidates: drawn width × 1 / 1.5 / 2 / 3 (device densities), capped at the source width
+  # (Shopify can't add detail beyond it), plus the source width itself.
+  assign ratio_parts = ss.aspect_ratio | split: '/'
+  assign ratio_w = ratio_parts[0] | strip | times: 1.0
+  assign ratio_h = ratio_parts[1] | strip | times: 1.0
+  assign frame_hw = ratio_h | divided_by: ratio_w
+  assign densities = '1,1.5,2,3' | split: ','
+
+  assign poster_draw_desktop = ss.video_width
+  assign poster_draw_mobile = ss.video_width_mobile
+  assign poster_mobile_draw_mobile = ss.video_width_mobile
+  assign poster_widths = ''
+  assign poster_src_width = ss.video_width
+  assign mobile_srcset = ''
+
+  if use_poster
+    # Desktop poster (also used below 750px when no mobile poster is set)
+    assign factor = frame_hw | times: poster.aspect_ratio
+    if ss.poster_fit == 'contain'
+      assign factor = factor | at_most: 1
+    else
+      assign factor = factor | at_least: 1
+    endif
+    assign poster_draw_desktop = ss.video_width | times: factor | ceil
+    assign poster_draw_mobile = ss.video_width_mobile | times: factor | ceil
+
+    assign width_list = poster.width
+    for density in densities
+      assign candidate = poster_draw_desktop | times: density | ceil | at_most: poster.width
+      assign width_list = width_list | append: ',' | append: candidate
+      if ss.poster_mobile == blank
+        assign candidate = poster_draw_mobile | times: density | ceil | at_most: poster.width
+        assign width_list = width_list | append: ',' | append: candidate
+      endif
+    endfor
+    assign width_array = width_list | split: ',' | uniq
+    assign poster_widths = width_array | join: ', '
+    # image_tag drops `widths` larger than the image_url width, so the src must use the largest
+    # candidate, which is never more than the source width (it is in the list itself).
+    assign poster_src_width = 0
+    for candidate in width_array
+      assign candidate_width = candidate | plus: 0
+      if candidate_width > poster_src_width
+        assign poster_src_width = candidate_width
+      endif
+    endfor
+
+    # Optional mobile poster: its own aspect ratio, its own candidates (w descriptors)
+    if ss.poster_mobile != blank
+      assign factor_mobile = frame_hw | times: poster_mobile.aspect_ratio
+      if ss.poster_fit == 'contain'
+        assign factor_mobile = factor_mobile | at_most: 1
+      else
+        assign factor_mobile = factor_mobile | at_least: 1
+      endif
+      assign poster_mobile_draw_mobile = ss.video_width_mobile | times: factor_mobile | ceil
+
+      assign mobile_list = poster_mobile.width
+      for density in densities
+        assign candidate = poster_mobile_draw_mobile | times: density | ceil | at_most: poster_mobile.width
+        assign mobile_list = mobile_list | append: ',' | append: candidate
+      endfor
+      assign mobile_widths = mobile_list | split: ',' | uniq
+      capture mobile_srcset
+        for candidate in mobile_widths
+          assign candidate_width = candidate | plus: 0
+          echo poster_mobile | image_url: width: candidate_width | append: ' ' | append: candidate_width | append: 'w'
+          unless forloop.last
+            echo ', '
+          endunless
+        endfor
+      endcapture
+    endif
+  endif
+
+  capture poster_sizes
+    echo '(min-width: 750px) ' | append: poster_draw_desktop | append: 'px, ' | append: poster_draw_mobile | append: 'px'
+  endcapture
+-%}
+
+{%- capture player -%}
+  {%- comment -%} start: 'click' = started by the poster button (in <template>), 'auto' = autoplay, 'none' = no poster {%- endcomment -%}
+  {%- case source -%}
+    {%- when 'uploaded' -%}
+      <video
+        class="snosha-video__media"
+        playsinline
+        preload="metadata"
+        {% if use_poster or autoplay %}autoplay{% endif %}
+        {% if ss.loop %}loop{% endif %}
+        {% if muted %}muted{% endif %}
+        {% if show_controls %}controls{% endif %}
+        {% if use_poster == false and poster != blank %}poster="{{ poster | image_url: width: 1080 }}"{% endif %}
+        aria-label="{{ video_title | escape }}"
+      >
+        {%- for video_source in video.sources -%}
+          <source src="{{ video_source.url }}" type="{{ video_source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- when 'youtube' -%}
+      {%- liquid
+        assign src = 'https://www.youtube.com/embed/' | append: video_url.id | append: '?playsinline=1&rel=0'
+        if use_poster or autoplay
+          assign src = src | append: '&autoplay=1'
+        endif
+        if muted
+          assign src = src | append: '&mute=1'
+        endif
+        if ss.loop
+          assign src = src | append: '&loop=1&playlist=' | append: video_url.id
+        endif
+        unless show_controls
+          assign src = src | append: '&controls=0'
+        endunless
+      -%}
+      <iframe class="snosha-video__media" src="{{ src }}" title="{{ video_title | escape }}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+    {%- when 'vimeo' -%}
+      {%- liquid
+        assign src = 'https://player.vimeo.com/video/' | append: video_url.id | append: '?playsinline=1'
+        if use_poster or autoplay
+          assign src = src | append: '&autoplay=1'
+        endif
+        if muted
+          assign src = src | append: '&muted=1'
+        endif
+        if ss.loop
+          assign src = src | append: '&loop=1'
+        endif
+        unless show_controls
+          assign src = src | append: '&controls=0'
+        endunless
+      -%}
+      <iframe class="snosha-video__media" src="{{ src }}" title="{{ video_title | escape }}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+  {%- endcase -%}
+{%- endcapture -%}
+
+{%- if source != 'none' or request.design_mode -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-video {
+      --snosha-video-bg: {{ ss.background }};
+      --snosha-video-padding-start: {{ ss.padding_top }}px;
+      --snosha-video-padding-end: {{ ss.padding_bottom }}px;
+      --snosha-video-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+      --snosha-video-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+      --snosha-video-gap: {{ ss.gap }}px;
+      --snosha-video-gap-mobile: {{ ss.gap_mobile }}px;
+      --snosha-video-align: {{ ss.alignment }};
+      --snosha-video-heading-color: {{ ss.heading_color }};
+      --snosha-video-heading-size: {{ ss.heading_size }}px;
+      --snosha-video-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+      --snosha-video-width: {{ ss.video_width }}px;
+      --snosha-video-width-mobile: {{ ss.video_width_mobile }}px;
+      --snosha-video-ratio: {{ ss.aspect_ratio }};
+      --snosha-video-radius: {{ ss.radius }}px;
+      --snosha-video-radius-mobile: {{ ss.radius_mobile }}px;
+      --snosha-video-fit: {{ ss.poster_fit }};
+      --snosha-video-position: {{ ss.poster_position_x }}% {{ ss.poster_position_y }}%;
+      --snosha-video-position-mobile: {{ ss.poster_position_x_mobile }}% {{ ss.poster_position_y }}%;
+      --snosha-video-overlay: {{ ss.overlay_color }};
+      --snosha-video-overlay-opacity: {{ ss.overlay_opacity }}%;
+      --snosha-video-overlay-opacity-mobile: {{ ss.overlay_opacity_mobile }}%;
+    }
+  {% endstyle %}
+
+  <div class="snosha-video{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
+    <div class="section section--page-width">
+      <div class="snosha-video__inner">
+        {%- if ss.show_heading and heading != blank -%}
+          <h2 class="snosha-video__heading">{{ heading }}</h2>
+        {%- endif -%}
+
+        <div class="snosha-video__frame">
+          {%- if source != 'none' -%}
+            <deferred-media class="snosha-video__player"{% if autoplay %} autoplay{% endif %}>
+              {%- if use_poster -%}
+                <button
+                  type="button"
+                  class="button button-unstyled deferred-media__poster-button snosha-video__poster"
+                  ref="deferredMediaPlayButton"
+                  on:click="/showDeferredMedia"
+                  aria-label="{{ 'accessibility.play_video' | t | escape }}"
+                >
+                  <picture>
+                    {%- if ss.poster_mobile != blank -%}
+                      <source
+                        media="(max-width: 749px)"
+                        srcset="{{ mobile_srcset }}"
+                        sizes="{{ poster_mobile_draw_mobile }}px"
+                      >
+                    {%- endif -%}
+                    {{
+                      poster
+                      | image_url: width: poster_src_width
+                      | image_tag:
+                        widths: poster_widths,
+                        sizes: poster_sizes,
+                        alt: '',
+                        loading: 'lazy',
+                        class: 'snosha-video__poster-image'
+                    }}
+                  </picture>
+                  <span class="snosha-video__overlay" aria-hidden="true"></span>
+                  {% content_for 'block', type: '_snosha-video-play', id: 'play' %}
+                </button>
+                <template>{{ player }}</template>
+              {%- else -%}
+                {{ player }}
+              {%- endif -%}
+            </deferred-media>
+            {%- comment -%} Horizon's deferred-media player styles (same as snippets/video.liquid) {%- endcomment -%}
+            {% render 'deferred-media-video-styles' %}
+          {%- else -%}
+            <div class="snosha-video__placeholder">
+              {%- if poster != blank -%}
+                {{ poster | image_url: width: 800 | image_tag: alt: '', class: 'snosha-video__poster-image' }}
+              {%- else -%}
+                {{ 'hero-apparel-3' | placeholder_svg_tag: 'snosha-video__placeholder-svg' }}
+              {%- endif -%}
+              <span class="snosha-video__editor-hint">Theme Editor only: select a video (Shopify-hosted, or a YouTube / Vimeo URL). This section is not shown on the storefront until a video is set.</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha how to use video",
+  "tag": "section",
+  "class": "snosha-video-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Play button appearance: \"Play button\" block. The video settings can be connected to a product metafield (dynamic source) for per-product videos."
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 14,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "default": 32,
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size on mobile",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
+      "visible_if": "{{ section.settings.show_heading }}"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video",
+      "info": "Shopify-hosted video. Used first."
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Or a YouTube / Vimeo URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "Used when no video is selected above."
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "9 / 16", "label": "9:16 portrait" },
+        { "value": "3 / 4", "label": "3:4" },
+        { "value": "4 / 5", "label": "4:5" },
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "16 / 9", "label": "16:9 landscape" }
+      ],
+      "default": "9 / 16"
+    },
+    {
+      "type": "range",
+      "id": "video_width",
+      "label": "Video width",
+      "min": 200,
+      "max": 1000,
+      "step": 8,
+      "unit": "px",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "video_width_mobile",
+      "label": "Video width on mobile",
+      "info": "Never wider than the screen minus the page margins.",
+      "min": 160,
+      "max": 360,
+      "step": 2,
+      "unit": "px",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "radius_mobile",
+      "label": "Corner radius on mobile",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Poster"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster",
+      "label": "Poster image",
+      "info": "Shown before playback. Blank uses the video's own preview image (Shopify-hosted videos)."
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_mobile",
+      "label": "Poster image on mobile",
+      "info": "Optional. Blank uses the poster above."
+    },
+    {
+      "type": "select",
+      "id": "poster_fit",
+      "label": "Poster fit",
+      "options": [
+        { "value": "cover", "label": "Fill the frame (crop)" },
+        { "value": "contain", "label": "Show the whole image" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "poster_position_x",
+      "label": "Poster horizontal position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 39
+    },
+    {
+      "type": "range",
+      "id": "poster_position_x_mobile",
+      "label": "Poster horizontal position on mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "poster_position_y",
+      "label": "Poster vertical position",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Poster overlay color",
+      "default": "#0A2952"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Poster overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_mobile",
+      "label": "Poster overlay opacity on mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Playback"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "info": "Plays muted (browsers block autoplay with sound). The poster and play button are skipped.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "muted",
+      "label": "Start muted",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "controls",
+      "label": "Show player controls",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between heading and video",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Space between heading and video on mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha how to use video",
+      "category": "Snosha",
+      "settings": {
+        "heading": "طريقة الاستخدام"
+      },
+      "blocks": {
+        "play": {
+          "type": "_snosha-video-play",
+          "static": true
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

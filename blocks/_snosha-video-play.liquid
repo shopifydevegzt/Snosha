@@ -1,0 +1,122 @@
+{%- comment -%}
+  How to use video — Play button (private static theme block of sections/snosha-how-to-use-video.liquid,
+  id "play"). Visual only: it is rendered INSIDE the section's real <button> (Horizon deferred-media
+  poster button), so it is aria-hidden and has no interaction of its own.
+  Figma 190:10514 (desktop 88px) / 190:11224 (mobile 56px): white circle, shadow 0 14 34, "Icon / play"
+  190:2835 (path inlined, currentColor) or a custom icon image.
+  Styles: assets/dev1.css (.snosha-video__play); values are the inline variables below.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+-%}
+{%- if bs.show_button -%}
+  <span
+    class="snosha-video__play"
+    style="
+      --snosha-play-bg: {{ bs.background }};
+      --snosha-play-color: {{ bs.icon_color }};
+      --snosha-play-shadow: {{ bs.shadow }};
+      --snosha-play-size: {{ bs.size }}px;
+      --snosha-play-size-mobile: {{ bs.size_mobile }}px;
+      --snosha-play-icon-size: {{ bs.icon_size }}px;
+      --snosha-play-icon-size-mobile: {{ bs.icon_size_mobile }}px;
+    "
+    aria-hidden="true"
+    {{ block.shopify_attributes }}
+  >
+    {%- if bs.icon_image != blank -%}
+      {{
+        bs.icon_image
+        | image_url: width: 96
+        | image_tag: alt: '', loading: 'lazy', class: 'snosha-video__play-icon'
+      }}
+    {%- else -%}
+      <svg class="snosha-video__play-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
+        <path d="M6 5V19L17 12L6 5Z" fill="currentColor"/>
+      </svg>
+    {%- endif -%}
+  </span>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Play button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show play button",
+      "info": "The whole poster stays clickable when hidden.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#00337366"
+    },
+    {
+      "type": "range",
+      "id": "size",
+      "label": "Size",
+      "min": 32,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "size_mobile",
+      "label": "Size on mobile",
+      "min": 32,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "info": "Size of the icon's 24 × 24 artwork box (Figma: 24px, centered in a 34px frame).",
+      "min": 12,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Icon size on mobile",
+      "min": 12,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "Custom icon",
+      "info": "Replaces the play triangle. Square image (SVG or PNG)."
+    }
+  ]
+}
+{% endschema %}

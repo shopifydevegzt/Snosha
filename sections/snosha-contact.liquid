@@ -1,0 +1,419 @@
+{%- comment -%}
+  Snosha — Contact CTA (product page S14; Figma 190:10844 desktop, 190:11633 mobile).
+  White section → dark gradient card → logo, heading, description, WhatsApp + email links.
+  Content and buttons are private STATIC theme blocks (one each, can't be duplicated or reordered),
+  so their controls stay off this schema (Theme Check 40-setting advisory):
+    _snosha-contact-content (id "content"), _snosha-contact-whatsapp (id "whatsapp"),
+    _snosha-contact-email (id "email").
+  Button order: DOM WhatsApp → email. Mobile stacks them (WhatsApp on top, as in Figma); desktop
+  uses row-reverse so WhatsApp sits on the left and email on the right in RTL, as in Figma.
+  Decorations (Figma 190:10847–10851, 190:10868–10871; 190:10846 is an empty vector in Figma and is
+  not reproduced): the dashed ring is the exported Figma PNG (assets/snosha-contact-ring.png), the
+  solid ring and dots are CSS circles in the Figma colors / opacities (via settings), the sparkles
+  reuse snippets/snosha-icon.liquid "sparkle" (same path as Figma "Sparkle" 190:2842). All aria-hidden,
+  pointer-events: none, clipped by the card. Desktop on / mobile off by default.
+  No JavaScript. Styles: assets/dev1.css (.snosha-contact); per-instance values via {% style %} below.
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  capture buttons_markup
+    content_for 'block', type: '_snosha-contact-whatsapp', id: 'whatsapp'
+    content_for 'block', type: '_snosha-contact-email', id: 'email'
+  endcapture
+  assign decor_classes = ''
+  if ss.show_decor_desktop
+    assign decor_classes = decor_classes | append: ' snosha-contact--decor-desktop'
+  endif
+  if ss.show_decor_mobile
+    assign decor_classes = decor_classes | append: ' snosha-contact--decor-mobile'
+  endif
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-contact {
+    --snosha-contact-bg: {{ ss.background }};
+    --snosha-contact-padding-start: {{ ss.padding_top }}px;
+    --snosha-contact-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-contact-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-contact-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    --snosha-contact-card-start: {{ ss.card_start }};
+    --snosha-contact-card-middle: {{ ss.card_middle }};
+    --snosha-contact-card-end: {{ ss.card_end }};
+    --snosha-contact-card-angle: {{ ss.card_angle | default: 0 }}deg;
+    --snosha-contact-card-angle-mobile: {{ ss.card_angle_mobile | default: 0 }}deg;
+    --snosha-contact-card-border: {{ ss.card_border }};
+    --snosha-contact-card-border-width: {{ ss.card_border_width }}px;
+    --snosha-contact-card-border-width-mobile: {{ ss.card_border_width_mobile }}px;
+    --snosha-contact-card-radius: {{ ss.card_radius }}px;
+    --snosha-contact-card-radius-mobile: {{ ss.card_radius_mobile }}px;
+    --snosha-contact-card-shadow: {{ ss.card_shadow }};
+    --snosha-contact-card-padding-start: {{ ss.card_padding_top }}px;
+    --snosha-contact-card-padding-end: {{ ss.card_padding_bottom }}px;
+    --snosha-contact-card-padding-inline: {{ ss.card_padding_inline }}px;
+    --snosha-contact-card-padding-block-mobile: {{ ss.card_padding_block_mobile }}px;
+    --snosha-contact-card-padding-inline-mobile: {{ ss.card_padding_inline_mobile }}px;
+    --snosha-contact-gap: {{ ss.content_gap }}px;
+    --snosha-contact-gap-mobile: {{ ss.content_gap_mobile }}px;
+    --snosha-contact-button-gap: {{ ss.button_gap }}px;
+    --snosha-contact-decor-color: {{ ss.decor_color }};
+    --snosha-contact-sparkle-color: {{ ss.sparkle_color }};
+    --snosha-contact-decor-opacity: {{ ss.decor_opacity | divided_by: 100.0 }};
+  }
+{% endstyle %}
+
+<div class="snosha-contact{{ decor_classes }}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-contact__inner">
+      <div class="snosha-contact__card">
+        {%- if ss.show_decor_desktop or ss.show_decor_mobile -%}
+          <div class="snosha-contact__decor" aria-hidden="true">
+            <img
+              class="snosha-contact__ring"
+              src="{{ 'snosha-contact-ring.png' | asset_url }}"
+              width="420"
+              height="420"
+              alt=""
+              loading="lazy"
+            >
+            <span class="snosha-contact__circle"></span>
+            <span class="snosha-contact__dot snosha-contact__dot--1"></span>
+            <span class="snosha-contact__dot snosha-contact__dot--2"></span>
+            <span class="snosha-contact__dot snosha-contact__dot--3"></span>
+            {%- for i in (1..4) -%}
+              {%- capture sparkle_uid -%}{{ section.id }}-{{ i }}{%- endcapture -%}
+              {%- capture sparkle_class -%}snosha-contact__sparkle snosha-contact__sparkle--{{ i }}{%- endcapture -%}
+              {%- render 'snosha-icon', icon: 'sparkle', uid: sparkle_uid, class: sparkle_class -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {% content_for 'block', type: '_snosha-contact-content', id: 'content' %}
+
+        {%- if buttons_markup != blank -%}
+          <div class="snosha-contact__actions">
+            {{- buttons_markup -}}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Snosha contact",
+  "tag": "section",
+  "class": "snosha-contact-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Logo, heading and description: \"Content\" block. Contact details and button styles: \"WhatsApp button\" and \"Email button\" blocks."
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "color",
+      "id": "card_start",
+      "label": "Gradient start",
+      "default": "#0E3B6B"
+    },
+    {
+      "type": "color",
+      "id": "card_middle",
+      "label": "Gradient middle",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_end",
+      "label": "Gradient end",
+      "default": "#0A2E55"
+    },
+    {
+      "type": "number",
+      "id": "card_angle",
+      "label": "Gradient angle (degrees)",
+      "default": 39.6
+    },
+    {
+      "type": "number",
+      "id": "card_angle_mobile",
+      "label": "Gradient angle on mobile (degrees)",
+      "default": 75.9
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Border",
+      "alpha": true,
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_border_width_mobile",
+      "label": "Border width on mobile",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "card_radius_mobile",
+      "label": "Corner radius on mobile",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#001A4059"
+    },
+    {
+      "type": "range",
+      "id": "card_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "card_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "card_padding_inline",
+      "label": "Side padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_padding_block_mobile",
+      "label": "Top / bottom padding on mobile",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_padding_inline_mobile",
+      "label": "Side padding on mobile",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Space between items",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "content_gap_mobile",
+      "label": "Space between items on mobile",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "label": "Space between buttons",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "header",
+      "content": "Decorations"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decor_desktop",
+      "label": "Show decorations on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decor_mobile",
+      "label": "Show decorations on mobile",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "decor_opacity",
+      "label": "Decoration opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "decor_color",
+      "label": "Circle and dot color",
+      "info": "The dashed ring is an image and keeps its own color.",
+      "default": "#63CDFF"
+    },
+    {
+      "type": "color",
+      "id": "sparkle_color",
+      "label": "Sparkle color",
+      "alpha": true,
+      "default": "#FFFFFF61"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom on mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha contact",
+      "category": "Snosha",
+      "blocks": {
+        "content": {
+          "type": "_snosha-contact-content",
+          "static": true,
+          "settings": {
+            "heading": "فريق SNOSHA في خدمتك",
+            "description": "تواصل معنا لأي استفسار عن منتجاتنا أو طلبك أو الشحن — فريقنا جاهز للرد عليك في أسرع وقت."
+          }
+        },
+        "whatsapp": {
+          "type": "_snosha-contact-whatsapp",
+          "static": true,
+          "settings": {
+            "label": "تواصل عبر واتساب"
+          }
+        },
+        "email": {
+          "type": "_snosha-contact-email",
+          "static": true,
+          "settings": {
+            "label": "راسلنا عبر البريد الإلكتروني"
+          }
+        }
+      }
+    }
+  ]
+}
+{% endschema %}

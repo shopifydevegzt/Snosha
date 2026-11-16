@@ -1,0 +1,247 @@
+{%- comment -%}
+  Judge.me reviews — Review cards style (private static theme block of
+  sections/snosha-judgeme-reviews.liquid, id "cards_style"). Outputs only scoped CSS variables
+  (--snosha-jdgm-*) consumed by assets/dev1.css (.snosha-jdgm …) to restyle Judge.me's Cards Carousel
+  to the Figma cards (190:10390 / 190:11101). Settings Judge.me already has (card / text / stars /
+  arrow colors, image ratio, review length, cards shown, sample reviews) stay on the Judge.me block.
+  If this block is hidden, dev1.css falls back to the Figma values / palette.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-jdgm {
+    --snosha-jdgm-card-width: {{ bs.card_width }}px;
+    --snosha-jdgm-card-width-mobile: {{ bs.card_width_mobile }}px;
+    --snosha-jdgm-card-gap: {{ bs.card_gap }}px;
+    --snosha-jdgm-card-gap-mobile: {{ bs.card_gap_mobile }}px;
+    --snosha-jdgm-image-height: {{ bs.image_height }}px;
+    --snosha-jdgm-image-height-mobile: {{ bs.image_height_mobile }}px;
+    --snosha-jdgm-card-radius: {{ bs.card_radius }}px;
+    --snosha-jdgm-card-border: {{ bs.card_border }};
+    --snosha-jdgm-card-shadow: {{ bs.card_shadow }};
+    --snosha-jdgm-text-size: {{ bs.text_size }}px;
+    --snosha-jdgm-text-size-mobile: {{ bs.text_size_mobile }}px;
+    --snosha-jdgm-name-size: {{ bs.name_size }}px;
+    --snosha-jdgm-name-size-mobile: {{ bs.name_size_mobile }}px;
+    --snosha-jdgm-meta-color: {{ bs.meta_color }};
+    --snosha-jdgm-quote-color: {{ bs.quote_color }};
+    --snosha-jdgm-arrow-size: {{ bs.arrow_size }}px;
+    --snosha-jdgm-arrow-bg: {{ bs.arrow_background }};
+    --snosha-jdgm-arrow-border: {{ bs.arrow_border }};
+    --snosha-jdgm-arrow-icon: {{ bs.arrow_icon_color }};
+    --snosha-jdgm-arrow-shadow: {{ bs.arrow_shadow }};
+    --snosha-jdgm-arrows-mobile: {% if bs.show_arrows_mobile %}flex{% else %}none{% endif %};
+  }
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Review cards style",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Layout of Judge.me's review cards. Star color, card color, text color, \"No image fallback\", review length, sample reviews and autoplay are in the Judge.me Cards Carousel block (Judge.me sets star colors itself, so they can only be changed there). No automatic movement: set its Behavior → \"Transition speed\" to 0."
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "label": "Card width",
+      "min": 200,
+      "max": 440,
+      "step": 4,
+      "unit": "px",
+      "default": 316
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card width on mobile",
+      "info": "160px shows two cards and part of the next at 390px.",
+      "min": 120,
+      "max": 320,
+      "step": 2,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Space between cards",
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_gap_mobile",
+      "label": "Space between cards on mobile",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Photo height",
+      "min": 100,
+      "max": 300,
+      "step": 2,
+      "unit": "px",
+      "default": 250
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "label": "Photo height on mobile",
+      "min": 60,
+      "max": 260,
+      "step": 2,
+      "unit": "px",
+      "default": 130
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow",
+      "label": "Shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#0D38731F"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Review text size",
+      "min": 10,
+      "max": 22,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Review text size on mobile",
+      "min": 8,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "label": "Name size",
+      "min": 10,
+      "max": 22,
+      "step": 0.5,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "name_size_mobile",
+      "label": "Name size on mobile",
+      "min": 8,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "color",
+      "id": "meta_color",
+      "label": "Product name color",
+      "alpha": true,
+      "default": "#5A5A59BF"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote mark color",
+      "info": "Set the opacity to 0 to hide it.",
+      "alpha": true,
+      "default": "#63CDFF4D"
+    },
+    {
+      "type": "header",
+      "content": "Arrows"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows_mobile",
+      "label": "Show arrows on mobile",
+      "info": "Overrides Judge.me's \"Hide arrows on mobile\" in this section. Swiping works on touch screens either way; mouse dragging is not supported by Judge.me.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow button size",
+      "info": "56px matches the reviews screenshots section.",
+      "min": 32,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "alpha": true,
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border",
+      "label": "Arrow border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_icon_color",
+      "label": "Arrow icon",
+      "info": "Same arrow icon and button style as the reviews screenshots section.",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "arrow_shadow",
+      "label": "Arrow shadow",
+      "info": "Set the opacity to 0 to remove it.",
+      "alpha": true,
+      "default": "#082E6652"
+    }
+  ]
+}
+{% endschema %}

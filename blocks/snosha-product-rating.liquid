@@ -1,0 +1,220 @@
+{%- comment -%}
+  Snosha product rating (theme block; Buy Box / Product information, Figma 190:10230 desktop,
+  190:10941 mobile): "<rating> ★★★★★" for the CURRENT product.
+  Data: the Shopify standard review metafields that Judge.me keeps in sync (documented by Judge.me):
+    product.metafields.reviews.rating       (rating: value.rating, value.scale_max)
+    product.metafields.reviews.rating_count (integer)
+  Nothing is typed in by the merchant and nothing is hardcoded. Normalised to a 5-point scale.
+  No rating synced (no published reviews; Judge.me sample reviews are preview-only and don't sync):
+  nothing on the storefront, an editor-only hint in the Theme Editor.
+  Not Horizon's blocks/review.liquid: in 5-star mode it can't show the number, its star differs from
+  Figma and it rounds to half stars. Stars: snippets/snosha-rating-stars.liquid (shared with S08 and
+  the Judge.me reviews section). DOM order stars → number → count, so in RTL the stars sit on the
+  right and the number on their left, as in Figma.
+  Styles: assets/dev1.css (.snosha-rating); values are the inline variables below.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign current_product = closest.product | default: product
+
+  assign has_rating = false
+  assign rating_5 = 0
+  assign rating_count = 0
+  if current_product != blank
+    assign rating_metafield = current_product.metafields.reviews.rating
+    assign rating_count = current_product.metafields.reviews.rating_count.value | default: 0
+    if rating_metafield != blank and rating_metafield.value.rating != blank and rating_count > 0
+      assign scale_max = rating_metafield.value.scale_max | default: 5 | times: 1.0
+      assign rating_5 = rating_metafield.value.rating | times: 5.0 | divided_by: scale_max | at_least: 0 | at_most: 5
+      assign has_rating = true
+    endif
+  endif
+
+  assign rating_text = rating_5 | round: 1 | append: ''
+  unless rating_text contains '.'
+    assign rating_text = rating_text | append: '.0'
+  endunless
+  assign count_text = bs.count_text | default: '([count])' | replace: '[count]', rating_count
+  assign anchor = bs.anchor | strip | remove: '#'
+-%}
+{%- if has_rating -%}
+  {%- capture inner -%}
+    <span class="visually-hidden">
+      {{- 'accessibility.rating' | t: rating: rating_text -}}
+      {%- if bs.show_count %} ({{ rating_count }} {{ 'content.reviews' | t }}){% endif -%}
+    </span>
+    {%- render 'snosha-rating-stars', rating: rating_5 -%}
+    {%- if bs.show_number -%}
+      <span class="snosha-rating__value" aria-hidden="true">{{ rating_text }}</span>
+    {%- endif -%}
+    {%- if bs.show_count -%}
+      <span class="snosha-rating__count" aria-hidden="true">{{ count_text }}</span>
+    {%- endif -%}
+  {%- endcapture -%}
+  <div
+    class="snosha-rating"
+    style="
+      --snosha-rating-justify: {{ bs.alignment }};
+      --snosha-rating-justify-mobile: {{ bs.alignment_mobile }};
+      --snosha-stars-size: {{ bs.star_size }}px;
+      --snosha-stars-gap: {{ bs.star_gap }}px;
+      --snosha-stars-fill: {{ bs.star_color }};
+      --snosha-stars-empty: {{ bs.star_empty_color }};
+      --snosha-rating-gap: {{ bs.gap }}px;
+      --snosha-rating-color: {{ bs.text_color }};
+      --snosha-rating-size: {{ bs.font_size }}px;
+    "
+    {{ block.shopify_attributes }}
+  >
+    {%- if bs.link_to_reviews and anchor != blank -%}
+      <a class="snosha-rating__inner snosha-rating__inner--link" href="#{{ anchor | escape }}">{{ inner }}</a>
+    {%- else -%}
+      <div class="snosha-rating__inner">{{ inner }}</div>
+    {%- endif -%}
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="snosha-rating snosha-rating--empty" {{ block.shopify_attributes }}>
+    <span class="snosha-rating__hint">Theme Editor only: this product has no Judge.me rating synced to Shopify yet (published reviews only; Judge.me sample reviews are preview-only). Nothing is shown on the storefront.</span>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Snosha product rating",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the current product's Judge.me rating (synced to Shopify review metafields). Hidden when the product has no published reviews."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_number",
+      "label": "Show rating number",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show number of reviews",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Number of reviews text",
+      "info": "[count] is replaced by the number of reviews.",
+      "default": "([count])",
+      "visible_if": "{{ block.settings.show_count }}"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "star_size",
+      "label": "Star size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "star_gap",
+      "label": "Space between stars",
+      "min": 0,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Space between number and stars",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Filled star",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "star_empty_color",
+      "label": "Empty star",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Number color",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Number size",
+      "min": 10,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ],
+      "default": "flex-end"
+    },
+    {
+      "type": "select",
+      "id": "alignment_mobile",
+      "label": "Alignment on mobile",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "checkbox",
+      "id": "link_to_reviews",
+      "label": "Link to the reviews section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Reviews section anchor",
+      "info": "The \"Anchor\" of the Snosha Judge.me reviews section.",
+      "default": "snosha-reviews",
+      "visible_if": "{{ block.settings.link_to_reviews }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha product rating",
+      "category": "Snosha"
+    }
+  ]
+}
+{% endschema %}
