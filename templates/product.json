@@ -198,20 +198,6 @@
                 "price_tVjtKg"
               ]
             },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "disabled": true,
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color2 }}",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
-              },
-              "blocks": {}
-            },
             "snosha_capsule_promo": {
               "type": "snosha-capsule",
               "settings": {
@@ -466,7 +452,9 @@
               "type": "snosha-complementary",
               "settings": {
                 "heading": "كمّل روتينك",
-                "products": ["snosha-tongue-cleaner"],
+                "products": [
+                  "snosha-tongue-cleaner"
+                ],
                 "max_products": 2,
                 "subtitle_source": "description",
                 "heading_color": "{{ settings.color_palette.color6 }}",
@@ -577,7 +565,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_aEtTtq"]
+                  "block_order": [
+                    "text_aEtTtq"
+                  ]
                 },
                 "row_suitable_for": {
                   "type": "_accordion-row",
@@ -616,7 +606,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_suitable_for"]
+                  "block_order": [
+                    "text_suitable_for"
+                  ]
                 },
                 "row_not_suitable_for": {
                   "type": "_accordion-row",
@@ -655,7 +647,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_not_suitable_for"]
+                  "block_order": [
+                    "text_not_suitable_for"
+                  ]
                 },
                 "row_shipping": {
                   "type": "_accordion-row",
@@ -694,7 +688,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_shipping"]
+                  "block_order": [
+                    "text_shipping"
+                  ]
                 },
                 "row_returns": {
                   "type": "_accordion-row",
@@ -733,7 +729,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_returns"]
+                  "block_order": [
+                    "text_returns"
+                  ]
                 },
                 "row_warranty": {
                   "type": "_accordion-row",
@@ -772,7 +770,9 @@
                       "blocks": {}
                     }
                   },
-                  "block_order": ["text_warranty"]
+                  "block_order": [
+                    "text_warranty"
+                  ]
                 }
               },
               "block_order": [
@@ -787,7 +787,6 @@
           },
           "block_order": [
             "group_icgrde",
-            "divider_VJhene",
             "snosha_capsule_promo",
             "snosha_benefits_list",
             "variant_picker_R3rGDr",
@@ -1028,6 +1027,114 @@
         "custom_class": ""
       }
     },
+    "snosha_before_after_product": {
+      "type": "snosha-before-after",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>النتيجة بعد الاستخدام المنتظم لفرشاة SNOSHA</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color6 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "body": {
+          "type": "text",
+          "settings": {
+            "text": "<p>التنظيف المنتظم مع فرشاة SNOSHA يساعدك على إزالة بقايا الطعام والتصبغات السطحية التي تتراكم مع الوقت لابتسامة تبدو أنظف وأكثر انتعاشًا. جرب SNOSHA وشوف الفرق بنفسك.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color1 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "comparison": {
+          "type": "comparison-slider",
+          "name": "Before / after images",
+          "settings": {
+            "before_image": "shopify://shop_images/last_before.webp",
+            "after_image": "shopify://shop_images/last_after.png",
+            "slider_style": "horizontal",
+            "show_text": true,
+            "before_text": "قبل",
+            "after_text": "بعد",
+            "text_preset": "",
+            "text_position_horizontal": "start",
+            "text_position_vertical": "start",
+            "text_background": true,
+            "text_background_color": "{{ settings.color_palette.background }}",
+            "text_corner_radius": 10,
+            "text_color": "{{ settings.color_palette.color6 }}",
+            "image_ratio": "landscape",
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "slider_bg_color": "",
+            "slider_handle_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 24,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "body",
+        "comparison"
+      ],
+      "name": "Snosha before / after",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "label_text_color": "{{ settings.color_palette.color6 }}",
+        "grip_color": "{{ settings.color_palette.foreground }}",
+        "shadow_color": "#0f64a8",
+        "custom_class": "snosha-before-after--product"
+      }
+    },
     "snosha_long_description": {
       "type": "snosha-long-description",
       "blocks": {
@@ -1201,7 +1308,11 @@
               "blocks": {}
             }
           },
-          "block_order": ["sonic_rate", "sonic_reach", "sonic_deep"]
+          "block_order": [
+            "sonic_rate",
+            "sonic_reach",
+            "sonic_deep"
+          ]
         },
         "box": {
           "type": "_snosha-ld-panel",
@@ -1680,7 +1791,11 @@
               "blocks": {}
             }
           },
-          "block_order": ["battery_low", "battery_charging", "battery_full"]
+          "block_order": [
+            "battery_low",
+            "battery_charging",
+            "battery_full"
+          ]
         },
         "water": {
           "type": "_snosha-ld-panel",
@@ -2100,7 +2215,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["snosha_storage_item_Gf3rTQ"]
+          "block_order": [
+            "snosha_storage_item_Gf3rTQ"
+          ]
         },
         "snosha_storage_tab_M7KaMq": {
           "type": "_snosha-storage-tab",
@@ -2119,7 +2236,9 @@
               "blocks": {}
             }
           },
-          "block_order": ["snosha_storage_item_ecyQ68"]
+          "block_order": [
+            "snosha_storage_item_ecyQ68"
+          ]
         },
         "tab_style": {
           "type": "_snosha-storage-tab-style",
@@ -2186,119 +2305,12 @@
         "custom_class": ""
       }
     },
-    "snosha_before_after_product": {
-      "type": "snosha-before-after",
-      "blocks": {
-        "heading": {
-          "type": "text",
-          "settings": {
-            "text": "<h2>النتيجة بعد الاستخدام المنتظم لفرشاة SNOSHA</h2>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.color6 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "body": {
-          "type": "text",
-          "settings": {
-            "text": "<p>التنظيف المنتظم مع فرشاة SNOSHA يساعدك على إزالة بقايا الطعام والتصبغات السطحية التي تتراكم مع الوقت لابتسامة تبدو أنظف وأكثر انتعاشًا. جرب SNOSHA وشوف الفرق بنفسك.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.color1 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "comparison": {
-          "type": "comparison-slider",
-          "name": "Before / after images",
-          "settings": {
-            "before_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
-            "after_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
-            "slider_style": "horizontal",
-            "show_text": true,
-            "before_text": "قبل",
-            "after_text": "بعد",
-            "text_preset": "",
-            "text_position_horizontal": "start",
-            "text_position_vertical": "start",
-            "text_background": true,
-            "text_background_color": "{{ settings.color_palette.background }}",
-            "text_corner_radius": 10,
-            "text_color": "{{ settings.color_palette.color6 }}",
-            "image_ratio": "landscape",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "slider_bg_color": "",
-            "slider_handle_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 24,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "heading",
-        "body",
-        "comparison"
-      ],
-      "name": "Snosha before / after",
-      "settings": {
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "label_text_color": "{{ settings.color_palette.color6 }}",
-        "grip_color": "{{ settings.color_palette.foreground }}",
-        "shadow_color": "#0f64a8",
-        "custom_class": "snosha-before-after--product"
-      }
-    },
     "product_recommendations_snosha": {
       "type": "product-recommendations",
       "blocks": {
         "header": {
           "type": "text",
+          "name": "t:names.header",
           "settings": {
             "text": "<h2>منتجات ذات صلة</h2>",
             "width": "100%",
@@ -2320,8 +2332,7 @@
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {},
-          "name": "t:names.header"
+          "blocks": {}
         },
         "static-product-card": {
           "type": "_product-card",
@@ -2399,6 +2410,7 @@
               "settings": {
                 "stars_style": "outline",
                 "show_number": false,
+                "show_rating_value": false,
                 "label": "التقييمات",
                 "text_color": "",
                 "type_preset": "paragraph",
@@ -2622,6 +2634,7 @@
               "settings": {
                 "stars_style": "outline",
                 "show_number": false,
+                "show_rating_value": false,
                 "label": "التقييمات",
                 "text_color": "",
                 "type_preset": "paragraph",
@@ -2697,6 +2710,7 @@
         "snosha_style": true,
         "snosha_columns_tablet": 2,
         "snosha_columns_mobile": 2,
+        "snosha_exclude_current": true,
         "snosha_mobile_padding_top": 40,
         "snosha_mobile_padding_bottom": 40,
         "snosha_row_extra_space": 15.6,
@@ -2709,8 +2723,7 @@
         "snosha_discount_border": "{{ settings.color_palette.color2 }}",
         "snosha_progress_track": "{{ settings.color_palette.color2 }}",
         "snosha_gradient_start": "#63cdff",
-        "snosha_gradient_end": "#0f64a8",
-        "snosha_exclude_current": true
+        "snosha_gradient_end": "#0f64a8"
       }
     }
   },
