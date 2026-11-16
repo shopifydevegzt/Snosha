@@ -31,10 +31,43 @@
 
 {% render 'collection-wrapper-styles' %}
 
+{%- comment -%}
+  Snosha (dev1) — opt-in "Snosha collection style": the homepage Snosha product card look (shared
+  card rules in assets/dev1.css, scope .snosha-collection-grid) + a column cap for the native grid
+  (native card sizes can't give 4 columns in the 1376px container). Only variables are output here;
+  filters, sorting, pagination, URLs and the card blocks stay native.
+{%- endcomment -%}
+{%- liquid
+  assign snosha_style = section.settings.snosha_style
+-%}
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-collection-grid {
+      --snosha-cc-columns: {{ section.settings.snosha_columns_desktop | default: 4 }};
+      --snosha-cc-min-card: {{ section.settings.snosha_min_card_width | default: 240 }}px;
+      --snosha-cc-col-gap: {{ section.settings.columns_gap_horizontal }}px;
+      --snosha-cc-image-bg: {{ section.settings.snosha_image_background | default: settings.color_palette.color5 }};
+      --snosha-cc-toolbar-border: {{ section.settings.snosha_toolbar_border | default: settings.color_palette.color2 }};
+      --snosha-fc-title: {{ section.settings.snosha_title_color | default: settings.color_palette.color6 }};
+      --snosha-fc-text: {{ section.settings.snosha_text_color | default: settings.color_palette.color1 }};
+      --snosha-fc-accent: {{ section.settings.snosha_accent_color | default: settings.color_palette.color3 }};
+      --snosha-fc-on-accent: {{ section.settings.snosha_accent_text_color | default: settings.color_palette.background }};
+      --snosha-fc-star: {{ section.settings.snosha_star_color | default: settings.color_palette.color4 }};
+      --snosha-fc-discount-bg: {{ section.settings.snosha_discount_background | default: settings.color_palette.color5 }};
+      --snosha-fc-discount-border: {{ section.settings.snosha_discount_border | default: settings.color_palette.color2 }};
+      --snosha-fc-gradient-end: {{ section.settings.snosha_shadow_color | default: '#0F64A8' }};
+    }
+  {% endstyle %}
+{%- endif -%}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
-<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+<collection-component
+  {% if snosha_style %}
+    class="snosha-collection-grid"
+  {% endif %}
+  view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
   <results-list
     class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
@@ -267,6 +300,109 @@
       "step": 1,
       "unit": "px",
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Snosha collection style"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha collection style",
+      "info": "Homepage best-seller card look, a column limit for the grid and a styled filter bar. Filters, sorting and the card blocks stay native.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_desktop",
+      "label": "Maximum columns",
+      "info": "Fewer columns are used when cards would be narrower than the minimum width (e.g. 4 at 1480px, 3 at 1024px, 2 at 750px). Mobile: \"Mobile card size\".",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_min_card_width",
+      "label": "Minimum card width",
+      "min": 180,
+      "max": 360,
+      "step": 4,
+      "unit": "px",
+      "default": 240,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_image_background",
+      "label": "Product image background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_title_color",
+      "label": "Product title and price",
+      "default": "{{ settings.color_palette.color6 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_text_color",
+      "label": "Secondary text",
+      "default": "{{ settings.color_palette.color1 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_color",
+      "label": "Accent (badges, links, buttons)",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_text_color",
+      "label": "Text on accent",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_star_color",
+      "label": "Rating stars",
+      "default": "{{ settings.color_palette.color4 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_discount_background",
+      "label": "Discount badge background",
+      "default": "{{ settings.color_palette.color5 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_discount_border",
+      "label": "Discount badge border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_shadow_color",
+      "label": "Card hover shadow",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_toolbar_border",
+      "label": "Filter bar border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
     }
   ],
   "presets": []

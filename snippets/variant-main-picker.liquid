@@ -24,6 +24,47 @@
   assign fieldset_index = 0
 %}
 
+{%- liquid
+  # Snosha: linked colour products (product metafield custom.linked_color_products), product page only.
+  # Rendered before the native picker (also for single-variant products, which have no native picker).
+  # The product's own single-value colour option is then skipped below to avoid a duplicate colour row.
+  assign snosha_linked_products = null
+  assign snosha_linked_option = ''
+  assign snosha_linked_label = ''
+  if product.id == product_resource.id
+    assign snosha_linked_products = product_resource.metafields.custom.linked_color_products.value
+  endif
+
+  assign snosha_linked_others = 0
+  if snosha_linked_products != blank
+    for snosha_linked_item in snosha_linked_products
+      if snosha_linked_item != blank and snosha_linked_item.id != product_resource.id
+        assign snosha_linked_others = snosha_linked_others | plus: 1
+      endif
+    endfor
+  endif
+
+  if snosha_linked_others > 0
+    for snosha_option in product_resource.options_with_values
+      for snosha_value in snosha_option.values
+        if snosha_value.selected and snosha_value.swatch
+          assign snosha_linked_option = snosha_option.name
+          assign snosha_linked_label = snosha_value.name
+          break
+        endif
+      endfor
+      if snosha_linked_option != ''
+        break
+      endif
+    endfor
+
+    # Keep on one line: inside a liquid tag every line is a separate tag, so arguments can't wrap
+    render 'snosha-linked-colors', product_resource: product_resource, linked_products: snosha_linked_products, block: block, legend: snosha_linked_option, current_label: snosha_linked_label, standalone: product_resource.has_only_default_variant
+  else
+    assign snosha_linked_products = null
+  endif
+-%}
+
 {% unless product_resource.has_only_default_variant %}
   {% if has_custom_variant_buttons %}
     {% render 'variant-button-custom-styles', block_settings: block_settings, block_id: block.id %}
@@ -54,6 +95,9 @@
   >
     <form class="variant-picker__form">
       {%- for product_option in product_resource.options_with_values -%}
+        {%- if snosha_linked_products and product_option.name == snosha_linked_option and product_option.values.size == 1 -%}
+          {%- continue -%}
+        {%- endif -%}
         {%- liquid
           assign swatch_count = product_option.values | map: 'swatch' | compact | size
           assign variant_style = block_settings.variant_style

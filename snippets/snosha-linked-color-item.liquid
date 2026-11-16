@@ -1,0 +1,87 @@
+{%- doc -%}
+  Snosha — one linked colour product, rendered as an ordinary link styled with Horizon's native swatch
+  (same classes as the variant picker's swatch labels). Used by snippets/snosha-linked-colors.liquid.
+
+  Colour source, first match wins:
+  1. the product's own option value with a Shopify swatch (selected / first available value);
+  2. the product's category metafield Color (shopify.color-pattern, a list of standard
+     "Color pattern" metaobject entries): the first entry's color (solid dot), or its pattern image,
+     and its label as the colour name;
+  3. no colour data: the product image and title (accessible fallback, nothing guessed).
+
+  @param {object} item - the linked product
+  @param {object} current_product - the product being viewed
+  @param {boolean} [show_label] - show the colour name under the swatch (variant picker setting)
+{%- enddoc -%}
+{%- liquid
+  assign item_swatch = null
+  assign item_color = null
+  assign item_pattern = null
+  assign item_label = item.title
+  for item_option in item.options_with_values
+    for item_value in item_option.values
+      if item_value.selected and item_value.swatch
+        assign item_swatch = item_value.swatch
+        assign item_label = item_value.name
+        break
+      endif
+    endfor
+    if item_swatch
+      break
+    endif
+  endfor
+
+  unless item_swatch
+    assign item_color_entry = item.metafields.shopify['color-pattern'].value | first
+    if item_color_entry
+      assign item_color = item_color_entry.color.value
+      if item_color == blank and item_color_entry.image.value
+        assign item_pattern = item_color_entry.image.value | image_url: width: 80
+      endif
+      if item_color_entry.label.value != blank
+        assign item_label = item_color_entry.label.value
+      endif
+    endif
+  endunless
+
+  assign item_classes = 'variant-option__button-label variant-option__button-label--has-swatch snosha-linked-colors__item'
+  if item.available == false
+    assign item_classes = item_classes | append: ' snosha-linked-colors__item--sold-out'
+  endif
+-%}
+<a
+  class="{{ item_classes }}"
+  href="{{ item.url }}"
+  aria-label="{{ item_label | escape }}{% if item.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+  {% if item.id == current_product.id %}
+    aria-current="page"
+  {% endif %}
+>
+  {%- if item_swatch -%}
+    {%- render 'swatch',
+      swatch: item_swatch,
+      variant_image: item.selected_or_first_available_variant.featured_media,
+      mode: 'unscaled'
+    -%}
+  {%- elsif item_color != blank -%}
+    <span
+      class="swatch swatch--unscaled"
+      style="--swatch-background: {{ item_color }};"
+    ></span>
+  {%- elsif item_pattern -%}
+    <span
+      class="swatch swatch--unscaled"
+      style="--swatch-background: url({{ item_pattern }});"
+    ></span>
+  {%- elsif item.featured_media -%}
+    <span
+      class="swatch swatch--unscaled snosha-linked-colors__swatch--image"
+      style="--swatch-background: url({{ item.featured_media | image_url: width: 80 }});"
+    ></span>
+  {%- else -%}
+    <span class="swatch swatch--unscaled swatch--unavailable"></span>
+  {%- endif -%}
+  {%- if show_label and item_label != item.title -%}
+    <span class="variant-option__swatch-label" aria-hidden="true">{{ item_label | escape }}</span>
+  {%- endif -%}
+</a>

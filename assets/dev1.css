@@ -45,7 +45,9 @@
   .resource-list__carousel {
     /* Start/end gutter: Figma mobile 20px at 390 (page margin 24 - 4) */
     --snosha-collections-gutter-adjust: -4px;
-    --snosha-collections-gutter: calc(var(--util-page-margin-offset) + var(--snosha-collections-gutter-adjust));
+    --snosha-collections-gutter: calc(
+      var(--util-page-margin-offset) + var(--snosha-collections-gutter-adjust)
+    );
     --resource-list-column-gap: 10px;
     --snosha-collections-peek: 39px;
     --snosha-collections-title-space: 55px;
@@ -54,14 +56,25 @@
        resolves in the block axis (item height) */
     --snosha-collections-card: calc(
       (
-          100cqi - var(--snosha-collections-peek) -
-            2 * (
+          100cqi - var(--snosha-collections-peek) - 2 *
+            (
               max(
                   var(--page-margin),
-                  (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
-                ) + var(--snosha-collections-gutter-adjust)
-            ) - (var(--snosha-collections-columns) - 1) * var(--resource-list-column-gap)
-        ) / var(--snosha-collections-columns)
+                  (
+                      100cqi -
+                        min(
+                          var(--page-content-width),
+                          100cqi - 2 * var(--page-margin)
+                        )
+                    ) /
+                    2
+                ) +
+                var(--snosha-collections-gutter-adjust)
+            ) -
+            (var(--snosha-collections-columns) - 1) *
+            var(--resource-list-column-gap)
+        ) /
+        var(--snosha-collections-columns)
     );
   }
 
@@ -86,7 +99,9 @@
      second line out of view, they show two lines (17px, centred in the same band) and end with an
      ellipsis if a third would be needed (320px). A one-line title keeps Figma's text centre. */
   .resource-list__item {
-    block-size: calc(var(--snosha-collections-card) + var(--snosha-collections-title-space));
+    block-size: calc(
+      var(--snosha-collections-card) + var(--snosha-collections-title-space)
+    );
   }
 
   @media screen and (max-width: 749px) {
@@ -142,7 +157,10 @@
       --snosha-collections-columns: var(--snosha-collections-columns-tablet, 3);
 
       @media screen and (min-width: 990px) {
-        --snosha-collections-columns: var(--snosha-collections-columns-desktop, 4);
+        --snosha-collections-columns: var(
+          --snosha-collections-columns-desktop,
+          4
+        );
       }
     }
 
@@ -156,7 +174,9 @@
        instead of being cut (the one-line clip is mobile-only, as in Figma) */
     .resource-list__item {
       block-size: auto;
-      min-block-size: calc(var(--snosha-collections-card) + var(--snosha-collections-title-space));
+      min-block-size: calc(
+        var(--snosha-collections-card) + var(--snosha-collections-title-space)
+      );
     }
 
     .collection-card .text-block.h3 > * {
@@ -182,12 +202,22 @@
       padding: 0;
       border: 1px solid var(--snosha-collections-arrow-border);
       border-radius: 50%;
-      background-color: color-mix(in srgb, var(--snosha-collections-arrow-bg) 97%, transparent);
-      box-shadow: 0 8px 18px color-mix(in srgb, var(--snosha-collections-arrow-shadow) 16%, transparent);
+      background-color: color-mix(
+        in srgb,
+        var(--snosha-collections-arrow-bg) 97%,
+        transparent
+      );
+      box-shadow: 0 8px 18px
+        color-mix(
+          in srgb,
+          var(--snosha-collections-arrow-shadow) 16%,
+          transparent
+        );
       color: var(--snosha-collections-arrow-icon);
       opacity: 1;
       animation: none;
-      transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+      transition: background-color var(--animation-speed, 0.2s)
+        var(--animation-easing, ease);
 
       /* Figma chevron (22 x 22, 2px stroke) drawn as a mask in the arrow's text color.
          The native button keeps its markup, label and RTL flip; only the icon is swapped. */
@@ -196,7 +226,7 @@
       }
 
       &::before {
-        content: '';
+        content: "";
         inline-size: 22px;
         block-size: 22px;
         background-color: currentColor;
@@ -205,7 +235,11 @@
       }
 
       &:hover:not([disabled]) {
-        background-color: color-mix(in srgb, var(--snosha-collections-arrow-bg) 90%, var(--snosha-collections-arrow-border));
+        background-color: color-mix(
+          in srgb,
+          var(--snosha-collections-arrow-bg) 90%,
+          var(--snosha-collections-arrow-border)
+        );
       }
 
       &:focus-visible {
@@ -244,7 +278,7 @@
    inherited as an absolute length, so the mobile card metrics below can scale with it even inside
    the card's own containers (card-gallery, quick add). */
 @property --snosha-fc-card-width {
-  syntax: '<length>';
+  syntax: "<length>";
   inherits: true;
   initial-value: 316px;
 }
@@ -301,11 +335,14 @@
 
     /* Figma mobile: 56 / 56 section padding (+ the View All row 26 + gap 14, see the link below).
        Heading → carousel and carousel → progress are 14 + 11 (carousel padding) = 25. */
-    padding-block: var(--snosha-fc-mobile-padding-start) var(--snosha-fc-mobile-padding-end);
+    padding-block: var(--snosha-fc-mobile-padding-start)
+      var(--snosha-fc-mobile-padding-end);
     row-gap: 25px;
 
     &:has(.section-resource-list__header a.button-unstyled) {
-      padding-block-end: calc(var(--snosha-fc-mobile-padding-end) + var(--fc-link-lh) + 14px);
+      padding-block-end: calc(
+        var(--snosha-fc-mobile-padding-end) + var(--fc-link-lh) + 14px
+      );
     }
   }
 
@@ -384,12 +421,12 @@
     }
 
     &::after {
-      content: '';
+      content: "";
       flex: none;
       inline-size: var(--fc-link-icon);
       block-size: var(--fc-link-icon);
       background-color: currentColor;
-      mask: url('snosha-arrow-left.svg') center / contain no-repeat;
+      mask: url("snosha-arrow-left.svg") center / contain no-repeat;
     }
 
     &:dir(ltr)::after {
@@ -399,22 +436,36 @@
 
   /* ---------------- Carousel geometry ---------------- */
   /* Direct-child chain so nested product-image slideshows inside the cards are not affected */
-  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+  slideshow-component.resource-list__carousel
+    > slideshow-container
+    > slideshow-slides {
     /* Figma desktop: cards start 20px inside the 1376 container (72px at 1480); mobile: page margin (24 at 390) */
-    --gutter-slide-width: calc(var(--util-page-margin-offset) + var(--fc-inset));
+    --gutter-slide-width: calc(
+      var(--util-page-margin-offset) + var(--fc-inset)
+    );
     /* Cards share the row inside the gutters: 316 at 1480 (4 per row), 165 at 390 (2 per row).
        The gutter is --gutter-slide-width written with 100cqi (the full-bleed slideshow-container)
        instead of Horizon's 100%, so it computes to a plain length. */
     --snosha-fc-card-width: calc(
       (
-          100cqi -
-            2 * (
+          100cqi - 2 *
+            (
               max(
                   var(--page-margin),
-                  (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
-                ) + var(--fc-inset)
-            ) - (var(--fc-columns) - 1) * var(--resource-list-column-gap)
-        ) / var(--fc-columns)
+                  (
+                      100cqi -
+                        min(
+                          var(--page-content-width),
+                          100cqi - 2 * var(--page-margin)
+                        )
+                    ) /
+                    2
+                ) +
+                var(--fc-inset)
+            ) -
+            (var(--fc-columns) - 1) * var(--resource-list-column-gap)
+        ) /
+        var(--fc-columns)
     );
 
     /* Mobile: never smaller than the same count at the 390px Figma frame (342px row), so the scaled
@@ -422,10 +473,16 @@
     @media screen and (max-width: 749px) {
       --snosha-fc-card-width: max(
         calc(
-          (100cqi - 2 * var(--page-margin) - (var(--fc-columns) - 1) * var(--resource-list-column-gap)) /
+          (
+              100cqi - 2 * var(--page-margin) - (var(--fc-columns) - 1) *
+                var(--resource-list-column-gap)
+            ) /
             var(--fc-columns)
         ),
-        calc((342px - (var(--fc-columns) - 1) * var(--resource-list-column-gap)) / var(--fc-columns))
+        calc(
+          (342px - (var(--fc-columns) - 1) * var(--resource-list-column-gap)) /
+            var(--fc-columns)
+        )
       );
     }
   }
@@ -438,12 +495,17 @@
      (x 0.522). The values are the Figma 165px metrics, scaled with the real card width so every
      "Products per row (mobile)" value keeps the design's proportions (exact Figma values at 2). */
   @media screen and (max-width: 749px) {
-    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides > .resource-list__slide {
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides
+      > .resource-list__slide {
       --fc-image-radius: calc(var(--snosha-fc-card-width) * 8.354 / 165);
       --fc-after-image: calc(var(--snosha-fc-card-width) * 7.31 / 165);
       --fc-pad: calc(var(--snosha-fc-card-width) * 6.266 / 165);
       --fc-gap: calc(var(--snosha-fc-card-width) * 3.133 / 165);
-      --fc-end-space: calc(var(--snosha-fc-card-width) * 16.709 / 165); /* 6.266 + 7.31 + 3.133 */
+      --fc-end-space: calc(
+        var(--snosha-fc-card-width) * 16.709 / 165
+      ); /* 6.266 + 7.31 + 3.133 */
       --fc-title-size: calc(var(--snosha-fc-card-width) * 8.354 / 165);
       --fc-title-lh: calc(var(--snosha-fc-card-width) * 14.098 / 165);
       --fc-desc-size: calc(var(--snosha-fc-card-width) * 7.31 / 165);
@@ -495,17 +557,42 @@
 
     /* Progress bar when the products don't fit the row (see "CAROUSEL PROGRESS"): aligned with the cards */
     slideshow-component.resource-list__carousel {
-      --snosha-progress-inset: calc(var(--util-page-margin-offset) + var(--fc-inset));
+      --snosha-progress-inset: calc(
+        var(--util-page-margin-offset) + var(--fc-inset)
+      );
       --snosha-progress-space: 24px;
     }
 
     /* Figma Product Row clips its overflow at the container edge (no peeking cards in the page
        gutters on desktop). Vertical room is kept for the hover shadow. */
-    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
-      clip-path: inset(-48px calc(var(--util-page-margin-offset) + var(--fc-inset)));
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides {
+      clip-path: inset(
+        -48px calc(var(--util-page-margin-offset) + var(--fc-inset))
+      );
     }
   }
 
+  /* Mobile carousel cards: Figma fixed 165 x 283 (homepage only; the collection grid sizes cards by content) */
+  @media screen and (max-width: 749px) {
+    .product-card__content.product-grid__card {
+      block-size: 283px;
+      overflow: clip;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT CARD (shared look)
+   Native _product-card (gallery, product-title, custom-liquid description, review, price,
+   custom-liquid CTA) styled once for:
+   - .snosha-featured-collection  homepage best sellers (sections/product-list.liquid, carousel)
+   - .snosha-collection-grid      collection page grid (sections/main-collection.liquid, opt-in)
+   Sizes come from the --fc-* metrics each scope defines; colors from --snosha-fc-* (bridged by
+   each section's settings).
+   ========================================================================= */
+:is(.snosha-featured-collection, .snosha-collection-grid) {
   /* ---------------- Product card ---------------- */
   /* Two classes to outrank Horizon's .product-grid__card.product-grid__card (compiled bundle, loaded later) */
   .product-card__content.product-grid__card {
@@ -518,7 +605,7 @@
     border-width: 0;
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
       z-index: var(--layer-raised);
@@ -535,6 +622,7 @@
 
     > * {
       flex-shrink: 0;
+      flex-direction: row-reverse;
     }
 
     /* Price + "View product" sit on a shared bottom line, so price regions align across a row even
@@ -551,7 +639,10 @@
   }
 
   /* Slide -> item -> card fill the slide's (row-stretched) height */
-  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides > .resource-list__slide {
+  slideshow-component.resource-list__carousel
+    > slideshow-container
+    > slideshow-slides
+    > .resource-list__slide {
     /* Figma desktop card 316 x 541.9 = square image + 225.9 of text (ratings row included, so
        price and link keep their Figma positions when a product has no rating); mobile below */
     --fc-card-height: calc(var(--snosha-fc-card-width) + 225.9px);
@@ -560,7 +651,9 @@
     flex-direction: column;
 
     @media screen and (max-width: 749px) {
-      --fc-card-height: calc(var(--snosha-fc-card-width) * 283 / 165); /* Figma 165 x 283 */
+      --fc-card-height: calc(
+        var(--snosha-fc-card-width) * 283 / 165
+      ); /* Figma 165 x 283 */
     }
 
     > .resource-list__item {
@@ -576,7 +669,8 @@
 
   @media screen and (min-width: 750px) {
     product-card:hover .product-card__content {
-      box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-fc-gradient-end) 10%, transparent);
+      box-shadow: 0 12px 32px
+        color-mix(in srgb, var(--snosha-fc-gradient-end) 10%, transparent);
     }
   }
 
@@ -640,8 +734,8 @@
       font-weight: var(--font-accent--weight);
       font-size: var(--fc-title-size);
       line-height: var(--fc-title-lh);
-      overflow: hidden;
-      white-space: nowrap;
+      /* overflow: hidden; */
+      white-space: pre-wrap;
       text-overflow: ellipsis;
     }
   }
@@ -672,6 +766,7 @@
     color: var(--snosha-fc-text);
     font-size: var(--fc-caption-size);
     line-height: var(--fc-caption-lh);
+    flex: 1;
   }
 
   .rating {
@@ -689,7 +784,7 @@
     padding-block-start: var(--fc-price-pt);
   }
 
-  product-price [ref='priceContainer'] {
+  product-price [ref="priceContainer"] {
     display: flex;
     flex-wrap: wrap; /* one row at the Figma card width; wraps instead of widening narrower cards */
     align-items: center;
@@ -718,7 +813,8 @@
   .price-discount-badge {
     padding: var(--fc-badge-pad-block) var(--fc-badge-pad-inline);
     /* Figma inside stroke: drawn without taking layout space (a 0.522px border would round up to 1px) */
-    box-shadow: inset 0 0 0 var(--fc-badge-border) var(--snosha-fc-discount-border);
+    box-shadow: inset 0 0 0 var(--fc-badge-border)
+      var(--snosha-fc-discount-border);
     border-radius: var(--fc-badge-radius);
     background: var(--snosha-fc-discount-bg);
     color: var(--snosha-fc-accent);
@@ -742,12 +838,12 @@
     text-decoration: none;
 
     &::after {
-      content: '';
+      content: "";
       flex: none;
       inline-size: var(--fc-cta-icon);
       block-size: var(--fc-cta-icon);
       background-color: currentColor;
-      mask: url('snosha-arrow-left.svg') center / contain no-repeat;
+      mask: url("snosha-arrow-left.svg") center / contain no-repeat;
     }
 
     &:dir(ltr)::after {
@@ -781,12 +877,13 @@
       font-weight: var(--font-accent--weight);
       font-size: 16px;
       line-height: 26px;
+      flex-direction: row-reverse;
 
       &:hover {
         scale: none;
       }
 
-      &[data-added='true'] {
+      &[data-added="true"] {
         inline-size: auto;
       }
     }
@@ -797,7 +894,7 @@
       inline-size: 18px;
       block-size: 18px;
       background-color: currentColor;
-      mask: url('snosha-cart.svg') center / contain no-repeat;
+      mask: url("snosha-cart.svg") center / contain no-repeat;
 
       & svg {
         display: none;
@@ -813,10 +910,11 @@
         padding: 0;
         gap: 0;
         border-radius: 50%;
-        box-shadow: 0 6px 12px color-mix(in srgb, var(--snosha-fc-gradient-end) 35%, transparent);
+        box-shadow: 0 6px 12px
+          color-mix(in srgb, var(--snosha-fc-gradient-end) 35%, transparent);
         font-size: 0; /* the label stays as the accessible name */
 
-        &[data-added='true'] {
+        &[data-added="true"] {
           inline-size: 32px;
         }
       }
@@ -824,11 +922,10 @@
       & .add-to-cart-icon {
         inline-size: 16px;
         block-size: 16px;
-        mask-image: url('snosha-cart-16.svg');
+        mask-image: url("snosha-cart-16.svg");
       }
     }
   }
-
 }
 
 /* =========================================================================
@@ -853,7 +950,9 @@
     timeline-scope: --snosha-carousel-scroll;
   }
 
-  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+  slideshow-component.resource-list__carousel
+    > slideshow-container
+    > slideshow-slides {
     scroll-timeline: --snosha-carousel-scroll inline;
   }
 
@@ -864,27 +963,29 @@
   @media screen and (max-width: 749px) {
     slideshow-component.resource-list__carousel {
       --snosha-progress-on: 1;
-      --snosha-progress-content: '';
+      --snosha-progress-content: "";
     }
   }
 
   @media screen and (min-width: 750px) and (max-width: 989px) {
     &.snosha-progress--tablet slideshow-component.resource-list__carousel {
       --snosha-progress-on: 1;
-      --snosha-progress-content: '';
+      --snosha-progress-content: "";
     }
   }
 
   @media screen and (min-width: 990px) {
     &.snosha-progress--desktop slideshow-component.resource-list__carousel {
       --snosha-progress-on: 1;
-      --snosha-progress-content: '';
+      --snosha-progress-content: "";
     }
   }
 
   /* slideshow-component is position: relative natively; without the flags these rules draw nothing */
   slideshow-component.resource-list__carousel {
-    padding-block-end: calc((var(--snosha-progress-space) + 4px) * var(--snosha-progress-on, 0));
+    padding-block-end: calc(
+      (var(--snosha-progress-space) + 4px) * var(--snosha-progress-on, 0)
+    );
 
     &::before,
     &::after {
@@ -907,9 +1008,17 @@
       inset-inline-start: var(--snosha-progress-inset);
       inline-size: calc(
         (100% - 2 * var(--snosha-progress-inset)) *
-          (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+          (
+            var(--snosha-progress-initial) +
+              (1 - var(--snosha-progress-initial)) *
+              var(--snosha-carousel-progress, 0)
+          )
       );
-      background-image: linear-gradient(to right, var(--snosha-progress-start), var(--snosha-progress-end));
+      background-image: linear-gradient(
+        to right,
+        var(--snosha-progress-start),
+        var(--snosha-progress-end)
+      );
     }
 
     @supports (animation-timeline: scroll()) {
@@ -923,7 +1032,9 @@
 
 @keyframes snosha-carousel-progress {
   from {
-    inline-size: calc((100% - 2 * var(--snosha-progress-inset)) * var(--snosha-progress-initial));
+    inline-size: calc(
+      (100% - 2 * var(--snosha-progress-inset)) * var(--snosha-progress-initial)
+    );
   }
 
   to {
@@ -987,7 +1098,8 @@
    ========================================================================= */
 
 .snosha-before-after {
-  padding-block: var(--snosha-ba-padding-start-mobile) var(--snosha-ba-padding-end-mobile);
+  padding-block: var(--snosha-ba-padding-start-mobile)
+    var(--snosha-ba-padding-end-mobile);
 
   @media screen and (min-width: 750px) {
     padding-block: var(--snosha-ba-padding-start) var(--snosha-ba-padding-end);
@@ -1041,7 +1153,7 @@
   }
 
   /* Divider: Figma 3px, no shadow */
-  .comparison-slider__media-wrapper[data-orientation='horizontal']::after {
+  .comparison-slider__media-wrapper[data-orientation="horizontal"]::after {
     width: 3px;
     box-shadow: none;
   }
@@ -1053,7 +1165,8 @@
     padding: 0;
     gap: 0;
     border-radius: 17px;
-    box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
+    box-shadow: 0 12px 32px
+      color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
 
     @media screen and (max-width: 749px) {
       width: 29px;
@@ -1061,7 +1174,7 @@
     }
 
     &::before {
-      content: '';
+      content: "";
       inline-size: 14px;
       block-size: 16px;
       background: repeating-linear-gradient(
@@ -1077,19 +1190,21 @@
   }
 
   /* The range input is invisible: show keyboard focus on the handle */
-  .comparison-slider__media-wrapper:has(.cs-slider:focus-visible) .cs-slider__handle {
+  .comparison-slider__media-wrapper:has(.cs-slider:focus-visible)
+    .cs-slider__handle {
     outline: 2px solid var(--snosha-ba-label-text);
     outline-offset: 2px;
   }
 
   /* Labels (native "text on images"): Figma chips */
-  [data-orientation='horizontal'] .comparison-slider__text {
+  [data-orientation="horizontal"] .comparison-slider__text {
     display: flex;
     align-items: center;
     justify-content: center;
     inset-block-start: 16px;
     padding: 6px 16px;
-    box-shadow: 0 12px 32px color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
+    box-shadow: 0 12px 32px
+      color-mix(in srgb, var(--snosha-ba-shadow) 10%, transparent);
 
     > * {
       margin: 0;
@@ -1114,7 +1229,7 @@
     }
   }
 
-  [data-orientation='horizontal'] .comparison-slider__text--before {
+  [data-orientation="horizontal"] .comparison-slider__text--before {
     inset-inline-start: 16px;
 
     @media screen and (max-width: 749px) {
@@ -1122,7 +1237,7 @@
     }
   }
 
-  [data-orientation='horizontal'] .comparison-slider__text--after {
+  [data-orientation="horizontal"] .comparison-slider__text--after {
     inset-inline-end: 16px;
   }
 
@@ -1134,7 +1249,7 @@
     direction: ltr;
   }
 
-  [data-orientation='horizontal']:dir(rtl) {
+  [data-orientation="horizontal"]:dir(rtl) {
     .comparison-slider__layer--before {
       clip-path: inset(0 0 0 calc(var(--compare) * 1%));
     }
@@ -1223,7 +1338,11 @@
   block-size: 40px;
   border: 1px solid var(--snosha-icon-tile-border);
   border-radius: 13px;
-  background: linear-gradient(to bottom, var(--snosha-icon-tile-start), var(--snosha-icon-tile-end));
+  background: linear-gradient(
+    to bottom,
+    var(--snosha-icon-tile-start),
+    var(--snosha-icon-tile-end)
+  );
 }
 
 /* =========================================================================
@@ -1241,7 +1360,7 @@
 /* Card width, computed once on the native scroller (100cqi) and inherited as a plain length, so the
    image height below can scale with it inside the card's own containers. */
 @property --snosha-blog-card-width {
-  syntax: '<length>';
+  syntax: "<length>";
   inherits: true;
   initial-value: 429.333px;
 }
@@ -1261,11 +1380,14 @@
     --blog-image-height: var(--snosha-blog-image-height-mobile, 268px);
 
     /* Figma mobile: 56 / 40 padding (+ the View All row 26 + gap 14); heading → carousel 14 */
-    padding-block: var(--snosha-blog-mobile-padding-start) var(--snosha-blog-mobile-padding-end);
+    padding-block: var(--snosha-blog-mobile-padding-start)
+      var(--snosha-blog-mobile-padding-end);
     row-gap: 14px;
 
     &:has(.featured-blog-posts__view-all) {
-      padding-block-end: calc(var(--snosha-blog-mobile-padding-end) + 26px + 14px);
+      padding-block-end: calc(
+        var(--snosha-blog-mobile-padding-end) + 26px + 14px
+      );
     }
   }
 
@@ -1329,7 +1451,10 @@
 
   /* Figma "Icon / arrow-left" (inline SVG from snosha-icon), 18px, follows the link color;
      points to the inline end in RTL, mirrored in LTR */
-  :is(.featured-blog-posts__view-all-icon, .featured-blog-posts-card__read-more-icon) {
+  :is(
+    .featured-blog-posts__view-all-icon,
+    .featured-blog-posts-card__read-more-icon
+  ) {
     flex: none;
     inline-size: 18px;
     block-size: 18px;
@@ -1340,9 +1465,13 @@
   }
 
   /* ---------------- Carousel geometry ---------------- */
-  slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+  slideshow-component.resource-list__carousel
+    > slideshow-container
+    > slideshow-slides {
     /* Figma desktop: cards start 20px inside the 1376 container (72px at 1480); mobile: page margin */
-    --gutter-slide-width: calc(var(--util-page-margin-offset) + var(--blog-inset));
+    --gutter-slide-width: calc(
+      var(--util-page-margin-offset) + var(--blog-inset)
+    );
 
     /* >= 750: the cards share the row inside the gutters (Figma 429.333 = (1336 - 2 x 24) / 3 at
        1480), so narrower desktops / tablets keep whole cards in view instead of a fixed width that
@@ -1351,14 +1480,24 @@
     @media screen and (min-width: 750px) {
       --snosha-blog-card-width: calc(
         (
-            100cqi -
-              2 * (
+            100cqi - 2 *
+              (
                 max(
                     var(--page-margin),
-                    (100cqi - min(var(--page-content-width), 100cqi - 2 * var(--page-margin))) / 2
-                  ) + var(--blog-inset)
-              ) - (var(--blog-columns) - 1) * var(--resource-list-column-gap)
-          ) / var(--blog-columns)
+                    (
+                        100cqi -
+                          min(
+                            var(--page-content-width),
+                            100cqi - 2 * var(--page-margin)
+                          )
+                      ) /
+                      2
+                  ) +
+                  var(--blog-inset)
+              ) -
+              (var(--blog-columns) - 1) * var(--resource-list-column-gap)
+          ) /
+          var(--blog-columns)
       );
     }
   }
@@ -1369,8 +1508,12 @@
 
   @media screen and (min-width: 750px) {
     /* Figma Blog Row clips at the container edge (no peeking cards in the page gutters) */
-    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
-      clip-path: inset(-16px calc(var(--util-page-margin-offset) + var(--blog-inset)));
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides {
+      clip-path: inset(
+        -16px calc(var(--util-page-margin-offset) + var(--blog-inset))
+      );
     }
   }
 
@@ -1386,7 +1529,9 @@
 
     /* >= 750, shown only when the posts don't fit the row: aligned with the cards, 24px under them */
     @media screen and (min-width: 750px) {
-      --snosha-progress-inset: calc(var(--util-page-margin-offset) + var(--blog-inset));
+      --snosha-progress-inset: calc(
+        var(--util-page-margin-offset) + var(--blog-inset)
+      );
       --snosha-progress-space: 24px;
     }
   }
@@ -1415,7 +1560,8 @@
     @media screen and (min-width: 750px) {
       block-size: min(
         var(--blog-image-height),
-        var(--blog-image-height) - (429.333px - var(--snosha-blog-card-width)) * 0.6242
+        var(--blog-image-height) - (429.333px - var(--snosha-blog-card-width)) *
+          0.6242
       );
     }
 
@@ -1512,8 +1658,14 @@
     block-size: 96px;
     border-radius: 26px;
     box-shadow:
-      0 10px 11px color-mix(in srgb, var(--snosha-icon-tile-shadow, transparent) 8%, transparent),
-      inset 0 2px 2px color-mix(in srgb, var(--snosha-icon-tile-start) 90%, transparent);
+      0 10px 11px
+        color-mix(
+          in srgb,
+          var(--snosha-icon-tile-shadow, transparent) 8%,
+          transparent
+        ),
+      inset 0 2px 2px
+        color-mix(in srgb, var(--snosha-icon-tile-start) 90%, transparent);
   }
 }
 
@@ -1534,7 +1686,8 @@
   --snosha-icon-tile-shadow: var(--snosha-why-shadow);
 
   background-color: var(--snosha-why-background);
-  padding-block: var(--snosha-why-padding-start-mobile) var(--snosha-why-padding-end-mobile);
+  padding-block: var(--snosha-why-padding-start-mobile)
+    var(--snosha-why-padding-end-mobile);
 
   @media screen and (min-width: 750px) {
     padding-block: var(--snosha-why-padding-start) var(--snosha-why-padding-end);
@@ -1623,18 +1776,27 @@
      2 / 4 / 4). Equal minmax(0, 1fr) tracks share the inner width after the gaps. */
   .snosha-why__grid {
     display: grid;
-    grid-template-columns: repeat(var(--snosha-why-columns-mobile, 2), minmax(0, 1fr));
+    grid-template-columns: repeat(
+      var(--snosha-why-columns-mobile, 2),
+      minmax(0, 1fr)
+    );
     gap: 12px;
     align-items: start;
     direction: ltr;
 
     @media screen and (min-width: 750px) {
-      grid-template-columns: repeat(var(--snosha-why-columns-tablet, 4), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--snosha-why-columns-tablet, 4),
+        minmax(0, 1fr)
+      );
       gap: 32px;
     }
 
     @media screen and (min-width: 990px) {
-      grid-template-columns: repeat(var(--snosha-why-columns-desktop, 4), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--snosha-why-columns-desktop, 4),
+        minmax(0, 1fr)
+      );
     }
   }
 
@@ -1703,7 +1865,8 @@
 
 .snosha-faq {
   background-color: var(--snosha-faq-background);
-  padding-block: var(--snosha-faq-padding-start-mobile) var(--snosha-faq-padding-end-mobile);
+  padding-block: var(--snosha-faq-padding-start-mobile)
+    var(--snosha-faq-padding-end-mobile);
 
   /* Figma mobile uses a 20px side padding (350 at 390) instead of the global page margin */
   @media screen and (max-width: 749px) {
@@ -1825,7 +1988,7 @@
     inline-size: 18px;
     block-size: 18px;
     background-color: var(--snosha-faq-chevron);
-    mask: url('snosha-chevron-down.svg') center / contain no-repeat;
+    mask: url("snosha-chevron-down.svg") center / contain no-repeat;
     transition: rotate var(--animation-speed) var(--animation-easing);
 
     & > svg {
@@ -1891,7 +2054,8 @@
     gap: 20px;
 
     @media screen and (max-width: 749px) {
-      padding-block: var(--snosha-footer-padding-start-mobile) var(--snosha-footer-padding-end-mobile);
+      padding-block: var(--snosha-footer-padding-start-mobile)
+        var(--snosha-footer-padding-end-mobile);
     }
 
     @media screen and (min-width: 750px) {
@@ -2035,7 +2199,7 @@
   }
 
   /* Section colors unless the menu block sets its own text color */
-  .menu__details:not([class*='color-custom-']) {
+  .menu__details:not([class*="color-custom-"]) {
     .menu__heading {
       color: var(--snosha-footer-heading);
     }
@@ -2052,7 +2216,9 @@
   }
 
   /* Figma keeps input + button on one row at every width (input at the start / right in RTL) */
-  .email-signup-block .email-signup__form .email-signup__input-group:not(.email-signup__input-group--integrated) {
+  .email-signup-block
+    .email-signup__form
+    .email-signup__input-group:not(.email-signup__input-group--integrated) {
     flex-direction: row;
     align-items: stretch;
     gap: 8px;
@@ -2097,7 +2263,8 @@
   .utilities {
     @media screen and (max-width: 749px) {
       border-block-start: 0;
-      padding-block: var(--snosha-footer-utilities-padding-start-mobile) var(--snosha-footer-utilities-padding-end-mobile);
+      padding-block: var(--snosha-footer-utilities-padding-start-mobile)
+        var(--snosha-footer-utilities-padding-end-mobile);
     }
 
     @media screen and (min-width: 750px) {
@@ -2139,18 +2306,18 @@
     }
 
     &::before {
-      content: '';
+      content: "";
       display: block;
       inline-size: 22px;
       block-size: 22px;
       background-color: currentColor;
-      mask: url('snosha-cart-22.svg') center / 22px 22px no-repeat;
+      mask: url("snosha-cart-22.svg") center / 22px 22px no-repeat;
     }
   }
 
   /* ---------- Desktop, inline menu mode ---------- */
   @media screen and (min-width: 750px) {
-    &[data-menu-style='menu'] {
+    &[data-menu-style="menu"] {
       .header__row--top .header__columns {
         --padding-block-start: var(--snosha-header-padding-start);
         --padding-block-end: var(--snosha-header-padding-end);
@@ -2159,7 +2326,8 @@
       }
 
       .header-logo {
-        translate: var(--snosha-header-logo-offset-x) var(--snosha-header-logo-offset-y);
+        translate: var(--snosha-header-logo-offset-x)
+          var(--snosha-header-logo-offset-y);
       }
 
       /* Navigation row */
@@ -2174,7 +2342,9 @@
         margin-inline: calc(var(--snosha-nav-gap) / -2);
       }
 
-      .header-menu .menu-list__list-item:not([slot='overflow']) .menu-list__link {
+      .header-menu
+        .menu-list__list-item:not([slot="overflow"])
+        .menu-list__link {
         font-size: var(--snosha-nav-font-size);
         line-height: var(--snosha-nav-line-height);
         color: var(--snosha-nav-color, var(--color-foreground));
@@ -2196,14 +2366,17 @@
     }
 
     /* Figma: cart, search, account on the start side (right in RTL), 22px apart */
-    &.snosha-header--actions-start[data-menu-style='menu'] {
+    &.snosha-header--actions-start[data-menu-style="menu"] {
       .header__row--top .header__columns {
-        grid-template-areas: 'right center left';
+        grid-template-areas: "right center left";
       }
 
       .header__row--top .header__column--right {
         justify-content: flex-start;
-        gap: calc(var(--snosha-header-icon-gap) - (var(--button-size) - var(--icon-size-md)));
+        gap: calc(
+          var(--snosha-header-icon-gap) -
+            (var(--button-size) - var(--icon-size-md))
+        );
 
         header-actions {
           display: contents;
@@ -2221,21 +2394,25 @@
         /* Cart: first, with its glyph on the content edge */
         header-actions > .header-actions__action:not(.account-button) {
           order: 1;
-          margin-inline-start: calc((var(--icon-size-md) - var(--button-size)) / 2);
+          margin-inline-start: calc(
+            (var(--icon-size-md) - var(--button-size)) / 2
+          );
         }
       }
     }
   }
 
   /* Active link marker (Figma Nav Item / Active): 5px wider than the label each side */
-  &.snosha-header--nav-marker[data-menu-style='menu'] .header-menu .menu-list__list-item:not([slot='overflow']) {
+  &.snosha-header--nav-marker[data-menu-style="menu"]
+    .header-menu
+    .menu-list__list-item:not([slot="overflow"]) {
     .menu-list__link--active .menu-list__link-title {
       position: relative;
       isolation: isolate;
       padding-inline: calc(var(--snosha-nav-gap) / 2 + 5px);
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         z-index: -1;
         inset-inline: calc(var(--snosha-nav-gap) / 2);
@@ -2252,7 +2429,8 @@
      RTL, right to left: menu, centered logo, search, cart. */
   @media screen and (max-width: 749px) {
     .header__row--top .header__columns {
-      padding-block: var(--snosha-header-padding-start-mobile) var(--snosha-header-padding-end-mobile);
+      padding-block: var(--snosha-header-padding-start-mobile)
+        var(--snosha-header-padding-end-mobile);
     }
 
     .header__drawer {
@@ -2282,7 +2460,8 @@
       grid-area: rightA;
       justify-self: end;
       margin-inline-end: calc(
-        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) - var(--header-mobile-bookend) -
+        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) -
+          var(--header-mobile-bookend) -
           (var(--button-size) - var(--icon-size-md)) / 2
       );
     }
@@ -2296,9 +2475,10 @@
     }
   }
 
-  &[data-menu-style='drawer'] {
+  &[data-menu-style="drawer"] {
     .header__row--top .header__columns {
-      padding-block: var(--snosha-header-padding-start-mobile) var(--snosha-header-padding-end-mobile);
+      padding-block: var(--snosha-header-padding-start-mobile)
+        var(--snosha-header-padding-end-mobile);
     }
 
     .header__drawer {
@@ -2328,7 +2508,8 @@
       grid-area: rightA;
       justify-self: end;
       margin-inline-end: calc(
-        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) - var(--header-mobile-bookend) -
+        var(--snosha-header-icon-gap-mobile) + var(--icon-size-md) -
+          var(--header-mobile-bookend) -
           (var(--button-size) - var(--icon-size-md)) / 2
       );
     }
@@ -2363,11 +2544,12 @@
 
   /* Header bar: same height as the mobile site header (44px button + header padding + 1px border) */
   &::before {
-    content: '';
+    content: "";
     grid-row: 1;
     grid-column: 1 / -1;
     min-block-size: calc(
-      var(--button-size) + var(--snosha-header-padding-start-mobile) + var(--snosha-header-padding-end-mobile) + 1px
+      var(--button-size) + var(--snosha-header-padding-start-mobile) +
+        var(--snosha-header-padding-end-mobile) + 1px
     );
     background-color: var(--snosha-drawer-header-bg, transparent);
     border-block-end: 1px solid var(--drawer-divider-color, var(--color-border));
@@ -2396,7 +2578,10 @@
     width: var(--button-size);
     height: var(--button-size);
     padding: 0;
-    margin-inline-end: calc(var(--snosha-drawer-gutter) - (var(--button-size) - var(--icon-size-md)) / 2);
+    margin-inline-end: calc(
+      var(--snosha-drawer-gutter) - (var(--button-size) - var(--icon-size-md)) /
+        2
+    );
     color: var(--snosha-drawer-link-color, currentcolor);
 
     .svg-wrapper,
@@ -2457,18 +2642,22 @@
   }
 
   /* Active row: Shopify's link.current (aria-current) or child_active (--active) */
-  .menu-drawer__menu-item:is([aria-current='page'], .menu-drawer__menu-item--active) {
+  .menu-drawer__menu-item:is(
+    [aria-current="page"],
+    .menu-drawer__menu-item--active
+  ) {
     isolation: isolate;
     color: var(--snosha-drawer-active-color, var(--color-foreground));
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       z-index: -1;
       inset-block: 0;
       inset-inline: calc(var(--snosha-drawer-gutter) * -1);
       background-color: var(--snosha-drawer-active-bg, transparent);
-      border-inline-start: 3px solid var(--snosha-drawer-active-color, currentcolor);
+      border-inline-start: 3px solid
+        var(--snosha-drawer-active-color, currentcolor);
     }
   }
 
@@ -2505,7 +2694,8 @@
 
   position: relative;
   overflow-x: clip;
-  padding-block: var(--snosha-comparison-padding-start-mobile) var(--snosha-comparison-padding-end-mobile);
+  padding-block: var(--snosha-comparison-padding-start-mobile)
+    var(--snosha-comparison-padding-end-mobile);
   background-image: linear-gradient(
     var(--snosha-comparison-bg-angle-mobile),
     var(--snosha-comparison-bg-start) 8.75%,
@@ -2519,7 +2709,8 @@
   }
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-comparison-padding-start) var(--snosha-comparison-padding-end);
+    padding-block: var(--snosha-comparison-padding-start)
+      var(--snosha-comparison-padding-end);
     background-image: linear-gradient(
       var(--snosha-comparison-bg-angle),
       var(--snosha-comparison-bg-start) 8.75%,
@@ -2643,7 +2834,8 @@
   @media screen and (min-width: 750px) {
     &.snosha-comparison--has-image .snosha-comparison__board {
       --snosha-comparison-criterion-pad: calc(
-        var(--snosha-comparison-image-width) * 0.38 * var(--snosha-comparison-scale)
+        var(--snosha-comparison-image-width) * 0.38 *
+          var(--snosha-comparison-scale)
       );
       --snosha-comparison-divider-criterion-inset: max(
         28px,
@@ -2671,7 +2863,8 @@
   .snosha-comparison__strip {
     position: absolute;
     z-index: 2;
-    inset-block: calc(var(--snosha-comparison-strip-start) * -1) calc(var(--snosha-comparison-strip-end) * -1);
+    inset-block: calc(var(--snosha-comparison-strip-start) * -1)
+      calc(var(--snosha-comparison-strip-end) * -1);
     inset-inline-start: var(--snosha-comparison-col-criterion);
     inline-size: var(--snosha-comparison-col-brand);
     border: 1.5px solid var(--snosha-comparison-strip-border);
@@ -2787,7 +2980,8 @@
 
   /* Compared product — on the end side (left in RTL) */
   .snosha-comparison__cell--manual {
-    padding-inline: var(--snosha-comparison-manual-pad-start) var(--snosha-comparison-manual-pad-end);
+    padding-inline: var(--snosha-comparison-manual-pad-start)
+      var(--snosha-comparison-manual-pad-end);
     /* Figma mobile 190:11181: the values sit at the start of the column (right edge 91 = the content
        box here); desktop centres them */
     text-align: start;
@@ -2815,7 +3009,7 @@
   /* Row dividers: one line on top of each body row (Figma: white 14 % on the panel,
      brand blue 14 % across the strip, inset from both table edges). */
   .snosha-comparison__row > .snosha-comparison__cell::before {
-    content: '';
+    content: "";
     position: absolute;
     inset-block-start: 0;
     inset-inline: 0;
@@ -2853,16 +3047,25 @@
     position: absolute;
     z-index: 0;
     inset-block-start: var(--snosha-comparison-image-top-mobile);
-    inset-inline-start: calc(var(--snosha-comparison-image-overhang-mobile) * -1);
+    inset-inline-start: calc(
+      var(--snosha-comparison-image-overhang-mobile) * -1
+    );
     inline-size: min(var(--snosha-comparison-image-width-mobile), 30vw);
     pointer-events: none;
 
     /* Figma desktop: the image is the top layer, in front of the table */
     @media screen and (min-width: 750px) {
       z-index: 4;
-      inset-block-start: calc(var(--snosha-comparison-image-top) * var(--snosha-comparison-scale));
-      inset-inline-start: calc(var(--snosha-comparison-image-overhang) * var(--snosha-comparison-scale) * -1);
-      inline-size: calc(var(--snosha-comparison-image-width) * var(--snosha-comparison-scale));
+      inset-block-start: calc(
+        var(--snosha-comparison-image-top) * var(--snosha-comparison-scale)
+      );
+      inset-inline-start: calc(
+        var(--snosha-comparison-image-overhang) *
+          var(--snosha-comparison-scale) * -1
+      );
+      inline-size: calc(
+        var(--snosha-comparison-image-width) * var(--snosha-comparison-scale)
+      );
     }
   }
 
@@ -2886,7 +3089,9 @@
     block-size: auto;
 
     @media screen and (min-width: 750px) {
-      rotate: calc(var(--snosha-comparison-image-rotate) * var(--snosha-comparison-dir));
+      rotate: calc(
+        var(--snosha-comparison-image-rotate) * var(--snosha-comparison-dir)
+      );
     }
   }
 
@@ -2918,7 +3123,11 @@
     inset-inline-start: calc(18.75% - 12px);
     inline-size: 62.5%;
     aspect-ratio: 7 / 5;
-    background-color: color-mix(in srgb, var(--snosha-comparison-glow) 14%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-comparison-glow) 14%,
+      transparent
+    );
     filter: blur(80px);
 
     @media screen and (max-width: 749px) {
@@ -2933,7 +3142,11 @@
     inset-inline-start: calc(50% - 92px);
     inline-size: 150px;
     block-size: 220px;
-    background-color: color-mix(in srgb, var(--snosha-comparison-glow) 25%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-comparison-glow) 25%,
+      transparent
+    );
     filter: blur(30px);
 
     @media screen and (min-width: 750px) {
@@ -2949,7 +3162,11 @@
     inset-inline-start: calc(50% - 87px);
     inline-size: 140px;
     block-size: 22px;
-    background-color: color-mix(in srgb, var(--snosha-comparison-floor) 35%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-comparison-floor) 35%,
+      transparent
+    );
     filter: blur(7px);
 
     @media screen and (min-width: 750px) {
@@ -2957,7 +3174,11 @@
       inset-inline-start: calc(50% - 136px * var(--snosha-comparison-scale));
       inline-size: calc(240px * var(--snosha-comparison-scale));
       block-size: calc(40px * var(--snosha-comparison-scale));
-      background-color: color-mix(in srgb, var(--snosha-comparison-floor) 50%, transparent);
+      background-color: color-mix(
+        in srgb,
+        var(--snosha-comparison-floor) 50%,
+        transparent
+      );
       filter: blur(11px);
     }
   }
@@ -2971,7 +3192,8 @@
    note block's inline variables (--snosha-note-*).
    ========================================================================= */
 .snosha-how-to-use {
-  padding-block: var(--snosha-htu-padding-start-mobile) var(--snosha-htu-padding-end-mobile);
+  padding-block: var(--snosha-htu-padding-start-mobile)
+    var(--snosha-htu-padding-end-mobile);
   background-color: var(--snosha-htu-bg);
 
   @media screen and (min-width: 750px) {
@@ -3053,7 +3275,11 @@
     inline-size: var(--snosha-htu-badge-size);
     block-size: var(--snosha-htu-badge-size);
     border-radius: 50%;
-    background-image: linear-gradient(to bottom, var(--snosha-htu-badge-start), var(--snosha-htu-badge-end));
+    background-image: linear-gradient(
+      to bottom,
+      var(--snosha-htu-badge-start),
+      var(--snosha-htu-badge-end)
+    );
     color: var(--snosha-htu-badge-color);
     font-family: var(--font-body--family);
     font-size: var(--snosha-htu-badge-font-size-mobile);
@@ -3142,7 +3368,8 @@
    Figma 190:10753 (1480) / 190:11511 (390). Values: --snosha-care-* (section bridge).
    ========================================================================= */
 .snosha-storage-care {
-  padding-block: var(--snosha-care-padding-start-mobile) var(--snosha-care-padding-end-mobile);
+  padding-block: var(--snosha-care-padding-start-mobile)
+    var(--snosha-care-padding-end-mobile);
   background-color: var(--snosha-care-bg);
 
   /* Tab bar fallbacks (Figma sizes, palette colors), used only if the "Tab style" static block
@@ -3167,7 +3394,8 @@
   --snosha-care-tab-active-shadow: transparent;
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-care-padding-start) var(--snosha-care-padding-end);
+    padding-block: var(--snosha-care-padding-start)
+      var(--snosha-care-padding-end);
   }
 
   .snosha-storage-care__inner {
@@ -3234,7 +3462,8 @@
     flex: 0 1 auto;
     min-inline-size: 0;
     margin: 0;
-    padding: var(--snosha-care-tab-padding-block-mobile) var(--snosha-care-tab-padding-mobile);
+    padding: var(--snosha-care-tab-padding-block-mobile)
+      var(--snosha-care-tab-padding-mobile);
     border: 1px solid var(--snosha-care-tab-border);
     border-radius: var(--snosha-care-tab-radius);
     background-color: var(--snosha-care-tab-bg);
@@ -3248,13 +3477,18 @@
     cursor: pointer;
 
     @media screen and (min-width: 750px) {
-      padding: var(--snosha-care-tab-padding-block) var(--snosha-care-tab-padding);
+      padding: var(--snosha-care-tab-padding-block)
+        var(--snosha-care-tab-padding);
       font-size: var(--snosha-care-tab-size);
     }
 
-    &[aria-selected='true'] {
+    &[aria-selected="true"] {
       border-color: transparent;
-      background-image: linear-gradient(to right, var(--snosha-care-tab-active-start), var(--snosha-care-tab-active-end));
+      background-image: linear-gradient(
+        to right,
+        var(--snosha-care-tab-active-start),
+        var(--snosha-care-tab-active-end)
+      );
       color: var(--snosha-care-tab-active-text);
       box-shadow: 0 8px 18px var(--snosha-care-tab-active-shadow);
     }
@@ -3267,7 +3501,9 @@
 
   /* Card: Figma padding 24 / side / 26, 1px border, radius 16, shadow 0 8 18 */
   .snosha-storage-care__card {
-    padding: var(--snosha-care-card-padding-top) var(--snosha-care-card-padding-mobile) var(--snosha-care-card-padding-bottom);
+    padding: var(--snosha-care-card-padding-top)
+      var(--snosha-care-card-padding-mobile)
+      var(--snosha-care-card-padding-bottom);
     border: 1px solid var(--snosha-care-card-border);
     border-radius: var(--snosha-care-card-radius);
     background-color: var(--snosha-care-card-bg);
@@ -3393,11 +3629,13 @@
    --snosha-cta-*). No JavaScript.
    ========================================================================= */
 .snosha-contact {
-  padding-block: var(--snosha-contact-padding-start-mobile) var(--snosha-contact-padding-end-mobile);
+  padding-block: var(--snosha-contact-padding-start-mobile)
+    var(--snosha-contact-padding-end-mobile);
   background-color: var(--snosha-contact-bg);
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-contact-padding-start) var(--snosha-contact-padding-end);
+    padding-block: var(--snosha-contact-padding-start)
+      var(--snosha-contact-padding-end);
   }
 
   .snosha-contact__inner {
@@ -3422,8 +3660,10 @@
     flex-direction: column;
     align-items: center;
     gap: var(--snosha-contact-gap-mobile);
-    padding: var(--snosha-contact-card-padding-block-mobile) var(--snosha-contact-card-padding-inline-mobile);
-    border: var(--snosha-contact-card-border-width-mobile) solid var(--snosha-contact-card-border);
+    padding: var(--snosha-contact-card-padding-block-mobile)
+      var(--snosha-contact-card-padding-inline-mobile);
+    border: var(--snosha-contact-card-border-width-mobile) solid
+      var(--snosha-contact-card-border);
     border-radius: var(--snosha-contact-card-radius-mobile);
     background-image: linear-gradient(
       var(--snosha-contact-card-angle-mobile),
@@ -3436,7 +3676,8 @@
 
     @media screen and (min-width: 750px) {
       gap: var(--snosha-contact-gap);
-      padding: var(--snosha-contact-card-padding-start) var(--snosha-contact-card-padding-inline)
+      padding: var(--snosha-contact-card-padding-start)
+        var(--snosha-contact-card-padding-inline)
         var(--snosha-contact-card-padding-end);
       border-width: var(--snosha-contact-card-border-width);
       border-radius: var(--snosha-contact-card-radius);
@@ -3576,7 +3817,9 @@
 
   /* Figma: 0 14 28 shadow + 0 0 30 2 glow */
   .snosha-contact__button--whatsapp {
-    box-shadow: 0 14px 28px var(--snosha-cta-shadow), 0 0 30px 2px var(--snosha-cta-glow);
+    box-shadow:
+      0 14px 28px var(--snosha-cta-shadow),
+      0 0 30px 2px var(--snosha-cta-glow);
   }
 
   /* Figma: translucent white, 1.2px border, 7px backdrop blur */
@@ -3665,7 +3908,8 @@
     right: -165px;
     inline-size: 380px;
     block-size: 380px;
-    border: 1px solid color-mix(in srgb, var(--snosha-contact-decor-color) 18%, transparent);
+    border: 1px solid
+      color-mix(in srgb, var(--snosha-contact-decor-color) 18%, transparent);
     border-radius: 50%;
   }
 
@@ -3680,7 +3924,11 @@
     right: 90px;
     inline-size: 5px;
     block-size: 5px;
-    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 45%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-contact-decor-color) 45%,
+      transparent
+    );
   }
 
   .snosha-contact__dot--2 {
@@ -3688,7 +3936,11 @@
     left: 159px;
     inline-size: 4px;
     block-size: 4px;
-    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 40%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-contact-decor-color) 40%,
+      transparent
+    );
   }
 
   .snosha-contact__dot--3 {
@@ -3696,7 +3948,11 @@
     right: 272px;
     inline-size: 3px;
     block-size: 3px;
-    background-color: color-mix(in srgb, var(--snosha-contact-decor-color) 35%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-contact-decor-color) 35%,
+      transparent
+    );
   }
 
   /* 190:10868–10871 sparkles: 24px vector (the 11px instances center an unclipped 24px vector) */
@@ -3739,11 +3995,13 @@
    rating values: --snosha-rating-* (block inline variables); card values: --snosha-card-*.
    ========================================================================= */
 .snosha-reviews {
-  padding-block: var(--snosha-reviews-padding-start-mobile) var(--snosha-reviews-padding-end-mobile);
+  padding-block: var(--snosha-reviews-padding-start-mobile)
+    var(--snosha-reviews-padding-end-mobile);
   background-color: var(--snosha-reviews-bg);
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-reviews-padding-start) var(--snosha-reviews-padding-end);
+    padding-block: var(--snosha-reviews-padding-start)
+      var(--snosha-reviews-padding-end);
   }
 
   .snosha-reviews__inner {
@@ -3906,7 +4164,10 @@
 
   /* Mobile: Figma 238px cards (one + a peek of the next); tablet: 2 per view; desktop: setting (3) */
   .snosha-reviews__slideshow .snosha-reviews__slide {
-    --slide-width: min(var(--snosha-reviews-card-width-mobile), calc(100% - 40px));
+    --slide-width: min(
+      var(--snosha-reviews-card-width-mobile),
+      calc(100% - 40px)
+    );
 
     scroll-snap-align: start;
 
@@ -3916,7 +4177,11 @@
 
     @media screen and (min-width: 990px) {
       --slide-width: calc(
-        (100% - (var(--snosha-reviews-per-view) - 1) * var(--snosha-reviews-card-gap)) / var(--snosha-reviews-per-view)
+        (
+            100% - (var(--snosha-reviews-per-view) - 1) *
+              var(--snosha-reviews-card-gap)
+          ) /
+          var(--snosha-reviews-per-view)
       );
     }
   }
@@ -3929,12 +4194,14 @@
     border-radius: var(--snosha-reviews-card-radius);
     box-shadow:
       0 22px 44px -8px var(--snosha-reviews-card-shadow),
-      0 3px 8px color-mix(in srgb, var(--snosha-reviews-card-shadow) 50%, transparent);
+      0 3px 8px
+        color-mix(in srgb, var(--snosha-reviews-card-shadow) 50%, transparent);
   }
 
   .snosha-reviews__card--dashed,
   .snosha-reviews__card--placeholder {
-    border: var(--snosha-reviews-placeholder-border-width) dashed var(--snosha-reviews-placeholder-border);
+    border: var(--snosha-reviews-placeholder-border-width) dashed
+      var(--snosha-reviews-placeholder-border);
   }
 
   .snosha-reviews__image {
@@ -4045,7 +4312,7 @@
     touch-action: pan-y;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       inset-inline: 0;
       inset-block-start: 8px;
@@ -4085,11 +4352,19 @@
     inset-inline-start: var(--snosha-progress-inset);
     inline-size: calc(
       (100% - 2 * var(--snosha-progress-inset)) *
-        (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+        (
+          var(--snosha-progress-initial) +
+            (1 - var(--snosha-progress-initial)) *
+            var(--snosha-carousel-progress, 0)
+        )
     );
     block-size: var(--snosha-reviews-progress-height);
     border-radius: 999px;
-    background-image: linear-gradient(to right, var(--snosha-progress-start), var(--snosha-progress-end));
+    background-image: linear-gradient(
+      to right,
+      var(--snosha-progress-start),
+      var(--snosha-progress-end)
+    );
     pointer-events: none;
 
     @supports (animation-timeline: scroll()) {
@@ -4110,11 +4385,13 @@
    Section values: --snosha-video-*; play button values: --snosha-play-* (block inline variables).
    ========================================================================= */
 .snosha-video {
-  padding-block: var(--snosha-video-padding-start-mobile) var(--snosha-video-padding-end-mobile);
+  padding-block: var(--snosha-video-padding-start-mobile)
+    var(--snosha-video-padding-end-mobile);
   background-color: var(--snosha-video-bg);
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-video-padding-start) var(--snosha-video-padding-end);
+    padding-block: var(--snosha-video-padding-start)
+      var(--snosha-video-padding-end);
   }
 
   .snosha-video__inner {
@@ -4211,11 +4488,19 @@
   .snosha-video__overlay {
     position: absolute;
     inset: 0;
-    background-color: color-mix(in srgb, var(--snosha-video-overlay) var(--snosha-video-overlay-opacity-mobile), transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-video-overlay) var(--snosha-video-overlay-opacity-mobile),
+      transparent
+    );
     pointer-events: none;
 
     @media screen and (min-width: 750px) {
-      background-color: color-mix(in srgb, var(--snosha-video-overlay) var(--snosha-video-overlay-opacity), transparent);
+      background-color: color-mix(
+        in srgb,
+        var(--snosha-video-overlay) var(--snosha-video-overlay-opacity),
+        transparent
+      );
     }
   }
 
@@ -4391,11 +4676,13 @@
    ========================================================================= */
 .snosha-jdgm {
   overflow-x: clip;
-  padding-block: var(--snosha-jdgm-padding-start-mobile) var(--snosha-jdgm-padding-end-mobile);
+  padding-block: var(--snosha-jdgm-padding-start-mobile)
+    var(--snosha-jdgm-padding-end-mobile);
   background-color: var(--snosha-jdgm-bg);
 
   @media screen and (min-width: 750px) {
-    padding-block: var(--snosha-jdgm-padding-start) var(--snosha-jdgm-padding-end);
+    padding-block: var(--snosha-jdgm-padding-start)
+      var(--snosha-jdgm-padding-end);
   }
 
   .snosha-jdgm__inner {
@@ -4513,10 +4800,18 @@
     inset-inline-start: 0;
     inline-size: calc(
       100% *
-        (var(--snosha-progress-initial) + (1 - var(--snosha-progress-initial)) * var(--snosha-carousel-progress, 0))
+        (
+          var(--snosha-progress-initial) +
+            (1 - var(--snosha-progress-initial)) *
+            var(--snosha-carousel-progress, 0)
+        )
     );
     border-radius: inherit;
-    background-image: linear-gradient(to right, var(--snosha-jdgm-progress-start), var(--snosha-jdgm-progress-end));
+    background-image: linear-gradient(
+      to right,
+      var(--snosha-jdgm-progress-start),
+      var(--snosha-jdgm-progress-end)
+    );
 
     /* Same duration / easing as Judge.me's card movement, so the bar moves with the cards */
     @media (prefers-reduced-motion: no-preference) {
@@ -4539,7 +4834,9 @@
     display: none;
   }
 
-  &.snosha-jdgm--own-heading.snosha-jdgm--own-summary .jdgm-cards-carousel .jdgm-header {
+  &.snosha-jdgm--own-heading.snosha-jdgm--own-summary
+    .jdgm-cards-carousel
+    .jdgm-header {
     display: none;
   }
 
@@ -4592,7 +4889,12 @@
     border-radius: var(--snosha-jdgm-card-radius, 20px);
     box-shadow:
       0 18px 38px -6px var(--snosha-jdgm-card-shadow, transparent),
-      0 2px 8px color-mix(in srgb, var(--snosha-jdgm-card-shadow, transparent) 50%, transparent);
+      0 2px 8px
+        color-mix(
+          in srgb,
+          var(--snosha-jdgm-card-shadow, transparent) 50%,
+          transparent
+        );
   }
 
   &:dir(rtl) .jdgm-cards-carousel .jdgm-media-card {
@@ -4636,7 +4938,7 @@
 
     /* Figma quote mark (decorative glyph) */
     &::before {
-      content: '\201D';
+      content: "\201D";
       position: absolute;
       inset-block-start: -2px;
       inset-inline-end: 10px;
@@ -4711,11 +5013,11 @@
     }
 
     &::before {
-      content: '';
+      content: "";
       inline-size: var(--snosha-arrow-icon-size);
       block-size: var(--snosha-arrow-icon-size);
       background-color: currentColor;
-      mask: url('snosha-arrow-left.svg') center / contain no-repeat;
+      mask: url("snosha-arrow-left.svg") center / contain no-repeat;
     }
 
     /* Track is LTR: first-child = previous (left, arrow points left), last-child = next (mirrored) */
@@ -4750,7 +5052,466 @@
 
   @media screen and (max-width: 749px) {
     .jdgm-cards-carousel .jdgm-content:has(.jdgm-media-card img) > .jdgm-arrow {
-      inset-block-start: calc(var(--snosha-jdgm-image-height-mobile, 130px) / 2);
+      inset-block-start: calc(
+        var(--snosha-jdgm-image-height-mobile, 130px) / 2
+      );
     }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BREADCRUMBS (snippets/snosha-breadcrumbs.liquid)
+   Colors: --snosha-ch-text / --snosha-ch-accent from the owning section, palette otherwise.
+   ========================================================================= */
+.snosha-breadcrumbs {
+  color: var(--snosha-ch-text, var(--color-foreground));
+  font-size: 14px;
+  line-height: 24px;
+
+  @media screen and (max-width: 749px) {
+    font-size: 13px;
+    line-height: 22px;
+  }
+}
+
+.snosha-breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.snosha-breadcrumbs__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-inline-size: 0;
+}
+
+.snosha-breadcrumbs__link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--snosha-ch-accent, currentColor);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--snosha-ch-accent, currentColor);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.snosha-breadcrumbs__current {
+  overflow: hidden;
+  color: var(--snosha-ch-title, var(--color-foreground));
+  font-family: var(--font-accent--family);
+  font-weight: var(--font-accent--weight);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* The chevron points in the reading direction (left in RTL) */
+.snosha-breadcrumbs__separator {
+  flex: none;
+  opacity: 0.7;
+
+  &:dir(ltr) {
+    scale: -1 1;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — COLLECTION HEADER (sections/snosha-collection-header.liquid)
+   Compact band: breadcrumbs → H1 → description (clamped), optional collection image at the
+   inline end. Values: --snosha-ch-* (section bridge).
+   ========================================================================= */
+.snosha-collection-header {
+  padding-block: var(--snosha-ch-padding-start-mobile)
+    var(--snosha-ch-padding-end-mobile);
+  background-color: var(--snosha-ch-bg);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-ch-padding-start) var(--snosha-ch-padding-end);
+  }
+
+  .snosha-collection-header__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+
+  .snosha-collection-header__text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 8px;
+    min-inline-size: 0;
+  }
+
+  &.snosha-collection-header--center .snosha-collection-header__text {
+    align-items: center;
+    text-align: center;
+
+    .snosha-breadcrumbs__list {
+      justify-content: center;
+    }
+  }
+
+  /* With an image, the text sits next to it (start-aligned) from 750px */
+  @media screen and (min-width: 750px) {
+    &.snosha-collection-header--has-image .snosha-collection-header__text {
+      align-items: flex-start;
+      text-align: start;
+
+      .snosha-breadcrumbs__list {
+        justify-content: flex-start;
+      }
+    }
+  }
+
+  .snosha-collection-header__title {
+    margin: 0;
+    color: var(--snosha-ch-title);
+    font-family: var(--font-heading--family);
+    font-weight: var(--font-heading--weight);
+    font-size: var(--snosha-ch-title-size-mobile);
+    line-height: 1.4;
+    text-wrap: balance;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--snosha-ch-title-size);
+    }
+  }
+
+  .snosha-collection-header__description {
+    max-inline-size: 720px;
+    color: var(--snosha-ch-text);
+    font-size: 14px;
+    line-height: 24px;
+
+    @media screen and (min-width: 750px) {
+      font-size: 16px;
+      line-height: 28px;
+    }
+
+    & > :first-child {
+      margin-block-start: 0;
+    }
+
+    & > :last-child {
+      margin-block-end: 0;
+    }
+
+    & a {
+      color: var(--snosha-ch-accent);
+    }
+  }
+
+  /* Clamp (0 = full description) */
+  &.snosha-collection-header--clamp .snosha-collection-header__description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--snosha-ch-description-lines);
+    line-clamp: var(--snosha-ch-description-lines);
+    overflow: hidden;
+  }
+
+  .snosha-collection-header__media {
+    flex: none;
+    overflow: hidden;
+    border-radius: 16px;
+    background-color: var(--color-background);
+
+    @media screen and (min-width: 750px) {
+      inline-size: min(var(--snosha-ch-image-width), 40%);
+      border-radius: 20px;
+    }
+  }
+
+  .snosha-collection-header__image {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+
+    @media screen and (min-width: 750px) {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  &.snosha-collection-header--image-desktop-only
+    .snosha-collection-header__media {
+    @media screen and (max-width: 749px) {
+      display: none;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — COLLECTION GRID (sections/main-collection.liquid, "Snosha collection style")
+   Native main-collection: filters block (filters, sorting, count, grid density, mobile drawer)
+   and the native _product-card with the shared "SNOSHA — PRODUCT CARD" look. This block sets the
+   card metrics for a fluid grid, the column cap and the filter bar look.
+   Values: --snosha-cc-* and --snosha-fc-* (section bridge).
+   ========================================================================= */
+.snosha-collection-grid {
+  /* Card metrics, desktop (same as the homepage card, Figma 190:3844) */
+  --fc-inset: 0px;
+  --fc-image-radius: 16px;
+  --fc-after-image: 14px;
+  --fc-pad: 12px;
+  --fc-gap: 6px;
+  --fc-end-space: 20px;
+  --fc-title-size: 16px;
+  --fc-title-lh: 27px;
+  --fc-desc-size: 14px;
+  --fc-desc-lh: 24px;
+  --fc-caption-size: 12px;
+  --fc-caption-lh: 20px;
+  --fc-star-box: 22.9px;
+  --fc-star-step: 22.6px;
+  --fc-star-size: 19.75px;
+  --fc-price-pt: 4px;
+  --fc-price-gap: 10px;
+  --fc-badge-size: 12px;
+  --fc-badge-lh: 18px;
+  --fc-badge-pad-block: 4px;
+  --fc-badge-pad-inline: 12px;
+  --fc-badge-radius: 8px;
+  --fc-badge-border: 1px;
+  --fc-compare-size: 14px;
+  --fc-compare-lh: 22px;
+  --fc-price-size: 18px;
+  --fc-price-lh: 28px;
+  --fc-cta-size: 16px;
+  --fc-cta-lh: 26px;
+  --fc-cta-gap: 10px;
+  --fc-cta-icon: 18px;
+  --fc-label-top: 14px;
+  --fc-label-side: 12px;
+
+  @media screen and (max-width: 749px) {
+    /* Mobile: readable sizes for two ~170px columns (the homepage mobile carousel uses Figma's
+       scaled-down card; a grid page needs legible text) */
+    --fc-image-radius: 12px;
+    --fc-after-image: 10px;
+    --fc-pad: 10px;
+    --fc-gap: 4px;
+    --fc-end-space: 14px;
+    --fc-title-size: 13px;
+    --fc-title-lh: 21px;
+    --fc-desc-size: 12px;
+    --fc-desc-lh: 19px;
+    --fc-caption-size: 11px;
+    --fc-caption-lh: 17px;
+    --fc-star-box: 16px;
+    --fc-star-step: 15px;
+    --fc-star-size: 13px;
+    --fc-price-pt: 2px;
+    --fc-price-gap: 6px;
+    --fc-badge-size: 10px;
+    --fc-badge-lh: 15px;
+    --fc-badge-pad-block: 2px;
+    --fc-badge-pad-inline: 7px;
+    --fc-badge-radius: 6px;
+    --fc-compare-size: 11px;
+    --fc-compare-lh: 17px;
+    --fc-price-size: 14px;
+    --fc-price-lh: 21px;
+    --fc-cta-size: 13px;
+    --fc-cta-lh: 21px;
+    --fc-cta-gap: 6px;
+    --fc-cta-icon: 14px;
+    --fc-label-top: 8px;
+    --fc-label-side: 8px;
+  }
+
+  /* Column cap: at most --snosha-cc-columns, never narrower than --snosha-cc-min-card (fewer
+     columns on smaller screens). Default view only — the native grid-density "zoom out" view and
+     the organic layout stay native. Mobile columns stay native ("Mobile card size"). */
+  .product-grid--grid[product-grid-view="default"] {
+    @media screen and (min-width: 750px) {
+      --product-grid-columns-desktop: repeat(
+        auto-fill,
+        minmax(
+          max(
+            var(--snosha-cc-min-card),
+            calc(
+              (
+                  100% - (var(--snosha-cc-columns) - 1) *
+                    var(--snosha-cc-col-gap)
+                ) /
+                var(--snosha-cc-columns)
+            )
+          ),
+          1fr
+        )
+      );
+    }
+  }
+
+  /* Product images on the light brand surface (transparent / white product shots) */
+  .card-gallery {
+    background-color: var(--snosha-cc-image-bg);
+  }
+
+  /* Collection modifier: badges at the inline start (top right in Arabic) on every width. The shared
+     card rule keeps the homepage's Figma desktop placement (inline end); Horizon's "top-right" badge
+     position is inline end too, i.e. top left in RTL. */
+  .product-badges {
+    inset-inline: var(--fc-label-side) auto;
+    align-items: flex-start;
+  }
+
+  /* Narrow cards: the discount badge moves under the price instead of overflowing */
+  product-price [ref="priceContainer"] {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  /* Equal heights are native (stretched grid cells, .product-card height 100 %); the price row and
+     the CTA sit at the bottom so they line up across a row whatever the title / rating length. */
+  .product-card__content.product-grid__card
+    > :is(product-price, :has(> product-price)) {
+    margin-block-start: auto;
+  }
+
+  /* Titles: two lines in the grid (the homepage carousel keeps one) */
+  .product-card__content .text-block.h5 {
+    &,
+    & > * {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      white-space: normal;
+    }
+  }
+
+  /* ---------------- Filter bar (native filters block) ---------------- */
+  /* Desktop: one rounded bar — filters (pills) | applied-filter clear | count | sorting | density */
+  .facets--horizontal {
+    @media screen and (min-width: 750px) {
+      padding-inline: 16px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 16px;
+      background-color: var(--color-background);
+    }
+  }
+
+  .facets--horizontal .facets__summary {
+    @media screen and (min-width: 750px) {
+      gap: 6px;
+      align-items: center;
+      block-size: 40px;
+      padding-inline: 14px 12px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 999px;
+      color: var(--snosha-fc-title);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 14px;
+
+      &:hover {
+        border-color: var(--snosha-fc-accent);
+      }
+    }
+  }
+
+  .facets--horizontal .facets__panel[open] > .facets__summary {
+    @media screen and (min-width: 750px) {
+      border-color: var(--snosha-fc-accent);
+      color: var(--snosha-fc-accent);
+    }
+  }
+
+  .facets--horizontal .products-count-wrapper {
+    color: var(--snosha-fc-text);
+    font-size: 14px;
+  }
+
+  .facets__clear-all-link {
+    color: var(--snosha-fc-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Mobile: the native "Filter" + density bar as one light rounded bar above the grid */
+  .facets-toggle {
+    @media screen and (max-width: 749px) {
+      margin-inline: var(--margin-lg, 16px);
+      margin-block: 0 16px;
+      padding-inline: 14px 10px;
+      border: 1px solid var(--snosha-cc-toolbar-border);
+      border-radius: 12px;
+      background-color: var(--color-background);
+    }
+  }
+
+  .facets-toggle__button {
+    color: var(--snosha-fc-title);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+  }
+
+  .filter-count-bubble {
+    background-color: var(--snosha-fc-accent);
+    color: var(--snosha-fc-on-accent);
+  }
+}
+
+/* =========================================================================
+   SNOSHA — LINKED COLOUR PRODUCTS  (snippets/snosha-linked-colors.liquid,
+   snippets/snosha-linked-color-item.liquid; colours are ordinary product links)
+   The row reuses Horizon's variant picker swatch classes (.variant-option--swatches,
+   .variant-option__button-label--has-swatch, .swatch), so size, shape, colours, hover and the
+   selected outline follow the theme's swatch settings. Colours are links, not radios, so the
+   states Horizon draws from :has(:checked) / label selectors are mapped here.
+   ========================================================================= */
+.snosha-linked-colors {
+  display: block;
+
+  /* Followed by the native picker (multi-variant product): same gap as between two option rows */
+  &:not(.spacing-style) {
+    margin-block-end: var(--padding-lg);
+  }
+
+  /* Horizon applies the swatch radius to label elements only */
+  .variant-option__button-label--has-swatch {
+    border-radius: var(--variant-picker-swatch-radius);
+    text-decoration: none;
+  }
+
+  /* Active product = Horizon's checked swatch outline */
+  .variant-option__button-label--has-swatch[aria-current="page"] {
+    --focus-outline: var(--focus-outline-width) solid
+      var(--color-selected-variant-border);
+
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .variant-option__button-label--has-swatch:focus-visible {
+    outline: var(--focus-outline-width) solid var(--color-foreground);
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .snosha-linked-colors__item--sold-out .swatch {
+    opacity: var(--opacity-subdued-text, 0.6);
   }
 }

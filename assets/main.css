@@ -1549,7 +1549,7 @@
       display: block;
       inline-size: 100%;
       block-size: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     & .snosha-care-card__placeholder {
@@ -2700,8 +2700,8 @@
 
     img {
       display: block;
-      inline-size: 24px;
-      block-size: 24px;
+      width: 22px;
+      height: 22px !important;
     }
   }
 
@@ -3281,6 +3281,44 @@
       color: var(--snosha-bb-text);
       font-family: var(--font-accent--family);
       font-weight: var(--font-accent--weight);
+    }
+
+    /* Linked colour products (snippets/snosha-linked-colors.liquid): the colours are links, so the
+       current product (aria-current) takes the checked swatch's Figma ring and name style instead of
+       the generic outline from assets/dev1.css. A 1px inner hairline keeps the white dot visible. */
+    .snosha-linked-colors .variant-option__button-label--has-swatch {
+      .swatch {
+        box-shadow:
+          inset 0 0 0 1px var(--snosha-bb-border),
+          0 0 0 4px var(--color-background),
+          0 0 0 5px var(--snosha-bb-border);
+      }
+
+      &:hover .swatch {
+        box-shadow:
+          inset 0 0 0 1px var(--snosha-bb-border),
+          0 0 0 4px var(--color-background),
+          0 0 0 5px var(--snosha-bb-accent);
+      }
+
+      &[aria-current="page"]:not(:focus-visible) {
+        outline: none;
+      }
+
+      &[aria-current="page"] {
+        .swatch {
+          box-shadow:
+            inset 0 0 0 1px var(--snosha-bb-border),
+            0 0 0 3px var(--color-background),
+            0 0 0 5px var(--snosha-bb-accent);
+        }
+
+        .variant-option__swatch-label {
+          color: var(--snosha-bb-text);
+          font-family: var(--font-accent--family);
+          font-weight: var(--font-accent--weight);
+        }
+      }
     }
 
     /* ---------------- Purchase row (native buy buttons: quantity + add to cart) ---------------- */
@@ -4210,7 +4248,7 @@ media-gallery.media-gallery--snosha {
 
       &[aria-selected="true"] {
         outline: none;
-        border: 2px solid var(--snosha-thumb-active);
+        border: 3px solid var(--snosha-thumb-active);
       }
 
       &:focus-visible {
@@ -5487,11 +5525,11 @@ media-gallery.media-gallery--snosha {
       }
 
       /* Same order as the Buy Box stepper: "+" at the inline start, "−" at the inline end */
-      &[data-step='1'] {
+      &[data-step="1"] {
         order: -1;
       }
 
-      &[data-step='-1'] {
+      &[data-step="-1"] {
         order: 1;
       }
     }
@@ -5572,6 +5610,34 @@ body:has(.product-information) .snosha-faq {
   @media screen and (max-width: 749px) {
     .jdgm-cards-wrapper {
       padding-block: 8px;
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — FEATURED COLLECTION CARDS: responsive fixes (all .snosha-featured-collection
+   carousels: homepage best sellers / bundles, product page recommended / related).
+   Card styling itself lives in assets/dev1.css; these rules only fix two sizing defects.
+   Measurements: SNOSHA_FEATURED_COLLECTION_VISUAL_QA_REPORT.md.
+   ========================================================================= */
+.snosha-featured-collection {
+  /* The one-line title (nowrap + ellipsis) must not set the card's minimum width: its full,
+     unbroken text was 275px, so from 1366 down to 990 the card content (299px) outgrew its slide
+     (289 / 250 / 200px) and painted over the next card. Size containment keeps the ellipsis
+     behaviour while the card follows the slide width. The title also never shrinks in height. */
+  .product-card__content .text-block.h5 {
+    contain: inline-size;
+    flex-shrink: 0;
+  }
+
+  /* Mobile: dev1.css fixes the card at Figma's 283px and clips it. With a non-square image
+     (gallery "Image ratio" setting) the content no longer fits and the title was squeezed to 0
+     (it sits inside a display: contents link, so the card's no-shrink rule does not reach it).
+     The card keeps 283px (scaled) as its minimum and grows with its content instead. */
+  @media screen and (max-width: 749px) {
+    .resource-list__slide .product-card__content.product-grid__card {
+      block-size: auto;
+      overflow: visible;
     }
   }
 }

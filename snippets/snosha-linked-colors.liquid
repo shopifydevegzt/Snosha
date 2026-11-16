@@ -1,0 +1,72 @@
+{%- doc -%}
+  Snosha — linked colour products in the product page variant picker.
+
+  Source: the product metafield custom.linked_color_products (list of product references), e.g. the
+  four separate SNOSHA N2 colour products. Each colour is an ordinary link to the product's own URL:
+  selecting a colour loads that product page normally.
+
+  Rendered by snippets/variant-main-picker.liquid on the product page only. Styles: Horizon's swatch
+  classes + assets/dev1.css (.snosha-linked-colors).
+
+  @param {object} product_resource - the product being viewed
+  @param {object} linked_products - the metafield value (array of products)
+  @param {object} block - the variant picker block
+  @param {string} [legend] - row label (the colour option name)
+  @param {string} [current_label] - the viewed product's colour name
+  @param {boolean} [standalone] - true when the native picker is not rendered (single-variant product)
+{%- enddoc -%}
+{%- liquid
+  assign block_settings = block.settings
+
+  assign current_listed = false
+  for linked_item in linked_products
+    if linked_item.id == product_resource.id
+      assign current_listed = true
+      break
+    endif
+  endfor
+
+  assign row_legend = legend | default: 'اللون'
+
+  # No colour option on the product: the current colour name comes from its category metafield Color
+  assign row_current_label = current_label
+  if row_current_label == blank
+    assign row_color_entry = product_resource.metafields.shopify['color-pattern'].value | first
+    if row_color_entry
+      assign row_current_label = row_color_entry.label.value
+    endif
+  endif
+-%}
+<div
+  class="snosha-linked-colors variant-picker variant-picker--{{ block_settings.alignment }}{% if standalone %} spacing-style{% endif %}"
+  {% if standalone %}
+    style="{% render 'spacing-style', settings: block_settings %}"
+  {% endif %}
+>
+  <nav aria-label="{{ row_legend | escape }}">
+    <fieldset class="variant-option variant-option--buttons variant-option--swatches">
+      <legend>
+        {{- row_legend | escape -}}
+        {%- if row_current_label != blank -%}
+          <span class="variant-option__swatch-value">{{ row_current_label | escape }}</span>
+        {%- endif -%}
+      </legend>
+      {%- unless current_listed -%}
+        {%- render 'snosha-linked-color-item',
+          item: product_resource,
+          current_product: product_resource,
+          show_label: block_settings.show_swatch_labels
+        -%}
+      {%- endunless -%}
+      {%- for linked_item in linked_products -%}
+        {%- if linked_item != blank -%}
+          {%- render 'snosha-linked-color-item',
+            item: linked_item,
+            current_product: product_resource,
+            show_label: block_settings.show_swatch_labels
+          -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </fieldset>
+  </nav>
+</div>

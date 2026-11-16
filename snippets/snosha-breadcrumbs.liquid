@@ -1,0 +1,66 @@
+{%- doc -%}
+  Snosha breadcrumbs: Home → (collection) → (product) for the current page, with schema.org
+  BreadcrumbList data. Horizon 4.4 has no breadcrumbs component. Styles: assets/dev1.css
+  (.snosha-breadcrumbs). The separator chevron points in the reading direction (mirrored in LTR).
+
+  @param {string} [home_label] - Label of the first link (default: the shop name)
+  @param {string} [aria_label] - Accessible name of the navigation landmark
+  @param {string} [class] - Extra class names
+
+  @example
+  {% render 'snosha-breadcrumbs', home_label: 'الرئيسية', aria_label: 'مسار التنقل' %}
+{%- enddoc -%}
+{%- liquid
+  assign home = home_label | default: shop.name | strip
+  assign names = home
+  assign urls = routes.root_url
+
+  if collection != blank and collection.title != blank
+    assign names = names | append: '|||' | append: collection.title
+    assign urls = urls | append: '|||' | append: collection.url
+  endif
+  if product != blank
+    assign names = names | append: '|||' | append: product.title
+    assign urls = urls | append: '|||' | append: product.url
+  endif
+
+  assign name_list = names | split: '|||'
+  assign url_list = urls | split: '|||'
+  assign last = name_list.size | minus: 1
+-%}
+{%- if name_list.size > 1 -%}
+  <nav class="snosha-breadcrumbs{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ aria_label | default: home | escape }}">
+    <ol class="snosha-breadcrumbs__list">
+      {%- for name in name_list -%}
+        {%- assign i = forloop.index0 -%}
+        <li class="snosha-breadcrumbs__item">
+          {%- if i == last -%}
+            <span class="snosha-breadcrumbs__current" aria-current="page">{{ name | escape }}</span>
+          {%- else -%}
+            <a class="snosha-breadcrumbs__link" href="{{ url_list[i] }}">{{ name | escape }}</a>
+            <svg class="snosha-breadcrumbs__separator" viewBox="0 0 24 24" width="12" height="12" fill="none" aria-hidden="true" focusable="false">
+              <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </nav>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {%- for name in name_list -%}
+          {%- assign i = forloop.index0 -%}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.index }},
+            "name": {{ name | json }},
+            "item": {{ request.origin | append: url_list[i] | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}

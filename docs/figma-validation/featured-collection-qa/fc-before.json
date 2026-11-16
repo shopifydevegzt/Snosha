@@ -1,0 +1,1290 @@
+{
+ "320": {
+  "vw": 320,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 320,
+   "h": 573
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 24,
+   "y": 59,
+   "w": 272,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 24,
+   "y": 114,
+   "w": 272,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 320,
+   "h": 315,
+   "sw": 744,
+   "cw": 320,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "131:165x283 -46:165x283 -223:165x283 -400:165x283",
+  "fullyVisible": 1,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 131,
+   "y": 165,
+   "w": 165,
+   "h": 206.3,
+   "nat": "320x320",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 8.354px/14.098px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 137.3,
+   "y": 409.9,
+   "w": 152.5,
+   "h": 16.7
+  },
+  "progress": {
+   "w": "133.594px",
+   "display": "block"
+  }
+ },
+ "360": {
+  "vw": 360,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 360,
+   "h": 573
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 24,
+   "y": 59,
+   "w": 312,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 24,
+   "y": 114,
+   "w": 312,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 360,
+   "h": 315,
+   "sw": 744,
+   "cw": 360,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "171:165x283 -6:165x283 -183:165x283 -360:165x283",
+  "fullyVisible": 1,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 171,
+   "y": 165,
+   "w": 165,
+   "h": 206.3,
+   "nat": "360x360",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 8.354px/14.098px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 177.3,
+   "y": 409.9,
+   "w": 152.5,
+   "h": 16.7
+  },
+  "progress": {
+   "w": "153.25px",
+   "display": "block"
+  }
+ },
+ "375": {
+  "vw": 375,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 375,
+   "h": 573
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 24,
+   "y": 59,
+   "w": 327,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 24,
+   "y": 114,
+   "w": 327,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 375,
+   "h": 315,
+   "sw": 744,
+   "cw": 375,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "186:165x283 9:165x283 -168:165x283 -345:165x283",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 186,
+   "y": 165,
+   "w": 165,
+   "h": 206.3,
+   "nat": "375x375",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 8.354px/14.098px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 192.3,
+   "y": 409.9,
+   "w": 152.5,
+   "h": 16.7
+  },
+  "progress": {
+   "w": "160.609px",
+   "display": "block"
+  }
+ },
+ "390": {
+  "vw": 390,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 390,
+   "h": 573
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 24,
+   "y": 59,
+   "w": 342,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 24,
+   "y": 114,
+   "w": 342,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 390,
+   "h": 315,
+   "sw": 744,
+   "cw": 390,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "201:165x283 24:165x283 -153:165x283 -330:165x283",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 201,
+   "y": 165,
+   "w": 165,
+   "h": 206.3,
+   "nat": "390x390",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 8.354px/14.098px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 207.3,
+   "y": 409.9,
+   "w": 152.5,
+   "h": 16.7
+  },
+  "progress": {
+   "w": "167.984px",
+   "display": "block"
+  }
+ },
+ "430": {
+  "vw": 430,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 430,
+   "h": 605.5
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 25,
+   "y": 59,
+   "w": 379.9,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 25,
+   "y": 114,
+   "w": 379.9,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 430,
+   "h": 347.5,
+   "sw": 822,
+   "cw": 430,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "221:184x316 25:184x316 -171:184x316 -367:184x316",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 221,
+   "y": 165,
+   "w": 184,
+   "h": 230,
+   "nat": "430x430",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 9.31461px/15.7191px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 228,
+   "y": 438,
+   "w": 170,
+   "h": 18.6
+  },
+  "progress": {
+   "w": "186.625px",
+   "display": "block"
+  }
+ },
+ "749": {
+  "vw": 749,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 749,
+   "h": 865
+  },
+  "pad": "56px 0px 96px",
+  "heading": {
+   "x": 33.2,
+   "y": 59,
+   "w": 682.5,
+   "h": 38,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 24px/38px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 33.2,
+   "y": 114,
+   "w": 682.5,
+   "h": 26,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 15px/26px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 149,
+   "w": 749,
+   "h": 607,
+   "sw": 1444,
+   "cw": 749,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "381:335x575 33:335x575 -314:335x575 -661:335x575",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 379.8,
+   "y": 165,
+   "w": 336,
+   "h": 420,
+   "nat": "675x675",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16.9752px/28.647px",
+   "h": 0
+  },
+  "priceRow": {
+   "x": 393.2,
+   "y": 663.5,
+   "w": 309.8,
+   "h": 33.9
+  },
+  "progress": {
+   "w": "335.266px",
+   "display": "block"
+  }
+ },
+ "750": {
+  "vw": 750,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 750,
+   "h": 883.2
+  },
+  "pad": "42px 0px 63.7px",
+  "heading": {
+   "x": 53.3,
+   "y": 42,
+   "w": 643.5,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 53.3,
+   "y": 100,
+   "w": 643.5,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 144,
+   "w": 750,
+   "h": 645.4,
+   "sw": 1417,
+   "cw": 750,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "387:310x613 53:310x613 -280:310x613 -614:310x613",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 386.8,
+   "y": 160,
+   "w": 310,
+   "h": 387.5,
+   "nat": "187x187",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 399,
+   "y": 677.4,
+   "w": 285.8,
+   "h": 32
+  },
+  "progress": {
+   "w": "316.078px",
+   "display": "block"
+  }
+ },
+ "768": {
+  "vw": 768,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 768,
+   "h": 894.4
+  },
+  "pad": "42px 0px 63.7px",
+  "heading": {
+   "x": 53.7,
+   "y": 42,
+   "w": 660.6,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 53.7,
+   "y": 100,
+   "w": 660.6,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 144,
+   "w": 768,
+   "h": 656.6,
+   "sw": 1453,
+   "cw": 768,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "396:318x625 54:318x625 -289:318x625 -631:318x625",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 395.3,
+   "y": 160,
+   "w": 319,
+   "h": 398.8,
+   "nat": "192x192",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 408,
+   "y": 688.6,
+   "w": 294.3,
+   "h": 32
+  },
+  "progress": {
+   "w": "324.469px",
+   "display": "block"
+  }
+ },
+ "820": {
+  "vw": 820,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 820,
+   "h": 924.4
+  },
+  "pad": "42px 0px 63.7px",
+  "heading": {
+   "x": 55,
+   "y": 42,
+   "w": 709.9,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 55,
+   "y": 100,
+   "w": 709.9,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 144,
+   "w": 820,
+   "h": 686.6,
+   "sw": 1554,
+   "cw": 820,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "422:343x655 55:343x655 -312:343x655 -679:343x655",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 422,
+   "y": 160,
+   "w": 343,
+   "h": 428.8,
+   "nat": "205x205",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 434,
+   "y": 718.6,
+   "w": 319,
+   "h": 32
+  },
+  "progress": {
+   "w": "348.703px",
+   "display": "block"
+  }
+ },
+ "900": {
+  "vw": 900,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 900,
+   "h": 947.9
+  },
+  "pad": "42px 0px 63.7px",
+  "heading": {
+   "x": 57.1,
+   "y": 42,
+   "w": 785.8,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 57.1,
+   "y": 100,
+   "w": 785.8,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 144,
+   "w": 900,
+   "h": 710.1,
+   "sw": 1710,
+   "cw": 900,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "462:381x678 57:381x678 -348:381x678 -753:381x678",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 461.9,
+   "y": 160,
+   "w": 381,
+   "h": 476.3,
+   "nat": "224x224",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 474,
+   "y": 742.1,
+   "w": 356.9,
+   "h": 32
+  },
+  "progress": {
+   "w": "385.969px",
+   "display": "block"
+  }
+ },
+ "989": {
+  "vw": 989,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 989,
+   "h": 1001.7
+  },
+  "pad": "42px 0px 63.7px",
+  "heading": {
+   "x": 59.4,
+   "y": 42,
+   "w": 870.2,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 59.4,
+   "y": 100,
+   "w": 870.2,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 144,
+   "w": 989,
+   "h": 763.9,
+   "sw": 1883,
+   "cw": 989,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "507:423x732 59:423x732 -388:423x732 -835:423x732",
+  "fullyVisible": 2,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 505.6,
+   "y": 160,
+   "w": 424,
+   "h": 530,
+   "nat": "247x247",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 518.5,
+   "y": 795.9,
+   "w": 399.1,
+   "h": 32
+  },
+  "progress": {
+   "w": "427.453px",
+   "display": "block"
+  }
+ },
+ "990": {
+  "vw": 990,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 990,
+   "h": 908.7
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 59.4,
+   "y": 60,
+   "w": 871.2,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 59.4,
+   "y": 118,
+   "w": 871.2,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 990,
+   "h": 641.6,
+   "sw": 990,
+   "cw": 990,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "731:200x610 507:200x610 283:200x610 59:200x610",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ]
+  ],
+  "img": {
+   "x": 630.6,
+   "y": 190,
+   "w": 300,
+   "h": 375,
+   "nat": "247x247",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 643.5,
+   "y": 667.6,
+   "w": 275.1,
+   "h": 68
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(39.4131px, 0.5 * (100% - min(1376px, 100% - 78.8262px)))))))",
+   "display": "block"
+  }
+ },
+ "1024": {
+  "vw": 1024,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 1024,
+   "h": 908.7
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 60.3,
+   "y": 60,
+   "w": 903.4,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 60.3,
+   "y": 118,
+   "w": 903.4,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 1024,
+   "h": 641.6,
+   "sw": 1024,
+   "cw": 1024,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "756:208x610 524:208x610 292:208x610 60:208x610",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ]
+  ],
+  "img": {
+   "x": 663.7,
+   "y": 190,
+   "w": 300,
+   "h": 375,
+   "nat": "256x256",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 676.6,
+   "y": 667.6,
+   "w": 275.1,
+   "h": 68
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(40.2866px, 0.5 * (100% - min(1376px, 100% - 80.5731px)))))))",
+   "display": "block"
+  }
+ },
+ "1200": {
+  "vw": 1200,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 1200,
+   "h": 908.7
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 64.8,
+   "y": 60,
+   "w": 1070.4,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 64.8,
+   "y": 118,
+   "w": 1070.4,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 1200,
+   "h": 641.6,
+   "sw": 1200,
+   "cw": 1200,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "886:250x610 612:250x610 338:250x610 65:250x610",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ]
+  ],
+  "img": {
+   "x": 835.2,
+   "y": 190,
+   "w": 300,
+   "h": 375,
+   "nat": "300x300",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 848.1,
+   "y": 667.6,
+   "w": 275.1,
+   "h": 68
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(44.808px, 0.5 * (100% - min(1376px, 100% - 89.616px)))))))",
+   "display": "block"
+  }
+ },
+ "1366": {
+  "vw": 1366,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 1366,
+   "h": 908.7
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 69.1,
+   "y": 60,
+   "w": 1227.8,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 69.1,
+   "y": 118,
+   "w": 1227.8,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 1366,
+   "h": 641.6,
+   "sw": 1366,
+   "cw": 1366,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "1008:289x610 695:289x610 382:289x610 69:289x610",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ],
+   [
+    "\n      product-card__content\n ",
+    "card-gallery card-gallery-AeEF",
+    ""
+   ]
+  ],
+  "img": {
+   "x": 996.9,
+   "y": 190,
+   "w": 300,
+   "h": 375,
+   "nat": "341x341",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 1009.9,
+   "y": 667.6,
+   "w": 275.1,
+   "h": 68
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(49.0725px, 0.5 * (100% - min(1376px, 100% - 98.1451px)))))))",
+   "display": "block"
+  }
+ },
+ "1440": {
+  "vw": 1440,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 1440,
+   "h": 908.7
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 71,
+   "y": 60,
+   "w": 1298,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 71,
+   "y": 118,
+   "w": 1298,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 1440,
+   "h": 641.6,
+   "sw": 1440,
+   "cw": 1440,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "1063:307x610 732:307x610 402:307x610 71:307x610",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 1062,
+   "y": 190,
+   "w": 307,
+   "h": 383.8,
+   "nat": "360x360",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 1074.5,
+   "y": 703.6,
+   "w": 282.5,
+   "h": 32
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(50.9736px, 0.5 * (100% - min(1376px, 100% - 101.947px)))))))",
+   "display": "block"
+  }
+ },
+ "1480": {
+  "vw": 1480,
+  "overflowX": 0,
+  "section": {
+   "x": 0,
+   "y": 0,
+   "w": 1480,
+   "h": 920
+  },
+  "pad": "60px 0px 91px",
+  "heading": {
+   "x": 72,
+   "y": 60,
+   "w": 1336,
+   "h": 52,
+   "text": "الأكثر مبيعًا",
+   "font": "Cairo 600 32px/52px",
+   "color": "rgb(18, 86, 141)",
+   "hiddenBy": []
+  },
+  "subtitle": {
+   "x": 72,
+   "y": 118,
+   "w": 1336,
+   "h": 32,
+   "text": "منتجات SNOSHA الأكثر مبيعًا",
+   "font": "400 18px/32px"
+  },
+  "layout": "\n    resource-list\n    \n      force-full-width\n    \n    \n    resource-list__caro",
+  "scroller": {
+   "x": 0,
+   "y": 174,
+   "w": 1480,
+   "h": 652.9,
+   "sw": 1480,
+   "cw": 1480,
+   "display": "flex",
+   "ovx": "scroll"
+  },
+  "cardCount": 4,
+  "cards": "1092:316x621 752:316x621 412:316x621 72:316x621",
+  "fullyVisible": 4,
+  "overlaps": [],
+  "inner": [
+   [],
+   [],
+   [],
+   []
+  ],
+  "img": {
+   "x": 1092,
+   "y": 190,
+   "w": 316,
+   "h": 395,
+   "nat": "370x370",
+   "fit": "cover"
+  },
+  "title": {
+   "font": "600 16px/27px",
+   "h": 27
+  },
+  "priceRow": {
+   "x": 1104,
+   "y": 714.9,
+   "w": 292,
+   "h": 32
+  },
+  "progress": {
+   "w": "calc(0.4912 * (100% - (2 * (20px + max(52px, 0.5 * (100% - min(1376px, 100% - 104px)))))))",
+   "display": "block"
+  }
+ }
+}
