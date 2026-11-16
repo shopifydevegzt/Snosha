@@ -117,6 +117,7 @@
         "gradient_start": "#63cdff",
         "gradient_middle": "{{ settings.color_palette.color3 }}",
         "gradient_end": "#0f64a8",
+        "image_shadow_color": "#08337359",
         "text_color": "{{ settings.color_palette.background }}",
         "highlight_color": "#63cdff",
         "chip_text_color": "{{ settings.color_palette.color6 }}",
@@ -236,7 +237,7 @@
           "الأكسسوارات",
           "منتجات-العناية-بالفم",
           "باندل",
-          "الرؤوس-البديلة"
+          "best-seller"
         ],
         "layout_type": "carousel",
         "icons_style": "chevron",
@@ -390,8 +391,9 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
-                "custom_badge_text": "الأكثر مبيعًا",
+                "image_ratio": "square",
+                "card_media": "first_image",
+                "custom_badge_text": "",
                 "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
                 "border_width": 1,
@@ -444,6 +446,7 @@
               "settings": {
                 "stars_style": "outline",
                 "show_number": false,
+                "show_rating_value": false,
                 "label": "التقييمات",
                 "text_color": "",
                 "type_preset": "paragraph",
@@ -519,6 +522,7 @@
         "snosha_style": true,
         "snosha_columns_tablet": 2,
         "snosha_columns_mobile": 2,
+        "snosha_exclude_current": false,
         "snosha_mobile_padding_top": 56,
         "snosha_mobile_padding_bottom": 56,
         "snosha_row_extra_space": 18.1,
@@ -733,7 +737,8 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
+                "image_ratio": "square",
+                "card_media": "first_image",
                 "custom_badge_text": "",
                 "custom_badge_tag": "",
                 "border": "none",
@@ -787,6 +792,7 @@
               "settings": {
                 "stars_style": "outline",
                 "show_number": false,
+                "show_rating_value": false,
                 "label": "التقييمات",
                 "text_color": "",
                 "type_preset": "paragraph",
@@ -841,7 +847,7 @@
       },
       "name": "t:names.product_list",
       "settings": {
-        "collection": "best-seller",
+        "collection": "باندل",
         "layout_type": "carousel",
         "carousel_on_mobile": false,
         "max_products": 8,
@@ -862,8 +868,10 @@
         "snosha_style": true,
         "snosha_columns_tablet": 2,
         "snosha_columns_mobile": 2,
+        "snosha_exclude_current": false,
         "snosha_mobile_padding_top": 56,
         "snosha_mobile_padding_bottom": 56,
+        "snosha_row_extra_space": 0,
         "snosha_title_color": "{{ settings.color_palette.color6 }}",
         "snosha_text_color": "{{ settings.color_palette.color1 }}",
         "snosha_accent_color": "{{ settings.color_palette.color3 }}",
@@ -883,8 +891,8 @@
           "type": "comparison-slider",
           "name": "Before / after images",
           "settings": {
-            "before_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
-            "after_image": "shopify://shop_images/92ca5856b07edb3f14a53ea7e3f9c48fdeaf29db.png",
+            "before_image": "shopify://shop_images/last_before.webp",
+            "after_image": "shopify://shop_images/last_after.png",
             "slider_style": "horizontal",
             "show_text": true,
             "before_text": "قبل",
@@ -1825,9 +1833,9 @@
         "care_tongue": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "snosha-tongue-cleaner",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
             "featured": false,
-            "title": "",
+            "title": "Snosha N2",
             "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
             "badge": "",
             "discount_label": "خصم",
@@ -1880,7 +1888,7 @@
           "settings": {
             "product": "snosha-f1",
             "featured": true,
-            "title": "",
+            "title": "Snosha N2",
             "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
             "badge": "الأكثر مبيعًا",
             "discount_label": "خصم",
@@ -1949,9 +1957,9 @@
         "care_f1": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "snosha-n2",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
             "featured": false,
-            "title": "",
+            "title": "Snosha N2",
             "description": "جهاز تنظيف الأسنان بالماء — تنظيف بين الأسنان… بخطوة أسهل",
             "badge": "",
             "discount_label": "خصم",
@@ -2045,7 +2053,7 @@
         "component_f1": {
           "type": "component",
           "settings": {
-            "product": "snosha-n2",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
             "desktop_x": 51,
             "desktop_y": 54,
             "mobile_x": 53,
@@ -2055,7 +2063,7 @@
         "component_kids": {
           "type": "component",
           "settings": {
-            "product": "snosha-tongue-cleaner",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
             "desktop_x": 77,
             "desktop_y": 68,
             "mobile_x": 80,
@@ -2644,6 +2652,16 @@
           "type": "accordion",
           "settings": {
             "icon": "caret",
+            "snosha_style": false,
+            "snosha_row_background": "{{ settings.color_palette.background }}",
+            "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
+            "snosha_row_border": "{{ settings.color_palette.color2 }}",
+            "snosha_title_color": "{{ settings.color_palette.foreground }}",
+            "snosha_chevron_color": "{{ settings.color_palette.color3 }}",
+            "snosha_tile_background": "{{ settings.color_palette.color5 }}",
+            "snosha_icon_color": "{{ settings.color_palette.color3 }}",
+            "snosha_content_heading_color": "{{ settings.color_palette.foreground }}",
+            "snosha_content_color": "{{ settings.color_palette.color1 }}",
             "dividers": false,
             "divider_color": "",
             "type_preset": "",
@@ -2666,7 +2684,9 @@
                 "heading": "ما طرق الدفع المتاحة؟",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
@@ -2705,7 +2725,9 @@
                 "heading": "هل يوجد دفع عند الاستلام؟",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
@@ -2744,7 +2766,9 @@
                 "heading": "هل منتجات SNOSHA أصلية ومعتمدة؟",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
@@ -2788,6 +2812,16 @@
           "type": "accordion",
           "settings": {
             "icon": "caret",
+            "snosha_style": false,
+            "snosha_row_background": "{{ settings.color_palette.background }}",
+            "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
+            "snosha_row_border": "{{ settings.color_palette.color2 }}",
+            "snosha_title_color": "{{ settings.color_palette.foreground }}",
+            "snosha_chevron_color": "{{ settings.color_palette.color3 }}",
+            "snosha_tile_background": "{{ settings.color_palette.color5 }}",
+            "snosha_icon_color": "{{ settings.color_palette.color3 }}",
+            "snosha_content_heading_color": "{{ settings.color_palette.foreground }}",
+            "snosha_content_color": "{{ settings.color_palette.color1 }}",
             "dividers": false,
             "divider_color": "",
             "type_preset": "",
@@ -2810,7 +2844,9 @@
                 "heading": "هل يوجد ضمان على المنتجات؟",
                 "open_by_default": true,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
@@ -2849,7 +2885,9 @@
                 "heading": "ما مدة الاستبدال والاسترجاع؟",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
@@ -2888,7 +2926,9 @@
                 "heading": "هل يوجد شحن مجاني؟",
                 "open_by_default": false,
                 "icon": "none",
-                "width": 20
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
               },
               "blocks": {
                 "answer": {
