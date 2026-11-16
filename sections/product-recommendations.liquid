@@ -23,7 +23,30 @@
     echo '--column-count: ' | append: section.settings.columns | append: ';'
     echo '--column-count-mobile: ' | append: section.settings.mobile_columns | append: ';'
   endcapture
+
+  # Snosha (project): opt-in reuse of the featured collection card / carousel styling (assets/dev1.css,
+  # .snosha-featured-collection). Colours come from the theme palette, as on the homepage instance.
+  # The recommendation source and loading below are unchanged.
+  assign snosha_style = section.settings.snosha_style
 %}
+
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-featured-collection {
+      --snosha-fc-title: {{ settings.color_palette.color6 }};
+      --snosha-fc-text: {{ settings.color_palette.color1 }};
+      --snosha-fc-accent: {{ settings.color_palette.color3 }};
+      --snosha-fc-on-accent: {{ settings.color_palette.background }};
+      --snosha-fc-star: {{ settings.color_palette.color4 }};
+      --snosha-fc-discount-bg: {{ settings.color_palette.color5 }};
+      --snosha-fc-discount-border: {{ settings.color_palette.color2 }};
+      --snosha-fc-progress-track: {{ settings.color_palette.color2 }};
+      --snosha-fc-gradient-start: {{ section.settings.snosha_gradient_start }};
+      --snosha-fc-gradient-end: {{ section.settings.snosha_gradient_end }};
+      --snosha-fc-columns-desktop: {{ section.settings.columns | default: 4 }};
+    }
+  {% endstyle %}
+{%- endif -%}
 
 {% render 'quick-add-styles' %}
 {% render 'quick-add-modal-styles' %}
@@ -62,13 +85,23 @@
       section-resource-list
       spacing-style
       gap-style
+      {% if snosha_style %}snosha-featured-collection{% endif %}
+      {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
     "
     style="
       {%  render 'spacing-style', settings: section.settings %}
       {%  render 'gap-style', value: section.settings.gap %}
       {{ styles }}
     "
+    {% if snosha_style %}
+      data-snosha-carousel-progress
+    {% endif %}
   >
+    {%- if snosha_style and section.settings.layout_type == 'carousel' -%}
+      {%- comment -%} Progress bar fallback for browsers without scroll-driven animations (same module as product-list). {%- endcomment -%}
+      <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+    {%- endif -%}
+
     <div class="section-resource-list__content">
       {% content_for 'blocks' %}
     </div>
@@ -452,6 +485,36 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha featured collection style",
+      "info": "Uses the homepage featured collection card and carousel design, with colours from the theme palette.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_start",
+      "label": "Progress bar gradient start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_end",
+      "label": "Progress bar gradient end / card shadow",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.snosha_style }}"
     }
   ],
   "presets": [

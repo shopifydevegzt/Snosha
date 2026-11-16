@@ -5067,6 +5067,15 @@ media-gallery.media-gallery--snosha {
     }
   }
 
+  /* When heading + text sit in the preset's Content group (instead of directly in the section),
+     Figma's mobile heading → text gap is 12 px, not the homepage's 14; desktop keeps the group's
+     own Gap setting (set it to 24 in the Theme Editor). */
+  .snosha-before-after__layout > .group-block > .group-block-content {
+    @media screen and (max-width: 749px) {
+      gap: 12px;
+    }
+  }
+
   /* Heading: H2 preset (desktop 32 / 52 / 600 = Figma); mobile 22 / 52 in Figma's 328 px box,
      which gives its two-line break */
   .text-block.h2 {
@@ -5144,8 +5153,23 @@ media-gallery.media-gallery--snosha {
    padding 40-40). This block holds only what has no setting, enabled by the section's Custom CSS
    class "snosha-related-products"; the homepage instance does not have it. Two classes outrank
    dev1.css (loaded later).
+   Also used by the native Recommended products section (sections/product-recommendations.liquid,
+   "Snosha featured collection style" on + Custom CSS class "snosha-recommended-products"): same
+   Figma frames, native recommendation source. That section has no Snosha spacing settings, so its
+   mobile padding (40 / 40) and extra space below the cards (15.6) are set here.
    ========================================================================== */
-.snosha-featured-collection.snosha-related-products {
+.snosha-featured-collection.snosha-recommended-products {
+  --snosha-fc-mobile-padding-start: 40px;
+  --snosha-fc-mobile-padding-end: 40px;
+  --snosha-fc-row-extra: 15.6px;
+}
+
+.snosha-featured-collection:is(.snosha-related-products, .snosha-recommended-products) {
+  /* Heading: product-list puts it in the header, Recommended products in the blocks area */
+  :is(.section-resource-list__header, .section-resource-list__content) :is(h2, p) {
+    margin: 0;
+  }
+
   @media screen and (max-width: 749px) {
     /* Figma mobile: title row → cards 33 px (84 → 117), cards → progress bar 33 px (400 → 433) */
     row-gap: 33px;
@@ -5155,7 +5179,7 @@ media-gallery.media-gallery--snosha {
     }
 
     /* Figma mobile title: Cairo Bold 24 / 38 (the H2 preset is SemiBold) */
-    .section-resource-list__header .text-block.h2 {
+    :is(.section-resource-list__header, .section-resource-list__content) .text-block.h2 {
       --font-h2--weight: 700;
     }
   }
