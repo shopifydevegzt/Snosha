@@ -806,8 +806,8 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 0,
-        "padding-block-end": 0,
+        "padding-block-start": 40,
+        "padding-block-end": 40,
         "snosha_buy_box": true,
         "snosha_details_width": 560,
         "snosha_column_gap": 64,
@@ -2149,6 +2149,104 @@
         "custom_class": ""
       }
     },
+    "snosha_reels_D9cggw": {
+      "type": "snosha-reels",
+      "blocks": {
+        "reel_BtmFed": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_LnfAML": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_xhjFFi": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_YK8Gtx": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_8LwA8Y": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "product": "",
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_BtmFed",
+        "reel_LnfAML",
+        "reel_xhjFFi",
+        "reel_YK8Gtx",
+        "reel_8LwA8Y"
+      ],
+      "name": "Snosha reels",
+      "settings": {
+        "heading": "اكتشف عالم SNOSHA",
+        "unavailable_label": "قريبًا",
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_top_mobile": 48.5,
+        "padding_bottom_mobile": 40,
+        "padding_inline_desktop": 20,
+        "padding_inline_mobile": 24,
+        "heading_size_desktop": 32,
+        "heading_line_height_desktop": 52,
+        "heading_gap_desktop": 24,
+        "heading_size_mobile": 24,
+        "heading_line_height_mobile": 38,
+        "heading_gap_mobile": 43.5,
+        "cards_desktop": 5,
+        "cards_tablet": 3,
+        "cards_mobile": 1,
+        "card_width_desktop": 248,
+        "frame_height_desktop": 440,
+        "card_gap_desktop": 24,
+        "card_width_mobile": 290,
+        "frame_height_mobile": 516,
+        "card_gap_mobile": 12,
+        "video_radius": 18,
+        "show_progress_mobile": true,
+        "show_progress_desktop": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "title_color": "{{ settings.color_palette.color6 }}",
+        "price_color": "{{ settings.color_palette.color3 }}",
+        "thumb_background": "{{ settings.color_palette.color5 }}",
+        "thumb_border": "{{ settings.color_palette.color2 }}",
+        "play_background": "{{ settings.color_palette.color3 }}",
+        "play_hover": "{{ settings.color_palette.color6 }}",
+        "progress_track": "{{ settings.color_palette.color2 }}",
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "custom_class": ""
+      }
+    },
     "snosha_faq_raP3iT": {
       "type": "snosha-faq",
       "blocks": {
@@ -2542,7 +2640,7 @@
         "border_color": "{{ settings.color_palette.color2 }}",
         "padding_top": 60,
         "padding_bottom": 60,
-        "padding_top_mobile": 56,
+        "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "custom_class": ""
       }
@@ -3074,7 +3172,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
+                "image_ratio": "square",
                 "custom_badge_text": "الأكثر مبيعًا",
                 "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
@@ -3298,7 +3396,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "portrait",
+                "image_ratio": "square",
                 "custom_badge_text": "الأكثر مبيعًا",
                 "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
@@ -3550,94 +3648,6 @@
         "padding_bottom": 60,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "custom_class": ""
-      }
-    },
-    "snosha_reels_D9cggw": {
-      "type": "snosha-reels",
-      "blocks": {
-        "reel_BtmFed": {
-          "type": "reel",
-          "settings": {
-            "product": "",
-            "label": ""
-          }
-        },
-        "reel_HTaWqD": {
-          "type": "reel",
-          "settings": {
-            "product": "",
-            "label": ""
-          }
-        },
-        "reel_iEe343": {
-          "type": "reel",
-          "settings": {
-            "product": "",
-            "label": ""
-          }
-        },
-        "reel_eKwd67": {
-          "type": "reel",
-          "settings": {
-            "product": "",
-            "label": ""
-          }
-        },
-        "reel_aibBmk": {
-          "type": "reel",
-          "settings": {
-            "product": "",
-            "label": ""
-          }
-        }
-      },
-      "block_order": [
-        "reel_BtmFed",
-        "reel_HTaWqD",
-        "reel_iEe343",
-        "reel_eKwd67",
-        "reel_aibBmk"
-      ],
-      "name": "Snosha reels",
-      "settings": {
-        "heading": "اكتشف عالم SNOSHA",
-        "unavailable_label": "قريبًا",
-        "padding_top_desktop": 60,
-        "padding_bottom_desktop": 60,
-        "padding_top_mobile": 48.5,
-        "padding_bottom_mobile": 40,
-        "padding_inline_desktop": 20,
-        "padding_inline_mobile": 24,
-        "heading_size_desktop": 32,
-        "heading_line_height_desktop": 52,
-        "heading_gap_desktop": 24,
-        "heading_size_mobile": 24,
-        "heading_line_height_mobile": 38,
-        "heading_gap_mobile": 43.5,
-        "cards_desktop": 5,
-        "cards_tablet": 3,
-        "cards_mobile": 1,
-        "card_width_desktop": 248,
-        "frame_height_desktop": 440,
-        "card_gap_desktop": 24,
-        "card_width_mobile": 290,
-        "frame_height_mobile": 516,
-        "card_gap_mobile": 12,
-        "video_radius": 18,
-        "show_progress_mobile": true,
-        "show_progress_desktop": true,
-        "background_color": "{{ settings.color_palette.background }}",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "title_color": "{{ settings.color_palette.color6 }}",
-        "price_color": "{{ settings.color_palette.color3 }}",
-        "thumb_background": "{{ settings.color_palette.color5 }}",
-        "thumb_border": "{{ settings.color_palette.color2 }}",
-        "play_background": "{{ settings.color_palette.color3 }}",
-        "play_hover": "{{ settings.color_palette.color6 }}",
-        "progress_track": "{{ settings.color_palette.color2 }}",
-        "progress_start": "#63CDFF",
-        "progress_end": "#0F64A8",
         "custom_class": ""
       }
     }
