@@ -384,15 +384,6 @@
                 "custom_class": ""
               },
               "blocks": {
-                "trust_exchange": {
-                  "type": "_snosha-trust-item",
-                  "settings": {
-                    "text": "استبدال واسترجاع خلال 7 أيام",
-                    "icon": "exchange",
-                    "link": ""
-                  },
-                  "blocks": {}
-                },
                 "trust_warranty": {
                   "type": "_snosha-trust-item",
                   "settings": {
@@ -402,11 +393,11 @@
                   },
                   "blocks": {}
                 },
-                "trust_cod": {
+                "trust_exchange": {
                   "type": "_snosha-trust-item",
                   "settings": {
-                    "text": "الدفع عند الاستلام",
-                    "icon": "wallet",
+                    "text": "استبدال واسترجاع خلال 7 أيام",
+                    "icon": "exchange",
                     "link": ""
                   },
                   "blocks": {}
@@ -420,11 +411,11 @@
                   },
                   "blocks": {}
                 },
-                "trust_delivery": {
+                "trust_cod": {
                   "type": "_snosha-trust-item",
                   "settings": {
-                    "text": "توصيل سريع لجميع أنحاء مصر",
-                    "icon": "truck",
+                    "text": "الدفع عند الاستلام",
+                    "icon": "wallet",
                     "link": ""
                   },
                   "blocks": {}
@@ -437,15 +428,24 @@
                     "link": ""
                   },
                   "blocks": {}
+                },
+                "trust_delivery": {
+                  "type": "_snosha-trust-item",
+                  "settings": {
+                    "text": "توصيل سريع لجميع أنحاء مصر",
+                    "icon": "truck",
+                    "link": ""
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
-                "trust_exchange",
                 "trust_warranty",
-                "trust_cod",
+                "trust_exchange",
                 "trust_free_shipping",
-                "trust_delivery",
-                "trust_online_payment"
+                "trust_cod",
+                "trust_online_payment",
+                "trust_delivery"
               ]
             },
             "snosha_complementary_routine": {
@@ -806,7 +806,7 @@
         "gap": 48,
         "enable_sticky_add_to_cart": true,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
+        "padding-block-start": 0,
         "padding-block-end": 40,
         "snosha_buy_box": true,
         "snosha_details_width": 560,
