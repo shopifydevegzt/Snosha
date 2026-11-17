@@ -149,6 +149,7 @@
         "snosha_nav_border": false,
         "snosha_menu_icon": "snosha",
         "snosha_menu_icon_size": 24,
+        "snosha_icon_color_mobile": "{{ settings.color_palette.color3 }}",
         "snosha_drawer_title": "القائمة",
         "snosha_drawer_header_bg": "{{ settings.color_palette.color5 }}",
         "snosha_drawer_font_size": 16,

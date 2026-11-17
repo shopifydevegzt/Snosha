@@ -134,7 +134,7 @@
     endif
   endif
   capture search
-    render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style
+    render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style, section: section
   endcapture
 
   # Skip drawer search under specific conditions:
@@ -148,7 +148,7 @@
   if section.settings.search_row == 'bottom' or search_style != 'none' and skip_drawer_search == false
     # Mobile search duplicate for when search is not in the right order for mobile layout
     capture drawer_search
-      render 'search', class: 'search-action--hidden-on-menu', style: search_style, display_style: section.settings.actions_display_style
+      render 'search', class: 'search-action--hidden-on-menu', style: search_style, display_style: section.settings.actions_display_style, section: section
     endcapture
   endif
 
@@ -205,11 +205,15 @@
     assign class = class | append: ' ' | append: collapse_header_paddings_class
   endif
 
-  # Snosha (project addition): opt-in Figma layout hooks. Styles live in assets/dev1.css.
+  # Snosha (project addition): opt-in Figma layout hooks. Styles live in assets/dev1.css (layout)
+  # and assets/main.css (header icons, snippets/snosha-header-icon.liquid).
   if section.settings.snosha_layout
     assign class = class | append: ' snosha-header'
     if section.settings.snosha_actions_at_start
       assign class = class | append: ' snosha-header--actions-start'
+    endif
+    if section.settings.snosha_icon_color_mobile != blank
+      assign class = class | append: ' snosha-header--icon-color-mobile'
     endif
     if section.settings.snosha_hide_mobile_account
       assign class = class | append: ' snosha-header--hide-mobile-account'
@@ -385,6 +389,10 @@
         --snosha-nav-marker-color: {{ section.settings.snosha_nav_marker_color }};
       {%- endif %}
       --snosha-menu-icon-size: {{ section.settings.snosha_menu_icon_size }}px;
+      --snosha-header-custom-icon-size: {{ section.settings.snosha_custom_icon_size }}px;
+      {%- if section.settings.snosha_icon_color_mobile != blank %}
+        --snosha-header-icon-color-mobile: {{ section.settings.snosha_icon_color_mobile }};
+      {%- endif %}
       --snosha-drawer-font-size: {{ section.settings.snosha_drawer_font_size }}px;
       --snosha-drawer-row-padding: {{ section.settings.snosha_drawer_row_padding }}px;
       {%- if section.settings.snosha_drawer_header_bg != blank %}
@@ -2115,6 +2123,58 @@
       "label": "Border below navigation (desktop)",
       "info": "Uses the Bottom border width and color above. Off in the Figma design; the border shows on mobile only.",
       "default": false,
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "header",
+      "content": "Snosha header icons",
+      "info": "Account and search use the Figma icons, cart and the Snosha menu icon too. Upload an image only to replace an icon; the button and its action stay the same."
+    },
+    {
+      "type": "color",
+      "id": "snosha_icon_color_mobile",
+      "label": "Mobile icon color",
+      "info": "Search, cart, account and menu icons below 750px. Leave blank to use the header text color.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "snosha_account_icon_image",
+      "label": "Custom account icon",
+      "info": "Shown while signed out. Leave blank for the default icon.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "snosha_search_icon_image",
+      "label": "Custom search icon",
+      "info": "Leave blank for the default icon.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "snosha_cart_icon_image",
+      "label": "Custom cart icon",
+      "info": "Leave blank for the default icon. The item count stays.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "snosha_menu_icon_image",
+      "label": "Custom mobile menu icon",
+      "info": "Replaces the Mobile menu icon below. Leave blank for that icon.",
+      "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_custom_icon_size",
+      "label": "Custom icon size",
+      "info": "Uploaded icons only. The image keeps its proportions inside this square. Figma: 22px.",
+      "min": 12,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 22,
       "visible_if": "{{ section.settings.snosha_layout }}"
     },
     {

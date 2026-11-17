@@ -2308,8 +2308,8 @@
     &::before {
       content: "";
       display: block;
-      inline-size: 22px;
-      block-size: 22px;
+      width: 22px;
+      height: 22px;
       background-color: currentColor;
       mask: url("snosha-cart-22.svg") center / 22px 22px no-repeat;
     }

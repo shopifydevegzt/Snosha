@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "결제 시 세금, 할인 및 <a href=\"{{ link }}\">배송료</a>가 계산됩니다.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "결제 시 세금, 할인 및 배송료가 계산됩니다.",
     "checkout": "결제",
+    "checkout_drawer": "결제",
     "cart_title": "카트",
     "price": "가격",
     "price_regular": "정가",

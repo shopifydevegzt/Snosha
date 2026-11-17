@@ -1,6 +1,7 @@
 {%- doc -%}
   Snosha (project file): outputs the mobile menu (hamburger) icon for the header drawer trigger.
   The style comes from the header's "Snosha layout" > "Mobile menu icon" setting; Horizon's icon otherwise.
+  An optional "Custom mobile menu icon" image (snippets/snosha-header-icon.liquid) replaces the SVG.
 
   @param {object} section - The header section.
 
@@ -9,12 +10,21 @@
 {%- enddoc -%}
 
 {%- liquid
+  capture custom_icon
+    render 'snosha-header-icon', icon: 'menu', section: section
+  endcapture
+
   assign style = 'horizon'
   if section.settings.snosha_layout
     assign style = section.settings.snosha_menu_icon | default: 'horizon'
   endif
+  if custom_icon != blank
+    assign style = 'custom'
+  endif
 
   case style
+    when 'custom'
+      echo custom_icon
     when 'snosha'
       echo 'snosha-icon-menu.svg' | inline_asset_content
     when 'minimal'

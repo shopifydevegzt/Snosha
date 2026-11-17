@@ -163,6 +163,7 @@
     "cart_subtotal": "Vahesumma",
     "cart_total": "Ostukorvi kogusumma",
     "checkout": "Vormista ost",
+    "checkout_drawer": "Vormista ost",
     "collection_placeholder": "Kollektsiooni pealkiri",
     "discount_code": "Sooduskood",
     "shipping_discount_error": "Tarne allahindlusi näidatakse kassas pärast aadressi lisamist",

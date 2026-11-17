@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Οι φόροι, οι εκπτώσεις και τα έξοδα <a href=\"{{ link }}\">αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Οι φόροι, οι εκπτώσεις και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της αγοράς.",
     "checkout": "Ολοκλήρωση αγοράς",
+    "checkout_drawer": "Ολοκλήρωση αγοράς",
     "cart_title": "Καλάθι",
     "price": "Τιμή",
     "price_regular": "Κανονική τιμή",

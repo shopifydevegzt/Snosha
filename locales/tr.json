@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Ödeme sayfasında hesaplanan vergiler, indirimler ve <a href=\"{{ link }}\">kargo</a>.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Ödeme sayfasında hesaplanan vergiler, indirimler ve kargo.",
     "checkout": "Ödeme",
+    "checkout_drawer": "Ödeme",
     "cart_title": "Sepet",
     "price": "Fiyat",
     "price_regular": "Normal fiyat",

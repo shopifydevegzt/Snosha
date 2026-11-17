@@ -27,11 +27,20 @@
       {{ 'content.cart_title' | t }}
     </span>
 
+    {%- comment -%}
+      Snosha (project addition): optional custom cart icon. It replaces the svg-wrapper, so the Figma glyph that
+      assets/dev1.css draws on .svg-wrapper::before isn't shown as well. Blank: native markup.
+    {%- endcomment -%}
+    {%- capture snosha_cart_icon -%}{%- if section -%}{%- render 'snosha-header-icon', icon: 'cart', section: section -%}{%- endif -%}{%- endcapture -%}
     <span
-      class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
+      class="{% if snosha_cart_icon != blank %}snosha-header-icon-slot{% else %}svg-wrapper{% endif %} {% if display_style != 'icon' %}desktop:hidden{% endif %}"
       aria-hidden="true"
     >
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      {%- if snosha_cart_icon != blank -%}
+        {{- snosha_cart_icon -}}
+      {%- else -%}
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      {%- endif -%}
     </span>
 
     {% render 'cart-bubble', limit: 100 %}
@@ -105,7 +114,13 @@
             class="{% if display_style != 'icon' %}desktop:hidden{% endif %}"
             aria-hidden="true"
           >
-            {{ account_icon }}
+            {%- comment -%} Snosha (project addition): Figma / custom account icon; Horizon's icon otherwise {%- endcomment -%}
+            {%- capture snosha_account_icon -%}{%- if section -%}{%- render 'snosha-header-icon', icon: 'account', section: section, class: 'account-button__icon' -%}{%- endif -%}{%- endcapture -%}
+            {%- if snosha_account_icon != blank -%}
+              {{- snosha_account_icon -}}
+            {%- else -%}
+              {{ account_icon }}
+            {%- endif -%}
           </span>
         {% endif %}
       </shopify-account>

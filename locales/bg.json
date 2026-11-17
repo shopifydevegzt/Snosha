@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Данъците, отстъпките и <a href=\"{{ link }}\">доставката</a> се изчисляват при плащане.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Данъците, отстъпките и доставката се изчисляват при плащане.",
     "checkout": "Преминаване към плащане",
+    "checkout_drawer": "Преминаване към плащане",
     "cart_title": "Количка",
     "price": "Цена",
     "price_regular": "Обичайна цена",

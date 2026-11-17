@@ -55,6 +55,12 @@ export class ThemeDrawer extends Component {
 
   connectedCallback() {
     super.connectedCallback();
+    // Snosha (project addition): a drawer with the `overlay` attribute (the cart drawer) is a modal
+    // overlay with a backdrop at every width instead of squeezing the page on wide viewports.
+    // snippets/theme-drawer.liquid skips its page-wrapper squeeze for these drawers.
+    if (this.hasAttribute('overlay')) {
+      this.#modalQuery = window.matchMedia('all');
+    }
     this.#modalQuery.addEventListener('change', this.#onModalBreakpointChange);
 
     // Sync the static stack counter with any --drawer-stack-order set by the

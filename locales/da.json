@@ -150,6 +150,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Skatter, rabatter og <a href=\"{{ link }}\">levering</a> beregnes ved betaling.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Skatter, rabatter og levering beregnes ved betaling.",
     "checkout": "Gå til betaling",
+    "checkout_drawer": "Gå til betaling",
     "cart_title": "Indkøbskurv",
     "product_image": "Produktbillede",
     "product_information": "Produktoplysninger",

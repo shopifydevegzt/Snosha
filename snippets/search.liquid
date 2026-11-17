@@ -4,6 +4,7 @@
   @param {string} [style] - The style of the search action.
   @param {string} [class] - Additional classes for the search action.
   @param {string} [display_style] - The display style ('icon' or 'text').
+  @param {object} [section] - Snosha (project addition): the header section, for its optional icon override.
 
   @example
   {% render 'search', style: 'default', class: 'custom-class', display_style: 'icon' %}
@@ -24,7 +25,13 @@
       </span>
 
       <span class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}">
-        {{ 'icon-search.svg' | inline_asset_content }}
+        {%- comment -%} Snosha (project addition): Figma / custom header icon; Horizon's icon otherwise {%- endcomment -%}
+        {%- capture snosha_icon -%}{%- if section -%}{%- render 'snosha-header-icon', icon: 'search', section: section -%}{%- endif -%}{%- endcapture -%}
+        {%- if snosha_icon != blank -%}
+          {{- snosha_icon -}}
+        {%- else -%}
+          {{ 'icon-search.svg' | inline_asset_content }}
+        {%- endif -%}
       </span>
     </button>
   </search-button>

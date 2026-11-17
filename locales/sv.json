@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Skatter, rabatter och <a href=\"{{ link }}\">fraktkostnad</a> beräknas i kassan.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Skatter, rabatter och fraktkostnad beräknas i kassan.",
     "checkout": "Betala",
+    "checkout_drawer": "Betala",
     "cart_title": "Varukorg",
     "price": "Pris",
     "price_regular": "Ordinarie pris",

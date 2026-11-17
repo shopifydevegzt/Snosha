@@ -3,6 +3,7 @@
 
   @param {string} [accelerated_checkout_buttons_layout] - { 'vertical' } Forced layout of the additional checkout buttons, instead of relying on platform's layout.
   @param {string} [section_id] - The section ID for cart discount component.
+  @param {string} [context] - Snosha (project addition): 'drawer' omits the tax / shipping note and uses the drawer checkout label.
 {%- enddoc -%}
 
 {% render 'text-component-shimmer-styles' %}
@@ -246,9 +247,12 @@
         {% endform %}
       </span>
     {% endif %}
-    <div class="cart-totals__item cart-totals__tax-note cart-primary-typography">
-      {% render 'tax-info', has_discounts_enabled: settings.show_add_discount_code %}
-    </div>
+    {%- comment -%} Snosha (project addition): the cart drawer omits the tax / shipping note; the cart page keeps it {%- endcomment -%}
+    {%- unless context == 'drawer' -%}
+      <div class="cart-totals__item cart-totals__tax-note cart-primary-typography">
+        {% render 'tax-info', has_discounts_enabled: settings.show_add_discount_code %}
+      </div>
+    {%- endunless -%}
   </div>
 </div>
 
@@ -264,7 +268,12 @@
     form="cart-form"
   >
     <span class="button-text">
-      {{ 'content.checkout' | t }}
+      {%- comment -%} Snosha (project addition): drawer-specific label; the cart page keeps content.checkout {%- endcomment -%}
+      {%- if context == 'drawer' -%}
+        {{ 'content.checkout_drawer' | t }}
+      {%- else -%}
+        {{ 'content.checkout' | t }}
+      {%- endif -%}
     </span>
   </button>
 

@@ -5641,3 +5641,86 @@ body:has(.product-information) .snosha-faq {
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — HEADER ICONS (native header with "Snosha layout" on).
+   Figma: desktop 190:3772 user / 190:3773 search / 190:3774 cart; mobile 190:4086 cart /
+   190:4087 search / 190:4090 menu. Markup: snippets/snosha-header-icon.liquid (Figma glyph or
+   merchant image inside the native button). Header layout and the cart glyph stay in
+   assets/dev1.css. Variables come from the header's {% style %} bridge.
+   Measurements: SNOSHA_HEADER_ICONS_QA_REPORT.md.
+   ========================================================================= */
+#header-component.snosha-header {
+  /* Figma Icon / search: 18px vector centered in the 22px slot (Horizon sizes header SVGs to 22) */
+  .snosha-header-icon--search:not(.snosha-header-icon--custom) {
+    width: 22px;
+    height: 22px;
+  }
+  /* Figma Icon / user: 24px vector unscaled at the 22px slot's top-left corner, i.e. 1px right
+     of and below the centered position */
+  .snosha-header-icon--account:not(.snosha-header-icon--custom) {
+    display: block;
+    flex-shrink: 0;
+    width: calc(var(--icon-size-md) * 24 / 22);
+    height: calc(var(--icon-size-md) * 24 / 22);
+    translate: calc(var(--icon-size-md) / 22) calc(var(--icon-size-md) / 22);
+  }
+
+  /* Figma Icon / menu: same 24px-vector-in-22px-slot anchoring as the user icon. Clamped so other
+     "Mobile menu icon size" values stay (almost) centered. */
+  .header__icon--menu .header-drawer-icon--open > svg {
+    translate: clamp(
+        0px,
+        (var(--snosha-menu-icon-size, 22px) - var(--icon-size-md)) / 2,
+        1px
+      )
+      clamp(
+        0px,
+        (var(--snosha-menu-icon-size, 22px) - var(--icon-size-md)) / 2,
+        1px
+      );
+  }
+
+  /* Merchant-uploaded icons: a square of "Custom icon size", image contained (never stretched) */
+  .snosha-header-icon--custom {
+    display: block;
+    flex-shrink: 0;
+    width: var(--snosha-header-custom-icon-size, var(--icon-size-md));
+    height: var(--snosha-header-custom-icon-size, var(--icon-size-md));
+    max-width: none;
+    object-fit: contain;
+  }
+
+  /* Custom cart icon wrapper: same 44px box as Horizon's cart .svg-wrapper */
+  .snosha-header-icon-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--button-size);
+    height: var(--button-size);
+    pointer-events: none;
+  }
+
+  /* Figma mobile icons use the brand blue (color3) while desktop uses the header text color */
+  &.snosha-header--icon-color-mobile .header__row {
+    @media screen and (max-width: 749px) {
+      --color-account-icon: var(--snosha-header-icon-color-mobile);
+
+      :is(.search-action, header-actions) .header-actions__action,
+      .header__icon--menu {
+        color: var(--snosha-header-icon-color-mobile);
+      }
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — CART DRAWER (native Horizon cart drawer, snippets/cart-drawer.liquid).
+   The drawer is a modal overlay at every width (`overlay` attribute, assets/theme-drawer.js).
+   ========================================================================= */
+#cart-drawer .theme-drawer__dialog {
+  /* Horizon's backdrop is rgb(var(--color-shadow-rgb) / var(--backdrop-opacity)); the project's single
+     color palette defines no --color-shadow-rgb, so it resolved to transparent. Use the palette's text
+     color (dark) instead; ::backdrop inherits custom properties from its dialog. */
+  --backdrop-color-rgb: var(--color-foreground-rgb);
+}

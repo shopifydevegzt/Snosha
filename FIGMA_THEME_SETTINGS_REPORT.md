@@ -776,3 +776,13 @@ Full audit (Figma `190:10187` / `190:10905` against dev theme #168066810072 serv
 - Scoped overrides for `dev1.css` sections: FAQ 14 px on product-page mobile; comparison mobile `overflow-y: clip`; Judge.me card and track padding.
 
 **Blocked:** Reels (not on the served theme) and every template-setting fix. The local `templates/product.json` does not contain the merchant's Theme Editor change, so it was left untouched.
+
+## 13. Header icons QA (2026-11-17)
+
+Full measurements: `SNOSHA_HEADER_ICONS_QA_REPORT.md`.
+
+- Search and account icons now use the exact Figma vectors. Search reuses `snosha-icon` `search`; account uses the new `snosha-icon` `user`. Both go through the new `snippets/snosha-header-icon.liquid`, with small hooks in Horizon's `search.liquid` and `header-actions.liquid`. When the header's "Snosha layout" is off, the hooks do nothing.
+- Mobile icons are color3 (Figma), set through the new header setting "Mobile icon color". The menu's 24px vector sits at the Figma anchor, 1px down and to the right of centered.
+- New optional pickers: Custom account / search / cart / mobile menu icon, plus "Custom icon size" (22).
+- 1480: account ink 1301.2, 81.2 · 17.6 × 18.6; search box 1344, 80 · 18; slots 22 apart. 390: cart 20, search 60, menu 348, color rgb(23, 107, 176). No horizontal overflow from 320 to 1480.
+- Not verified: Theme Editor UI, uploaded SVG icons, LTR, signed-in account avatar.

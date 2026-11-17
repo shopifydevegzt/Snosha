@@ -163,6 +163,7 @@
     "cart_subtotal": "উপমোট",
     "cart_total": "কার্টের মোট মূল্য",
     "checkout": "চেকআউট",
+    "checkout_drawer": "চেকআউট",
     "collection_placeholder": "কালেকশনের শিরোনাম",
     "discount_code": "ডিসকাউন্ট কোড",
     "shipping_discount_error": "ঠিকানা যোগ করার পরে চেকআউটের সময় শিপিং ডিসকাউন্ট দেখানো হয়",

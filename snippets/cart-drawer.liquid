@@ -40,9 +40,15 @@
     </div>
   {% endcapture %}
 
+  {%- comment -%}
+    Snosha (project addition): `overlay` = modal overlay with backdrop at every width (no page squeeze);
+    `no-persist` = not reopened as a sidebar after navigation (Horizon's existing attribute).
+  {%- endcomment -%}
   <theme-drawer
     id="cart-drawer"
     data-skip-node-update
+    overlay
+    no-persist
   >
     <dialog
       ref="panel"
@@ -115,7 +121,7 @@
                 </scroll-hint>
 
                 <div class="cart-drawer__summary">
-                  {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                  {% render 'cart-summary', section_id: 'cart-drawer-section', context: 'drawer' %}
                 </div>
               </scroll-hint>
             {%- endif -%}
@@ -206,7 +212,7 @@
     margin-top: auto;
     background-color: var(--color-background);
     /* stylelint-disable-next-line color-named */
-    mask-image: linear-gradient(to bottom, transparent, black var(--cart-drawer-summary-padding));
+    /* mask-image: linear-gradient(to bottom, transparent, black var(--cart-drawer-summary-padding)); */
 
     @media screen and (min-width: 750px) {
       --cart-drawer-summary-padding: var(--padding-2xl);

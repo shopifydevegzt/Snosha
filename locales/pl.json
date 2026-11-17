@@ -158,6 +158,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Obliczenie podatków, rabatów i <a href=\"{{ link }}\">wysyłki</a> przy realizacji zakupu.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Obliczenie podatków, rabatów i wysyłki przy realizacji zakupu.",
     "checkout": "Zrealizuj zakup",
+    "checkout_drawer": "Zrealizuj zakup",
     "cart_title": "Koszyk",
     "price": "Cena",
     "price_regular": "Cena regularna",

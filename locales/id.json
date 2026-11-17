@@ -154,6 +154,7 @@
     "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Pajak, diskon, dan <a href=\"{{ link }}\">biaya pengiriman</a> dihitung saat checkout.",
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Pajak, diskon, dan biaya pengiriman dihitung saat checkout.",
     "checkout": "Check out",
+    "checkout_drawer": "Check out",
     "cart_title": "Keranjang",
     "price": "Harga",
     "price_regular": "Harga reguler",

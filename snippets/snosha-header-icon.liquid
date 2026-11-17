@@ -1,0 +1,49 @@
+{%- doc -%}
+  Snosha (project file): header icon override. Outputs nothing when the header's "Snosha layout" is off,
+  so the calling Horizon snippet keeps its native icon. With the layout on:
+  - a merchant-uploaded "Custom … icon" image (decorative: alt="", the enclosing button/link keeps its label), else
+  - the Figma glyph for account (snosha-icon "user") and search (snosha-icon "search"), else nothing.
+  Cart (Figma glyph drawn by assets/dev1.css) and menu (snippets/snosha-menu-icon.liquid) only take the custom image.
+  Only the icon changes: the action's button, link, label and behavior stay native.
+
+  @param {string} icon - account | search | cart | menu
+  @param {object} section - The header section.
+  @param {string} [class] - Extra classes (e.g. the native icon class to keep its color rules).
+
+  @example
+  {% render 'snosha-header-icon', icon: 'search', section: section %}
+{%- enddoc -%}
+
+{%- liquid
+  if section.settings.snosha_layout != true
+    assign icon = 'none'
+  endif
+
+  assign custom_image = blank
+  case icon
+    when 'account'
+      assign custom_image = section.settings.snosha_account_icon_image
+    when 'search'
+      assign custom_image = section.settings.snosha_search_icon_image
+    when 'cart'
+      assign custom_image = section.settings.snosha_cart_icon_image
+    when 'menu'
+      assign custom_image = section.settings.snosha_menu_icon_image
+  endcase
+
+  assign classes = 'snosha-header-icon snosha-header-icon--' | append: icon
+  if class != blank
+    assign classes = classes | append: ' ' | append: class
+  endif
+
+  if custom_image != blank
+    assign classes = classes | append: ' snosha-header-icon--custom'
+    assign size = section.settings.snosha_custom_icon_size | default: 22
+    assign sizes = size | append: 'px'
+    echo custom_image | image_url: width: 160 | image_tag: alt: '', class: classes, widths: '40, 80, 120, 160', sizes: sizes, loading: 'eager'
+  elsif icon == 'account'
+    render 'snosha-icon', icon: 'user', class: classes
+  elsif icon == 'search'
+    render 'snosha-icon', icon: 'search', class: classes
+  endif
+-%}
