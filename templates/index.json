@@ -581,7 +581,7 @@
         "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
         "text": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول.",
         "button_label": "عرض المنتج",
-        "product": "snosha-f1",
+        "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
         "button_link": "",
         "image": "shopify://shop_images/ce3a9d782ccce2c0f43df794cac8294fc07edd36.png",
         "watermark": "F1",
@@ -1690,7 +1690,7 @@
               "type": "button",
               "settings": {
                 "label": "اكتشف SNOSHA N2",
-                "link": "shopify://products/snosha-f1",
+                "link": "shopify://products/فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -1833,7 +1833,7 @@
         "care_tongue": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
             "featured": false,
             "title": "Snosha N2",
             "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
@@ -1886,7 +1886,7 @@
         "care_n2": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "snosha-f1",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
             "featured": true,
             "title": "Snosha N2",
             "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
@@ -2043,7 +2043,7 @@
         "component_n2": {
           "type": "component",
           "settings": {
-            "product": "snosha-f1",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
             "desktop_x": 22,
             "desktop_y": 64,
             "mobile_x": 25,
@@ -2063,7 +2063,7 @@
         "component_kids": {
           "type": "component",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
             "desktop_x": 77,
             "desktop_y": 68,
             "mobile_x": 80,
