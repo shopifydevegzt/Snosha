@@ -713,6 +713,198 @@
             "zero": "First %{count} orders are free"
           }
         }
+      },
+      "customer_account": {
+        "saved_address_option_description": {
+          "many": "You have {{count}} saved addresses.",
+          "two": "You have {{count}} saved addresses.",
+          "zero": "You have {{count}} saved addresses."
+        }
+      },
+      "remote_merchandise_only": {
+        "detail_item_label": {
+          "few": "{{count}} items",
+          "many": "{{count}} items",
+          "two": "{{count}} items",
+          "zero": "{{count}} items"
+        }
+      },
+      "stock": {
+        "unfulfillable_product": {
+          "message": {
+            "few": "The delivery method %{delivery_method} is no longer available for these items.",
+            "many": "The delivery method %{delivery_method} is no longer available for these items.",
+            "two": "The delivery method %{delivery_method} is no longer available for these items.",
+            "zero": "The delivery method %{delivery_method} is no longer available for these items."
+          },
+          "default_message": {
+            "few": "The selected delivery method is no longer available for these items.",
+            "many": "The selected delivery method is no longer available for these items.",
+            "two": "The selected delivery method is no longer available for these items.",
+            "zero": "The selected delivery method is no longer available for these items."
+          }
+        },
+        "unshippable_product": {
+          "header": {
+            "few": "Delivery is not available for %{count} items",
+            "many": "Delivery is not available for %{count} items",
+            "two": "Delivery is not available for %{count} items",
+            "zero": "Delivery is not available for %{count} items"
+          },
+          "message": {
+            "few": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "many": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "two": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "zero": "These items will be removed from your shopping cart because there are no delivery methods available for your address."
+          }
+        },
+        "out_of_stock": {
+          "missing_items": {
+            "title": {
+              "few": "{{count}} items are no longer available",
+              "many": "{{count}} items are no longer available",
+              "two": "{{count}} items are no longer available",
+              "zero": "{{count}} items are no longer available"
+            },
+            "some_available_notice": {
+              "few": "The remaining items are still available for checkout. Unavailable items will be removed from your cart.",
+              "many": "The remaining items are still available for checkout. Unavailable items will be removed from your cart.",
+              "two": "The remaining items are still available for checkout. Unavailable items will be removed from your cart.",
+              "zero": "The remaining items are still available for checkout. Unavailable items will be removed from your cart."
+            },
+            "none_available_notice": {
+              "few": "These items are no longer available and have been removed from your cart.",
+              "many": "These items are no longer available and have been removed from your cart.",
+              "two": "These items are no longer available and have been removed from your cart.",
+              "zero": "These items are no longer available and have been removed from your cart."
+            }
+          }
+        },
+        "item_label": {
+          "few": "{{count}} items",
+          "many": "{{count}} items",
+          "two": "{{count}} items",
+          "zero": "{{count}} items"
+        }
+      },
+      "contextual_availability": {
+        "title": {
+          "few": "Unavailable products",
+          "many": "Unavailable products",
+          "two": "Unavailable products",
+          "zero": "Unavailable products"
+        },
+        "products_not_available": {
+          "few": "These products will be removed from your shopping cart because they are not available in your country/region.",
+          "many": "These products will be removed from your shopping cart because they are not available in your country/region.",
+          "two": "These products will be removed from your shopping cart because they are not available in your country/region.",
+          "zero": "These products will be removed from your shopping cart because they are not available in your country/region."
+        },
+        "all_products_in_cart_unavailable": {
+          "few": "These products are not available in your country/region.",
+          "many": "These products are not available in your country/region.",
+          "two": "These products are not available in your country/region.",
+          "zero": "These products are not available in your country/region."
+        }
+      },
+      "merchandise_unavailable_in_buyer_location": {
+        "remove_items_action": {
+          "few": "Remove unavailable items",
+          "many": "Remove unavailable items",
+          "two": "Remove unavailable items",
+          "zero": "Remove unavailable items"
+        }
+      },
+      "deliverability": {
+        "not_deliverable": {
+          "title": {
+            "few": "Delivery is not available for %{count} items",
+            "many": "Delivery is not available for %{count} items",
+            "two": "Delivery is not available for %{count} items",
+            "zero": "Delivery is not available for %{count} items"
+          },
+          "message": {
+            "few": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "many": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "two": "These items will be removed from your shopping cart because there are no delivery methods available for your address.",
+            "zero": "These items will be removed from your shopping cart because there are no delivery methods available for your address."
+          }
+        }
+      },
+      "shipping_errors": {
+        "shipping_method_not_available_generic": {
+          "few": "Some items in your shopping cart cannot be shipped to the address you entered. Review your address to ensure it is correct and try again, or select a different address.",
+          "many": "Some items in your shopping cart cannot be shipped to the address you entered. Review your address to ensure it is correct and try again, or select a different address.",
+          "two": "Some items in your shopping cart cannot be shipped to the address you entered. Review your address to ensure it is correct and try again, or select a different address.",
+          "zero": "Some items in your shopping cart cannot be shipped to the address you entered. Review your address to ensure it is correct and try again, or select a different address."
+        },
+        "shipping_method_not_available_updated": {
+          "few": "One or more of the items you added do not ship to your location. Remove them to complete checkout, or contact the store.",
+          "many": "One or more of the items you added do not ship to your location. Remove them to complete checkout, or contact the store.",
+          "two": "One or more of the items you added do not ship to your location. Remove them to complete checkout, or contact the store.",
+          "zero": "One or more of the items you added do not ship to your location. Remove them to complete checkout, or contact the store."
+        }
+      },
+      "processing": {
+        "wait": {
+          "medium": {
+            "few": "Your request is being processed. The estimated wait time is %{count} minutes.",
+            "many": "Your request is being processed. The estimated wait time is %{count} minutes.",
+            "two": "Your request is being processed. The estimated wait time is %{count} minutes.",
+            "zero": "Your request is being processed. The estimated wait time is %{count} minutes."
+          }
+        }
+      },
+      "order_payment_collection": {
+        "changes_summary": {
+          "added": {
+            "few": "%{count} added",
+            "many": "%{count} added",
+            "two": "%{count} added",
+            "zero": "%{count} added"
+          }
+        }
+      },
+      "subscriptions": {
+        "recurring_totals_with_policies": {
+          "first_cycles": {
+            "few": "The first %{count} payments at %{total_price} each",
+            "many": "The first %{count} payments at %{total_price} each",
+            "two": "The first %{count} payments at %{total_price} each",
+            "zero": "The first %{count} payments at %{total_price} each"
+          }
+        },
+        "recurring_total_intervals": {
+          "day": {
+            "few": "%{count} days",
+            "many": "%{count} days",
+            "two": "%{count} days",
+            "zero": "%{count} days"
+          },
+          "week": {
+            "few": "%{count} weeks",
+            "many": "%{count} weeks",
+            "two": "%{count} weeks",
+            "zero": "%{count} weeks"
+          },
+          "month": {
+            "few": "%{count} months",
+            "many": "%{count} months",
+            "two": "%{count} months",
+            "zero": "%{count} months"
+          },
+          "year": {
+            "few": "%{count} years",
+            "many": "%{count} years",
+            "two": "%{count} years",
+            "zero": "%{count} years"
+          }
+        },
+        "recurring_totals_with_initial_order_shipping_discount_with_policies": {
+          "first_cycles": {
+            "few": ", then %{count} installments of %{total_price} each"
+          }
+        }
       }
     }
   }
