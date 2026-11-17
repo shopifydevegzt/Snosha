@@ -50,7 +50,7 @@
 
     {%- comment -%} Snosha (project addition): FAQPage JSON-LD on the FAQ page chosen in Theme settings (SEO spec §7.4) {%- endcomment -%}
     {%- if request.page_type == 'page' and settings.seo_faq_page != blank and page.id == settings.seo_faq_page.id -%}
-      {%- render 'snosha-schema-faq', page: page -%}
+      {%- render 'schema-faq', page: page -%}
     {%- endif -%}
   </head>
 

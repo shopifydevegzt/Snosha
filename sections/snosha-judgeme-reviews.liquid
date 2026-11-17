@@ -73,81 +73,90 @@
 -%}
 
 {%- if render_section -%}
-{% style %}
-  #shopify-section-{{ section.id }} .snosha-jdgm {
-    --snosha-jdgm-bg: {{ ss.background }};
-    --snosha-jdgm-padding-start: {{ ss.padding_top }}px;
-    --snosha-jdgm-padding-end: {{ ss.padding_bottom }}px;
-    --snosha-jdgm-padding-start-mobile: {{ ss.padding_top_mobile }}px;
-    --snosha-jdgm-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
-    --snosha-jdgm-heading-color: {{ ss.heading_color }};
-    --snosha-jdgm-heading-size: {{ ss.heading_size }}px;
-    --snosha-jdgm-heading-size-mobile: {{ ss.heading_size_mobile }}px;
-    --snosha-jdgm-rating-color: {{ ss.rating_color }};
-    --snosha-jdgm-rating-size: {{ ss.rating_size }}px;
-    --snosha-jdgm-rating-size-mobile: {{ ss.rating_size_mobile }}px;
-    --snosha-jdgm-count-color: {{ ss.count_color }};
-    --snosha-jdgm-count-size: {{ ss.count_size }}px;
-    --snosha-jdgm-count-size-mobile: {{ ss.count_size_mobile }}px;
-    --snosha-stars-size: {{ ss.star_size }}px;
-    --snosha-stars-gap: {{ ss.star_gap }}px;
-    --snosha-stars-fill: {{ ss.star_color }};
-    --snosha-stars-empty: {{ ss.star_empty_color }};
-    --snosha-jdgm-progress-height: {{ ss.progress_height | default: 4 }}px;
-    --snosha-jdgm-progress-space: {{ ss.progress_spacing | default: 14 }}px;
-    --snosha-jdgm-progress-track: {{ ss.progress_track | default: settings.color_palette.color2 }};
-    --snosha-jdgm-progress-start: {{ ss.progress_start | default: '#63CDFF' }};
-    --snosha-jdgm-progress-end: {{ ss.progress_end | default: '#0F64A8' }};
-  }
-{% endstyle %}
-{% content_for 'block', type: '_snosha-jdgm-cards-style', id: 'cards_style' %}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-jdgm {
+      --snosha-jdgm-bg: {{ ss.background }};
+      --snosha-jdgm-padding-start: {{ ss.padding_top }}px;
+      --snosha-jdgm-padding-end: {{ ss.padding_bottom }}px;
+      --snosha-jdgm-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+      --snosha-jdgm-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+      --snosha-jdgm-heading-color: {{ ss.heading_color }};
+      --snosha-jdgm-heading-size: {{ ss.heading_size }}px;
+      --snosha-jdgm-heading-size-mobile: {{ ss.heading_size_mobile }}px;
+      --snosha-jdgm-rating-color: {{ ss.rating_color }};
+      --snosha-jdgm-rating-size: {{ ss.rating_size }}px;
+      --snosha-jdgm-rating-size-mobile: {{ ss.rating_size_mobile }}px;
+      --snosha-jdgm-count-color: {{ ss.count_color }};
+      --snosha-jdgm-count-size: {{ ss.count_size }}px;
+      --snosha-jdgm-count-size-mobile: {{ ss.count_size_mobile }}px;
+      --snosha-stars-size: {{ ss.star_size }}px;
+      --snosha-stars-gap: {{ ss.star_gap }}px;
+      --snosha-stars-fill: {{ ss.star_color }};
+      --snosha-stars-empty: {{ ss.star_empty_color }};
+      --snosha-jdgm-progress-height: {{ ss.progress_height | default: 4 }}px;
+      --snosha-jdgm-progress-space: {{ ss.progress_spacing | default: 14 }}px;
+      --snosha-jdgm-progress-track: {{ ss.progress_track | default: settings.color_palette.color2 }};
+      --snosha-jdgm-progress-start: {{ ss.progress_start | default: '#63CDFF' }};
+      --snosha-jdgm-progress-end: {{ ss.progress_end | default: '#0F64A8' }};
+    }
+  {% endstyle %}
+  {% content_for 'block', type: '_snosha-jdgm-cards-style', id: 'cards_style' %}
 
-<div
-  class="{{ root_classes }}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}"
-  {% if anchor != blank %}
-    id="{{ anchor | escape }}"
-  {% endif %}
->
-  <div class="section section--page-width">
-    <div class="snosha-jdgm__inner">
-      {%- if ss.show_heading and heading != blank -%}
-        <h2 class="snosha-jdgm__heading">{{ heading }}</h2>
-      {%- endif -%}
-
-      {%- if ss.show_summary -%}
-        {%- if has_rating -%}
-          <div class="snosha-jdgm__summary">
-            <span class="visually-hidden">
-              {{- 'accessibility.rating' | t: rating: rating_text -}}
-              {%- if ss.show_count %} ({{ rating_count }} {{ 'content.reviews' | t }}){% endif -%}
-            </span>
-            <span class="snosha-jdgm__rating" dir="ltr" aria-hidden="true">{{ rating_text }} / 5</span>
-            {%- render 'snosha-rating-stars', rating: rating_5 -%}
-            {%- if ss.show_count and count_text != blank -%}
-              <span class="snosha-jdgm__count" aria-hidden="true">{{ count_text }}</span>
-            {%- endif -%}
-          </div>
-        {%- elsif request.design_mode -%}
-          <p class="snosha-jdgm__hint">Theme Editor only: no Judge.me rating is synced for this product yet (published reviews only; Judge.me sample reviews are preview-only), so the rating summary is hidden on the storefront.</p>
+  <div
+    class="{{ root_classes }}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}"
+    {% if anchor != blank %}
+      id="{{ anchor | escape }}"
+    {% endif %}
+  >
+    <div class="section section--page-width">
+      <div class="snosha-jdgm__inner">
+        {%- if ss.show_heading and heading != blank -%}
+          <h2 class="snosha-jdgm__heading">{{ heading }}</h2>
         {%- endif -%}
-      {%- endif -%}
 
-      {%- if app_blocks != blank -%}
-        <snosha-jdgm-carousel class="snosha-jdgm__carousel">
-          {{- app_blocks -}}
-          {%- if show_progress -%}
-            <span class="snosha-jdgm__progress" data-snosha-jdgm-progress aria-hidden="true">
-              <span class="snosha-jdgm__progress-fill"></span>
-            </span>
+        {%- if ss.show_summary -%}
+          {%- if has_rating -%}
+            <div class="snosha-jdgm__summary">
+              <span class="visually-hidden">
+                {{- 'accessibility.rating' | t: rating: rating_text -}}
+                {%- if ss.show_count %}
+                  ({{ rating_count }}
+                  {{ 'content.reviews' | t }})
+                {%- endif -%}
+              </span>
+              <span class="snosha-jdgm__rating" dir="ltr" aria-hidden="true">{{ rating_text }} / 5</span>
+              {%- render 'snosha-rating-stars', rating: rating_5 -%}
+              {%- if ss.show_count and count_text != blank -%}
+                <span class="snosha-jdgm__count" aria-hidden="true">{{ count_text }}</span>
+              {%- endif -%}
+            </div>
+          {%- elsif request.design_mode -%}
+            <p class="snosha-jdgm__hint">
+              Theme Editor only: no Judge.me rating is synced for this product yet (published reviews only; Judge.me
+              sample reviews are preview-only), so the rating summary is hidden on the storefront.
+            </p>
           {%- endif -%}
-        </snosha-jdgm-carousel>
-        <script src="{{ 'snosha-jdgm-carousel.js' | asset_url }}" type="module" fetchpriority="low"></script>
-      {%- elsif request.design_mode -%}
-        <p class="snosha-jdgm__hint">Theme Editor only: add the Judge.me "Cards Carousel" app block to this section (Add block → Apps) and set "Reviews selection" to "Current product".</p>
-      {%- endif -%}
+        {%- endif -%}
+
+        {%- if app_blocks != blank -%}
+          <snosha-jdgm-carousel class="snosha-jdgm__carousel">
+            {{- app_blocks -}}
+            {%- if show_progress -%}
+              <span class="snosha-jdgm__progress" data-snosha-jdgm-progress aria-hidden="true">
+                <span class="snosha-jdgm__progress-fill"></span>
+              </span>
+            {%- endif -%}
+          </snosha-jdgm-carousel>
+          <script src="{{ 'snosha-jdgm-carousel.js' | asset_url }}" type="module" fetchpriority="low"></script>
+        {%- elsif request.design_mode -%}
+          <p class="snosha-jdgm__hint">
+            Theme Editor only: add the Judge.me "Cards Carousel" app block to this section (Add block → Apps) and set
+            "Reviews selection" to "Current product".
+          </p>
+        {%- endif -%}
+      </div>
     </div>
   </div>
-</div>
 {%- endif -%}
 
 {% schema %}
@@ -155,9 +164,7 @@
   "name": "Snosha Judge.me reviews",
   "tag": "section",
   "class": "snosha-jdgm-section",
-  "blocks": [
-    { "type": "@app" }
-  ],
+  "blocks": [{ "type": "@app" }],
   "disabled_on": {
     "groups": ["header", "footer"]
   },
