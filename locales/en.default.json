@@ -717,14 +717,68 @@
             "many": "First %{count} orders are free",
             "two": "First %{count} orders are free",
             "zero": "First %{count} orders are free"
+          },
+          "free_for_first_n_order": {
+            "few": "For the first %{count} orders",
+            "many": "For the first %{count} orders",
+            "two": "For the first %{count} orders",
+            "zero": "For the first %{count} orders"
           }
+        },
+        "shipping_method_first_shipment_group_title": {
+          "few": "The First Shipments",
+          "many": "The First Shipments",
+          "two": "The First Shipments",
+          "zero": "The First Shipments"
+        },
+        "shipping_method_recurring_shipments_group_title": {
+          "few": "Recurring shipments",
+          "many": "Recurring shipments",
+          "two": "Recurring shipments",
+          "zero": "Recurring shipments"
+        },
+        "estimated_delivery_date": {
+          "few": "%{count} working days",
+          "many": "%{count} working days",
+          "two": "%{count} working days",
+          "zero": "%{count} working days"
+        },
+        "unbranded_description_with_fulfillment_days": {
+          "few": "Shipping takes %{count} business days",
+          "many": "Shipping takes %{count} business days",
+          "two": "Shipping takes %{count} business days",
+          "zero": "Shipping takes %{count} business days"
+        },
+        "unbranded_description_with_fulfillment_weeks": {
+          "few": "Shipping takes %{count} weeks",
+          "many": "Shipping takes %{count} weeks",
+          "two": "Shipping takes %{count} weeks",
+          "zero": "Shipping takes %{count} weeks"
+        },
+        "other_method": {
+          "few": "%{count} other options available starting from",
+          "many": "%{count} other options available starting from",
+          "two": "%{count} other options available starting from"
+        },
+        "split_shipping_shipment_count_notice_one_time_purchase": {
+          "few": "Your order will arrive in %{count} shipments",
+          "many": "Your order will arrive in %{count} shipments",
+          "two": "Your order will arrive in %{count} shipments",
+          "zero": "Your order will arrive in %{count} shipments"
+        },
+        "split_shipping_arrives_in_shipments": {
+          "few": "Arrives in %{count} shipments",
+          "many": "Arrives in %{count} shipments",
+          "two": "Arrives in %{count} shipments",
+          "zero": "Arrives in %{count} shipments"
         }
       },
       "customer_account": {
         "saved_address_option_description": {
           "many": "You have {{count}} saved addresses.",
           "two": "You have {{count}} saved addresses.",
-          "zero": "You have {{count}} saved addresses."
+          "zero": "You have {{count}} saved addresses.",
+          "few": "You have {{count}} saved addresses."
         }
       },
       "remote_merchandise_only": {
@@ -1077,8 +1131,224 @@
           "zero": "%{count} additional websites"
         },
         "reveal_more_label": {
-          "few": "Show %{count} additional locations"
+          "few": "Show %{count} additional locations",
+          "many": "Show %{count} additional locations",
+          "two": "Show %{count} additional locations",
+          "zero": "Show %{count} additional locations"
+        },
+        "pickup_unavailable_banner_title": {
+          "few": "No sites have your items available.",
+          "many": "No sites have your items available.",
+          "two": "No sites have your items available.",
+          "zero": "No sites have your items available."
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "few": "No locations in %{country} have your items available.",
+          "many": "No locations in %{country} have your items available.",
+          "two": "No locations in %{country} have your items available.",
+          "zero": "No locations in %{country} have your items available."
+        },
+        "stock_details": {
+          "ship_separately": {
+            "few": "It will be shipped separately.",
+            "many": "It will be shipped separately.",
+            "two": "It will be shipped separately.",
+            "zero": "It will be shipped separately."
+          },
+          "remove_items": {
+            "few": "It will be removed from your order.",
+            "many": "It will be removed from your order.",
+            "two": "It will be removed from your order.",
+            "zero": "It will be removed from your order."
+          }
+        },
+        "unavailable_item_count": {
+          "few": "%{count} pieces are not available",
+          "many": "%{count} pieces are not available",
+          "two": "%{count} pieces are not available",
+          "zero": "%{count} pieces are not available"
+        },
+        "ship_separately_notice": {
+          "few": "%{count} items will be shipped separately",
+          "many": "%{count} items will be shipped separately",
+          "two": "%{count} items will be shipped separately",
+          "zero": "%{count} items will be shipped separately"
+        },
+        "stock_details_modal": {
+          "can_ship_description": {
+            "few": "These items are out of stock at your selected pickup location.",
+            "many": "These items are out of stock at your selected pickup location.",
+            "two": "These items are out of stock at your selected pickup location.",
+            "zero": "These items are out of stock at your selected pickup location."
+          },
+          "cannot_ship_description": {
+            "few": "These items are out of stock at your selected pickup location and cannot be shipped.",
+            "many": "These items are out of stock at your selected pickup location and cannot be shipped.",
+            "two": "These items are out of stock at your selected pickup location and cannot be shipped.",
+            "zero": "These items are out of stock at your selected pickup location and cannot be shipped."
+          },
+          "cannot_ship_bundle_description": {
+            "few": "These items are out of stock at the selected pickup location and cannot be shipped. Bundled items will also be removed.",
+            "many": "These items are out of stock at the selected pickup location and cannot be shipped. Bundled items will also be removed.",
+            "two": "These items are out of stock at the selected pickup location and cannot be shipped. Bundled items will also be removed.",
+            "zero": "These items are out of stock at the selected pickup location and cannot be shipped. Bundled items will also be removed."
+          }
+        },
+        "stock_details_banner": {
+          "heading": {
+            "few": "%{count} of the items are not available for pickup at %{location}",
+            "many": "%{count} of the items are not available for pickup at %{location}",
+            "two": "%{count} of the items are not available for pickup at %{location}",
+            "zero": "%{count} of the items are not available for pickup at %{location}"
+          },
+          "ship_separately": {
+            "few": "Ship it separately",
+            "many": "Ship it separately",
+            "two": "Ship it separately",
+            "zero": "Ship it separately"
+          }
         }
+      },
+      "open_graph_meta_tag": {
+        "title_with_products": {
+          "few": "Purchase %{product_name} and %{count} other items",
+          "many": "Purchase %{product_name} and %{count} other items",
+          "two": "Purchase %{product_name} and %{count} other items"
+        }
+      },
+      "review": {
+        "blocks": {
+          "pickup_items_at": {
+            "few": "Received %{count} items in",
+            "many": "Received %{count} items in",
+            "two": "Received %{count} items in",
+            "zero": "Received %{count} items in"
+          },
+          "ship_items_to": {
+            "few": "Shipping %{count} items to",
+            "many": "Shipping %{count} items to",
+            "two": "Shipping %{count} items to",
+            "zero": "Shipping %{count} items to"
+          }
+        }
+      },
+      "split_delivery": {
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "few": "Unable to receive %{count} items",
+              "many": "Unable to receive %{count} items",
+              "two": "Unable to receive %{count} items",
+              "zero": "Unable to receive %{count} items"
+            },
+            "cannot_be_shipped": {
+              "few": "%{count} items cannot be shipped",
+              "many": "%{count} items cannot be shipped",
+              "two": "%{count} items cannot be shipped",
+              "zero": "%{count} items cannot be shipped"
+            }
+          },
+          "remove_item": {
+            "few": "Remove items",
+            "many": "Remove items",
+            "two": "Remove items",
+            "zero": "Remove items"
+          },
+          "remove_item_only": {
+            "few": "Remove items",
+            "many": "Remove items",
+            "two": "Remove items",
+            "zero": "Remove items"
+          },
+          "ship_separately": {
+            "few": "Ship it separately",
+            "many": "Ship it separately",
+            "two": "Ship it separately",
+            "zero": "Ship it separately"
+          },
+          "pick_them_up_in_store": {
+            "few": "Pick it up from the store",
+            "many": "Pick it up from the store",
+            "two": "Pick it up from the store",
+            "zero": "Pick it up from the store"
+          }
+        },
+        "items_count": {
+          "few": "%{count} items",
+          "many": "%{count} items",
+          "two": "%{count} items",
+          "zero": "%{count} items"
+        },
+        "pickup_items_count": {
+          "few": "Receiving %{count} items",
+          "many": "Receiving %{count} items",
+          "two": "Receiving %{count} items",
+          "zero": "Receiving %{count} items"
+        },
+        "ship_items_count": {
+          "few": "Shipping %{count} items",
+          "many": "Shipping %{count} items",
+          "two": "Shipping %{count} items",
+          "zero": "Shipping %{count} items"
+        },
+        "delivery_updated_toast": {
+          "shipping": {
+            "few": "{{count}} items have been moved to shipping.",
+            "many": "{{count}} items have been moved to shipping.",
+            "two": "{{count}} items have been moved to shipping.",
+            "zero": "{{count}} items have been moved to shipping."
+          },
+          "removal": {
+            "few": "{{count}} items removed.",
+            "many": "{{count}} items removed.",
+            "two": "{{count}} items removed.",
+            "zero": "{{count}} items removed."
+          }
+        }
+      },
+      "field_errors": {
+        "custom_field": {
+          "cart_metafield_value_too_long_with_limit": {
+            "few": "Enter %{count} characters or fewer.",
+            "many": "Enter %{count} characters or fewer.",
+            "two": "Enter %{count} characters or fewer.",
+            "zero": "Enter %{count} characters or fewer."
+          },
+          "cart_metafield_value_too_short_with_limit": {
+            "few": "Enter at least %{count} characters.",
+            "many": "Enter at least %{count} characters.",
+            "two": "Enter at least %{count} characters.",
+            "zero": "Enter at least %{count} characters."
+          }
+        }
+      },
+      "general": {
+        "map": {
+          "cluster_title": {
+            "few": "A group of {{number}} marks",
+            "many": "A group of {{number}} marks",
+            "two": "A group of {{number}} marks",
+            "zero": "A group of {{number}} marks"
+          }
+        }
+      }
+    },
+    "notices": {
+      "order": {
+        "cancel_reason": {
+          "few": "Other",
+          "many": "Other",
+          "two": "Other",
+          "zero": "Other"
+        }
+      }
+    },
+    "page_titles": {
+      "search_results": {
+        "few": "Search: %{count} results found for \"%{terms}\"",
+        "many": "Search: %{count} results found for \"%{terms}\"",
+        "two": "Search: %{count} results found for \"%{terms}\"",
+        "zero": "Search: %{count} results found for \"%{terms}\""
       }
     }
   },
@@ -1088,8 +1358,58 @@
         "fulfillment_tracking": {
           "gift_card_sent_to_recipient": {
             "two": "The gift cards have been sent to the recipients.",
-            "zero": "The gift cards have been sent to the recipients."
+            "zero": "The gift cards have been sent to the recipients.",
+            "few": "The gift cards have been sent to the recipients.",
+            "many": "The gift cards have been sent to the recipients."
           }
+        },
+        "delivered_description_gift_card": {
+          "few": "The gift cards were sent by email.",
+          "many": "The gift cards were sent by email.",
+          "two": "The gift cards were sent by email.",
+          "zero": "The gift cards were sent by email."
+        },
+        "delivered_description_gift_card_text": {
+          "few": "The gift cards have been sent via text message.",
+          "many": "The gift cards have been sent via text message.",
+          "two": "The gift cards have been sent via text message.",
+          "zero": "The gift cards have been sent via text message."
+        },
+        "gift_card_resend_button": {
+          "few": "Resend Gift Cards",
+          "many": "Resend Gift Cards",
+          "two": "Resend Gift Cards",
+          "zero": "Resend Gift Cards"
+        },
+        "gift_resend_success": {
+          "few": "Gift cards have been resent",
+          "many": "Gift cards have been resent",
+          "two": "Gift cards have been resent",
+          "zero": "Gift cards have been resent"
+        },
+        "gift_resend_failure": {
+          "few": "There was an issue resending your gift cards. Please try again or contact us.",
+          "many": "There was an issue resending your gift cards. Please try again or contact us.",
+          "two": "There was an issue resending your gift cards. Please try again or contact us.",
+          "zero": "There was an issue resending your gift cards. Please try again or contact us."
+        },
+        "confirmed_gift_card_additional_description": {
+          "few": "Each gift card will be sent in a separate email.",
+          "many": "Each gift card will be sent in a separate email.",
+          "two": "Each gift card will be sent in a separate email.",
+          "zero": "Each gift card will be sent in a separate email."
+        },
+        "confirmed_gift_card_additional_description_text": {
+          "few": "Each gift card will be sent in a separate text message.",
+          "many": "Each gift card will be sent in a separate text message.",
+          "two": "Each gift card will be sent in a separate text message.",
+          "zero": "Each gift card will be sent in a separate text message."
+        },
+        "tracking_number": {
+          "few": "Tracking Numbers",
+          "many": "Tracking Numbers",
+          "two": "Tracking Numbers",
+          "zero": "Tracking Numbers"
         }
       },
       "buy_again_review": {
@@ -1273,6 +1593,24 @@
           "two": "{{count}} pieces",
           "zero": "{{count}} pieces"
         }
+      }
+    },
+    "date": {
+      "humanize": {
+        "lessThanOneHourAgo": {
+          "few": "{{count}} minutes ago",
+          "many": "{{count}} minutes ago",
+          "two": "{{count}} minutes ago",
+          "zero": "{{count}} minutes ago"
+        }
+      }
+    },
+    "navigation_and_structure": {
+      "store_credit_multi_currency_accessibility_label": {
+        "few": "Store credit of {{formattedBalance}} and {{count}} other coins",
+        "many": "Store credit of {{formattedBalance}} and {{count}} other coins",
+        "two": "Store credit of {{formattedBalance}} and {{count}} other coins",
+        "zero": "Store credit of {{formattedBalance}} and {{count}} other coins"
       }
     }
   }
