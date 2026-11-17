@@ -164,6 +164,7 @@
     "cart_total": "કાર્ટની કુલ રકમ",
     "checkout": "ચેકઆઉટ કરો",
     "checkout_drawer": "ચેકઆઉટ કરો",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "કલેક્શનનું શીર્ષક",
     "discount_code": "ડિસ્કાઉન્ટ કોડ",
     "shipping_discount_error": "ઍડ્રેસ ઉમેર્યા પછી શિપિંગના ડિસ્કાઉન્ટ ચેકઆઉટ વખતે બતાવવામાં આવે છે",

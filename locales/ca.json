@@ -164,6 +164,7 @@
     "cart_total": "Total del carretó",
     "checkout": "Finalitza la compra",
     "checkout_drawer": "Finalitza la compra",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "Títol de la col·lecció",
     "discount_code": "Codi de descompte",
     "shipping_discount_error": "Els descomptes d'enviament es mostren en finalitzar la compra un cop afegida l'adreça",

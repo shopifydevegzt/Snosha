@@ -176,6 +176,7 @@
     "cart_total": "إجمالي سلة التسوق",
     "checkout": "إتمام الدفع",
     "checkout_drawer": "المتابعة لإكمال الطلب",
+    "title_tagged": "الموسوم بـ \"{{ tags }}\"",
     "collection_placeholder": "عنوان المجموعة",
     "discount_code": "كود الخصم",
     "shipping_discount_error": "يتم عرض خصومات الشحن عند إتمام الدفع بعد إضافة عنوان",

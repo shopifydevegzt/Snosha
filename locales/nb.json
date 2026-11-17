@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Avgifter, rabatter og frakt beregnes i kassen.",
     "checkout": "Betaling",
     "checkout_drawer": "Betaling",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Handlekurv",
     "price": "Pris",
     "price_regular": "Vanlig pris",

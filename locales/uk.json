@@ -170,6 +170,7 @@
     "cart_total": "Загальна сума кошика",
     "checkout": "Оформити замовлення",
     "checkout_drawer": "Оформити замовлення",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "Назва колекції",
     "discount_code": "Код знижки",
     "shipping_discount_error": "Знижки на доставку відображатимуться під час оформлення замовлення після додавання адреси",

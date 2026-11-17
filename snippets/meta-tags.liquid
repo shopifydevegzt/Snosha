@@ -105,8 +105,11 @@
 
 <title>
   {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- comment -%} Snosha (project addition): translated "tagged" / "Page N" (were hard-coded English) {%- endcomment -%}
+  {%- if current_tags -%}
+    {%- assign title_tags = current_tags | join: ', ' %} &ndash; {{ 'content.title_tagged' | t: tags: title_tags }}
+  {%- endif -%}
+  {%- if current_page != 1 %} &ndash; {{ 'content.pagination.page' | t: page: current_page }}{% endif -%}
   {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 

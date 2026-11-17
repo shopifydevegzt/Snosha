@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "结账时计算税费、折扣和运费。",
     "checkout": "结账",
     "checkout_drawer": "结账",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "购物车",
     "price": "价格",
     "price_regular": "常规价格",

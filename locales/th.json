@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "ระบบจะคำนวณภาษี ส่วนลด และค่าจัดส่งในขั้นตอนการชำระเงิน",
     "checkout": "ชำระเงิน",
     "checkout_drawer": "ชำระเงิน",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "ตะกร้าสินค้า",
     "price": "ราคา",
     "price_regular": "ราคาปกติ",

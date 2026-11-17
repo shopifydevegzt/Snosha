@@ -157,6 +157,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Impuestos, descuentos y envío calculados en la página de pago.",
     "checkout": "Pagar",
     "checkout_drawer": "Pagar",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Carrito",
     "price": "Precio",
     "price_regular": "Precio habitual",

@@ -157,6 +157,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxele, reducerile și transportul sunt calculate la finalizarea comenzii.",
     "checkout": "Finalizează comanda",
     "checkout_drawer": "Finalizează comanda",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Coș",
     "price": "Preț",
     "price_regular": "Preț obișnuit",

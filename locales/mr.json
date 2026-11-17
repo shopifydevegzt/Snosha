@@ -164,6 +164,7 @@
     "cart_total": "कार्टची एकूण रक्कम",
     "checkout": "चेकआउट करा",
     "checkout_drawer": "चेकआउट करा",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "संग्रहाचे शीर्षक",
     "discount_code": "सवलत कोड",
     "shipping_discount_error": "पत्ता जोडल्यानंतर चेकआउटच्या वेळी शिपिंग सवलती दाखवल्या जातात",

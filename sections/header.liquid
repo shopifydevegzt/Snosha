@@ -351,17 +351,8 @@
   {% endif %}
 {% endcapture %}
 
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
-    {% if settings.logo %}
-      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
-    {% endif %}
-    "url": {{ request.origin | append: page.url | json }}
-  }
-</script>
+{%- comment -%} Snosha (project addition): Organization JSON-LD moved to a snippet (homepage URL, optional brand data) {%- endcomment -%}
+{%- render 'snosha-schema-organization' -%}
 
 {%- if section.settings.snosha_layout -%}
   {% style %}

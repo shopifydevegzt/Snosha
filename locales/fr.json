@@ -156,6 +156,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, réductions et frais d’expédition calculés à l’étape du paiement.",
     "checkout": "Payer",
     "checkout_drawer": "Payer",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Panier",
     "price": "Prix",
     "price_regular": "Prix régulier",

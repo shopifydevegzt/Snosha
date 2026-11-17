@@ -29,6 +29,23 @@ This is a **reusable Horizon v4.4 skill**, not an AYUM/Kalles implementation. **
 - Manual visual/interaction QA belongs to the user; never claim browser or storefront verification without actually performing it under explicit permission.
 - **Git:** current working tree only. No automatic branch, worktree, stash, commit, merge, pull, push, or deploy. Preserve uncommitted changes. Read-only Git inspection is allowed.
 
+### 0.1 Speed mode: no automatic screenshots, visual QA or reports (standing user rule, 2026-11-17)
+
+Prioritise implementation speed and concise answers. Unless the user explicitly asks for **Visual QA**, **screenshots**, or **pixel-perfect verification** in the current task:
+
+- **No screenshots or image evidence:** do not capture screenshots, save images (e.g. to `docs/figma-validation/`), build before/after images or galleries, export Figma frames as image files for reports, or attach screenshots to answers. Existing screenshots stay untouched.
+- **No visual QA:** no pixel-by-pixel or Figma-vs-browser comparisons, measurement tables, screenshot-based responsive audits, repeated viewport sweeps or automated visual regression. Do not open a browser just to produce visual evidence.
+- **Figma MCP inspection stays on:** still read the exact nodes (`get_metadata`, `get_design_context`, `get_variable_defs`) whenever the implementation needs design data. `get_screenshot` / the screenshot in `get_design_context` may be viewed for understanding, never saved as evidence.
+- **Checks stay lightweight:** only the essential static / syntax checks for the files changed (e.g. schema / JSON parse, `node --check`, `git diff --check`, and Theme Check against the baseline in `CLAUDE.md` when the change touches Liquid / schema). If a critical function needs confirmation, one short targeted check is allowed. Anything needing browser interaction otherwise is reported as **Not visually verified**.
+- **No automatic documentation:** no QA report `.md` files, screenshot docs, before/after tables, evidence folders or long implementation reports. Write documentation only when the user asks, when the project plan needs a brief status line, or to record a critical technical decision — concise and text-only. Never delete existing documentation.
+- **Answer format** (replaces the long report formats in §4, §20 and §22 unless the user asks for them):
+  1. **Completed:** what changed.
+  2. **Files:** files modified.
+  3. **Checks:** only checks actually performed.
+  4. **Notes:** blockers or items needing the user's manual review.
+
+All other rules of this skill (reuse ladder, native Horizon first, RTL, Figma as source of truth, Theme Editor control, scoped CSS / worktree ownership, no hard-coded tokens, no unauthorised Git or publishing, no unnecessary Shopify CLI restarts) are unchanged.
+
 ## 1. Sources of truth and conflicts
 
 Priority for design information:
@@ -125,7 +142,7 @@ The **pre-implementation report** must contain:
 10. Merchant data/static block impact, regression risk, out-of-scope areas.
 11. Plan entry and material blockers/questions not resolvable from files or Figma.
 
-If user requested immediate implementation, this report may be concise, but inspection and scope checks still apply. Ask questions only when required for safe correctness; otherwise proceed using explicitly documented low-risk assumptions.
+In speed mode (§0.1) this report is a few lines (path, reuse choice, files, risks) unless the user asks for the full version. If user requested immediate implementation, this report may be concise, but inspection and scope checks still apply. Ask questions only when required for safe correctness; otherwise proceed using explicitly documented low-risk assumptions.
 
 ## 5. Existing-first with design fidelity
 
@@ -305,9 +322,11 @@ For a block-specific button, generate scoped variables only when its override to
 - Read current project plan entry and active code. Find root cause before patching; avoid symptom-only CSS overrides and whole-section rebuilds.
 - Smallest safe scoped diff; fewest files/lines; preserve IDs, presets, block hierarchy, custom class, content, native interactions.
 - Check desktop/mobile/RTL, breakpoint boundaries, app/product states, and Theme Editor reload as **manual QA requirements**. No broad refactoring or unapproved extra breakpoints.
-- Final bugfix report: root cause, exact fix, files, preserved behavior, actual read-only validation, manual QA steps, remaining limits, and updated plan entry.
+- Final bugfix answer: the §0.1 format (root cause in one line under **Completed**); the long report (root cause, exact fix, files, preserved behavior, validation, manual QA steps, limits, plan entry) only when the user asks for it.
 
 ## 21. Limited automated validation + manual QA
+
+Speed mode (§0.1) applies: run only the checks relevant to the changed files, report them in one line each, and mark anything needing a browser as **Not visually verified**. Browser / screenshot work only on an explicit request for Visual QA, screenshots or pixel-perfect verification.
 
 **Allowed/expected, read-only and scoped to files changed:**
 
@@ -324,6 +343,8 @@ For a block-specific button, generate scoped variables only when its override to
 Before handoff, review **all** changed Liquid, schema, assets and template wiring; preserve existing data, block structure, static IDs, settings, and unrelated files. Clearly distinguish `Inspected`, `Validated by executed check`, `Requires manual verification`, and `Not available`. Never mark a section `VERIFIED` based on static checks only.
 
 ## 22. Final report format
+
+**Default:** the concise §0.1 answer (Completed / Files / Checks / Notes). Use the long format below only when the user asks for a full report.
 
 Report in this order:
 
@@ -431,6 +452,6 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 - [ ] No Kalles APIs, guessed theme tokens, fixed brand CSS colors, arbitrary breakpoints, new unneeded files or JS.
 - [ ] Verified dynamic colors per block/section where needed; custom_class present or documented technical exception.
 - [ ] Scoped read-only automated checks **actually run** and results recorded.
-- [ ] Browser/visual/Theme Editor QA reported as manual pending unless truly performed.
-- [ ] Mandatory project plan updated with real status and logs.
+- [ ] Browser/visual/Theme Editor QA reported as manual pending / **Not visually verified** unless truly performed (no automatic screenshots or visual sweeps — §0.1).
+- [ ] Mandatory project plan updated with a brief, text-only status line (no screenshots, measurement tables or separate QA reports unless requested).
 - [ ] No automated Git mutations, deployment, unrelated edits, or next section.

@@ -164,6 +164,7 @@
     "cart_total": "Total do carro",
     "checkout": "Finalizar a compra",
     "checkout_drawer": "Finalizar a compra",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "Título da colección",
     "discount_code": "Código de desconto",
     "shipping_discount_error": "Os descontos de envío móstranse no proceso de pagamento despois de engadir un enderezo",

@@ -159,6 +159,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Davki, popusti in strošek dostave se obračunajo ob zaključku nakupa.",
     "checkout": "Zaključi nakup",
     "checkout_drawer": "Zaključi nakup",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Košarica",
     "price": "Cena",
     "price_regular": "Redna cena",

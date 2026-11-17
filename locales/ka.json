@@ -164,6 +164,7 @@
     "cart_total": "კალათის ჯამი",
     "checkout": "შეკვეთის გაფორმება",
     "checkout_drawer": "შეკვეთის გაფორმება",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "კოლექციის სათაური",
     "discount_code": "ფასდაკლების კოდი",
     "shipping_discount_error": "მიწოდების ფასდაკლებები შეკვეთის გაფორმებისას მისამართის დამატების შემდეგ გამოჩნდება",

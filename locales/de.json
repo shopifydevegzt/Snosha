@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Steuern, Rabatte und Versand werden beim Checkout berechnet.",
     "checkout": "Auschecken",
     "checkout_drawer": "Auschecken",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Warenkorb",
     "price": "Preis",
     "price_regular": "Normaler Preis",

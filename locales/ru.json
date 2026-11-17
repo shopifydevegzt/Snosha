@@ -159,6 +159,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Налоги, скидки и стоимость доставки рассчитываются при оформлении заказа.",
     "checkout": "Оформить заказ",
     "checkout_drawer": "Оформить заказ",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Корзина",
     "price": "Цена",
     "price_regular": "Обычная цена",

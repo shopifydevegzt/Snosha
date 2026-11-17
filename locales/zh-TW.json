@@ -151,6 +151,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "結帳時計算稅額、折扣和運費。",
     "checkout": "結帳",
     "checkout_drawer": "結帳",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "購物車",
     "product_image": "產品圖片",
     "product_information": "產品資訊",

@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "税、ディスカウント、および配送料はチェックアウト時に計算されます。",
     "checkout": "チェックアウト",
     "checkout_drawer": "チェックアウト",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "カート",
     "price": "価格",
     "price_regular": "通常価格",

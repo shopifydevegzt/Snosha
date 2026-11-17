@@ -159,6 +159,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Daně, slevy a cena dopravy se vypočítají na pokladně.",
     "checkout": "Zaplatit",
     "checkout_drawer": "Zaplatit",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Košík",
     "price": "Cena",
     "price_regular": "Běžná cena",

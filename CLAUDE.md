@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Snosha storefront: a **Shopify Horizon v4.4.0** theme (`config/settings_schema.json` → `theme_info`), customized to match a Figma design (file `1fqyznLFgS65tTjGvBYPBm`, desktop frame `190:3767` at 1480px, mobile frame `190:4082` at 390px). The design is Arabic/RTL-first with the **Cairo** font.
 
-Full history of the design-foundation work, with measurements and open issues: `FIGMA_THEME_SETTINGS_REPORT.md`. Validation screenshots: `docs/figma-validation/`. Section-by-section Figma work follows the project skill `.claude/skills/horizon-figma-to-sections-workflow` (one section per task; it expects a `SNOSHA_PROJECT_PLAN.md`, which does not exist yet).
+Full history of the design-foundation work, with measurements and open issues: `FIGMA_THEME_SETTINGS_REPORT.md` (historical; not updated automatically any more). Existing validation screenshots: `docs/figma-validation/` (archive; no new screenshots unless requested, see "Workflow: speed mode"). Section-by-section Figma work follows the project skill `.claude/skills/horizon-figma-to-sections-workflow` (one section per task; project plan: `SNOSHA_PROJECT_PLAN.md`).
 
 ## Commands
 
@@ -89,8 +89,15 @@ Key mechanics:
 - Don't edit Horizon core files (`assets/base.css`, Horizon JS modules, `theme-styles-variables.liquid`) when an override in the project files can do the job. Small, necessary branches in core snippets (as with `page_width`) are acceptable and must be documented.
 - Shopify keeps `number` settings to **one decimal**, so store positions in reference pixels, not fine percentages (see the `spec_chip` settings in `sections/snosha-hero.liquid`).
 - Don't modify locale files. Labels for new settings are plain strings.
-- After changes, validate on the dev preview at **1480px and 390px**, plus intermediate widths for overflow. Measure with `getBoundingClientRect()` or computed styles rather than reasoning from CSS. Headless Edge (`C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`) with `puppeteer-core`, installed in the session scratchpad rather than the repo, has worked. DevTools `CSS.getPlatformFontsForNode` confirms the rendered font.
-- Record changes, measurements and anything unverified in `FIGMA_THEME_SETTINGS_REPORT.md`.
+
+### Workflow: speed mode (standing rule since 2026-11-17)
+Prioritise implementation speed and concise answers. Details: skill §0.1.
+- **No automatic screenshots or visual QA.** Don't capture or save screenshots (nothing new in `docs/figma-validation/`), build before/after images, export Figma frames as files, run Figma-vs-browser measurement tables, viewport sweeps or visual regression, or open a browser just for evidence. Do these only when the user explicitly asks for **Visual QA**, **screenshots** or **pixel-perfect verification**. Existing screenshots and reports stay untouched.
+- **Figma MCP inspection continues** whenever a task needs design data.
+- **Checks:** only essential static checks for the changed files (JSON / schema parse, `node --check`, `git diff --check`, Theme Check against the baseline above for Liquid / schema changes). One short targeted runtime check only if a critical function must be confirmed; otherwise report **Not visually verified**.
+- **Docs:** no automatic QA reports, measurement tables or evidence folders. Write docs only on request, for a brief status line in `SNOSHA_PROJECT_PLAN.md`, or to record a critical technical decision — concise, text-only.
+- **Answer format:** **Completed** (what changed) · **Files** · **Checks** (only those run) · **Notes** (blockers / manual review).
+- When Visual QA *is* requested: measure on the dev preview at **1480px and 390px** (plus intermediate widths for overflow) with `getBoundingClientRect()` / computed styles; headless Edge (`C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe`) with `puppeteer-core` installed in the session scratchpad works; DevTools `CSS.getPlatformFontsForNode` confirms the rendered font.
 
 ### Known gaps in the test store
 - The store has **5 products** (`snosha-f1` with 4 colour variants, `snosha-n2`, `snosha-tongue-cleaner`, `فرشاة-الأطفال`, `باندل-snosha`) and 7 collections. Product data doesn't match the Figma naming yet (merchant).

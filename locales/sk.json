@@ -164,6 +164,7 @@
     "price_sale": "Cena po zľave",
     "checkout": "Platba",
     "checkout_drawer": "Platba",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "duties_and_taxes_included": "Vrátane ciel a daní.",
     "duties_included": "Vrátane ciel.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Doprava</a> sa vypočíta v pokladni.",

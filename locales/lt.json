@@ -159,6 +159,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Mokesčiai, nuolaidos ir siuntimo išlaidos apskaičiuojamos atsiskaitant.",
     "checkout": "Atsiskaityti",
     "checkout_drawer": "Atsiskaityti",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Krepšelis",
     "price": "Kaina",
     "price_regular": "Įprasta kaina",

@@ -1,0 +1,54 @@
+{%- doc -%}
+  Snosha (project file): the store's Organization JSON-LD, rendered once per page from sections/header.liquid
+  (moved out of the header to keep its Liquid complexity under Theme Check's limit). Homepage URL on every page;
+  optional alternateName / sameAs / contactPoint from Theme settings → SEO structured data, omitted when blank.
+
+  @example
+  {% render 'snosha-schema-organization' %}
+{%- enddoc -%}
+<script type="application/ld+json">
+  {
+    {%- comment -%}
+      Snosha (project addition): the store's homepage URL on every page (was request.origin + page.url, i.e. the
+      page URL on /pages/*); optional alternateName / sameAs / contactPoint from Theme settings → SEO structured
+      data, each omitted when blank. Social URLs need a profile path (placeholders like https://www.facebook.com/
+      are skipped).
+    {%- endcomment -%}
+    {%- liquid
+      assign org_alternate_name = settings.seo_org_alternate_name | strip
+      assign org_same_as = ''
+      assign org_same_as_lines = settings.seo_org_same_as | newline_to_br | split: '<br />'
+      for line in org_same_as_lines
+        assign org_url = line | strip
+        assign org_url_parts = org_url | split: '/'
+        if org_url_parts.size > 3 and org_url_parts[0] == 'https:' and org_url_parts[3] != blank
+          assign org_same_as = org_same_as | append: '|||' | append: org_url
+        endif
+      endfor
+      assign org_same_as = org_same_as | remove_first: '|||' | split: '|||'
+      assign org_phone = shop.phone | strip
+      assign org_email = shop.email | strip
+    -%}
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": {{ shop.name | json }},
+    {%- if org_alternate_name != blank %}
+      "alternateName": {{ org_alternate_name | json }},
+    {%- endif %}
+    {% if settings.logo %}
+      "logo": {{ settings.logo | image_url: width: 500 | prepend: "https:" | json }},
+    {% endif %}
+    {%- if org_same_as.size > 0 %}
+      "sameAs": {{ org_same_as | json }},
+    {%- endif %}
+    {%- if settings.seo_org_contact and org_phone != blank or settings.seo_org_contact and org_email != blank %}
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service"
+        {%- if org_phone != blank %}, "telephone": {{ org_phone | json }}{% endif %}
+        {%- if org_email != blank %}, "email": {{ org_email | json }}{% endif %}
+      },
+    {%- endif %}
+    "url": {{ shop.url | append: routes.root_url | json }}
+  }
+</script>

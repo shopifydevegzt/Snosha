@@ -157,6 +157,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Imposte, sconti e spedizione calcolati al check-out.",
     "checkout": "Check-out",
     "checkout_drawer": "Check-out",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Carrello",
     "price": "Prezzo",
     "price_regular": "Prezzo di listino",

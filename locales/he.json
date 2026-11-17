@@ -170,6 +170,7 @@
     "cart_total": "סך הכול לסל",
     "checkout": "לסיים תשלום",
     "checkout_drawer": "לסיים תשלום",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "כותרת אוסף",
     "discount_code": "קוד הנחה",
     "shipping_discount_error": "הנחות על משלוח יוצגו בשלב התשלום לאחר הוספת כתובת",

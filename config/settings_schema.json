@@ -2121,5 +2121,33 @@
         "default": "equal-width-buttons"
       }
     ]
+  },
+  {
+    "name": "SEO structured data",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Organization data for search engines (JSON-LD on every page). Leave fields blank to omit them; enter only verified details."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_alternate_name",
+        "label": "Alternate brand name",
+        "info": "Another name the brand is known by, e.g. its name in another script. Leave blank if there is none."
+      },
+      {
+        "type": "textarea",
+        "id": "seo_org_same_as",
+        "label": "Official social profile URLs",
+        "info": "One full https:// URL per line (e.g. the brand's Facebook or Instagram page). Bare site addresses without a profile path are ignored."
+      },
+      {
+        "type": "checkbox",
+        "id": "seo_org_contact",
+        "label": "Add store contact details",
+        "info": "Uses the store phone and contact email from Shopify admin → Settings → Store details, when set.",
+        "default": false
+      }
+    ]
   }
 ]

@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Verot, alennukset ja toimituskulut lasketaan kassalla.",
     "checkout": "Maksa kassalla",
     "checkout_drawer": "Maksa kassalla",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Ostoskori",
     "price": "Hinta",
     "price_regular": "Normaalihinta",

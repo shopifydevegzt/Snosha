@@ -164,6 +164,7 @@
     "cart_total": "கார்ட் மொத்தம்",
     "checkout": "செக்அவுட்",
     "checkout_drawer": "செக்அவுட்",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "collection_placeholder": "சேகரிப்புத் தலைப்பு",
     "discount_code": "தள்ளுபடிக் குறியீடு",
     "shipping_discount_error": "முகவரியைச் சேர்த்த பிறகு செக்அவுட்டில் ஷிப்பிங் தள்ளுபடிகள் காட்டப்படும்",

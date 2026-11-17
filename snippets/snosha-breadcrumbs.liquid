@@ -6,6 +6,8 @@
   @param {string} [home_label] - Label of the first link (default: the shop name)
   @param {string} [aria_label] - Accessible name of the navigation landmark
   @param {string} [class] - Extra class names
+  @param {boolean} [schema_only] - Output only the BreadcrumbList JSON-LD (no visible navigation)
+  @param {object} [product] - The product (defaults to the page's product)
 
   @example
   {% render 'snosha-breadcrumbs', home_label: 'الرئيسية', aria_label: 'مسار التنقل' %}
@@ -29,6 +31,7 @@
   assign last = name_list.size | minus: 1
 -%}
 {%- if name_list.size > 1 -%}
+  {%- unless schema_only -%}
   <nav class="snosha-breadcrumbs{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ aria_label | default: home | escape }}">
     <ol class="snosha-breadcrumbs__list">
       {%- for name in name_list -%}
@@ -46,6 +49,7 @@
       {%- endfor -%}
     </ol>
   </nav>
+  {%- endunless -%}
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",

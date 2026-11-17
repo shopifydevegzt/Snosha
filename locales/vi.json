@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Thuế, ưu đãi giảm giá và phí vận chuyển được tính khi thanh toán.",
     "checkout": "Thanh toán",
     "checkout_drawer": "Thanh toán",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Giỏ hàng",
     "price": "Giá",
     "price_regular": "Giá thông thường",

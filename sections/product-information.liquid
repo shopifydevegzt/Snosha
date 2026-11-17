@@ -1,8 +1,40 @@
 
 
+{%- liquid
+  # Snosha (project addition): Shopify's native Product / ProductGroup JSON-LD, unchanged, plus aggregateRating
+  # on the same entity from Judge.me's product-specific synced metafields (reviews.rating / reviews.rating_count),
+  # only when the product has at least one published review. No second Product block.
+  assign product_structured_data = closest.product | structured_data
+  assign review_rating = closest.product.metafields.reviews.rating.value
+  assign review_count = closest.product.metafields.reviews.rating_count.value | default: 0 | times: 1
+  if review_rating != blank and review_rating.rating != blank and review_count > 0
+    assign rating_value = review_rating.rating | times: 1.0
+    assign rating_best = review_rating.scale_max | default: 5 | times: 1.0
+    assign rating_worst = review_rating.scale_min | default: 1 | times: 1.0
+    capture aggregate_rating
+      echo '{"aggregateRating":{"@type":"AggregateRating","ratingValue":' | append: rating_value | append: ',"reviewCount":' | append: review_count | append: ',"bestRating":' | append: rating_best | append: ',"worstRating":' | append: rating_worst | append: '},'
+    endcapture
+    assign first_character = product_structured_data | strip | slice: 0
+    if first_character == '{'
+      assign product_structured_data = product_structured_data | strip | replace_first: '{', aggregate_rating
+    endif
+  endif
+-%}
 <script type="application/ld+json">
-  {{ closest.product | structured_data }}
+  {{ product_structured_data }}
 </script>
+{%- if request.page_type == 'product' and closest.product != blank -%}
+  {%- comment -%}
+    Snosha (project addition): BreadcrumbList for the product page (JSON-LD only; the visible breadcrumbs are in
+    snippets/product-information-content.liquid). Collection only from the page context (/collections/…/products/…),
+    never guessed from product.collections; otherwise Home → product.
+  {%- endcomment -%}
+  {%- render 'snosha-breadcrumbs',
+    schema_only: true,
+    product: closest.product,
+    home_label: section.settings.snosha_breadcrumbs_home
+  -%}
+{%- endif -%}
 
 {% capture media_gallery %}
   {%- content_for 'block',

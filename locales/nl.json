@@ -155,6 +155,7 @@
     "taxes_at_checkout_shipping_at_checkout_without_policy": "Belastingen, kortingen en verzending worden bij de checkout berekend.",
     "checkout": "Afrekenen",
     "checkout_drawer": "Afrekenen",
+    "title_tagged": "tagged \"{{ tags }}\"",
     "cart_title": "Winkelwagen",
     "price": "Prijs",
     "price_regular": "Normale prijs",
