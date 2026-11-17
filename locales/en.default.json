@@ -34,7 +34,6 @@
     "inventory_status": "Inventory status",
     "localization_region_and_language": "Region and language selector",
     "menu": "Menu",
-    // This is the label for the header navigation menu when using screen readers, it will read "Primary navigation"
     "header_navigation_label": "Primary",
     "nested_product": "{{ product_title }} for {{ parent_title }}",
     "new_window": "Opens in a new window.",
@@ -68,53 +67,43 @@
     "price_filter_high": "High price"
   },
   "actions": {
-    // Quick add button on product cards, shortened version of add to cart
     "add": "Add",
     "add_to_cart": "Add to cart",
-    // Success message shown after adding item to cart
     "added": "Added",
-    // Button to apply discount code to cart
     "apply": "Apply",
     "back": "Back",
     "back_to": "Back to {{ title }}",
     "back_to_main_menu": "Back to main menu",
     "choose": "Choose",
-    // Button to reset current selection or input
     "clear": "Clear",
-    // Button to remove all applied product filters
     "clear_all": "Clear all",
     "close": "Close",
     "open": "Open",
-    // Continue shopping link on the cart page which takes the user back to a collection page
     "continue_shopping": "Continue shopping",
     "enter_password": "Enter password",
     "log_in_html": "Have an account? <a href=\"{{ link }}\">Log in</a> to check out faster.",
     "log_in": "Sign in",
     "log_out": "Log out",
     "open_image_in_full_screen": "Open image in full screen",
-    // Button to remove applied filters from search/collection results
     "remove": "Remove",
     "remove_discount": "Remove discount {{ code }}",
-    // Button to expand hidden product variant options
     "show_all_options": "Show all options",
     "see_items": {
       "one": "See {{ count }} item",
-      // Button to view filtered product results and close filter dialog
-      "other": "See {{ count }} items"
+      "other": "See {{ count }} items",
+      "two": "Display {{ count }} items",
+      "zero": "Display {{ count }} items"
     },
     "show_filters": "Filter",
     "show_less": "Show less",
     "show_more": "Show more",
     "sign_in_options": "Other sign in options",
-    // AR button to view 3D product model in physical space
     "view_in_your_space": "View in your space",
-    // Button to view complete collection/product list
     "view_all": "View all",
     "more": "More",
     "zoom": "Zoom",
     "zoom_media": "Zoom media {{ index }}",
     "close_dialog": "Close dialog",
-    // Button to clear search filter and restore default view
     "reset": "Reset",
     "enter_using_password": "Enter using password",
     "sign_up": "Sign up",
@@ -146,7 +135,11 @@
     "article": {
       "comments_heading": {
         "one": "{{ count }} comment",
-        "other": "{{ count }} comments"
+        "other": "{{ count }} comments",
+        "few": "{{ count }} comments",
+        "many": "{{ count }} comments",
+        "two": "{{ count }} comments",
+        "zero": "{{ count }} comments"
       },
       "comment_author_separator": "•"
     },
@@ -210,14 +203,22 @@
     },
     "inventory_low_stock_show_count": {
       "one": "{{ count }} left",
-      "other": "{{ count }} left"
+      "other": "{{ count }} left",
+      "few": "Remaining {{ count }}",
+      "many": "Remaining {{ count }}",
+      "two": "Remaining {{ count }}",
+      "zero": "Remaining {{ count }}"
     },
     "inventory_low_stock": "Low stock",
     "inventory_in_stock": "In stock",
     "inventory_out_of_stock": "Out of stock",
     "item_count": {
       "one": "{{ count }} item",
-      "other": "{{ count }} items"
+      "other": "{{ count }} items",
+      "few": "{{ count }} items",
+      "many": "{{ count }} items",
+      "two": "{{ count }} items",
+      "zero": "{{ count }} items"
     },
     "item_count_cutoff": "More than {{ count }} items",
     "language": "Language",
@@ -270,12 +271,15 @@
     "search_results_no_results_check_spelling": "No results found for \"{{ terms }}\". Check the spelling or use a different word or phrase.",
     "search_results_resource_articles": "Blog posts",
     "search_results_resource_collections": "Collections",
-    // Section heading for Shopify store pages in search results
     "search_results_resource_pages": "Pages",
     "search_results_resource_products": "Products",
     "search_results_resource_products_count": {
       "one": "{{ count }} product",
-      "other": "{{ count }} products"
+      "other": "{{ count }} products",
+      "few": "{{ count }} products",
+      "many": "{{ count }} products",
+      "two": "{{ count }} products",
+      "zero": "{{ count }} products"
     },
     "search_results_resource_queries": "Search suggestions",
     "total_items": "Total items",
@@ -285,12 +289,14 @@
     "your_cart": "Your cart",
     "items_added_to_cart": {
       "one": "1 item added to cart",
-      "other": "{{ count }} items added to cart"
+      "other": "{{ count }} items added to cart",
+      "few": "{{ count }} items have been added to the cart",
+      "many": "{{ count }} items have been added to the cart",
+      "two": "{{ count }} items have been added to the cart",
+      "zero": "{{ count }} items have been added to the cart"
     },
-    // Button to go from search preview to full search results page
     "search_results_view_all": "View all",
     "search_results_view_all_button": "View all",
-    // Label for customer's note to seller during checkout
     "seller_note": "Special instructions",
     "shipping_policy": "Shipping calculated at checkout.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
@@ -312,7 +318,6 @@
     "taxes_included_shipping_at_checkout_without_policy_without_discounts": "Taxes included. Shipping is calculated at checkout.",
     "unavailable": "Unavailable",
     "use_fewer_filters_html": "Try using fewer filters, or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all filters</a>.",
-    // Link or button to expand additional information
     "view_more_details": "View more details",
     "volume_pricing_available": "Volume pricing available",
     "volume_pricing": "Volume pricing",
@@ -325,7 +330,6 @@
     "product_count": "Product count",
     "errors": "Errors",
     "wrong_password": "Wrong password",
-    // Legend text for gift card delivery options
     "recipient_form_send_to": "Send to",
     "recipient_form_email_label": "Recipient’s email",
     "recipient_form_email_label_my_email": "My email",
@@ -341,7 +345,6 @@
     "product_custom_property_character_count": "{{ used_chars }}/{{ max_chars }} characters used"
   },
   "fields": {
-    // Separates min and max values in price range filter
     "separator": "to"
   },
   "gift_cards": {
@@ -385,6 +388,176 @@
       "in_cart": "in cart",
       "default_title": "Default Title",
       "sticky_add_to_cart": "Quick add to cart bar"
+    }
+  },
+  "shopify": {
+    "checkout": {
+      "payment": {
+        "pending_payment": {
+          "oxxo": {
+            "days_left": {
+              "few": "%{count} days",
+              "many": "%{count} days",
+              "two": "%{count} days",
+              "zero": "%{count} days"
+            }
+          }
+        },
+        "crypto_payment_method": {
+          "cashback_descriptor": {
+            "few": "You will receive your cashback after %{count} days",
+            "many": "You will receive your cashback after %{count} days",
+            "two": "You will receive your cashback after %{count} days",
+            "zero": "You will receive your cashback after %{count} days"
+          }
+        },
+        "discount_codes_removed_summary": {
+          "few": "%{count} discount codes removed",
+          "many": "%{count} discount codes removed",
+          "two": "%{count} discount codes removed",
+          "zero": "%{count} discount codes removed"
+        },
+        "discount_codes_modified_summary": {
+          "few": "%{count} discount codes have been updated",
+          "many": "%{count} discount codes have been updated",
+          "two": "%{count} discount codes have been updated",
+          "zero": "%{count} discount codes have been updated"
+        },
+        "discount_codes_removed_or_modified_summary": {
+          "few": "%{count} discount codes have been removed or modified",
+          "many": "%{count} discount codes have been removed or modified",
+          "two": "%{count} discount codes have been removed or modified",
+          "zero": "%{count} discount codes have been removed or modified"
+        },
+        "discount_show_more_warnings": {
+          "few": "Show %{count} more",
+          "many": "Show %{count} more",
+          "two": "Show %{count} more",
+          "zero": "Show %{count} more"
+        },
+        "order_covered_by_gift_cards_notice": {
+          "few": "Your order is covered by your gift cards.",
+          "many": "Your order is covered by your gift cards.",
+          "two": "Your order is covered by your gift cards.",
+          "zero": "Your order is covered by your gift cards."
+        },
+        "card_fields_unavailable_html": {
+          "few": "Credit and debit card payments are currently unavailable.<br><a href=\"%{current_url}\">Refresh this page</a> or try a different payment method.",
+          "many": "Credit and debit card payments are currently unavailable.<br><a href=\"%{current_url}\">Refresh this page</a> or try a different payment method.",
+          "two": "Credit and debit card payments are currently unavailable.<br><a href=\"%{current_url}\">Refresh this page</a> or try a different payment method.",
+          "zero": "Credit and debit card payments are currently unavailable.<br><a href=\"%{current_url}\">Refresh this page</a> or try a different payment method."
+        },
+        "expired_cards_info": {
+          "few": "There are %{count} expired cards, which you can view and edit in your account.",
+          "many": "There are %{count} expired cards, which you can view and edit in your account.",
+          "two": "There are %{count} expired cards, which you can view and edit in your account.",
+          "zero": "There are %{count} expired cards, which you can view and edit in your account."
+        },
+        "order_edit_banner_items_added": {
+          "few": "%{count} added",
+          "many": "%{count} added",
+          "two": "%{count} added",
+          "zero": "%{count} added"
+        }
+      },
+      "order_summary": {
+        "unit_price": {
+          "per_item": {
+            "few": "%{price} per %{count} items",
+            "many": "%{price} per %{count} items",
+            "two": "%{price} per %{count} items",
+            "zero": "%{price} per %{count} items"
+          }
+        },
+        "discount_discovery": {
+          "merchandise_quantity_label": {
+            "few": "%{count} items",
+            "many": "%{count} items",
+            "two": "%{count} items",
+            "zero": "%{count} items"
+          }
+        },
+        "number_items": {
+          "few": "%{count} items",
+          "many": "%{count} items",
+          "two": "%{count} items",
+          "zero": "%{count} items"
+        },
+        "view_all_items": {
+          "few": "Show all %{count} items",
+          "many": "Show all %{count} items",
+          "two": "Show all %{count} items",
+          "zero": "Show all %{count} items"
+        },
+        "discount_title_stacking": {
+          "few": "Discounts",
+          "many": "Discounts",
+          "two": "Discounts",
+          "zero": "Discounts"
+        },
+        "discount_order_stacking": {
+          "few": "Order discounts",
+          "many": "Order discounts",
+          "two": "Order discounts",
+          "zero": "Order discounts"
+        },
+        "discount_code_applied_count": {
+          "few": "Show %{count} discounts",
+          "many": "Show %{count} discounts",
+          "two": "Show %{count} discounts",
+          "zero": "Show %{count} discounts"
+        },
+        "subtotal_label_with_quantity": {
+          "few": "Subtotal · %{count} items",
+          "many": "Subtotal · %{count} items",
+          "two": "Subtotal · %{count} items",
+          "zero": "Subtotal · %{count} items"
+        },
+        "pickup_unavailable_banner_title": {
+          "few": "No stores have your items available.",
+          "many": "No stores have your items available.",
+          "two": "No stores have your items available.",
+          "zero": "No stores have your items available."
+        },
+        "pickup_unavailable_banner_title_with_country": {
+          "few": "No stores are available in %{country} that have your items.",
+          "many": "No stores are available in %{country} that have your items.",
+          "two": "No stores are available in %{country} that have your items.",
+          "zero": "No stores are available in %{country} that have your items."
+        },
+        "expand_component_information": {
+          "few": "Show %{count} items",
+          "many": "Show %{count} items",
+          "two": "Show %{count} items",
+          "zero": "Show %{count} items"
+        },
+        "collapse_component_information": {
+          "few": "Hide %{count} items",
+          "many": "Hide %{count} items",
+          "two": "Hide %{count} items",
+          "zero": "Hide %{count} items"
+        }
+      },
+      "thank_you": {
+        "items_fulfilled_by_store": {
+          "few": "The items you purchased will arrive from other stores.",
+          "many": "The items you purchased will arrive from other stores.",
+          "two": "The items you purchased will arrive from other stores.",
+          "zero": "The items you purchased will arrive from other stores."
+        },
+        "thank_you_unconfirmed_items_heading": {
+          "few": "Some items have not been confirmed.",
+          "many": "Some items have not been confirmed.",
+          "two": "Some items have not been confirmed.",
+          "zero": "Some items have not been confirmed."
+        },
+        "thank_you_unconfirmed_items_description": {
+          "few": "You have not been charged for these items.",
+          "many": "You have not been charged for these items.",
+          "two": "You have not been charged for these items.",
+          "zero": "You have not been charged for these items."
+        }
+      }
     }
   }
 }
