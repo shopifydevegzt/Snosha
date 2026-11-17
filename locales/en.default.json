@@ -908,8 +908,176 @@
         },
         "recurring_totals_with_initial_order_shipping_discount_with_policies": {
           "first_cycles": {
-            "few": ", then %{count} installments of %{total_price} each"
+            "few": ", then %{count} installments of %{total_price} each",
+            "many": ", then %{count} installments of %{total_price} each",
+            "two": ", then %{count} installments of %{total_price} each",
+            "zero": ", then %{count} installments of %{total_price} each"
           }
+        }
+      },
+      "throttle": {
+        "estimated_wait_time": {
+          "few": "Estimated wait time: {{count}} minutes",
+          "many": "Estimated wait time: {{count}} minutes",
+          "two": "Estimated wait time: {{count}} minutes",
+          "zero": "Estimated wait time: {{count}} minutes"
+        }
+      },
+      "pickup_point": {
+        "paginator": {
+          "header": {
+            "few": "Showing %{first} - %{last} of %{count} items",
+            "many": "Showing %{first} - %{last} of %{count} items",
+            "two": "Showing %{first} - %{last} of %{count} items",
+            "zero": "Showing %{first} - %{last} of %{count} items"
+          },
+          "selected_pickup_point_label": {
+            "few": "%{pickup_point_index} of %{count} points",
+            "many": "%{pickup_point_index} of %{count} points",
+            "two": "%{pickup_point_index} of %{count} points",
+            "zero": "%{pickup_point_index} of %{count} points"
+          },
+          "selected_page": {
+            "few": "%{first} - %{last} of %{count} points",
+            "many": "%{first} - %{last} of %{count} points",
+            "two": "%{first} - %{last} of %{count} points",
+            "zero": "%{first} - %{last} of %{count} points"
+          }
+        },
+        "pickup_unavailable_banner_title": {
+          "few": "No pickup points are available for your items",
+          "many": "No pickup points are available for your items",
+          "two": "No pickup points are available for your items",
+          "zero": "No pickup points are available for your items"
+        },
+        "number_of_pickup_points_near_location": {
+          "few": "%{count} pickup points near your location",
+          "many": "%{count} pickup points near your location",
+          "two": "%{count} pickup points near your location",
+          "zero": "%{count} pickup points near your location"
+        }
+      },
+      "notice_banner": {
+        "validation_errors_banner": {
+          "heading": {
+            "few": "There is {{count}} error:",
+            "many": "There is {{count}} error:",
+            "two": "There is {{count}} error:",
+            "zero": "There is {{count}} error:"
+          }
+        }
+      },
+      "review_address_modal": {
+        "subtitle": {
+          "few": "This order will be shipped to an address provided by {{merchant}}. Select a shipping address.",
+          "many": "This order will be shipped to an address provided by {{merchant}}. Select a shipping address.",
+          "two": "This order will be shipped to an address provided by {{merchant}}. Select a shipping address.",
+          "zero": "This order will be shipped to an address provided by {{merchant}}. Select a shipping address."
+        }
+      },
+      "local_pickup": {
+        "all_stores_far_away": {
+          "title_with_item": {
+            "few": "The nearest location where your items are available is more than %{distance} from %{location}",
+            "many": "The nearest location where your items are available is more than %{distance} from %{location}",
+            "two": "The nearest location where your items are available is more than %{distance} from %{location}",
+            "zero": "The nearest location where your items are available is more than %{distance} from %{location}"
+          }
+        },
+        "paginator": {
+          "label": {
+            "few": "Showing %{first} - %{last} of %{count} stores",
+            "many": "Showing %{first} - %{last} of %{count} stores",
+            "two": "Showing %{first} - %{last} of %{count} stores",
+            "zero": "Showing %{first} - %{last} of %{count} stores"
+          }
+        },
+        "location_information": {
+          "few": "There are %{count} locations with stock near you",
+          "many": "There are %{count} locations with stock near you",
+          "two": "There are %{count} locations with stock near you",
+          "zero": "There are %{count} locations with stock near you"
+        },
+        "location_information_far_away": {
+          "few": "There are %{count} locations where your item is available",
+          "many": "There are %{count} locations where your item is available",
+          "two": "There are %{count} locations where your item is available",
+          "zero": "There are %{count} locations where your item is available"
+        },
+        "location_information_far_away_one_item": {
+          "few": "There are %{count} locations where your item is available",
+          "many": "There are %{count} locations where your item is available",
+          "two": "There are %{count} locations where your item is available",
+          "zero": "There are %{count} locations where your item is available"
+        },
+        "location_information_far_away_other_items": {
+          "few": "There are %{count} locations where your items are available.",
+          "many": "There are %{count} locations where your items are available.",
+          "two": "There are %{count} locations where your items are available.",
+          "zero": "There are %{count} locations where your items are available."
+        },
+        "location_nearby": {
+          "few": "There are %{count} nearby locations where your item is available.",
+          "many": "There are %{count} nearby locations where your item is available.",
+          "two": "There are %{count} nearby locations where your item is available.",
+          "zero": "There are %{count} nearby locations where your item is available."
+        },
+        "location_nearby_one_item": {
+          "few": "There are %{count} nearby locations where your item is available.",
+          "many": "There are %{count} nearby locations where your item is available.",
+          "two": "There are %{count} nearby locations where your item is available.",
+          "zero": "There are %{count} nearby locations where your item is available."
+        },
+        "location_nearby_other_items": {
+          "few": "There are %{count} nearby locations where your items are available.",
+          "many": "There are %{count} nearby locations where your items are available.",
+          "two": "There are %{count} nearby locations where your items are available.",
+          "zero": "There are %{count} nearby locations where your items are available."
+        },
+        "location_nearby_short": {
+          "few": "%{count} nearby locations where your item is available",
+          "many": "%{count} nearby locations where your item is available",
+          "two": "%{count} nearby locations where your item is available",
+          "zero": "%{count} nearby locations where your item is available"
+        },
+        "location_nearby_short_one_item": {
+          "few": "%{count} nearby locations where your item is available",
+          "many": "%{count} nearby locations where your item is available",
+          "two": "%{count} nearby locations where your item is available",
+          "zero": "%{count} nearby locations where your item is available"
+        },
+        "location_nearby_short_other_items": {
+          "few": "%{count} nearby locations with your items",
+          "many": "%{count} nearby locations with your items",
+          "two": "%{count} nearby locations with your items",
+          "zero": "%{count} nearby locations with your items"
+        },
+        "location_far_away": {
+          "few": "%{count} locations where your item is available",
+          "many": "%{count} locations where your item is available",
+          "two": "%{count} locations where your item is available",
+          "zero": "%{count} locations where your item is available"
+        },
+        "location_far_away_one_item": {
+          "few": "%{count} locations where your item is available",
+          "many": "%{count} locations where your item is available",
+          "two": "%{count} locations where your item is available",
+          "zero": "%{count} locations where your item is available"
+        },
+        "location_far_away_other_items": {
+          "few": "%{count} of the locations where your items are available",
+          "many": "%{count} of the locations where your items are available",
+          "two": "%{count} of the locations where your items are available",
+          "zero": "%{count} of the locations where your items are available"
+        },
+        "toggle_more_locations": {
+          "few": "%{count} additional websites",
+          "many": "%{count} additional websites",
+          "two": "%{count} additional websites",
+          "zero": "%{count} additional websites"
+        },
+        "reveal_more_label": {
+          "few": "Show %{count} additional locations"
         }
       }
     }
