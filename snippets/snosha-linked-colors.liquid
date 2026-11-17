@@ -26,7 +26,12 @@
     endif
   endfor
 
-  assign row_legend = legend | default: 'اللون'
+  # Row label: the colour option's name (Shopify localizes it via Translate & Adapt); single-variant
+  # products have no colour option, so fall back to the storefront locale key.
+  assign row_legend = legend
+  if row_legend == blank
+    assign row_legend = 'products.product.color' | t
+  endif
 
   # No colour option on the product: the current colour name comes from its category metafield Color
   assign row_current_label = current_label

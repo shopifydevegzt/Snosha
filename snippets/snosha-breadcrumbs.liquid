@@ -14,6 +14,10 @@
 {%- enddoc -%}
 {%- liquid
   assign home = home_label | default: shop.name | strip
+  # Snosha (SEO spec §7.3): the Home label is an Arabic section setting; other languages use the locale key
+  unless request.locale.primary
+    assign home = 'content.breadcrumb_home' | t
+  endunless
   assign names = home
   assign urls = routes.root_url
 

@@ -1,0 +1,51 @@
+{%- doc -%}
+  Snosha (project file): Article JSON-LD for blog posts (SEO spec §7.5). Replaces Shopify's native
+  `article | structured_data` in sections/main-blog-post.liquid (one Article per page). Publisher name and logo
+  come from Theme settings (SEO structured data → Brand name; Logo).
+
+  @param {object} article - The blog article
+
+  @example
+  {% render 'schema-article', article: article %}
+{%- enddoc -%}
+{%- liquid
+  assign publisher_name = settings.seo_org_name | strip | default: shop.name
+  assign article_description = article.excerpt_or_content | strip_html | strip_newlines | strip | truncate: 160
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "inLanguage": {{ request.locale.iso_code | json }},
+    "headline": {{ article.title | json }},
+    "description": {{ article_description | json }},
+    {%- if article.image %}
+      "image": {
+        "@type": "ImageObject",
+        "url": {{ article.image | image_url: width: 1200 | prepend: 'https:' | json }},
+        "width": 1200,
+        "height": {{ 1200 | divided_by: article.image.aspect_ratio | round }}
+      },
+    {%- endif %}
+    "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%:z' | json }},
+    "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%:z' | json }},
+    "author": {
+      "@type": "Person",
+      "name": {{ article.author | json }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ publisher_name | json }}
+      {%- if settings.logo %},
+        "logo": {
+          "@type": "ImageObject",
+          "url": {{ settings.logo | image_url: width: 500 | prepend: 'https:' | json }}
+        }
+      {%- endif %}
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ canonical_url | json }}
+    }
+  }
+</script>

@@ -162,6 +162,7 @@
     }
   },
   "content": {
+    "breadcrumb_home": "الرئيسية",
     "cancel": "إلغاء",
     "discount": "الخصم",
     "account_title": "الحساب",
@@ -394,7 +395,8 @@
       "quantity_maximum": "الحد الأقصى هو {{ maximum }}",
       "in_cart": "في سلة التسوق",
       "default_title": "العنوان الافتراضي",
-      "sticky_add_to_cart": "شريط الإضافة السريعة إلى سلة التسوق"
+      "sticky_add_to_cart": "شريط الإضافة السريعة إلى سلة التسوق",
+      "color": "اللون"
     }
   }
 }

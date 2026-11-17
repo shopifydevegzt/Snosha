@@ -16,7 +16,6 @@
     {%- endif -%}
 
     {%- render 'view-transition-opt-in' -%}
-
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
     {%- render 'card-hover-effect-styles' -%}
@@ -33,6 +32,26 @@
     {% endif %}
 
     {{ content_for_header }}
+
+    {%- comment -%}
+      Snosha (project addition): SEO spec §9 noindex rules. Paginated collection pages (?page=2…) stay indexable
+      with their self-referencing canonical (Google's guidance), so the spec's `current_page > 1` noindex is
+      intentionally not used.
+    {%- endcomment -%}
+    {%- if template == 'search' -%}
+      <meta name="robots" content="noindex, follow">
+    {%- endif -%}
+
+    {%- if template contains 'customers' -%}
+      <meta name="robots" content="noindex, nofollow">
+    {%- endif -%}
+
+    <meta name="google-site-verification" content="53a5edtW9GTFsSIKA8OTYYRwXF6AIPyRTBM8mY2Gy8U" />
+
+    {%- comment -%} Snosha (project addition): FAQPage JSON-LD on the FAQ page chosen in Theme settings (SEO spec §7.4) {%- endcomment -%}
+    {%- if request.page_type == 'page' and settings.seo_faq_page != blank and page.id == settings.seo_faq_page.id -%}
+      {%- render 'snosha-schema-faq', page: page -%}
+    {%- endif -%}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">

@@ -1,0 +1,44 @@
+{%- doc -%}
+  Snosha (project file): FAQPage JSON-LD built from the visible content of the FAQ page (Theme settings → SEO
+  structured data → FAQ page), so the structured data always matches what visitors read (SEO spec §7.4).
+  Each <h3> in the page content is a question; the content after it, up to the next <h3>, is its answer.
+  Rendered from layout/theme.liquid on that page only; nothing is output when the page has no questions.
+
+  @param {object} page - The FAQ page
+
+  @example
+  {% render 'snosha-schema-faq', page: page %}
+{%- enddoc -%}
+{%- liquid
+  assign faq_items = ''
+  assign faq_sections = page.content | split: '<h3'
+  for faq_section in faq_sections offset: 1
+    assign faq_parts = faq_section | split: '</h3>'
+    if faq_parts.size < 2
+      continue
+    endif
+    assign faq_question = faq_parts[0] | prepend: '<h3' | strip_html | strip_newlines | strip
+    assign faq_answer = faq_section | remove_first: faq_parts[0] | remove_first: '</h3>' | strip_html | strip_newlines | strip
+    if faq_question == blank or faq_answer == blank
+      continue
+    endif
+    assign faq_question_json = faq_question | json
+    assign faq_answer_json = faq_answer | json
+    assign faq_item = '{"@type":"Question","name":' | append: faq_question_json | append: ',"acceptedAnswer":{"@type":"Answer","text":' | append: faq_answer_json | append: '}}'
+    if faq_items != ''
+      assign faq_items = faq_items | append: ','
+    endif
+    assign faq_items = faq_items | append: faq_item
+  endfor
+-%}
+{%- if faq_items != '' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "url": {{ canonical_url | json }},
+      "mainEntity": [{{ faq_items }}]
+    }
+  </script>
+{%- endif -%}

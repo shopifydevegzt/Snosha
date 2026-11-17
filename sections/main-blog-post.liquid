@@ -56,9 +56,8 @@
   </div>
 </div>
 
-<script type="application/ld+json">
-  {{ article | structured_data }}
-</script>
+{%- comment -%} Snosha (project change): project Article JSON-LD (SEO spec §7.5) instead of the native `article | structured_data` {%- endcomment -%}
+{%- render 'schema-article', article: article -%}
 
 {% stylesheet %}
   .blog-post-comments-container {

@@ -2131,6 +2131,12 @@
       },
       {
         "type": "text",
+        "id": "seo_org_name",
+        "label": "Brand name",
+        "info": "The organization name for search engines. Leave blank to use the store name."
+      },
+      {
+        "type": "text",
         "id": "seo_org_alternate_name",
         "label": "Alternate brand name",
         "info": "Another name the brand is known by, e.g. its name in another script. Leave blank if there is none."
@@ -2145,8 +2151,61 @@
         "type": "checkbox",
         "id": "seo_org_contact",
         "label": "Add store contact details",
-        "info": "Uses the store phone and contact email from Shopify admin → Settings → Store details, when set.",
+        "info": "Uses the phone and email below, or the store phone and contact email from Shopify admin → Settings → Store details.",
         "default": false
+      },
+      {
+        "type": "text",
+        "id": "seo_org_phone",
+        "label": "Customer support phone",
+        "info": "International format, e.g. +201000000000. Leave blank to use the store phone."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_email",
+        "label": "Customer support email",
+        "info": "Leave blank to use the store contact email."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_languages",
+        "label": "Support languages",
+        "info": "Comma-separated, e.g. Arabic, English."
+      },
+      {
+        "type": "textarea",
+        "id": "seo_org_description",
+        "label": "Brand description",
+        "info": "One or two factual sentences about the brand."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_founding_date",
+        "label": "Founding year",
+        "info": "e.g. 2025"
+      },
+      {
+        "type": "text",
+        "id": "seo_org_founder",
+        "label": "Founder name"
+      },
+      {
+        "type": "text",
+        "id": "seo_org_country_code",
+        "label": "Country code",
+        "info": "Two-letter ISO code of the country the brand operates in, e.g. EG."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_country_name",
+        "label": "Country name",
+        "info": "e.g. Egypt"
+      },
+      {
+        "type": "page",
+        "id": "seo_faq_page",
+        "label": "FAQ page",
+        "info": "Adds FAQPage data built from this page's own questions: each <h3> heading in the page content is a question, and the text after it is the answer."
       }
     ]
   }
