@@ -27,7 +27,11 @@
     "filters": "Filters",
     "filter_count": {
       "one": "{{ count }} filter applied",
-      "other": "{{ count }} filters applied"
+      "other": "{{ count }} filters applied",
+      "few": "{{ count }} filters applied",
+      "many": "{{ count }} filters applied",
+      "two": "{{ count }} filters applied",
+      "zero": "{{ count }} filters applied"
     },
     "home_logo_alt": "{{ store_name }} - Home",
     "increase_quantity": "Increase quantity",
@@ -92,7 +96,9 @@
       "one": "See {{ count }} item",
       "other": "See {{ count }} items",
       "two": "Display {{ count }} items",
-      "zero": "Display {{ count }} items"
+      "zero": "Display {{ count }} items",
+      "few": "Display {{ count }} items",
+      "many": "Display {{ count }} items"
     },
     "show_filters": "Filter",
     "show_less": "Show less",
@@ -904,6 +910,200 @@
           "first_cycles": {
             "few": ", then %{count} installments of %{total_price} each"
           }
+        }
+      }
+    }
+  },
+  "customer_accounts": {
+    "orders": {
+      "order_status": {
+        "fulfillment_tracking": {
+          "gift_card_sent_to_recipient": {
+            "two": "The gift cards have been sent to the recipients.",
+            "zero": "The gift cards have been sent to the recipients."
+          }
+        }
+      },
+      "buy_again_review": {
+        "unavailable_in_market": {
+          "body": {
+            "few": "These products were not added to your cart because they are not available in your country/region.",
+            "many": "These products were not added to your cart because they are not available in your country/region.",
+            "two": "These products were not added to your cart because they are not available in your country/region.",
+            "zero": "These products were not added to your cart because they are not available in your country/region."
+          },
+          "none_body": {
+            "few": "These products are not available in your country/region.",
+            "many": "These products are not available in your country/region.",
+            "two": "These products are not available in your country/region.",
+            "zero": "These products are not available in your country/region."
+          },
+          "heading": {
+            "few": "Products not available",
+            "many": "Products not available",
+            "two": "Products not available",
+            "zero": "Products not available"
+          }
+        },
+        "quantity_added": {
+          "few": "{{added}} of {{count}} items added",
+          "many": "{{added}} of {{count}} items added",
+          "two": "{{added}} of {{count}} items added",
+          "zero": "{{added}} of {{count}} items added"
+        },
+        "item_count": {
+          "few": "{{count}} piece",
+          "many": "{{count}} piece",
+          "two": "{{count}} piece",
+          "zero": "{{count}} piece"
+        }
+      }
+    },
+    "order_details": {
+      "image_gallery": {
+        "additional_items": {
+          "few": "+ {{count}} additional pieces",
+          "many": "+ {{count}} additional pieces",
+          "two": "+ {{count}} additional pieces",
+          "zero": "+ {{count}} additional pieces"
+        }
+      },
+      "edit_summary": {
+        "updated_count": {
+          "few": "The order has been updated {{count}} times",
+          "many": "The order has been updated {{count}} times",
+          "two": "The order has been updated {{count}} times",
+          "zero": "The order has been updated {{count}} times"
+        }
+      },
+      "discount_order_stacking": {
+        "few": "Order discounts",
+        "many": "Order discounts",
+        "two": "Order discounts",
+        "zero": "Order discounts"
+      },
+      "subtotal_label_with_quantity": {
+        "few": "Subtotal · {{count}} items",
+        "many": "Subtotal · {{count}} items",
+        "two": "Subtotal · {{count}} items",
+        "zero": "Subtotal · {{count}} items"
+      }
+    },
+    "B2B": {
+      "orders": {
+        "draft_order_list": {
+          "pending_tab_accessibility_label": {
+            "pending_orders": {
+              "few": "You have {{count}} pending requests",
+              "many": "You have {{count}} pending requests",
+              "two": "You have {{count}} pending requests",
+              "zero": "You have {{count}} pending requests"
+            }
+          }
+        }
+      },
+      "draft_order_details": {
+        "payment_status": {
+          "pending": {
+            "banner_overdue": {
+              "few": "Your payment is {{count}} days overdue",
+              "many": "Your payment is {{count}} days overdue",
+              "two": "Your payment is {{count}} days overdue",
+              "zero": "Your payment is {{count}} days overdue"
+            },
+            "banner_due": {
+              "few": "Due for payment within {{count}} days",
+              "many": "Due for payment within {{count}} days",
+              "two": "Due for payment within {{count}} days",
+              "zero": "Due for payment within {{count}} days"
+            },
+            "banner_overdue_for_single_fulfillment": {
+              "few": "The payment of {{amount}} is overdue by {{count}} days. {{link}}",
+              "many": "The payment of {{amount}} is overdue by {{count}} days. {{link}}",
+              "two": "The payment of {{amount}} is overdue by {{count}} days. {{link}}",
+              "zero": "The payment of {{amount}} is overdue by {{count}} days. {{link}}"
+            }
+          }
+        }
+      }
+    },
+    "errors": {
+      "banner_title": {
+        "few": "There are {{count}} errors",
+        "many": "There are {{count}} errors",
+        "two": "There are {{count}} errors",
+        "zero": "There are {{count}} errors"
+      }
+    },
+    "payment_methods": {
+      "add_payment_method": {
+        "subscription_contracts": {
+          "more_items": {
+            "few": "{{count}} additional products",
+            "many": "{{count}} additional products",
+            "two": "{{count}} additional products",
+            "zero": "{{count}} additional products"
+          },
+          "product_count": {
+            "few": "{{count}} products",
+            "many": "{{count}} products",
+            "two": "{{count}} products",
+            "zero": "{{count}} products"
+          }
+        }
+      }
+    },
+    "ui_components": {
+      "autocompleteOptionsAvailable": {
+        "few": "{{count}} items available",
+        "many": "{{count}} items available",
+        "two": "{{count}} items available",
+        "zero": "{{count}} items available"
+      },
+      "mapClusterTitle": {
+        "few": "A group of {{number}} selection marks",
+        "many": "A group of {{number}} selection marks",
+        "two": "A group of {{number}} selection marks",
+        "zero": "A group of {{number}} selection marks"
+      }
+    },
+    "returns_and_cancellations": {
+      "request_withdrawal_page": {
+        "review_changes_modal": {
+          "items_to_cancel": {
+            "few": "{{count}} items to cancel",
+            "many": "{{count}} items to cancel",
+            "two": "{{count}} items to cancel",
+            "zero": "{{count}} items to cancel"
+          },
+          "items_to_return": {
+            "few": "{{count}} items to return",
+            "many": "{{count}} items to return",
+            "two": "{{count}} items to return",
+            "zero": "{{count}} items to return"
+          }
+        },
+        "line_items": {
+          "ineligible_items": {
+            "few": "{{count}} ineligible items",
+            "many": "{{count}} ineligible items",
+            "two": "{{count}} ineligible items",
+            "zero": "{{count}} ineligible items"
+          }
+        }
+      },
+      "estimated_refund_summary_card": {
+        "subtotal_with_count": {
+          "few": "Subtotal · {{count}} items",
+          "many": "Subtotal · {{count}} items",
+          "two": "Subtotal · {{count}} items",
+          "zero": "Subtotal · {{count}} items"
+        },
+        "item_selected": {
+          "few": "{{count}} pieces",
+          "many": "{{count}} pieces",
+          "two": "{{count}} pieces",
+          "zero": "{{count}} pieces"
         }
       }
     }
