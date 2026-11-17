@@ -3265,7 +3265,7 @@
               "type": "custom-liquid",
               "name": "Product link",
               "settings": {
-                "custom_liquid": "<a class=\"snosha-card__cta\"{% if closest.product != blank %} href=\"{{ closest.product.url }}\"{% endif %} tabindex=\"-1\" aria-hidden=\"true\">عرض المنتج</a>"
+                "custom_liquid": "<a class=\"snosha-card__cta\"\n  {% if closest.product != blank %}\n    href=\"{{ closest.product.url }}\"\n  {% endif %}\n  tabindex=\"-1\"\n  aria-hidden=\"true\"\n>\n  {% if request.locale.iso_code == 'en' %}\n    View Product\n  {% else %}\n    عرض المنتج\n  {% endif %}\n</a>"
               },
               "blocks": {}
             }
@@ -3490,7 +3490,7 @@
               "type": "custom-liquid",
               "name": "Product link",
               "settings": {
-                "custom_liquid": "<a class=\"snosha-card__cta\"{% if closest.product != blank %} href=\"{{ closest.product.url }}\"{% endif %} tabindex=\"-1\" aria-hidden=\"true\">عرض المنتج</a>"
+                "custom_liquid": "<a class=\"snosha-card__cta\"\n  {% if closest.product != blank %}\n    href=\"{{ closest.product.url }}\"\n  {% endif %}\n  tabindex=\"-1\"\n  aria-hidden=\"true\"\n>\n  {% if request.locale.iso_code == 'en' %}\n    View Product\n  {% else %}\n    عرض المنتج\n  {% endif %}\n</a>"
               },
               "blocks": {}
             }
