@@ -530,6 +530,8 @@ export class Slideshow extends Component {
    */
   #setupSlideshowWithoutControls() {
     this.current = 0;
+    // Snosha (project addition): zero or one slide never overflows
+    if (this.#autoHidesArrows()) this.dataset.overflow = 'false';
     if (this.hasAttribute('auto-hide-controls')) {
       const { slideshowControls } = this.refs;
       if (slideshowControls instanceof HTMLElement) {
@@ -599,7 +601,7 @@ export class Slideshow extends Component {
           this.#updateVisibleSlides();
         }
 
-        if (this.hasAttribute('auto-hide-controls')) {
+        if (this.hasAttribute('auto-hide-controls') || this.#autoHidesArrows()) {
           this.#updateControlsVisibility();
         }
       });
@@ -861,7 +863,21 @@ export class Slideshow extends Component {
    */
   #handleVisibilityChange = () => (document.hidden ? this.suspend() : this.resume());
 
+  /**
+   * Snosha (project addition): carousels inside [data-carousel-arrows="auto"] publish whether their track
+   * overflows (data-overflow="true|false") so CSS can hide prev / next arrows when every slide already fits.
+   * @returns {boolean}
+   */
+  #autoHidesArrows() {
+    return this.closest('[data-carousel-arrows="auto"]') !== null;
+  }
+
   #updateControlsVisibility() {
+    if (this.#autoHidesArrows() && this.refs.scroller) {
+      const { scroller } = this.refs;
+      this.dataset.overflow = String(scroller.scrollWidth > scroller.offsetWidth + 1);
+    }
+
     if (!this.hasAttribute('auto-hide-controls')) return;
 
     const { scroller, slideshowControls } = this.refs;

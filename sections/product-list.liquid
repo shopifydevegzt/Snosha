@@ -89,6 +89,11 @@
   "
   {% if snosha_style %}
     data-snosha-carousel-progress
+    data-add-to-cart-feedback="success"
+    {% comment %} Product page "You may also like": prev / next arrows only when the row overflows (assets/slideshow.js) {% endcomment %}
+    {% if template.name == 'product' %}
+      data-carousel-arrows="auto"
+    {% endif %}
   {% endif %}
 >
   <div class="section-resource-list__header">

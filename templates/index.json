@@ -581,7 +581,7 @@
         "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
         "text": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول.",
         "button_label": "عرض المنتج",
-        "product": "",
+        "product": "snosha-f1",
         "button_link": "",
         "image": "shopify://shop_images/ce3a9d782ccce2c0f43df794cac8294fc07edd36.png",
         "watermark": "F1",
@@ -1690,7 +1690,7 @@
               "type": "button",
               "settings": {
                 "label": "اكتشف SNOSHA N2",
-                "link": "shopify://collections/all",
+                "link": "shopify://products/snosha-f1",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",

@@ -14,6 +14,10 @@ const ERROR_BUTTON_REENABLE_DELAY = 1000;
 // Success message display duration for screen readers
 const SUCCESS_MESSAGE_DISPLAY_DURATION = 5000;
 
+// Snosha (project addition): add-to-cart buttons inside this container show their success state only after the
+// cart responds successfully (set by sections/product-list.liquid and product-recommendations.liquid in Snosha style).
+const ADD_TO_CART_FEEDBACK_ON_SUCCESS = '[data-add-to-cart-feedback="success"]';
+
 /**
  * @typedef {HTMLElement & {
  *   source: Element,
@@ -87,7 +91,11 @@ export class AddToCartComponent extends Component {
       if (animationEnabled && !event.target.closest('.quick-add-modal')) {
         this.#animateFlyToCart();
       }
-      this.animateAddToCart();
+      // Snosha (project addition): inside [data-add-to-cart-feedback="success"] the success state waits for the
+      // cart response; ProductFormComponent calls animateAddToCart() after a successful add instead.
+      if (!this.closest(ADD_TO_CART_FEEDBACK_ON_SUCCESS)) {
+        this.animateAddToCart();
+      }
     }
   }
 
@@ -320,13 +328,27 @@ class ProductFormComponent extends Component {
       });
   };
 
+  /**
+   * Snosha (project addition): success feedback after a successful cart response, for add-to-cart buttons whose
+   * click no longer triggers it optimistically (inside ADD_TO_CART_FEEDBACK_ON_SUCCESS). Inert elsewhere.
+   */
+  #animateAfterSuccess() {
+    const container = this.refs.addToCartButtonContainer;
+    if (container?.closest(ADD_TO_CART_FEEDBACK_ON_SUCCESS)) {
+      container.animateAddToCart?.();
+    }
+  }
+
   /** @param {Event} event */
   handleSubmit(event) {
     event.preventDefault();
 
     if (this.#variantChangeInProgress) {
       this.#addToCartQueue.push(this.#createQueuedAddToCartItem());
-      this.refs.addToCartButtonContainer?.animateAddToCart?.();
+      // Snosha (project addition): no optimistic success state where it must wait for the cart response
+      if (!this.refs.addToCartButtonContainer?.closest(ADD_TO_CART_FEEDBACK_ON_SUCCESS)) {
+        this.refs.addToCartButtonContainer?.animateAddToCart?.();
+      }
       return;
     }
 
@@ -524,6 +546,8 @@ class ProductFormComponent extends Component {
             addToCartTextError.removeAttribute('aria-live');
           }
 
+          this.#animateAfterSuccess();
+
           if (!id) throw new Error('Form ID is required');
 
           // Add aria-live region to inform screen readers that the item was added
@@ -682,6 +706,8 @@ class ProductFormComponent extends Component {
           addToCartTextError.classList.add('hidden');
           addToCartTextError.removeAttribute('aria-live');
         }
+
+        this.#animateAfterSuccess();
 
         const allAddToCartContainers = /** @type {NodeListOf<AddToCartComponent>} */ (
           this.querySelectorAll('add-to-cart-component')

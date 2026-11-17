@@ -95,6 +95,9 @@
     "
     {% if snosha_style %}
       data-snosha-carousel-progress
+      data-add-to-cart-feedback="success"
+      {% comment %} Prev / next arrows only when the row overflows (assets/slideshow.js) {% endcomment %}
+      data-carousel-arrows="auto"
     {% endif %}
   >
     {%- if snosha_style and section.settings.layout_type == 'carousel' -%}

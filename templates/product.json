@@ -747,7 +747,7 @@
                     "text_warranty": {
                       "type": "text",
                       "settings": {
-                        "text": "",
+                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",

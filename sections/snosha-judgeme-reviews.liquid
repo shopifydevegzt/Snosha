@@ -48,10 +48,12 @@
     content_for 'blocks'
   endcapture
 
-  # Storefront: no published reviews for this product (no synced rating) → no empty section.
+  # No published reviews for this product (Judge.me's synced reviews.rating_count is 0 / no reviews.rating)
+  # → no section, on the storefront and in the Theme Editor alike (the editor used to show it, with Judge.me's
+  # English empty / sample content). Turn on "Show on products without reviews" to edit it on such a product.
   # Opt-in "show" setting so instances saved before it existed (setting blank) also hide.
   assign render_section = true
-  if ss.show_when_empty != true and has_rating == false and request.design_mode == false
+  if ss.show_when_empty != true and has_rating == false
     assign render_section = false
   endif
 
@@ -437,7 +439,7 @@
       "type": "checkbox",
       "id": "show_when_empty",
       "label": "Show on products without reviews",
-      "info": "When off, the storefront hides this section if the product has no published Judge.me reviews (no synced rating). It is always shown in the Theme Editor.",
+      "info": "When off, this section is hidden (storefront and Theme Editor) if the product has no published Judge.me reviews. Turn on temporarily to edit it while previewing such a product.",
       "default": false
     },
     {

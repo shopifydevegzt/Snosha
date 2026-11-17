@@ -5681,7 +5681,7 @@ body:has(.product-information) .snosha-faq {
       );
   }
 
-  /* Merchant-uploaded icons: a square of "Custom icon size", image contained (never stretched) */
+  /* Merchant-uploaded raster icons: a square of "Custom icon size", image contained (never stretched) */
   .snosha-header-icon--custom {
     display: block;
     flex-shrink: 0;
@@ -5689,6 +5689,20 @@ body:has(.product-information) .snosha-faq {
     height: var(--snosha-header-custom-icon-size, var(--icon-size-md));
     max-width: none;
     object-fit: contain;
+  }
+
+  /* Merchant-uploaded SVG icons (Figma exports): the file's own pixel size (--snosha-icon-w / -h from Shopify)
+     × "Custom icon size" / 22, top-left aligned on the 22px slot like the Figma frame (a 24 × 22 export
+     overhangs the slot by 2px on the right, as in Figma), filled with the icon color through a mask. */
+  .snosha-header-icon--mask {
+    --snosha-icon-scale: calc(var(--snosha-header-custom-icon-size, 22px) / 22);
+
+    width: calc(var(--snosha-icon-w, 22) * var(--snosha-icon-scale));
+    height: calc(var(--snosha-icon-h, 22) * var(--snosha-icon-scale));
+    translate: calc((var(--snosha-icon-w, 22) - 22) * var(--snosha-icon-scale) / 2)
+      calc((var(--snosha-icon-h, 22) - 22) * var(--snosha-icon-scale) / 2);
+    background-color: currentcolor;
+    mask: var(--snosha-icon-mask) center / 100% 100% no-repeat;
   }
 
   /* Custom cart icon wrapper: same 44px box as Horizon's cart .svg-wrapper */
@@ -5723,4 +5737,84 @@ body:has(.product-information) .snosha-faq {
      color palette defines no --color-shadow-rgb, so it resolved to transparent. Use the palette's text
      color (dark) instead; ::backdrop inherits custom properties from its dialog. */
   --backdrop-color-rgb: var(--color-foreground-rgb);
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT CARD ADD TO CART: success state (native quick-add button in Snosha-style
+   product-list / product-recommendations sections, [data-add-to-cart-feedback="success"]).
+   Native mechanism reused: AddToCartComponent sets [data-added] (assets/product-form.js now does it
+   only after a successful /cart/add here) and removes it after the animation + 800ms.
+   Root cause of the old look: dev1.css's card colour (0,3,0 / 0,4,0) beat Horizon's
+   `[data-added] { color: transparent }`, so the label stayed visible under the checkmark, and the
+   checkmark used --quick-add-foreground (dark) with its ring and burst lines.
+   Here: label + cart icon fade out, a white tick (the native icon's .tick only) fades / scales in,
+   centred on the unchanged blue button; then the reverse. Reduced motion: instant swap.
+   ========================================================================= */
+.snosha-featured-collection[data-add-to-cart-feedback="success"] .quick-add .quick-add__button {
+  .add-to-cart__added {
+    color: var(--snosha-fc-on-accent, var(--color-primary-button-text));
+    pointer-events: none;
+  }
+
+  .checkmark-burst :is(.ring, .burst) {
+    display: none;
+  }
+
+  /* The tick keeps its final size; only the check group fades / scales in (native 0.8 → 1), instead of
+     Horizon's second-step "pop" of the tick (scale 1 → 1.75 after ~0.7s) */
+  .checkmark-burst .tick {
+    scale: 1.75;
+    transition: none;
+  }
+
+  &[data-added="true"] {
+    color: transparent;
+
+    > .add-to-cart-icon {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition-property: scale, translate, opacity, width, color;
+    transition-duration: var(--animation-speed);
+    transition-timing-function: var(--ease-out-cubic);
+
+    > .add-to-cart-icon {
+      transition-property: opacity, translate;
+      transition-duration: var(--animation-speed);
+      transition-timing-function: var(--ease-out-cubic);
+    }
+
+    /* Native only animates the check in; fade it out too when [data-added] is removed */
+    .checkmark-burst {
+      transition: opacity var(--animation-speed) var(--ease-out-cubic);
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT PAGE CAROUSEL ARROWS (Recommended products + You may also like).
+   Native slideshow-component publishes data-overflow="true|false" from its scroller's real scroll width
+   (assets/slideshow.js, on setup and on every resize) inside [data-carousel-arrows="auto"]. With no overflow
+   the prev / next arrows are removed (display: none → not clickable, not focusable); the mobile progress bar
+   and every other slider are untouched. Before the script runs (no attribute) the arrows stay native.
+   ========================================================================= */
+[data-carousel-arrows="auto"]
+  slideshow-component.resource-list__carousel[data-overflow="false"]
+  > slideshow-container
+  > slideshow-arrows {
+  display: none;
+}
+
+/* Mobile (Figma): swipe + progress bar, no arrows. Horizon kept the "next" arrow at opacity 0 but 44px wide
+   and clickable over the cards; remove it there too. */
+@media screen and (max-width: 749px) {
+  [data-carousel-arrows="auto"]
+    slideshow-component.resource-list__carousel
+    > slideshow-container
+    > slideshow-arrows {
+    display: none;
+  }
 }

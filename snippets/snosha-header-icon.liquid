@@ -1,7 +1,8 @@
 {%- doc -%}
   Snosha (project file): header icon override. Outputs nothing when the header's "Snosha layout" is off,
   so the calling Horizon snippet keeps its native icon. With the layout on:
-  - a merchant-uploaded "Custom … icon" image (decorative: alt="", the enclosing button/link keeps its label), else
+  - a merchant-uploaded "Custom … icon" image (decorative, the enclosing button/link keeps its label): an SVG is
+    drawn at its own Figma pixel size as a currentColor mask; a raster image is an <img alt=""> in a square, else
   - the Figma glyph for account (snosha-icon "user") and search (snosha-icon "search"), else nothing.
   Cart (Figma glyph drawn by assets/dev1.css) and menu (snippets/snosha-menu-icon.liquid) only take the custom image.
   Only the icon changes: the action's button, link, label and behavior stay native.
@@ -39,8 +40,21 @@
   if custom_image != blank
     assign classes = classes | append: ' snosha-header-icon--custom'
     assign size = section.settings.snosha_custom_icon_size | default: 22
-    assign sizes = size | append: 'px'
-    echo custom_image | image_url: width: 160 | image_tag: alt: '', class: classes, widths: '40, 80, 120, 160', sizes: sizes, loading: 'eager'
+    assign file_extension = custom_image.src | split: '?' | first | split: '.' | last | downcase
+
+    if file_extension == 'svg'
+      # SVG exported from the Figma icon frame: drawn at its own pixel size (Shopify reports the SVG's width /
+      # height), scaled by "Custom icon size" / 22, from the 22px slot's top-left corner like the Figma frame,
+      # as a mask filled with the icon color (currentColor) so mobile / hover colors apply. Not contained in a
+      # square: a 24 × 22 export would otherwise shrink to 92%.
+      assign svg_url = custom_image | image_url: width: 160 | escape
+      assign classes = classes | append: ' snosha-header-icon--mask'
+      echo '<span class="' | append: classes | append: '" aria-hidden="true" style="--snosha-icon-mask: url(' | append: "'" | append: svg_url | append: "'" | append: '); --snosha-icon-w: ' | append: custom_image.width | append: '; --snosha-icon-h: ' | append: custom_image.height | append: ';"></span>'
+    else
+      # Raster upload: contained in a "Custom icon size" square (never stretched)
+      assign sizes = size | append: 'px'
+      echo custom_image | image_url: width: 160 | image_tag: alt: '', class: classes, widths: '40, 80, 120, 160', sizes: sizes, loading: 'eager'
+    endif
   elsif icon == 'account'
     render 'snosha-icon', icon: 'user', class: classes
   elsif icon == 'search'
