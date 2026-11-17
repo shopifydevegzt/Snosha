@@ -556,6 +556,162 @@
           "many": "You have not been charged for these items.",
           "two": "You have not been charged for these items.",
           "zero": "You have not been charged for these items."
+        },
+        "thank_you_item_label": {
+          "few": "%{count} item",
+          "many": "%{count} item",
+          "two": "%{count} item",
+          "zero": "%{count} item"
+        },
+        "login_reorder_link_text": {
+          "few": "Customers also bought",
+          "many": "Customers also bought",
+          "two": "Customers also bought",
+          "zero": "Customers also bought"
+        },
+        "gift_card_confirmation_by_text_typ": {
+          "few": "You will receive a text message with your gift cards within a few minutes.",
+          "many": "You will receive a text message with your gift cards within a few minutes.",
+          "two": "You will receive a text message with your gift cards within a few minutes.",
+          "zero": "You will receive a text message with your gift cards within a few minutes."
+        },
+        "gift_card_confirmation_by_email_typ": {
+          "few": "You will receive an email with your gift cards within a few minutes.",
+          "many": "You will receive an email with your gift cards within a few minutes.",
+          "two": "You will receive an email with your gift cards within a few minutes.",
+          "zero": "You will receive an email with your gift cards within a few minutes."
+        },
+        "gift_card_email_title": {
+          "few": "Gift cards have been sent via email.",
+          "many": "Gift cards have been sent via email.",
+          "two": "Gift cards have been sent via email.",
+          "zero": "Gift cards have been sent via email."
+        },
+        "gift_card_text_title": {
+          "few": "The gift cards have been sent via text message.",
+          "many": "The gift cards have been sent via text message.",
+          "two": "The gift cards have been sent via text message.",
+          "zero": "The gift cards have been sent via text message."
+        },
+        "gift_card_resent_confirmation": {
+          "few": "The gift cards have been resent.",
+          "many": "The gift cards have been resent.",
+          "two": "The gift cards have been resent.",
+          "zero": "The gift cards have been resent."
+        },
+        "gift_card_resend_failure": {
+          "few": "An issue occurred while resending your gift cards. Please try again or contact us.",
+          "many": "An issue occurred while resending your gift cards. Please try again or contact us.",
+          "two": "An issue occurred while resending your gift cards. Please try again or contact us.",
+          "zero": "An issue occurred while resending your gift cards. Please try again or contact us."
+        }
+      },
+      "shipping": {
+        "subscription_delivery_description": {
+          "free_shipping_cycles": {
+            "few": "Free shipping for %{count} more deliveries",
+            "many": "Free shipping for %{count} more deliveries",
+            "two": "Free shipping for %{count} more deliveries",
+            "zero": "Free shipping for %{count} more deliveries"
+          },
+          "free_shipping_cycles_delivery_not_included": {
+            "few": "Free shipping for %{count} deliveries",
+            "many": "Free shipping for %{count} deliveries",
+            "two": "Free shipping for %{count} deliveries",
+            "zero": "Free shipping for %{count} deliveries"
+          },
+          "first_n_order_free_with_cycle": {
+            "few": "Free shipping for %{count} additional deliveries, then %{recurring_order_shipping_price}",
+            "many": "Free shipping for %{count} additional deliveries, then %{recurring_order_shipping_price}",
+            "two": "Free shipping for %{count} additional deliveries, then %{recurring_order_shipping_price}",
+            "zero": "Free shipping for %{count} additional deliveries, then %{recurring_order_shipping_price}"
+          },
+          "first_n_order_free_with_cycle_delivery_not_included": {
+            "few": "Free shipping for %{count} deliveries, then %{recurring_order_shipping_price}",
+            "many": "Free shipping for %{count} deliveries, then %{recurring_order_shipping_price}",
+            "two": "Free shipping for %{count} deliveries, then %{recurring_order_shipping_price}",
+            "zero": "Free shipping for %{count} deliveries, then %{recurring_order_shipping_price}"
+          },
+          "max_cycles_base_shipping": {
+            "few": "%{count} additional deliveries at %{shipping_price} each",
+            "many": "%{count} additional deliveries at %{shipping_price} each",
+            "two": "%{count} additional deliveries at %{shipping_price} each",
+            "zero": "%{count} additional deliveries at %{shipping_price} each"
+          },
+          "max_cycles_base_shipping_delivery_not_included": {
+            "few": "%{count} additional deliveries at %{shipping_price} each",
+            "many": "%{count} additional deliveries at %{shipping_price} each",
+            "two": "%{count} additional deliveries at %{shipping_price} each",
+            "zero": "%{count} additional deliveries at %{shipping_price} each"
+          },
+          "prepaid_free_shipping_with_cycles": {
+            "few": "Free shipping for the first %{cycle}, followed by %{recurring_order_shipping_price}",
+            "many": "Free shipping for the first %{cycle}, followed by %{recurring_order_shipping_price}",
+            "two": "Free shipping for the first %{cycle}, followed by %{recurring_order_shipping_price}",
+            "zero": "Free shipping for the first %{cycle}, followed by %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_one_cycle": {
+            "few": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost})",
+            "many": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost})",
+            "two": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost})",
+            "zero": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost})"
+          },
+          "prepaid_order_one_cycle_delivery_not_included": {
+            "few": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost})",
+            "many": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost})",
+            "two": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost})",
+            "zero": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost})"
+          },
+          "prepaid_order_no_cycle": {
+            "few": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "many": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "two": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "zero": "%{shipping_price} for %{count} additional deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}"
+          },
+          "prepaid_order_no_cycle_delivery_not_included": {
+            "few": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "many": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "two": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}",
+            "zero": "%{shipping_price} for %{count} deliveries (%{per_delivery_cost}), followed by %{recurring_order_shipping_price}"
+          },
+          "prepaid_delivery_frequency": {
+            "few": "for %{count} deliveries",
+            "many": "for %{count} deliveries",
+            "two": "for %{count} deliveries",
+            "zero": "for %{count} deliveries"
+          },
+          "subscription_delivery_frequency": {
+            "day": {
+              "few": "Every %{count} days",
+              "many": "Every %{count} days",
+              "two": "Every %{count} days",
+              "zero": "Every %{count} days"
+            },
+            "week": {
+              "few": "Every %{count} weeks",
+              "many": "Every %{count} weeks",
+              "two": "Every %{count} weeks",
+              "zero": "Every %{count} weeks"
+            },
+            "month": {
+              "few": "Every %{count} months",
+              "many": "Every %{count} months",
+              "two": "Every %{count} months",
+              "zero": "Every %{count} months"
+            },
+            "year": {
+              "few": "Every %{count} years",
+              "many": "Every %{count} years",
+              "two": "Every %{count} years",
+              "zero": "Every %{count} years"
+            }
+          },
+          "first_n_order_free": {
+            "few": "First %{count} orders are free",
+            "many": "First %{count} orders are free",
+            "two": "First %{count} orders are free",
+            "zero": "First %{count} orders are free"
+          }
         }
       }
     }
