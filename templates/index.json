@@ -1833,7 +1833,7 @@
         "care_tongue": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
             "featured": false,
             "title": "Snosha N2",
             "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
@@ -2063,7 +2063,7 @@
         "component_kids": {
           "type": "component",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود-copy",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
             "desktop_x": 77,
             "desktop_y": 68,
             "mobile_x": 80,
