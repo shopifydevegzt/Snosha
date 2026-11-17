@@ -109,7 +109,6 @@
       class="contact-form__input"
       autocomplete="tel"
       name="contact[phone]"
-      style="text-align:end;"
       pattern="[0-9\-]*"
       value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
       placeholder="{{ 'blocks.contact_form.phone' | t }}"

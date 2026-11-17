@@ -17,6 +17,22 @@
 
     {%- render 'view-transition-opt-in' -%}
     {%- render 'meta-tags' -%}
+    {%- comment -%}
+      Snosha (CLS fix): preload the two Cairo files used above the fold (body 400, headings 700) for the page's
+      script, so text is less likely to paint in the fallback font and re-wrap when Cairo swaps in. Same
+      file_url as the @font-face rules in snippets/custom-font.liquid, so the preloaded file is reused.
+    {%- endcomment -%}
+    {%- liquid
+      assign preload_script = 'latin'
+      if request.locale.iso_code == 'ar'
+        assign preload_script = 'arabic'
+      endif
+      assign preload_weights = '400,700' | split: ','
+    -%}
+    {%- for preload_weight in preload_weights -%}
+      {%- assign preload_font = 'cairo-' | append: preload_script | append: '-' | append: preload_weight | append: '-normal.woff2' %}
+    {{ preload_font | file_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {%- endfor %}
     {%- render 'stylesheets' -%}
     {%- render 'card-hover-effect-styles' -%}
     {%- render 'scripts' -%}

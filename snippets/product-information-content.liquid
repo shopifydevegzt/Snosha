@@ -35,12 +35,11 @@
 {% enddoc %}
 
 {% liquid
-  # Determine render order based on media position
-  if settings.desktop_media_position == 'left'
-    assign render_order = 'media,product-details'
-  else
-    assign render_order = 'product-details,media'
-  endif
+  # Snosha (CLS fix): media always comes first in the DOM. Every visual position is set by CSS `order`
+  # (mobile: media 0 / details 1; desktop media-right: details 0 / media 1, see the stylesheet below), so the
+  # layout is unchanged. With details first, a slow streamed response painted the details at the top and the
+  # gallery then pushed them down (lab CLS ≈ 0.43 on the product page, mobile).
+  assign render_order = 'media,product-details'
 
   # Check if product has media
   assign product_has_media = true
