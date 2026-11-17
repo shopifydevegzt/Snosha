@@ -1,0 +1,88 @@
+{%- doc -%}
+  Snosha (project file): desktop header language dropdown (header "Snosha layout" on, language selector only).
+  Native Shopify switching: a {% form 'localization' %} whose options are submit buttons named language_code;
+  Shopify returns to the localized version of the current page. Open / close, outside click,
+  Escape and aria-expanded come from Horizon's <dropdown-localization-component> (assets/localization.js).
+  Rendered only when the header shows the language selector (2+ storefront languages). Styles: assets/main.css.
+
+  @param {object} section - The header section.
+  @param {string} [form_style] - Horizon's localization font variables (--menu-localization-font…).
+
+  @example
+  {% render 'snosha-language-switcher', section: section, form_style: form_style %}
+{%- enddoc -%}
+
+{%- liquid
+  assign current_language = localization.language
+  assign panel_id = 'SnoshaLanguage-' | append: section.id
+  assign form_id = 'SnoshaLanguageForm-' | append: section.id
+  assign language_label = 'content.language' | t
+-%}
+
+{%- if section.settings.snosha_language_desktop != false -%}
+  <dropdown-localization-component
+    class="dropdown-localization snosha-language mobile:hidden"
+    style="{{ form_style }}"
+  >
+    <button
+      type="button"
+      class="snosha-language__trigger"
+      ref="button"
+      on:click="/toggleSelector"
+      aria-expanded="false"
+      aria-controls="{{ panel_id }}"
+      aria-label="{{ language_label }}: {{ current_language.endonym_name | capitalize | escape }}"
+    >
+      <span
+        class="snosha-language__current"
+        lang="{{ current_language.iso_code }}"
+      >
+        {{- current_language.endonym_name | capitalize -}}
+      </span>
+      <span
+        class="svg-wrapper snosha-language__caret"
+        aria-hidden="true"
+      >
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </button>
+
+    <div
+      class="snosha-language__panel"
+      id="{{ panel_id }}"
+      ref="panel"
+      hidden
+    >
+      <localization-form-component ref="localizationForm">
+        {%- form 'localization', id: form_id, class: 'snosha-language__form', ref: 'form' -%}
+          <ul
+            class="snosha-language__list list-unstyled"
+            role="list"
+            aria-label="{{ language_label }}"
+          >
+            {%- for language in localization.available_languages -%}
+              {%- assign is_current = false -%}
+              {%- if language.iso_code == current_language.iso_code -%}
+                {%- assign is_current = true -%}
+              {%- endif -%}
+              <li>
+                <button
+                  type="submit"
+                  name="language_code"
+                  value="{{ language.iso_code }}"
+                  lang="{{ language.iso_code }}"
+                  class="snosha-language__option{% if is_current %} snosha-language__option--current{% endif %}"
+                  {% if is_current %}
+                    aria-current="true"
+                  {% endif %}
+                >
+                  {{- language.endonym_name | capitalize -}}
+                </button>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endform -%}
+      </localization-form-component>
+    </div>
+  </dropdown-localization-component>
+{%- endif -%}

@@ -215,6 +215,9 @@
     if section.settings.snosha_icon_color_mobile != blank
       assign class = class | append: ' snosha-header--icon-color-mobile'
     endif
+    if section.settings.snosha_language_mobile == false
+      assign class = class | append: ' snosha-header--no-drawer-language'
+    endif
     if section.settings.snosha_hide_mobile_account
       assign class = class | append: ' snosha-header--hide-mobile-account'
     endif
@@ -263,7 +266,10 @@
     assign color_shadow = '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
     assign form_style = localization_font | append: localization_font_size | append: color_shadow
   %}
-  {% if show_language and show_country == false %}
+  {% if show_language and show_country == false and section.settings.snosha_layout %}
+    {%- comment -%} Snosha (project addition): language dropdown (snippets/snosha-language-switcher.liquid) {%- endcomment -%}
+    {% render 'snosha-language-switcher', section: section, form_style: form_style %}
+  {% elsif show_language and show_country == false %}
     <div class="dropdown-localization mobile:hidden">
       {% render 'localization-form',
         show_country: show_country,
@@ -2167,6 +2173,28 @@
       "unit": "px",
       "default": 22,
       "visible_if": "{{ section.settings.snosha_layout }}"
+    },
+    {
+      "type": "header",
+      "content": "Snosha language selector"
+    },
+    {
+      "type": "paragraph",
+      "content": "Uses the Language selector setting above; shown only when 2 or more languages are published for the market."
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_language_desktop",
+      "label": "Show language selector on desktop",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_layout and section.settings.show_language }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_language_mobile",
+      "label": "Show language selector in the mobile menu",
+      "default": true,
+      "visible_if": "{{ section.settings.snosha_layout and section.settings.show_language }}"
     },
     {
       "type": "header",

@@ -19,6 +19,9 @@
    section's 10px padding the bar is 44px at both sizes (the icon sets the mobile row height).
    The block's inline --line-height: 1 stays native; the text line height is set on the text.
    ========================================================================= */
+.snosha-language__form {
+  flex: 1;
+}
 .announcement-bar__slide--snosha {
   .announcement-bar__text {
     display: flex;
@@ -5699,7 +5702,9 @@ body:has(.product-information) .snosha-faq {
 
     width: calc(var(--snosha-icon-w, 22) * var(--snosha-icon-scale));
     height: calc(var(--snosha-icon-h, 22) * var(--snosha-icon-scale));
-    translate: calc((var(--snosha-icon-w, 22) - 22) * var(--snosha-icon-scale) / 2)
+    translate: calc(
+        (var(--snosha-icon-w, 22) - 22) * var(--snosha-icon-scale) / 2
+      )
       calc((var(--snosha-icon-h, 22) - 22) * var(--snosha-icon-scale) / 2);
     background-color: currentcolor;
     mask: var(--snosha-icon-mask) center / 100% 100% no-repeat;
@@ -5750,7 +5755,9 @@ body:has(.product-information) .snosha-faq {
    Here: label + cart icon fade out, a white tick (the native icon's .tick only) fades / scales in,
    centred on the unchanged blue button; then the reverse. Reduced motion: instant swap.
    ========================================================================= */
-.snosha-featured-collection[data-add-to-cart-feedback="success"] .quick-add .quick-add__button {
+.snosha-featured-collection[data-add-to-cart-feedback="success"]
+  .quick-add
+  .quick-add__button {
   .add-to-cart__added {
     color: var(--snosha-fc-on-accent, var(--color-primary-button-text));
     pointer-events: none;
@@ -5817,4 +5824,122 @@ body:has(.product-information) .snosha-faq {
     > slideshow-arrows {
     display: none;
   }
+}
+
+/* =========================================================================
+   SNOSHA — HEADER LANGUAGE DROPDOWN (snippets/snosha-language-switcher.liquid, header "Snosha layout" on).
+   Closed: current language + caret. Open: panel under the trigger, options stacked and centred, current one
+   on a light-grey tint. Behaviour (toggle, outside click, Escape) is Horizon's dropdown-localization-component;
+   visibility (>= 750px, menu mode) is Horizon's .dropdown-localization rule. Mobile uses the drawer selector.
+   ========================================================================= */
+#header-component.snosha-header .snosha-language {
+  position: relative;
+  align-items: center;
+  order: 4; /* after cart, search, account in the Snosha icon row */
+
+  .snosha-language__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    min-block-size: var(--button-size);
+    padding-block: 0;
+    padding-inline: var(--padding-xs);
+    border: 0;
+    border-radius: var(--style-border-radius-xs);
+    background: none;
+    color: var(--snosha-nav-color, var(--color-foreground));
+    font-family: var(--menu-localization-font, inherit);
+    font-size: var(--menu-localization-font-size, inherit);
+    font-weight: var(--menu-top-level-font-weight);
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color var(--animation-speed) var(--animation-easing);
+
+    &:hover,
+    &[aria-expanded="true"] {
+      color: var(--snosha-nav-active-color, var(--color-foreground));
+    }
+
+    &:focus-visible {
+      outline: var(--focus-outline-width, 2px) solid currentcolor;
+      outline-offset: 2px;
+    }
+  }
+
+  .snosha-language__caret {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+    flex-shrink: 0;
+    transition: rotate var(--animation-speed) var(--animation-easing);
+  }
+
+  .snosha-language__trigger[aria-expanded="true"] .snosha-language__caret {
+    rotate: 180deg;
+  }
+
+  /* Centred under the trigger: physical left + translate is direction-neutral for centring */
+  .snosha-language__panel {
+    position: absolute;
+    z-index: var(--layer-temporary);
+    inset-block-start: calc(100% + var(--padding-2xs));
+    left: 50%; /* stylelint-disable-line csstools/use-logical -- centring pair with translate(-50%) */
+    translate: -50% 0;
+    min-inline-size: 7.5rem;
+    padding: var(--padding-2xs);
+    border: 1px solid var(--border-bottom-color-mobile, var(--color-border));
+    border-radius: var(--style-border-radius-popover);
+    background-color: var(--color-background);
+    box-shadow: 0 var(--padding-xs) var(--padding-xl)
+      rgb(var(--color-foreground-rgb) / var(--opacity-8));
+  }
+
+  .snosha-language__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs);
+    margin: 0;
+    padding: 0;
+  }
+
+  .snosha-language__option {
+    display: block;
+    inline-size: 100%;
+    min-block-size: 2.5rem;
+    padding-block: var(--padding-xs);
+    padding-inline: var(--padding-md);
+    border: 0;
+    border-radius: var(--style-border-radius-sm);
+    background: none;
+    color: var(--snosha-nav-color, var(--color-foreground));
+    font: inherit;
+    font-family: var(--menu-localization-font, inherit);
+    font-size: var(--menu-localization-font-size, inherit);
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+      color: var(--snosha-nav-active-color, var(--color-foreground));
+    }
+
+    &:focus-visible {
+      outline: var(--focus-outline-width, 2px) solid currentcolor;
+      outline-offset: -2px;
+    }
+  }
+
+  .snosha-language__option--current {
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+    color: var(--snosha-nav-active-color, var(--color-foreground));
+    font-weight: var(--font-accent--weight);
+  }
+}
+
+/* Header "Show language selector in the mobile menu" off: hide Horizon's drawer language selector */
+#header-component.snosha-header--no-drawer-language .menu-drawer__localization {
+  display: none;
 }
