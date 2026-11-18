@@ -229,7 +229,7 @@
                 "benefit_easy": {
                   "type": "_snosha-benefit",
                   "settings": {
-                    "text": "سهلة الاستخدام من أول يوم",
+                    "text": "خزان 330 مل",
                     "icon": "check"
                   },
                   "blocks": {}
@@ -237,7 +237,7 @@
                 "benefit_clean": {
                   "type": "_snosha-benefit",
                   "settings": {
-                    "text": "تنظيف أعمق بـ42,000 اهتزازة/دقيقة",
+                    "text": "4 أوضاع تنظيف",
                     "icon": "check"
                   },
                   "blocks": {}
@@ -245,7 +245,7 @@
                 "benefit_battery": {
                   "type": "_snosha-benefit",
                   "settings": {
-                    "text": "بطارية واحدة تدوم حتى 120 يوم",
+                    "text": "4 رؤوس متخصصة",
                     "icon": "check"
                   },
                   "blocks": {}
@@ -253,7 +253,7 @@
                 "benefit_water": {
                   "type": "_snosha-benefit",
                   "settings": {
-                    "text": "مقاومة تمامًا للماء (IPX7)",
+                    "text": "ضغط 30–120 PSI",
                     "icon": "check"
                   },
                   "blocks": {}
@@ -264,7 +264,8 @@
                     "text": "5 أوضاع تناسب كل احتياج",
                     "icon": "check"
                   },
-                  "blocks": {}
+                  "blocks": {},
+                  "disabled": true
                 },
                 "benefit_warranty": {
                   "type": "_snosha-benefit",
@@ -272,7 +273,8 @@
                     "text": "ضمان سنة كاملة",
                     "icon": "check"
                   },
-                  "blocks": {}
+                  "blocks": {},
+                  "disabled": true
                 }
               },
               "block_order": [
@@ -387,7 +389,7 @@
                 "trust_warranty": {
                   "type": "_snosha-trust-item",
                   "settings": {
-                    "text": "ضمان لمدة سنة علي الآجهزة",
+                    "text": "ضمان سنة ضد عيوب الصناعة",
                     "icon": "shield_check",
                     "link": ""
                   },
@@ -583,7 +585,7 @@
                     "text_suitable_for": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
+                        "text": "<p>مصمم للتنظيف بين الأسنان، حول خط اللثة، التقويم والمناطق صعبة الوصول.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -624,7 +626,7 @@
                     "text_not_suitable_for": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
+                        "text": "<p>الجهاز ليس مخصصًا لاستخدام الأطفال أو الرضع بشكل مستقل. إذا استخدمه طفل قادر على التشغيل، يجب أن يكون ذلك تحت إشراف وتوجيه شخص بالغ وفق تعليمات المنتج.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -747,7 +749,7 @@
                     "text_warranty": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>جهاز تنظيف الأسنان بالماء — 4 أوضاع و4 رؤوس متخصصة</p>",
+                        "text": "<p>SNOSHA F1 مشمول بضمان لمدة <strong>سنة واحدة من تاريخ الشراء ضد عيوب الصناعة ومشكلات جودة المكونات</strong> أثناء الاستخدام الطبيعي، وفق شروط الضمان.</p><p>الرؤوس والأجزاء الاستهلاكية لا يشملها الضمان.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1304,9 +1306,9 @@
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "text",
-            "heading": "وصف  المنتج",
+            "heading": "الفرشاة هي البداية… مش كل الروتين",
             "subtitle": "",
-            "body": "<p>فرشاة أسنان Snosha N2 مصممة لتقدّم تجربة تنظيف احترافية داخل المنزل، بتقنية سونيك تجمع بين القوة والأمان على الأسنان واللثة. صُنعت الفرشاة طبقًا لمعايير السلامة الصينية المعتمدة GB4706.1-2005 وGB4706.59-2008 وGB39669-2020 — وهي تفاصيل تعكس جدية سنوشا في اختيار منتج آمن وموثوق لعملائها.</p>",
+            "body": "<p>فرشاة الأسنان تركز بشكل أساسي على أسطح الأسنان، لكن المساحات بينها وحول خط اللثة تحتاج أحيانًا طريقة مختلفة للوصول.</p><p>SNOSHA F1 يستخدم تدفق المياه كخطوة مكملة لروتينك، لتوجيه التنظيف بين الأسنان، حول التقويم والمناطق اللي يصعب الوصول لها بسهولة بالفرشاة وحدها.</p>",
             "note": "",
             "body_color": "",
             "vertical_align": "start",
@@ -1375,9 +1377,9 @@
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "three",
-            "heading": "التقنية المستخدمة — تنظيف سونيك",
-            "subtitle": "",
-            "body": "<p>تعمل N2 بتقنية الاهتزاز السونيك (Sonic) بمعدل يصل إلى 42,000 اهتزازة في الدقيقة. هذا المعدل العالي يحرّك اللعاب ومعجون الأسنان ليصلا إلى مناطق بين الأسنان يصعب على الفرشاة اليدوية الوصول إليها، فتحصل على تنظيف أعمق دون الحاجة للضغط بقوة.</p>",
+            "heading": "القوة اللي تناسبك",
+            "subtitle": "30–120 PSI",
+            "body": "<p>مش كل استخدام يحتاج نفس شدة المياه.</p><p>SNOSHA F1 يوفر نطاق ضغط من <strong>30 إلى 120 PSI</strong> مع 4 أوضاع مختلفة، لتقدر تختار تجربة ألطف في البداية أو تدفقًا أقوى عندما تحتاج تنظيفًا أكثر كثافة.</p>",
             "note": "",
             "body_color": "",
             "vertical_align": "start",
@@ -1414,8 +1416,8 @@
               "type": "_snosha-ld-item",
               "settings": {
                 "icon": "gauge",
-                "title": "42,000 اهتزازة/دقيقة",
-                "description": "معدل سونيك عالي وثابت"
+                "title": "ضغط 30–120 PSI",
+                "description": "ابدأ بالأهدأ، وارفع القوة حسب راحتك."
               },
               "blocks": {}
             },
@@ -1423,17 +1425,17 @@
               "type": "_snosha-ld-item",
               "settings": {
                 "icon": "drop",
-                "title": "يحرّك اللعاب والمعجون",
-                "description": "ليصلا بين الأسنان وأماكن يصعب الوصول لها"
+                "title": "خزان كبير 330 مل",
+                "description": "سعة 330 مل تمنحك كمية مياه عملية لجلسة التنظيف، وتقلل الحاجة للتوقف وإعادة ملء الخزان أثناء الاستخدام."
               },
               "blocks": {}
             },
             "sonic_deep": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "sparkle_detail",
-                "title": "تنظيف أعمق بدون ضغط",
-                "description": "من غير أي جهد إضافي منك"
+                "icon": "sliders",
+                "title": "4 أوضاع تنظيف",
+                "description": "Strong / Normal / Soft / Pulse"
               },
               "blocks": {}
             },
@@ -1480,9 +1482,9 @@
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "two",
-            "heading": "محتويات العبوة",
+            "heading": "محتويات العلبة",
             "subtitle": "",
-            "body": "<p>كل اللي محتاجه في علبة واحدة — جاهزة للاستخدام والسفر من أول يوم.</p>",
+            "body": "",
             "note": "",
             "body_color": "",
             "vertical_align": "start",
@@ -1518,8 +1520,8 @@
             "box_body": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "brush_body",
-                "title": "جسم الفرشاة × 1",
+                "icon": "package",
+                "title": "جهاز SNOSHA F1 Water Flosser",
                 "description": ""
               },
               "blocks": {}
@@ -1528,16 +1530,16 @@
               "type": "_snosha-ld-item",
               "settings": {
                 "icon": "brush_head",
-                "title": "8 رؤوس فرشاة",
-                "description": "6 للتنظيف العميق + 2 للأسنان الحساسة"
+                "title": "رأس Regular",
+                "description": ""
               },
               "blocks": {}
             },
             "box_case": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "package",
-                "title": "حقيبة سفر × 1",
+                "icon": "brush_head",
+                "title": "رأس Sensitive",
                 "description": ""
               },
               "blocks": {}
@@ -1545,8 +1547,8 @@
             "box_cable": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "cable",
-                "title": "كابل شحن Type-C × 1",
+                "icon": "brush_head",
+                "title": "رأس Orthodontic",
                 "description": ""
               },
               "blocks": {}
@@ -1554,8 +1556,8 @@
             "box_stand": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "stand",
-                "title": "حامل الفرشاة × 1",
+                "icon": "tooth",
+                "title": "Tongue Scraper",
                 "description": ""
               },
               "blocks": {}
@@ -1593,6 +1595,15 @@
                 "image_y_mobile": 0
               },
               "blocks": {}
+            },
+            "box_f1_cable": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "cable",
+                "title": "كابل شحن USB Type-C",
+                "description": ""
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -1600,16 +1611,17 @@
             "box_heads",
             "box_case",
             "box_cable",
-            "box_stand"
+            "box_stand",
+            "box_f1_cable"
           ]
         },
         "modes": {
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "three",
-            "heading": "5 أوضاع تنظيف",
-            "subtitle": "احتياجات مختلفة… فرشاة واحدة.",
-            "body": "<p>فرشاة SNOSHA N2 بتديك 5 أوضاع تختار منها الوضع المثالي لروتينك — من التنظيف اليومي لحد العناية باللثة.</p>",
+            "heading": "4 أوضاع لتنظيف بطريقتك",
+            "subtitle": "",
+            "body": "",
             "note": "",
             "body_color": "#4c85b3e6",
             "vertical_align": "start",
@@ -1645,36 +1657,36 @@
             "modes_clean": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "tooth_outline",
-                "title": "Clean",
-                "description": "للتنظيف اليومي"
+                "icon": "gauge",
+                "title": "Strong — الوضع القوي",
+                "description": "تدفق أقوى للمناطق التي تحتاج تنظيفًا أكثر كثافة."
               },
               "blocks": {}
             },
             "modes_sensitive": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "leaf",
-                "title": "Sensitive",
-                "description": "تنظيف ألطف للأسنان الحساسة"
+                "icon": "tooth_outline",
+                "title": "Normal — الوضع العادي",
+                "description": "توازن عملي بين قوة المياه والراحة."
               },
               "blocks": {}
             },
             "modes_white": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "sparkle_detail",
-                "title": "White",
-                "description": "يستهدف التصبغات السطحية"
+                "icon": "leaf",
+                "title": "Soft — الوضع اللطيف",
+                "description": "ضغط مياه ألطف لبداية أكثر راحة."
               },
               "blocks": {}
             },
             "modes_polish": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "diamond",
-                "title": "Polish",
-                "description": "لإحساس أنعم ولمعان أوضح"
+                "icon": "waves",
+                "title": "Pulse — الوضع النبضي",
+                "description": "تدفق مياه متغير بنمط نبضي."
               },
               "blocks": {}
             },
@@ -1685,7 +1697,8 @@
                 "title": "Massage",
                 "description": "عناية لطيفة باللثة"
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "media": {
               "type": "_snosha-ld-media",
@@ -1736,9 +1749,9 @@
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "two",
-            "heading": "رؤوس الفرشاة",
+            "heading": "4 رؤوس. استخدامات مختلفة.",
             "subtitle": "",
-            "body": "<p>تأتي الفرشاة مع 8 رؤوس دوبونت: 6 رؤوس للتنظيف العميق اليومي، ورأسان مخصصان للأسنان الحساسة — مع مؤشر تلاشي لون يُنبّهك عند اقتراب موعد التغيير.</p>",
+            "body": "<p>مثل أي جزء يلامس الفم بشكل متكرر، رؤوس F1 تحتاج للاستبدال مع الوقت. يُنصح باستبدال الرأس تقريبًا كل <strong>3 إلى 6 أشهر</strong> أو قبل ذلك إذا ظهرت علامات واضحة للتلف أو تغير الشكل.</p>",
             "note": "",
             "body_color": "",
             "vertical_align": "start",
@@ -1774,36 +1787,36 @@
             "brush_replace": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "timer",
-                "title": "استبدال كل 3 شهور",
-                "description": "مؤشر تلاشي اللون ينبّهك تلقائيًا"
+                "icon": "brush_head",
+                "title": "الرأس العادي — Regular Nozzle",
+                "description": "للتنظيف اليومي بين الأسنان وحول خط اللثة."
               },
               "blocks": {}
             },
             "brush_fit": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "check",
-                "title": "تركيب بسيط",
-                "description": "ضع الرأس موازيًا لزر التشغيل واضغط بلطف حتى يثبت"
+                "icon": "brush_head",
+                "title": "رأس الاستخدام اللطيف — Sensitive Nozzle",
+                "description": "عندما تفضل تدفقًا أكثر راحة أو تجربة ألطف."
               },
               "blocks": {}
             },
             "brush_gap": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "sonic",
-                "title": "الفجوة الطفيفة طبيعية",
-                "description": "مقصودة للسماح بالاهتزاز أثناء الاستخدام"
+                "icon": "brush_head",
+                "title": "رأس التقويم — Orthodontic Nozzle",
+                "description": "للتوجيه حول أسلاك وBrackets التقويم."
               },
               "blocks": {}
             },
             "brush_remove": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "arrow_up",
-                "title": "للإزالة",
-                "description": "اسحب الرأس للأعلى برفق"
+                "icon": "tooth",
+                "title": "كاشط اللسان — Tongue Scraper",
+                "description": "لتنظيف سطح اللسان كجزء من روتين العناية بالفم."
               },
               "blocks": {}
             },
@@ -1852,10 +1865,10 @@
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "three",
-            "heading": "البطارية والشحن",
+            "heading": "اشحن أقل. استخدم أكثر.",
             "subtitle": "",
-            "body": "<p>تعمل الفرشاة ببطارية ليثيوم 18650 سعة 1200 مللي أمبير، تدوم حتى 120 يومًا من الاستخدام اليومي بشحنة واحدة كاملة. الشحن عبر منفذ Type-C ويستغرق من ساعتين إلى 3 ساعات فقط — من الشاحن أو بنك الطاقة أو أي منفذ USB.</p>",
-            "note": "يُنصح بفصل الجهاز عن الشاحن بعد اكتمال الشحن، والتأكد من شحنه بالكامل قبل أول استخدام.",
+            "body": "<p>بطارية <strong>2000mAh</strong> تمنحك حتى <strong>45 دقيقة من التشغيل</strong>، بما يعادل تقريبًا <strong>22 استخدامًا لكل شحنة</strong> حسب طريقة الاستخدام.</p><p>ومع شحن <strong>USB Type-C</strong>، تقدر تشحن F1 بسهولة باستخدام مصدر طاقة متوافق 5V 1A.</p>",
+            "note": "مدة الشحن الكاملة: حوالي 6 ساعات.",
             "body_color": "",
             "vertical_align": "center",
             "extra_top": 0,
@@ -1877,7 +1890,7 @@
             "heading_fit_mobile": false,
             "heading_trim_mobile": -6,
             "body_line_height_mobile": 0,
-            "list_label": "مؤشرات الإضاءة",
+            "list_label": "",
             "list_style": "medium",
             "item_max_width": 404,
             "item_gap": 18,
@@ -1896,7 +1909,8 @@
                 "title": "وميض أحمر",
                 "description": "بطارية منخفضة — وقت الشحن"
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "battery_charging": {
               "type": "_snosha-ld-indicator",
@@ -1907,7 +1921,8 @@
                 "title": "ثبات أحمر",
                 "description": "جاري الشحن الآن"
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "battery_full": {
               "type": "_snosha-ld-indicator",
@@ -1918,7 +1933,8 @@
                 "title": "ثبات أخضر",
                 "description": "اكتمل الشحن بالكامل"
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "media": {
               "type": "_snosha-ld-media",
@@ -1951,21 +1967,61 @@
                 "image_y_mobile": 22
               },
               "blocks": {}
+            },
+            "battery_f1_uses": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "check",
+                "title": "حتى 22 استخدامًا",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "battery_f1_runtime": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "timer",
+                "title": "حتى 45 دقيقة",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "battery_f1_capacity": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "battery",
+                "title": "2000mAh Battery",
+                "description": ""
+              },
+              "blocks": {}
+            },
+            "battery_f1_usbc": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "cable",
+                "title": "USB-C",
+                "description": ""
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "battery_low",
             "battery_charging",
-            "battery_full"
+            "battery_full",
+            "battery_f1_uses",
+            "battery_f1_runtime",
+            "battery_f1_capacity",
+            "battery_f1_usbc"
           ]
         },
         "water": {
           "type": "_snosha-ld-panel",
           "settings": {
             "layout": "two",
-            "heading": "مقاومة الماء وزر التشغيل",
+            "heading": "IPX7 لروتين الحمام اليومي",
             "subtitle": "",
-            "body": "<p>تحمل N2 تصنيف مقاومة ماء IPX7، ما يجعلها آمنة تمامًا للاستخدام والشطف داخل الحمام — وزر واحد بسيط يتحكم في كل شيء.</p>",
+            "body": "<p>SNOSHA F1 يحمل تصنيف <strong>IPX7 لمقاومة الماء</strong>، ومصمم للاستخدام في بيئة الحمام اليومية.</p><p>اشطف الأجزاء الخارجية حسب تعليمات العناية، لكن <strong>لا تغمر الجهاز بالكامل في الماء</strong>.</p>",
             "note": "",
             "body_color": "",
             "vertical_align": "start",
@@ -2002,17 +2058,17 @@
               "type": "_snosha-ld-item",
               "settings": {
                 "icon": "drop",
-                "title": "IPX7 مقاومة للماء",
-                "description": "اشطفها تحت الماء الجاري بأمان تام"
+                "title": "IPX7 مقاوم للماء",
+                "description": ""
               },
               "blocks": {}
             },
             "water_press": {
               "type": "_snosha-ld-item",
               "settings": {
-                "icon": "power",
-                "title": "ضغطة واحدة",
-                "description": "لتشغيل الفرشاة"
+                "icon": "sliders",
+                "title": "دوران 360°",
+                "description": "الرأس قابل للدوران 360 درجة، لتقدر تغير اتجاه تدفق المياه بسهولة وتوصل للمناطق المختلفة بدون الحاجة لتغيير طريقة إمساك الجهاز باستمرار."
               },
               "blocks": {}
             },
@@ -2020,8 +2076,8 @@
               "type": "_snosha-ld-item",
               "settings": {
                 "icon": "timer",
-                "title": "ضغطة مطوّلة (3 ثوانٍ)",
-                "description": "لإيقاف التشغيل"
+                "title": "مؤقت دقيقة واحدة",
+                "description": "كل وضع من أوضاع F1 مزود بمؤقت تشغيل لمدة دقيقة واحدة، ليساعدك على تنظيم الجلسة بدون متابعة الوقت باستمرار."
               },
               "blocks": {}
             },
@@ -2032,7 +2088,8 @@
                 "title": "ضغطة أثناء التشغيل",
                 "description": "للتنقل بين الأوضاع الخمسة"
               },
-              "blocks": {}
+              "blocks": {},
+              "disabled": true
             },
             "media": {
               "type": "_snosha-ld-media",
@@ -2402,12 +2459,390 @@
               "block_order": [
                 "text_9KMKqA"
               ]
+            },
+            "accordion_row_f1faq01": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما هو جهاز تنظيف الأسنان بالماء؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq01": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>هو جهاز يستخدم تدفقًا موجّهًا من المياه لتنظيف المساحات بين الأسنان وحول خط اللثة والمناطق صعبة الوصول كجزء مكمل لروتين العناية بالفم.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq01"
+              ]
+            },
+            "accordion_row_f1faq02": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل F1 يغني عن فرشاة الأسنان؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq02": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>لا. SNOSHA F1 مكمل لفرشاة الأسنان وليس بديلًا عنها. الفرشاة تهتم بأسطح الأسنان، بينما الـWater Flosser يركز على المساحات بينها والمناطق المحيطة بخط اللثة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq02"
+              ]
+            },
+            "accordion_row_f1faq03": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يغني عن Dental Floss؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq03": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>مش بالضرورة. الـWater Flosser والخيط أدوات مختلفة. بعض المستخدمين يجمعون بين أكثر من أداة حسب المساحات واحتياجات روتينهم.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq03"
+              ]
+            },
+            "accordion_row_f1faq04": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل مناسب للتقويم؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq04": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم. يأتي F1 برأس Orthodontic مخصص لتسهيل توجيه المياه حول الأسلاك والـBrackets.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq04"
+              ]
+            },
+            "accordion_row_f1faq05": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل مناسب لمن يفضل ضغطًا لطيفًا؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq05": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم. يحتوي الجهاز على Soft Mode لتجربة ألطف، وهو أيضًا الوضع المناسب للبدء إذا كانت دي أول مرة تستخدم Water Flosser.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq05"
+              ]
+            },
+            "accordion_row_f1faq06": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما الفرق بين الأوضاع الأربعة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq06": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Strong يوفر تدفقًا أقوى، Normal للتنظيف اليومي المتوازن، Soft لتجربة ألطف، وPulse يستخدم تدفقًا متغيرًا بنمط نبضي.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq06"
+              ]
+            },
+            "accordion_row_f1faq07": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "بأي Mode أبدأ؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq07": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>لو دي أول مرة تستخدم Water Flosser، ابدأ بـSoft Mode ثم جرّب المستويات الأخرى تدريجيًا حسب راحتك.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq07"
+              ]
+            },
+            "accordion_row_f1faq08": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما الفرق بين الرؤوس الأربعة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq08": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Regular للاستخدام اليومي، Sensitive لتجربة ألطف، Orthodontic للتنظيف حول التقويم، وTongue Scraper لتنظيف سطح اللسان.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq08"
+              ]
+            },
+            "accordion_row_f1faq09": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما فائدة خزان 330 مل؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq09": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>السعة الكبيرة توفر كمية مياه عملية للجلسة وتقلل الحاجة للتوقف وإعادة ملء الخزان أثناء الاستخدام.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq09"
+              ]
             }
           },
           "block_order": [
             "accordion_row_YWatef",
             "accordion_row_AtGm7a",
-            "accordion_row_7UqQnE"
+            "accordion_row_7UqQnE",
+            "accordion_row_f1faq01",
+            "accordion_row_f1faq02",
+            "accordion_row_f1faq03",
+            "accordion_row_f1faq04",
+            "accordion_row_f1faq05",
+            "accordion_row_f1faq06",
+            "accordion_row_f1faq07",
+            "accordion_row_f1faq08",
+            "accordion_row_f1faq09"
           ]
         },
         "accordion_gRT6CA": {
@@ -2562,12 +2997,390 @@
               "block_order": [
                 "text_kcCTpX"
               ]
+            },
+            "accordion_row_f1faq10": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "سعة البطارية كام؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq10": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>F1 مزود ببطارية <strong>2000mAh</strong>.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq10"
+              ]
+            },
+            "accordion_row_f1faq11": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "كام استخدام تقريبًا لكل شحنة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq11": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>حتى <strong>22 استخدامًا تقريبًا</strong> لكل شحنة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq11"
+              ]
+            },
+            "accordion_row_f1faq12": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "الشحن الكامل يستغرق كام؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq12": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>حوالي <strong>6 ساعات</strong> للشحن الكامل.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq12"
+              ]
+            },
+            "accordion_row_f1faq13": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "أغير الرأس إمتى؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq13": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>يُنصح باستبدال الرأس كل <strong>3–6 أشهر</strong> أو عند ظهور علامات تلف واضحة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq13"
+              ]
+            },
+            "accordion_row_f1faq14": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل الرؤوس تباع منفصلة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq14": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>يمكن توفير رؤوس بديلة لـF1 بشكل منفصل عند توفرها في متجر SNOSHA.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq14"
+              ]
+            },
+            "accordion_row_f1faq15": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل الرؤوس مشمولة بالضمان؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq15": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>لا. الرؤوس تعتبر أجزاء استهلاكية ولا يشملها الضمان المجاني.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq15"
+              ]
+            },
+            "accordion_row_f1faq16": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "كيف أنظف الجهاز بعد الاستخدام؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq16": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>أفرغ الخزان، صفِّ المياه المتبقية من الأنبوب، امسح الجهاز بقطعة قماش جافة واترك الأجزاء تجف قبل التخزين.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq16"
+              ]
+            },
+            "accordion_row_f1faq17": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل مناسب للأطفال؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq17": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>الجهاز ليس مخصصًا لاستخدام الأطفال أو الرضع بشكل مستقل. إذا استخدمه طفل قادر على التشغيل، يجب أن يكون ذلك تحت إشراف وتوجيه شخص بالغ وفق تعليمات المنتج.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq17"
+              ]
+            },
+            "accordion_row_f1faq18": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ماذا أفعل إذا حدث نزيف؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_f1faq18": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>تأكد من أنك تستخدم ضغطًا مناسبًا وابدأ بـSoft Mode. إذا كان النزيف شديدًا، أو استمر بعد أسبوع من الاستخدام، أو صاحبه عدم راحة، توقف عن الاستخدام واستشر طبيب الأسنان.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_f1faq18"
+              ]
             }
           },
           "block_order": [
             "accordion_row_q7hAzK",
             "accordion_row_zgijkw",
-            "accordion_row_NTN8jk"
+            "accordion_row_NTN8jk",
+            "accordion_row_f1faq10",
+            "accordion_row_f1faq11",
+            "accordion_row_f1faq12",
+            "accordion_row_f1faq13",
+            "accordion_row_f1faq14",
+            "accordion_row_f1faq15",
+            "accordion_row_f1faq16",
+            "accordion_row_f1faq17",
+            "accordion_row_f1faq18"
           ]
         },
         "heading": {
@@ -2651,7 +3464,7 @@
         "snosha_how_to_use_step_jRT8qU": {
           "type": "_snosha-how-to-use-step",
           "settings": {
-            "text": "ضع كمية مناسبة من معجون الأسنان على رأس الفرشاة.",
+            "text": "املأ خزان الـ330 مل بمياه نظيفة لا تتجاوز حرارتها 40°C وأغلقه جيدًا.",
             "text_mobile": ""
           },
           "blocks": {}
@@ -2659,7 +3472,7 @@
         "snosha_how_to_use_step_zt8FMT": {
           "type": "_snosha-how-to-use-step",
           "settings": {
-            "text": "ضع الفرشاة داخل الفم أولًا، ثم شغّل الجهاز (لتجنب تناثر المعجون).",
+            "text": "ثبّت الرأس حتى تسمع صوت التثبيت، ثم اختار مستوى التنظيف المناسب لك.",
             "text_mobile": ""
           },
           "blocks": {}
@@ -2667,7 +3480,7 @@
         "snosha_how_to_use_step_ENHQAg": {
           "type": "_snosha-how-to-use-step",
           "settings": {
-            "text": "اختر وضع التنظيف المناسب لاحتياجك.",
+            "text": "ضع الرأس داخل الفم قبل التشغيل، وانحنِ قليلًا فوق الحوض. وجّه المياه بزاوية تقارب 90° نحو الأسنان وخط اللثة، وتحرك ببطء من منطقة لأخرى.",
             "text_mobile": ""
           },
           "blocks": {}
@@ -2675,7 +3488,7 @@
         "snosha_how_to_use_step_gABLKf": {
           "type": "_snosha-how-to-use-step",
           "settings": {
-            "text": "حرّك الفرشاة بزاوية 45 درجة على خط اللثة، بحركة بطيئة ذهابًا وإيابًا.",
+            "text": "بعد الانتهاء، أفرغ المياه المتبقية، وصفِّ المياه من الأنبوب، وامسح الجهاز واترك الأجزاء تجف.",
             "text_mobile": ""
           },
           "blocks": {}
@@ -2686,7 +3499,8 @@
             "text": "لا داعي للضغط بقوة؛ الفرشاة مصممة لتنظيف فعّال دون أي جهد إضافي منك.",
             "text_mobile": ""
           },
-          "blocks": {}
+          "blocks": {},
+          "disabled": true
         },
         "snosha_how_to_use_step_WcKF3k": {
           "type": "_snosha-how-to-use-step",
@@ -2694,7 +3508,8 @@
             "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع.",
             "text_mobile": ""
           },
-          "blocks": {}
+          "blocks": {},
+          "disabled": true
         },
         "snosha_how_to_use_step_rjzCet": {
           "type": "_snosha-how-to-use-step",
@@ -2702,7 +3517,8 @@
             "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز.",
             "text_mobile": ""
           },
-          "blocks": {}
+          "blocks": {},
+          "disabled": true
         },
         "snosha_how_to_use_step_49AW6L": {
           "type": "_snosha-how-to-use-step",
@@ -2710,13 +3526,14 @@
             "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر.",
             "text_mobile": ""
           },
-          "blocks": {}
+          "blocks": {},
+          "disabled": true
         },
         "note": {
           "type": "_snosha-how-to-use-note",
           "static": true,
           "settings": {
-            "text": "يحتاج بعض المستخدمين من 3 إلى 5 أيام للتأقلم مع الإحساس الجديد لفرشاة الأسنان الكهربائية — وهذا أمر طبيعي تمامًا.",
+            "text": "ابدأ بـSoft Mode إذا كانت دي أول تجربة لك.",
             "text_mobile": "",
             "text_size": 14,
             "text_size_mobile": 11,
@@ -2746,7 +3563,7 @@
       ],
       "name": "Snosha how to use",
       "settings": {
-        "heading": "كيفية الاستخدام",
+        "heading": "طريقة الاستخدام",
         "heading_color": "{{ settings.color_palette.color6 }}",
         "heading_size": 32,
         "heading_size_mobile": 22,
@@ -2792,7 +3609,7 @@
             "snosha_storage_item_QLMg8b": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "المنتج مخصص لاستخدام البالغين، ويُستخدم من قِبل الأطفال تحت إشراف شخص بالغ فقط.",
+                "text": "ابدأ بـSoft Mode إذا كانت دي أول تجربة لك.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2800,7 +3617,7 @@
             "snosha_storage_item_YjTDdr": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text": "لا توجه تدفق المياه للعين أو مناطق غير مخصصة للاستخدام.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2808,7 +3625,7 @@
             "snosha_storage_item_4hyPLW": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "في حال وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام.",
+                "text": "استخدم مياهًا نظيفة بدرجة حرارة لا تتجاوز 40°C.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2816,7 +3633,7 @@
             "snosha_storage_item_Hqh7e4": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "يُمنع مشاركة فرشاة الأسنان مع الآخرين لأسباب صحية.",
+                "text": "ضع الرأس داخل الفم قبل تشغيل تدفق المياه.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2824,7 +3641,7 @@
             "snosha_storage_item_xFmRt3": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "استخدم فقط الملحقات الأصلية المعتمدة من سنوشا.",
+                "text": "لا تغمر الجهاز بالكامل في الماء.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2832,7 +3649,7 @@
             "snosha_storage_item_nBq6pw": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "فك الجهاز أو العبث بمكوناته الداخلية يؤدي لإلغاء الضمان.",
+                "text": "لا تستخدم الجهاز أثناء الشحن.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2840,7 +3657,7 @@
             "snosha_storage_item_iDEgMM": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "يحتوي الجهاز على بطارية ليثيوم مدمجة، لذا يجب إبعاده عن مصادر الحرارة العالية لتفادي أي خطر.",
+                "text": "أفرغ المياه المتبقية بعد كل استخدام.",
                 "text_mobile": ""
               },
               "blocks": {}
@@ -2867,14 +3684,59 @@
             "snosha_storage_item_Gf3rTQ": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text": "أفرغ المياه المتبقية من الخزان.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1c02": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "أزل الخزان واقلبه لتصريف المياه.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1c03": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "شغّل الجهاز لفترة قصيرة لتصريف المياه المتبقية داخل الأنبوب.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1c04": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "امسح الجهاز بقطعة قماش جافة واتركه يجف.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1c05": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "إزالة ترسبات المياه العسراء: املأ الخزان بمياه دافئة مع ملعقة طعام من الخل الأبيض، شغّل الجهاز حتى يفرغ، ثم كرر العملية بمياه دافئة نظيفة لشطف النظام الداخلي.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1c06": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "كرر التنظيف الداخلي تقريبًا كل 1–3 أشهر حسب طبيعة المياه والاستخدام.",
                 "text_mobile": ""
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "snosha_storage_item_Gf3rTQ"
+            "snosha_storage_item_Gf3rTQ",
+            "snosha_storage_item_f1c02",
+            "snosha_storage_item_f1c03",
+            "snosha_storage_item_f1c04",
+            "snosha_storage_item_f1c05",
+            "snosha_storage_item_f1c06"
           ]
         },
         "snosha_storage_tab_M7KaMq": {
@@ -2888,14 +3750,23 @@
             "snosha_storage_item_ecyQ68": {
               "type": "_snosha-storage-item",
               "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
+                "text": "أفرغ الخزان، صفِّ المياه المتبقية من الأنبوب، امسح الجهاز بقطعة قماش جافة واترك الأجزاء تجف قبل التخزين.",
+                "text_mobile": ""
+              },
+              "blocks": {}
+            },
+            "snosha_storage_item_f1s02": {
+              "type": "_snosha-storage-item",
+              "settings": {
+                "text": "البطارية الطويلة وشحن USB-C يجعلان F1 عمليًا للسفر، مع ضرورة تفريغ وتجفيف الخزان قبل وضع الجهاز في الحقيبة.",
                 "text_mobile": ""
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "snosha_storage_item_ecyQ68"
+            "snosha_storage_item_ecyQ68",
+            "snosha_storage_item_f1s02"
           ]
         },
         "tab_style": {
