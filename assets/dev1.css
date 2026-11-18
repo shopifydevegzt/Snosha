@@ -321,8 +321,10 @@
   --fc-cta-lh: 26px;
   --fc-cta-gap: 10px;
   --fc-cta-icon: 18px;
-  --fc-label-top: 16.23px;
-  --fc-label-side: 13px;
+  /* Badge offsets from the image edge: the collection page's values (one placement for every SNOSHA card);
+     the mobile carousel keeps its Figma-scaled values (set on the scroller below) */
+  --fc-label-top: 14px;
+  --fc-label-side: 12px;
 
   /* Products per row (section settings): desktop = native "Columns", tablet / mobile = Snosha settings */
   @media screen and (max-width: 989px) {
@@ -435,6 +437,24 @@
   }
 
   /* ---------------- Carousel geometry ---------------- */
+  /* Room for the card hover shadow (shared card rule: 0 12px 32px, >= 750px only): 32 - 12 = 20px above,
+     32 + 12 = 44px below. Same layout-neutral padding / negative-margin pair Horizon puts on the scroller
+     (16px), sized to the shadow, and the slides stop clipping it, so the carousels show the collection grid's
+     shadow in full. Card size and position are unchanged. */
+  @media screen and (min-width: 750px) {
+    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+      padding-block: 20px 44px;
+      margin-block: -20px -44px;
+    }
+
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides
+      > .resource-list__slide {
+      overflow: visible;
+    }
+  }
+
   /* Direct-child chain so nested product-image slideshows inside the cards are not affected */
   slideshow-component.resource-list__carousel
     > slideshow-container
@@ -689,19 +709,14 @@
     overflow: hidden;
   }
 
-  /* Badges over the image: desktop at the inline end (left in RTL), mobile at the inline start */
+  /* Badges over the image at the inline start on every width: top right in Arabic, top left in English */
   .product-badges {
     inset-block: var(--fc-label-top) auto;
-    inset-inline: auto var(--fc-label-side);
+    inset-inline: var(--fc-label-side) auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: var(--fc-gap);
-
-    @media screen and (max-width: 749px) {
-      inset-inline: var(--fc-label-side) auto;
-      align-items: flex-start;
-    }
   }
 
   .product-badges__badge {
@@ -5368,14 +5383,6 @@
   /* Product images on the light brand surface (transparent / white product shots) */
   .card-gallery {
     background-color: var(--snosha-cc-image-bg);
-  }
-
-  /* Collection modifier: badges at the inline start (top right in Arabic) on every width. The shared
-     card rule keeps the homepage's Figma desktop placement (inline end); Horizon's "top-right" badge
-     position is inline end too, i.e. top left in RTL. */
-  .product-badges {
-    inset-inline: var(--fc-label-side) auto;
-    align-items: flex-start;
   }
 
   /* Narrow cards: the discount badge moves under the price instead of overflowing */

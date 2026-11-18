@@ -5858,6 +5858,27 @@ body:has(.product-information) .snosha-faq {
 }
 
 /* =========================================================================
+   SNOSHA — PRODUCT CARD TITLE (shared card look: assets/dev1.css "PRODUCT CARD (shared look)")
+   The collection grid clamps card titles to two lines (dev1.css, .snosha-collection-grid). The carousel
+   consumers (.snosha-featured-collection: homepage best sellers / featured collection, product-page
+   recommended products and "you may also like") had no clamp, so long titles wrapped freely and cards of the
+   same design differed. Same two-line clamp here, identical declarations. One class more than the shared
+   dev1.css rule (which loads after main.css) so it applies without !important.
+   Integration (dev1 worktree owns dev1.css): move the clamp into the shared title rule there and drop the
+   collection-grid copy, then remove this block.
+   ========================================================================= */
+.snosha-featured-collection .product-card__content.product-grid__card .text-block.h5 {
+  &,
+  & > * {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+  }
+}
+
+/* =========================================================================
    SNOSHA — LANGUAGE DROPDOWN (snippets/snosha-language-switcher.liquid): header ("Snosha layout" on) and
    footer (blocks/snosha-footer-language.liquid, .snosha-language--footer). One shared rule set.
    Closed: current language + caret. Open: panel under the trigger (above it in the footer), options stacked

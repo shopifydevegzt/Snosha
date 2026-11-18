@@ -5,8 +5,14 @@
 {% liquid
   # Optional merchant badge (e.g. "Best seller"); off while the text is blank.
   # With a tag, it only shows on products carrying that tag; without one, on every product in this list.
+  # Snosha: "Badge label" = "Best seller (translated)" takes the text from the theme locales
+  # (content.best_seller: Arabic / English), so it follows the storefront language without a per-theme
+  # Translate & Adapt entry. "Custom text" (default) keeps the merchant's Badge text. Matching is unchanged.
   assign show_custom_badge = false
   assign custom_badge_text = block.settings.custom_badge_text | strip
+  if block.settings.custom_badge_label == 'best_seller'
+    assign custom_badge_text = 'content.best_seller' | t
+  endif
   assign custom_badge_tag = block.settings.custom_badge_tag | strip
   if custom_badge_text != blank
     if custom_badge_tag == blank
@@ -131,16 +137,34 @@
       "content": "Custom badge"
     },
     {
+      "type": "select",
+      "id": "custom_badge_label",
+      "label": "Badge label",
+      "options": [
+        {
+          "value": "custom",
+          "label": "Custom text"
+        },
+        {
+          "value": "best_seller",
+          "label": "Best seller (translated)"
+        }
+      ],
+      "default": "custom",
+      "info": "\"Best seller (translated)\" shows the theme's own Arabic / English text in each language."
+    },
+    {
       "type": "text",
       "id": "custom_badge_text",
       "label": "Badge text",
-      "info": "For example \"Best seller\". Leave blank to hide the badge."
+      "info": "For example \"Best seller\". Leave blank to hide the badge.",
+      "visible_if": "{{ block.settings.custom_badge_label != 'best_seller' }}"
     },
     {
       "type": "text",
       "id": "custom_badge_tag",
       "label": "Only on products tagged",
-      "info": "Leave blank to show the badge on every product in this list."
+      "info": "Leave blank to show the badge on every product in this list. Use the exact product tag and don't translate this field in Translate & Adapt: product tags aren't translated, so a translated value never matches."
     },
     {
       "type": "header",

@@ -173,6 +173,7 @@
               "settings": {
                 "image_ratio": "square",
                 "card_media": "first_image",
+                "custom_badge_label": "best_seller",
                 "custom_badge_text": "الأكثر مبيعًا",
                 "custom_badge_tag": "الاكثر مبيعا",
                 "border": "none",
