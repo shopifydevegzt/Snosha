@@ -49,9 +49,25 @@
       var(--util-page-margin-offset) + var(--snosha-collections-gutter-adjust)
     );
     --resource-list-column-gap: 10px;
-    --snosha-collections-peek: 39px;
+    --snosha-collections-peek-size: 39px;
     --snosha-collections-title-space: 55px;
-    --snosha-collections-columns: var(--snosha-collections-columns-mobile, 3);
+    --snosha-collections-per-row: var(--snosha-collections-columns-mobile, 3);
+    /* Adaptive row: when the collections (--snosha-collections-count, from Liquid) fit the per-row
+       setting, they share the whole row (columns = count) and no peek is reserved; with more
+       collections than the setting, the setting and the peek apply as in Figma. */
+    --snosha-collections-columns: min(
+      var(--snosha-collections-per-row),
+      var(--snosha-collections-count, 99)
+    );
+    --snosha-collections-peek: calc(
+      var(--snosha-collections-peek-size) *
+        clamp(
+          0,
+          var(--snosha-collections-count, 99) -
+            var(--snosha-collections-per-row),
+          1
+        )
+    );
     /* Same gutter as above, written with 100cqi instead of Horizon's 100% so the card length also
        resolves in the block axis (item height) */
     --snosha-collections-card: calc(
@@ -134,6 +150,12 @@
     --snosha-progress-end: var(--snosha-collections-progress-end);
   }
 
+  /* Every card fits (native data-overflow, see the Liquid wrapper): nothing to scroll, so no bar */
+  slideshow-component.resource-list__carousel[data-overflow="false"] {
+    --snosha-progress-on: 0;
+    --snosha-progress-content: none;
+  }
+
   slideshow-arrows {
     display: none;
   }
@@ -151,13 +173,13 @@
       /* Start/end gutter: Figma 72px at 1480 (page margin 52 + 20) */
       --snosha-collections-gutter-adjust: 20px;
       --resource-list-column-gap: 24px;
-      --snosha-collections-peek: 96px;
+      --snosha-collections-peek-size: 96px;
       /* Figma desktop card 292 x 368: 292px square image, 18px gap, 24 / 40 title (H3 preset) */
       --snosha-collections-title-space: 76px;
-      --snosha-collections-columns: var(--snosha-collections-columns-tablet, 3);
+      --snosha-collections-per-row: var(--snosha-collections-columns-tablet, 3);
 
       @media screen and (min-width: 990px) {
-        --snosha-collections-columns: var(
+        --snosha-collections-per-row: var(
           --snosha-collections-columns-desktop,
           4
         );

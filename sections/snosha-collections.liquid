@@ -30,10 +30,19 @@
     --snosha-collections-columns-desktop: {{ section.settings.cards_desktop | default: 4 }};
     --snosha-collections-columns-tablet: {{ section.settings.cards_tablet | default: 3 }};
     --snosha-collections-columns-mobile: {{ section.settings.cards_mobile | default: 3 }};
+    --snosha-collections-count: {{ max_items }};
   }
 {% endstyle %}
 
-<div class="snosha-collections{% if custom_class != blank %} {{ custom_class }}{% endif %}" data-snosha-carousel-progress>
+{%- comment -%}
+  data-carousel-arrows="auto": the native slideshow publishes data-overflow from its real scroll width
+  (assets/slideshow.js, on setup and resize); arrows are removed when every card fits (assets/main.css).
+{%- endcomment -%}
+<div
+  class="snosha-collections{% if custom_class != blank %} {{ custom_class }}{% endif %}"
+  data-snosha-carousel-progress
+  data-carousel-arrows="auto"
+>
   <div class="section section--page-width section-resource-list">
     <div class="section-resource-list__content snosha-collections__heading">
       {%- content_for 'blocks' -%}
