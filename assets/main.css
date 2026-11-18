@@ -1313,6 +1313,21 @@
       align-self: stretch;
     }
 
+    /* English (LTR): keep the approved physical arrangement — product stage on the left, copy on the right.
+       The grid tracks follow the inline direction, so without this the LTR copy moves to the left. The copy's
+       24px edge padding stays on its outer (right) side, as in RTL. Text inside the copy stays LTR / start. */
+    .snosha-f1-banner__layout:dir(ltr) {
+      grid-template-columns: minmax(0, 752fr) minmax(0, 584fr);
+    }
+
+    .snosha-f1-banner__stage:dir(ltr) {
+      order: -1;
+    }
+
+    .snosha-f1-banner__content:dir(ltr) {
+      padding-inline: 0 24px;
+    }
+
     .snosha-f1-banner__canvas {
       width: 100%;
       height: auto;
@@ -5906,7 +5921,10 @@ body:has(.product-information) .snosha-faq {
   .snosha-language__panel {
     position: absolute;
     z-index: var(--layer-temporary);
-    inset-block-start: var(--snosha-language-panel-start, calc(100% + var(--padding-2xs)));
+    inset-block-start: var(
+      --snosha-language-panel-start,
+      calc(100% + var(--padding-2xs))
+    );
     inset-block-end: var(--snosha-language-panel-end, auto);
     left: 50%; /* stylelint-disable-line csstools/use-logical -- centring pair with translate(-50%) */
     translate: -50% 0;
@@ -5969,12 +5987,11 @@ body:has(.product-information) .snosha-faq {
   display: none;
 }
 
-/* Footer context: bottom row opposite the copyright (the footer-utilities grid places it at the inline end,
-   so it mirrors between RTL and LTR); muted footer text color like the copyright; panel opens upward so it
-   stays on screen at the bottom of the page. Visible at every width (no mobile:hidden). */
+/* Footer context: placement and opening direction only. Colors and type come from the same tokens as the
+   header (supplied on the element by blocks/snosha-footer-language.liquid). The footer-utilities grid places
+   it at the inline end (mirrors between RTL and LTR); the panel opens upward so it stays on screen at the
+   bottom of the page. Visible at every width (no mobile:hidden). */
 .snosha-language.snosha-language--footer {
-  --snosha-nav-color: var(--color-utilities, var(--color-foreground-muted));
-  --snosha-nav-active-color: var(--color-foreground);
   --snosha-language-panel-start: auto;
   --snosha-language-panel-end: calc(100% + var(--padding-2xs));
   display: inline-flex;

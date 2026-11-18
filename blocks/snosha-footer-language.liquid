@@ -3,14 +3,44 @@
   opposite the copyright by the section's native start / end grid (mirrors automatically in RTL / LTR).
   Reuses snippets/snosha-language-switcher.liquid (native localization form + Horizon's
   <dropdown-localization-component>) in its footer context. Shown only with 2+ storefront languages, like
-  Horizon's own selectors. Styles: assets/main.css (.snosha-language--footer).
+  Horizon's own selectors.
+
+  Styling: the shared rules in assets/main.css read the same tokens the header provides (header section
+  settings): --snosha-nav-color, --snosha-nav-active-color, --border-bottom-color-mobile, --color-background,
+  --color-foreground(-rgb), --menu-localization-font(-size). The footer section doesn't set them, so this
+  block supplies them on the switcher (same palette defaults and font settings as the header). The only
+  footer-specific CSS is the upward panel (.snosha-language--footer).
 {%- enddoc -%}
 {%- if block.settings.show_language and localization.available_languages.size > 1 -%}
+  {%- liquid
+    assign bs = block.settings
+    assign text_rgb = bs.text_color | color_extract: 'red'
+    assign text_g = bs.text_color | color_extract: 'green'
+    assign text_b = bs.text_color | color_extract: 'blue'
+    assign text_rgb = text_rgb | append: ' ' | append: text_g | append: ' ' | append: text_b
+
+    capture switcher_tokens
+      echo '--menu-localization-font: var(--font-' | append: bs.localization_font | append: '--family); '
+      echo '--menu-localization-font-size: ' | append: bs.localization_font_size | append: '; '
+      echo '--snosha-nav-color: ' | append: bs.text_color | append: '; '
+      echo '--snosha-nav-active-color: ' | append: bs.active_color | append: '; '
+      echo '--border-bottom-color-mobile: ' | append: bs.border_color | append: '; '
+      echo '--color-background: ' | append: bs.background_color | append: '; '
+      echo '--color-foreground: ' | append: bs.text_color | append: '; '
+      echo '--color-foreground-rgb: ' | append: text_rgb | append: '; '
+      echo '--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));'
+    endcapture
+  -%}
   <div
     class="snosha-footer-language"
     {{ block.shopify_attributes }}
   >
-    {%- render 'snosha-language-switcher', section: section, context: 'footer', id_suffix: block.id -%}
+    {%- render 'snosha-language-switcher',
+      section: section,
+      context: 'footer',
+      id_suffix: block.id,
+      form_style: switcher_tokens
+    -%}
   </div>
 {%- elsif request.design_mode -%}
   <div
@@ -30,6 +60,60 @@
       "label": "Show footer language selector",
       "info": "Visible when the store has two or more published languages.",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style",
+      "info": "Defaults match the header language selector (header colors and font)."
+    },
+    {
+      "type": "select",
+      "id": "localization_font",
+      "label": "t:settings.font",
+      "options": [
+        { "value": "heading", "label": "t:options.heading" },
+        { "value": "subheading", "label": "t:options.subheading" },
+        { "value": "body", "label": "t:options.body" },
+        { "value": "accent", "label": "t:options.accent" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "select",
+      "id": "localization_font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "0.625rem", "label": "10px" },
+        { "value": "0.75rem", "label": "12px" },
+        { "value": "0.875rem", "label": "14px" },
+        { "value": "1rem", "label": "16px" },
+        { "value": "1.125rem", "label": "18px" }
+      ],
+      "default": "0.875rem"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "active_color",
+      "label": "Active / hover text color",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Dropdown border color",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Dropdown background color",
+      "default": "{{ settings.color_palette.background }}"
     }
   ],
   "presets": [
