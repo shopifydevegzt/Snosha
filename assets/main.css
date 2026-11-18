@@ -761,6 +761,171 @@
       transition: none;
     }
   }
+
+  /* ---------- Slideshow (only with Slide blocks: .snosha-hero--slideshow) ----------
+     Horizon's native slideshow (snippets/slideshow + slideshow-controls) supplies scroll-snap, touch swipe,
+     mouse drag (no click after a drag), arrows, dots, RTL order and Theme Editor block selection.
+     Slide 1 is the original band; image slides stretch to its height, so the hero keeps its size and
+     the trust strip (outside the slideshow) keeps its overlap. Only the hero area changes per slide. */
+  .snosha-hero__slideshow-root {
+    display: block;
+  }
+
+  .snosha-hero__slideshow {
+    /* Below 990 the hero button ends 87px above the band bottom and the strip overlaps 49px: the 31px dots
+       row sits in that 38px gap (overlap 49 + 3) without touching the button */
+    --snosha-hero-dots-offset: 52px;
+    --snosha-hero-arrow-inset: max(8px, calc(var(--page-margin) - 22px));
+  }
+
+  .snosha-hero__slide-media {
+    position: relative;
+    block-size: 100%;
+    overflow: clip;
+    background-image: linear-gradient(
+      83.14deg,
+      var(--snosha-hero-start) 7.84%,
+      var(--snosha-hero-mid) 50%,
+      var(--snosha-hero-end) 92.16%
+    );
+  }
+
+  .snosha-hero__slide-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    -webkit-user-drag: none;
+  }
+
+  .snosha-hero__slide-media picture,
+  .snosha-hero__slide-image {
+    position: absolute;
+    inset: 0;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .snosha-hero__slide-image {
+    object-fit: cover;
+    object-position: var(--snosha-hero-focal-mobile, 50% 50%);
+    /* Native drag: the image must not start a browser image drag */
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+
+  .snosha-hero__slide-media--contain .snosha-hero__slide-image {
+    object-fit: contain;
+  }
+
+  /* Arrows: circular, at the hero's side edges, vertically centred on the hero area; always visible */
+  .snosha-hero__slideshow > slideshow-container > slideshow-arrows {
+    padding-inline: var(--snosha-hero-arrow-inset);
+  }
+
+  .snosha-hero__slideshow slideshow-arrows .slideshow-control {
+    --color: var(--snosha-hero-mid);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 44px;
+    block-size: 44px;
+    padding: 0;
+    border: 1px solid var(--snosha-hero-trust-border);
+    border-radius: 50%;
+    background-color: var(--snosha-hero-button-bg);
+    box-shadow: 0 8px 18px
+      color-mix(in srgb, var(--snosha-hero-end) 20%, transparent);
+    color: var(--snosha-hero-mid);
+    opacity: 1;
+
+    &:focus-visible {
+      outline: 2px solid var(--snosha-hero-button-bg);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Dots: centred near the bottom of the hero area, above the overlapping trust strip */
+  /* Native dots blend with mix-blend-mode: difference (white turns orange/brown over the blue art).
+     SNOSHA design: plain white dots, 8px, 50% white when inactive; the active one is a 24px white pill. */
+  .snosha-hero__slideshow slideshow-controls.snosha-hero__dots {
+    inset-inline: 0;
+    bottom: var(--snosha-hero-dots-offset);
+    z-index: 2;
+    min-block-size: 0;
+    mix-blend-mode: normal;
+    pointer-events: none;
+
+    & .slideshow-controls__dots {
+      gap: 10px;
+    }
+
+    /* The button is exactly the dot / pill (native adds negative margins and a 2x hit box) */
+    & button {
+      --color: color-mix(in srgb, var(--snosha-hero-text) 50%, transparent);
+      --color-active: var(--snosha-hero-text);
+      --color-hover: color-mix(in srgb, var(--snosha-hero-text) 75%, transparent);
+
+      inline-size: auto;
+      block-size: auto;
+      margin: 0;
+      padding: 0;
+      border-radius: 4px;
+      pointer-events: auto;
+
+      &::after {
+        inline-size: 8px;
+        block-size: 8px;
+        border-radius: 4px;
+        box-shadow: none;
+        transition: inline-size var(--animation-speed, 0.2s) var(--animation-easing, ease),
+          background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+      }
+
+      &[aria-selected="true"] {
+        --color: var(--color-active);
+      }
+
+      &[aria-selected="true"]::after {
+        inline-size: 24px;
+        box-shadow: none;
+      }
+    }
+
+    & button:focus {
+      outline: none;
+    }
+
+    & button:focus-visible {
+      outline: 2px solid var(--snosha-hero-text);
+      outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      & button::after {
+        transition: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Mobile: swipe + dots; arrows would cover the stacked artwork */
+    .snosha-hero__slideshow > slideshow-container > slideshow-arrows {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .snosha-hero__slideshow {
+      --snosha-hero-dots-offset: 66px; /* trust overlap 58 + 8 */
+    }
+
+    /* Desktop artwork (>= 990, the same breakpoint as the <picture> source) uses the desktop focal point */
+    .snosha-hero__slide-image {
+      object-position: var(--snosha-hero-focal, 50% 50%);
+    }
+  }
 }
 
 /* =========================================================================

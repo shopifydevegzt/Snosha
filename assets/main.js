@@ -707,3 +707,37 @@ class SnoshaStickyQuantity extends HTMLElement {
 if (!customElements.get('snosha-sticky-quantity')) {
   customElements.define('snosha-sticky-quantity', SnoshaStickyQuantity);
 }
+
+/**
+ * <snosha-hero-slideshow> (sections/snosha-hero.liquid, only when the hero has Slide blocks).
+ * Horizon's slideshow marks off-screen slides aria-hidden="true" but leaves their links focusable.
+ * This mirrors that state onto `inert`, so hidden slides drop out of the tab order and can't be clicked;
+ * the visible slide is never inert. Re-runs safely on Theme Editor section reloads.
+ */
+class SnoshaHeroSlideshow extends HTMLElement {
+  /** @type {MutationObserver | undefined} */
+  #observer;
+
+  connectedCallback() {
+    this.#sync();
+    this.#observer = new MutationObserver(this.#sync);
+    this.#observer.observe(this, { subtree: true, attributes: true, attributeFilter: ['aria-hidden'] });
+  }
+
+  disconnectedCallback() {
+    this.#observer?.disconnect();
+    this.#observer = undefined;
+  }
+
+  #sync = () => {
+    for (const slide of this.querySelectorAll('slideshow-slide')) {
+      if (!(slide instanceof HTMLElement)) continue;
+      const hidden = slide.getAttribute('aria-hidden') === 'true';
+      if (slide.inert !== hidden) slide.inert = hidden;
+    }
+  };
+}
+
+if (!customElements.get('snosha-hero-slideshow')) {
+  customElements.define('snosha-hero-slideshow', SnoshaHeroSlideshow);
+}

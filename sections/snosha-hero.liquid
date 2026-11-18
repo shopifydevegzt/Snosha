@@ -9,6 +9,19 @@
 {%- liquid
   assign chips = section.blocks | where: 'type', 'spec_chip'
   assign trust_items = section.blocks | where: 'type', 'trust_item'
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  # Slide artwork per storefront language: Arabic images on the Arabic storefront, English images everywhere else
+  assign slide_language = request.locale.iso_code | slice: 0, 2
+  assign slide_count = 1
+  for block in slide_blocks
+    if block.settings.image_desktop_ar != blank or block.settings.image_desktop_en != blank or block.settings.image_mobile_ar != blank or block.settings.image_mobile_en != blank or request.design_mode
+      assign slide_count = slide_count | plus: 1
+    endif
+  endfor
+  assign use_slideshow = false
+  if section.settings.enable_slideshow and slide_count > 1
+    assign use_slideshow = true
+  endif
   assign image = section.settings.image
   assign image_mobile = section.settings.image_mobile
   assign custom_class = section.settings.custom_class | strip | escape
@@ -38,7 +51,13 @@
   }
 {% endstyle %}
 
-<div class="snosha-hero{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+<div class="snosha-hero{% if use_slideshow %} snosha-hero--slideshow{% endif %}{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  {%- comment -%}
+    The original hero (section settings + spec chips) is captured once. Without Slide blocks it is output
+    exactly as before; with Slide blocks it becomes slide 1 of Horizon's native slideshow (snippets/slideshow),
+    followed by one image-only slide per Slide block. The trust strip stays outside the slideshow.
+  {%- endcomment -%}
+  {%- capture hero_band -%}
   <div class="snosha-hero__band">
     <div class="section section--page-width snosha-hero__band-grid">
       <div class="snosha-hero__inner">
@@ -137,6 +156,126 @@
       </div>
     </div>
   </div>
+  {%- endcapture -%}
+
+  {%- if use_slideshow -%}
+    {%- liquid
+      assign slide_index = 0
+      assign show_arrows = section.settings.show_slideshow_arrows
+      if section.settings.show_slideshow_dots
+        assign dots_style = 'dots'
+      else
+        assign dots_style = 'none'
+      endif
+    -%}
+    {%- capture slides -%}
+      {%- render 'slideshow-slide', index: 0, children: hero_band, class: 'snosha-hero__slide' -%}
+      {%- for block in slide_blocks -%}
+        {%- liquid
+          # Missing artwork falls back to the other language's image of the same size, then to the other size
+          if slide_language == 'ar'
+            assign slide_image = block.settings.image_desktop_ar | default: block.settings.image_desktop_en
+            assign slide_image_mobile = block.settings.image_mobile_ar | default: block.settings.image_mobile_en
+          else
+            assign slide_image = block.settings.image_desktop_en | default: block.settings.image_desktop_ar
+            assign slide_image_mobile = block.settings.image_mobile_en | default: block.settings.image_mobile_ar
+          endif
+          # A slide without any image only shows (as a placeholder) in the Theme Editor
+          if slide_image == blank and slide_image_mobile == blank and request.design_mode == false
+            continue
+          endif
+          assign slide_index = slide_index | plus: 1
+          assign slide_number = slide_index | plus: 1
+          assign slide_alt = slide_image.alt | default: slide_image_mobile.alt | strip_html | escape
+        -%}
+        {%- capture slide_media -%}
+          {%- liquid
+            # Focal points set on the images in Shopify Files position the crop (desktop / mobile artwork)
+            assign focal_desktop = slide_image.presentation.focal_point | default: slide_image_mobile.presentation.focal_point | default: '50% 50%'
+            assign focal_mobile = slide_image_mobile.presentation.focal_point | default: focal_desktop
+          -%}
+          <div
+            class="snosha-hero__slide-media snosha-hero__slide-media--{{ block.settings.image_fit }}"
+            style="--snosha-hero-focal: {{ focal_desktop }}; --snosha-hero-focal-mobile: {{ focal_mobile }};"
+          >
+            {%- if block.settings.link != blank -%}
+              <a
+                class="snosha-hero__slide-link"
+                href="{{ block.settings.link }}"
+                {% if slide_alt == blank %}
+                  aria-label="{{ 'accessibility.slide_status' | t: index: slide_number, length: slide_count }}"
+                {% endif %}
+              >
+            {%- endif -%}
+            {%- if slide_image != blank or slide_image_mobile != blank -%}
+              {%- assign desktop_image = slide_image | default: slide_image_mobile -%}
+              <picture>
+                {%- if slide_image_mobile != blank -%}
+                  <source
+                    media="(max-width: 989px)"
+                    srcset="{%- for w in (1..5) -%}{%- assign px = w | times: 240 -%}{{ slide_image_mobile | image_url: width: px }} {{ px }}w{%- unless forloop.last -%}, {% endunless -%}{%- endfor -%}"
+                    sizes="100vw"
+                    width="{{ slide_image_mobile.width }}"
+                    height="{{ slide_image_mobile.height }}"
+                  >
+                {%- endif -%}
+                {{
+                  desktop_image
+                  | image_url: width: 2880
+                  | image_tag:
+                    class: 'snosha-hero__slide-image',
+                    alt: slide_alt,
+                    widths: '750, 1100, 1480, 1920, 2400, 2880',
+                    sizes: '100vw',
+                    loading: 'lazy'
+                }}
+              </picture>
+            {%- else -%}
+              {{ 'hero-apparel-1' | placeholder_svg_tag: 'snosha-hero__slide-image snosha-hero__slide-image--placeholder' }}
+            {%- endif -%}
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endcapture -%}
+        {%- render 'slideshow-slide',
+          index: slide_index,
+          children: slide_media,
+          class: 'snosha-hero__slide',
+          attributes: block.shopify_attributes
+        -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- capture controls -%}
+      {%- render 'slideshow-controls',
+        style: dots_style,
+        item_count: slide_count,
+        show_arrows: false,
+        arrows_on_media: true,
+        controls_on_media: true,
+        pagination_position: 'center',
+        class: 'snosha-hero__dots'
+      -%}
+    {%- endcapture -%}
+    {%- comment -%} <snosha-hero-slideshow> (assets/main.js) makes hidden slides inert {%- endcomment -%}
+    <snosha-hero-slideshow class="snosha-hero__slideshow-root">
+    {%- render 'slideshow',
+      ref: 'snoshaHeroSlideshow',
+      class: 'snosha-hero__slideshow',
+      slides: slides,
+      controls: controls,
+      show_arrows: show_arrows,
+      animate_arrows: false,
+      icon_style: 'chevron',
+      icon_shape: 'circle',
+      slide_count: slide_count,
+      slide_position: 'stretch',
+      infinite: true
+    -%}
+    </snosha-hero-slideshow>
+  {%- else -%}
+    {{ hero_band }}
+  {%- endif -%}
 
   {%- if trust_items.size > 0 -%}
     <div class="section section--page-width snosha-hero__trust-grid">
@@ -264,6 +403,32 @@
       "step": 2,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Slideshow"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add Slide blocks to turn the hero into a slideshow: the hero above stays slide 1. With no slides the hero shows as a single banner."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_slideshow",
+      "label": "Enable slideshow",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_slideshow_arrows",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_slideshow_dots",
+      "label": "Show pagination dots",
+      "default": true
     },
     {
       "type": "header",
@@ -516,6 +681,74 @@
           "id": "subtitle_mobile",
           "label": "Subtitle on mobile",
           "info": "Optional shorter text below 990px."
+        }
+      ]
+    },
+    {
+      "type": "slide",
+      "name": "Slide",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Image-only slide shown after the hero above, with separate artwork for the Arabic and English storefronts. The image fills the hero area; text belongs in the artwork itself."
+        },
+        {
+          "type": "header",
+          "content": "Arabic storefront"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_ar",
+          "label": "Desktop image (Arabic)",
+          "info": "990px and wider. 1920 x 650px (about 3 : 1)."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_ar",
+          "label": "Mobile image (Arabic)",
+          "info": "Below 990px. 1000 x 1760px (about 9 : 16)."
+        },
+        {
+          "type": "header",
+          "content": "English storefront"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_desktop_en",
+          "label": "Desktop image (English)",
+          "info": "990px and wider. 1920 x 650px (about 3 : 1)."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile_en",
+          "label": "Mobile image (English)",
+          "info": "Below 990px. 1000 x 1760px (about 9 : 16). An empty image uses the other language's image of the same size."
+        },
+        {
+          "type": "header",
+          "content": "Display"
+        },
+        {
+          "type": "select",
+          "id": "image_fit",
+          "label": "Image fit",
+          "options": [
+            {
+              "value": "cover",
+              "label": "Fill (crop edges)"
+            },
+            {
+              "value": "contain",
+              "label": "Fit (whole image)"
+            }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
         }
       ]
     }
