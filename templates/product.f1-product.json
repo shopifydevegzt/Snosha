@@ -200,6 +200,7 @@
             },
             "snosha_capsule_promo": {
               "type": "snosha-capsule",
+              "disabled": true,
               "settings": {
                 "text": "وفّر 10% عند شراء فرشتين معًا",
                 "link": "",
@@ -260,21 +261,21 @@
                 },
                 "benefit_modes": {
                   "type": "_snosha-benefit",
+                  "disabled": true,
                   "settings": {
                     "text": "5 أوضاع تناسب كل احتياج",
                     "icon": "check"
                   },
-                  "blocks": {},
-                  "disabled": true
+                  "blocks": {}
                 },
                 "benefit_warranty": {
                   "type": "_snosha-benefit",
+                  "disabled": true,
                   "settings": {
                     "text": "ضمان سنة كاملة",
                     "icon": "check"
                   },
-                  "blocks": {},
-                  "disabled": true
+                  "blocks": {}
                 }
               },
               "block_order": [
@@ -975,6 +976,7 @@
         "snosha_comparison_row_LGDMwd",
         "snosha_comparison_row_dtzdaH"
       ],
+      "disabled": true,
       "name": "Snosha comparison",
       "settings": {
         "criterion_label": "المعيار",
@@ -1562,6 +1564,15 @@
               },
               "blocks": {}
             },
+            "box_f1_cable": {
+              "type": "_snosha-ld-item",
+              "settings": {
+                "icon": "cable",
+                "title": "كابل شحن USB Type-C",
+                "description": ""
+              },
+              "blocks": {}
+            },
             "media": {
               "type": "_snosha-ld-media",
               "static": true,
@@ -1593,15 +1604,6 @@
                 "image_zoom_mobile": 100,
                 "image_x_mobile": 0,
                 "image_y_mobile": 0
-              },
-              "blocks": {}
-            },
-            "box_f1_cable": {
-              "type": "_snosha-ld-item",
-              "settings": {
-                "icon": "cable",
-                "title": "كابل شحن USB Type-C",
-                "description": ""
               },
               "blocks": {}
             }
@@ -1692,13 +1694,13 @@
             },
             "modes_massage": {
               "type": "_snosha-ld-item",
+              "disabled": true,
               "settings": {
                 "icon": "waves",
                 "title": "Massage",
                 "description": "عناية لطيفة باللثة"
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "media": {
               "type": "_snosha-ld-media",
@@ -1902,6 +1904,7 @@
           "blocks": {
             "battery_low": {
               "type": "_snosha-ld-indicator",
+              "disabled": true,
               "settings": {
                 "light_color": "#e5484d",
                 "light_style": "ring",
@@ -1909,11 +1912,11 @@
                 "title": "وميض أحمر",
                 "description": "بطارية منخفضة — وقت الشحن"
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "battery_charging": {
               "type": "_snosha-ld-indicator",
+              "disabled": true,
               "settings": {
                 "light_color": "#e5484d",
                 "light_style": "glow",
@@ -1921,50 +1924,17 @@
                 "title": "ثبات أحمر",
                 "description": "جاري الشحن الآن"
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "battery_full": {
               "type": "_snosha-ld-indicator",
+              "disabled": true,
               "settings": {
                 "light_color": "#22c55e",
                 "light_style": "glow",
                 "pulse": false,
                 "title": "ثبات أخضر",
                 "description": "اكتمل الشحن بالكامل"
-              },
-              "blocks": {},
-              "disabled": true
-            },
-            "media": {
-              "type": "_snosha-ld-media",
-              "static": true,
-              "settings": {
-                "image": "shopify://shop_images/28678a5d2c0c4b0d92e5308ee978ad25fb18c97d.png",
-                "image_alt": "",
-                "image_fit": "cover",
-                "ratio": 136.5,
-                "radius": 24,
-                "width": 100,
-                "offset": 0,
-                "spill_top": 0,
-                "spill_bottom": 0,
-                "image_zoom": 136,
-                "image_x": -8,
-                "image_y": 11,
-                "push_down": 0,
-                "shadow": false,
-                "shadow_color": "#051f4d4d",
-                "floor_shadow": false,
-                "floor_color": "#0d336621",
-                "border_style": "none",
-                "border_width": 1.5,
-                "border_color": "{{ settings.color_palette.color2 }}",
-                "ratio_mobile": 52.9,
-                "radius_mobile": 24,
-                "image_zoom_mobile": 100,
-                "image_x_mobile": -6,
-                "image_y_mobile": 22
               },
               "blocks": {}
             },
@@ -2001,6 +1971,38 @@
                 "icon": "cable",
                 "title": "USB-C",
                 "description": ""
+              },
+              "blocks": {}
+            },
+            "media": {
+              "type": "_snosha-ld-media",
+              "static": true,
+              "settings": {
+                "image": "shopify://shop_images/28678a5d2c0c4b0d92e5308ee978ad25fb18c97d.png",
+                "image_alt": "",
+                "image_fit": "cover",
+                "ratio": 136.5,
+                "radius": 24,
+                "width": 100,
+                "offset": 0,
+                "spill_top": 0,
+                "spill_bottom": 0,
+                "image_zoom": 136,
+                "image_x": -8,
+                "image_y": 11,
+                "push_down": 0,
+                "shadow": false,
+                "shadow_color": "#051f4d4d",
+                "floor_shadow": false,
+                "floor_color": "#0d336621",
+                "border_style": "none",
+                "border_width": 1.5,
+                "border_color": "{{ settings.color_palette.color2 }}",
+                "ratio_mobile": 52.9,
+                "radius_mobile": 24,
+                "image_zoom_mobile": 100,
+                "image_x_mobile": -6,
+                "image_y_mobile": 22
               },
               "blocks": {}
             }
@@ -2083,13 +2085,13 @@
             },
             "water_modes": {
               "type": "_snosha-ld-item",
+              "disabled": true,
               "settings": {
                 "icon": "sliders",
                 "title": "ضغطة أثناء التشغيل",
                 "description": "للتنقل بين الأوضاع الخمسة"
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "media": {
               "type": "_snosha-ld-media",
@@ -2262,6 +2264,7 @@
         "reel_YK8Gtx",
         "reel_8LwA8Y"
       ],
+      "disabled": true,
       "name": "Snosha reels",
       "settings": {
         "heading": "اكتشف عالم SNOSHA",
@@ -3495,39 +3498,39 @@
         },
         "snosha_how_to_use_step_qqiTzH": {
           "type": "_snosha-how-to-use-step",
+          "disabled": true,
           "settings": {
             "text": "لا داعي للضغط بقوة؛ الفرشاة مصممة لتنظيف فعّال دون أي جهد إضافي منك.",
             "text_mobile": ""
           },
-          "blocks": {},
-          "disabled": true
+          "blocks": {}
         },
         "snosha_how_to_use_step_WcKF3k": {
           "type": "_snosha-how-to-use-step",
+          "disabled": true,
           "settings": {
             "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع.",
             "text_mobile": ""
           },
-          "blocks": {},
-          "disabled": true
+          "blocks": {}
         },
         "snosha_how_to_use_step_rjzCet": {
           "type": "_snosha-how-to-use-step",
+          "disabled": true,
           "settings": {
             "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز.",
             "text_mobile": ""
           },
-          "blocks": {},
-          "disabled": true
+          "blocks": {}
         },
         "snosha_how_to_use_step_49AW6L": {
           "type": "_snosha-how-to-use-step",
+          "disabled": true,
           "settings": {
             "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر.",
             "text_mobile": ""
           },
-          "blocks": {},
-          "disabled": true
+          "blocks": {}
         },
         "note": {
           "type": "_snosha-how-to-use-note",

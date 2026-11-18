@@ -233,11 +233,10 @@
       "name": "Snosha collections",
       "settings": {
         "collection_list": [
-          "فرشاة-الأسنان-الكهربائية",
-          "الأكسسوارات",
-          "منتجات-العناية-بالفم",
+          "best-seller",
+          "snosha-n2",
           "باندل",
-          "best-seller"
+          "الأكسسوارات"
         ],
         "layout_type": "carousel",
         "icons_style": "chevron",
@@ -1738,7 +1737,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
+            "poster": "shopify://shop_images/a1ee46e5aa4e4c7cb5478b3e05ac9a76.thumbnail.0000000000.jpg",
             "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
             "label": ""
           }
@@ -1747,17 +1746,8 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
-            "label": ""
-          }
-        },
-        "reel_YXmpqY": {
-          "type": "reel",
-          "settings": {
-            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+            "poster": "shopify://shop_images/898ead6531774cf1958d70c877b14bf6.thumbnail.0000000000.jpg",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
             "label": ""
           }
         },
@@ -1765,8 +1755,17 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+            "poster": "shopify://shop_images/7aa810b879b94cf6bdc258c0192aa58f.thumbnail.0000000000.jpg",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأزرق",
+            "label": ""
+          }
+        },
+        "reel_YXmpqY": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/632f1bdd13364e1f8c55181a8b976818.thumbnail.0000000000.jpg",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
             "label": ""
           }
         },
@@ -1774,8 +1773,8 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/f14e6b012185ac035c1f6c669c39b2d15c2be9a3.png",
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+            "poster": "shopify://shop_images/a1ee46e5aa4e4c7cb5478b3e05ac9a76.thumbnail.0000000000.jpg",
+            "product": "",
             "label": ""
           }
         }
@@ -1783,8 +1782,8 @@
       "block_order": [
         "reel_Y9WbBY",
         "reel_MifryK",
-        "reel_YXmpqY",
         "reel_NQcYxW",
+        "reel_YXmpqY",
         "reel_EQyLMG"
       ],
       "name": "Snosha reels",
@@ -1835,60 +1834,78 @@
         "care_tongue": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأبيض",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
             "featured": false,
             "title": "Snosha N2",
-            "description": "مكشطة لسان فولاذية مزدوجة الجوانب — نفس أنظف وتذوق أوضح",
-            "badge": "",
+            "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
+            "badge": "الأكثر مبيعًا",
             "discount_label": "خصم",
             "button_label": "عرض المنتج",
             "image_fit": "contain"
           },
           "blocks": {
-            "tongue_spec_1": {
+            "snosha_care_spec_NHmFDy": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "يزيل مصدر 90% من رائحة الفم",
-                "icon": "sparkle_detail"
+                "text": "حتى 42,000 حركة/دقيقة",
+                "icon": "sonic"
               },
               "blocks": {}
             },
-            "tongue_spec_2": {
+            "snosha_care_spec_a4J3iY": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "فولاذ مقاوم للصدأ 420J2",
-                "icon": "shield_check"
+                "text": "5 أوضاع تنظيف",
+                "icon": "sliders"
               },
               "blocks": {}
             },
-            "tongue_spec_3": {
+            "snosha_care_spec_cjHH43": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "تصميم مزدوج: فرشاة + مكشطة",
+                "text": "بطارية حتى 120 يوم بالشحنة",
+                "icon": "battery"
+              },
+              "blocks": {}
+            },
+            "snosha_care_spec_34LD4e": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "مقاوم للماء IPX7",
+                "icon": "drop"
+              },
+              "blocks": {}
+            },
+            "snosha_care_spec_VbPVcN": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "8 رؤوس DuPont",
                 "icon": "brush_head"
               },
               "blocks": {}
             },
-            "tongue_spec_4": {
+            "snosha_care_spec_iLUUMg": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "حافظة سفر + ضمان سنة",
-                "icon": "package"
+                "text": "مؤقت ذكي دقيقتان",
+                "icon": "timer"
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "tongue_spec_1",
-            "tongue_spec_2",
-            "tongue_spec_3",
-            "tongue_spec_4"
+            "snosha_care_spec_NHmFDy",
+            "snosha_care_spec_a4J3iY",
+            "snosha_care_spec_cjHH43",
+            "snosha_care_spec_34LD4e",
+            "snosha_care_spec_VbPVcN",
+            "snosha_care_spec_iLUUMg"
           ]
         },
         "care_n2": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأزرق",
             "featured": true,
             "title": "Snosha N2",
             "description": "فرشاة أسنان كهربائية بتقنية Sonic — تنظيف أذكى. روتين أسهل.",
@@ -1959,10 +1976,10 @@
         "care_f1": {
           "type": "_snosha-care-card",
           "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
+            "product": "منظف-لسان-snosha-snoshax®-فولاذ-مقاوم-للصدأ",
             "featured": false,
-            "title": "Snosha N2",
-            "description": "جهاز تنظيف الأسنان بالماء — تنظيف بين الأسنان… بخطوة أسهل",
+            "title": "",
+            "description": "منظف اللسان — جزء من روتين العناية اليومية",
             "badge": "",
             "discount_label": "خصم",
             "button_label": "عرض المنتج",
@@ -1972,23 +1989,23 @@
             "f1_spec_1": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "خزان ماء 330 مل",
-                "icon": "tank"
-              },
-              "blocks": {}
-            },
-            "f1_spec_2": {
-              "type": "_snosha-care-spec",
-              "settings": {
-                "text": "4 أوضاع تنظيف",
-                "icon": "sliders"
+                "text": "يزيل مصدر 90% من رائحة الفم",
+                "icon": "sparkle_detail"
               },
               "blocks": {}
             },
             "f1_spec_3": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "4 رؤوس متخصصة",
+                "text": "فولاذ مقاوم للصدأ 420J2",
+                "icon": "shield_check"
+              },
+              "blocks": {}
+            },
+            "f1_spec_2": {
+              "type": "_snosha-care-spec",
+              "settings": {
+                "text": "تصميم مزدوج: فرشاة + مكشطة",
                 "icon": "brush_head"
               },
               "blocks": {}
@@ -1996,16 +2013,16 @@
             "f1_spec_4": {
               "type": "_snosha-care-spec",
               "settings": {
-                "text": "ضغط ماء 30–120 PSI",
-                "icon": "gauge"
+                "text": "حافظة سفر + ضمان سنة",
+                "icon": "package"
               },
               "blocks": {}
             }
           },
           "block_order": [
             "f1_spec_1",
-            "f1_spec_2",
             "f1_spec_3",
+            "f1_spec_2",
             "f1_spec_4"
           ]
         }
@@ -2042,26 +2059,6 @@
     "snosha_bundle": {
       "type": "snosha-bundle",
       "blocks": {
-        "component_n2": {
-          "type": "component",
-          "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
-            "desktop_x": 22,
-            "desktop_y": 64,
-            "mobile_x": 25,
-            "mobile_y": 68
-          }
-        },
-        "component_f1": {
-          "type": "component",
-          "settings": {
-            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الأسود",
-            "desktop_x": 51,
-            "desktop_y": 54,
-            "mobile_x": 53,
-            "mobile_y": 57
-          }
-        },
         "component_kids": {
           "type": "component",
           "settings": {
@@ -2071,12 +2068,21 @@
             "mobile_x": 80,
             "mobile_y": 71
           }
+        },
+        "component_n2": {
+          "type": "component",
+          "settings": {
+            "product": "منظف-لسان-snosha-snoshax®-فولاذ-مقاوم-للصدأ",
+            "desktop_x": 22,
+            "desktop_y": 64,
+            "mobile_x": 25,
+            "mobile_y": 68
+          }
         }
       },
       "block_order": [
-        "component_n2",
-        "component_f1",
-        "component_kids"
+        "component_kids",
+        "component_n2"
       ],
       "settings": {
         "bundle_product": "باندل-snosha",
@@ -2694,7 +2700,7 @@
                 "answer": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "text": "<p>يمكنك اختيار طريقة الدفع المناسبة لك من الخيارات المتاحة عند إتمام الطلب. لمعرفة طرق الدفع المتوفرة حاليًا، يُرجى مراجعة صفحة إتمام الشراء.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2735,7 +2741,7 @@
                 "answer": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "text": "<p>نعم، نوفر إمكانية الدفع عند الاستلام ضمن خيارات الدفع المتاحة، لتتسوق براحة وثقة.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2776,7 +2782,7 @@
                 "answer": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "text": "<p>نعم، جميع المنتجات المعروضة عبر متجر SNOSHA الرسمي هي منتجات أصلية من العلامة التجارية، ونحرص على تقديم منتجات عالية الجودة للعناية بالفم والأسنان.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2895,7 +2901,7 @@
                 "answer": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "text": "<p>يمكنك طلب الاستبدال أو الاسترجاع خلال 7 أيام، وفقًا للشروط الموضحة في سياسة الاستبدال والاسترجاع الخاصة بالمتجر.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -2936,7 +2942,7 @@
                 "answer": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "text": "<p>نعم، نوفر شحنًا مجانيًا للطلبات بقيمة 2,000 جنيه مصري فأكثر، مع خدمة توصيل لجميع أنحاء مصر.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",

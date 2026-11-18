@@ -1027,6 +1027,124 @@
         "custom_class": ""
       }
     },
+    "snosha_reels_RrYMeW": {
+      "type": "snosha-reels",
+      "blocks": {
+        "reel_ikUCHW": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/ea1e0483cb004f27b91bb59aec5e54bb.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_T7TCGd": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/0e341b24760e4a40947782aa6be964aa.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_X7TByw": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/25e2b7c11f7b400f812a3a97a7643078.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_aPqzUg": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/c7511ce7f8dd4c119329930d95f11a6c.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_rdLQyc": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/d3144d3247084815a472688210ada4d8.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_cinCnP": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/b7f0f8b5bff9420ca6839ad841273f8c.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        },
+        "reel_YJyjfP": {
+          "type": "reel",
+          "settings": {
+            "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+            "poster": "shopify://shop_images/4da92f391d0f46edaa0e7700949561f1.thumbnail.0000000000.jpg",
+            "product": "",
+            "label": ""
+          }
+        }
+      },
+      "block_order": [
+        "reel_ikUCHW",
+        "reel_T7TCGd",
+        "reel_X7TByw",
+        "reel_aPqzUg",
+        "reel_rdLQyc",
+        "reel_cinCnP",
+        "reel_YJyjfP"
+      ],
+      "name": "Snosha reels",
+      "settings": {
+        "heading": "&nbsp;آراء الأطباء",
+        "unavailable_label": "قريبًا",
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_top_mobile": 48.5,
+        "padding_bottom_mobile": 40,
+        "padding_inline_desktop": 20,
+        "padding_inline_mobile": 24,
+        "heading_size_desktop": 32,
+        "heading_line_height_desktop": 52,
+        "heading_gap_desktop": 24,
+        "heading_size_mobile": 24,
+        "heading_line_height_mobile": 38,
+        "heading_gap_mobile": 43.5,
+        "cards_desktop": 5,
+        "cards_tablet": 3,
+        "cards_mobile": 1,
+        "card_width_desktop": 248,
+        "frame_height_desktop": 440,
+        "card_gap_desktop": 24,
+        "card_width_mobile": 290,
+        "frame_height_mobile": 516,
+        "card_gap_mobile": 12,
+        "video_radius": 18,
+        "show_progress_mobile": true,
+        "show_progress_desktop": true,
+        "background_color": "{{ settings.color_palette.background }}",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "title_color": "{{ settings.color_palette.color6 }}",
+        "price_color": "{{ settings.color_palette.color3 }}",
+        "thumb_background": "{{ settings.color_palette.color5 }}",
+        "thumb_border": "{{ settings.color_palette.color2 }}",
+        "play_background": "{{ settings.color_palette.color3 }}",
+        "play_hover": "{{ settings.color_palette.color6 }}",
+        "progress_track": "{{ settings.color_palette.color2 }}",
+        "progress_start": "#63cdff",
+        "progress_end": "#0f64a8",
+        "custom_class": ""
+      }
+    },
     "snosha_how_to_use_video_GapFrW": {
       "type": "snosha-how-to-use-video",
       "blocks": {
@@ -1053,7 +1171,7 @@
         "heading_color": "{{ settings.color_palette.color6 }}",
         "heading_size": 32,
         "heading_size_mobile": 22,
-        "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
+        "video": "shopify://files/videos/c179e20bc84c41268d11a5f94098c382.HD-1080p-7.2Mbps-99881675.mp4",
         "video_url": "",
         "aspect_ratio": "9 / 16",
         "video_width": 400,
@@ -2156,7 +2274,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "poster": "shopify://shop_images/9b66dde83a024149a93bfaa06667da77.thumbnail.0000000000.jpg",
             "product": "",
             "label": ""
           }
@@ -2165,7 +2283,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "poster": "shopify://shop_images/28162d3197eb4950abbced6b2e145a66.thumbnail.0000000000.jpg",
             "product": "",
             "label": ""
           }
@@ -2174,7 +2292,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "poster": "shopify://shop_images/ba97dc4a17004e9dbae054f22525096c.thumbnail.0000000000.jpg",
             "product": "",
             "label": ""
           }
@@ -2183,7 +2301,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "poster": "shopify://shop_images/7abc01fb0468444485b86d9c2c32e931.thumbnail.0000000000.jpg",
             "product": "",
             "label": ""
           }
@@ -2192,7 +2310,7 @@
           "type": "reel",
           "settings": {
             "video": "shopify://files/videos/SnapInsta.to_AQMkmYXxgE-oqNWytuNSOQcqmScaCSjJrF38EWbSqLTKdaBfnb3AVbwXNAjeuD4yE684JICzrs061NuDNEWyWJEXk1ea48zWindCuvg.mp4",
-            "poster": "shopify://shop_images/snosha-n2-sonic-electric-toothbrush-blue.jpg",
+            "poster": "shopify://shop_images/0a65aaf759e842cc880b1a220973826a.thumbnail.0000000000.jpg",
             "product": "",
             "label": ""
           }
@@ -2207,7 +2325,7 @@
       ],
       "name": "Snosha reels",
       "settings": {
-        "heading": "اكتشف عالم SNOSHA",
+        "heading": "تقييمات من عملاء SNOSHA",
         "unavailable_label": "قريبًا",
         "padding_top_desktop": 60,
         "padding_bottom_desktop": 60,
@@ -3079,6 +3197,7 @@
         "snosha_review_screenshot_4NAXmW",
         "snosha_review_screenshot_ri9rif"
       ],
+      "disabled": true,
       "name": "Snosha reviews screenshots",
       "settings": {
         "heading": "تجارب حقيقية من عملاء SNOSHA",
@@ -3659,6 +3778,7 @@
   "order": [
     "main",
     "snosha_product_comparison_QWa4Cb",
+    "snosha_reels_RrYMeW",
     "snosha_how_to_use_video_GapFrW",
     "snosha_before_after_product",
     "snosha_judgeme_reviews_XzyhEW",
