@@ -10,7 +10,22 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
+  # Snosha (project branch): opt-in "Snosha style" = title, full-width breadcrumb band and a uniform card grid
+  # with the homepage blog card (_featured-blog-posts-card). Off = native Horizon layout. Styles: assets/dev1.css.
+  assign snosha_style = section.settings.snosha_style
 %}
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-blog-page {
+      --snosha-blog-title: {{ section.settings.snosha_title_color }};
+      --snosha-blog-date: {{ section.settings.snosha_date_color }};
+      --snosha-blog-excerpt: {{ section.settings.snosha_excerpt_color }};
+      --snosha-blog-accent: {{ section.settings.snosha_accent_color }};
+      --snosha-blog-band: {{ section.settings.snosha_band_color }};
+      --snosha-blog-columns-desktop: {{ section.settings.snosha_columns }};
+    }
+  {% endstyle %}
+{%- endif -%}
 
 <blog-posts-list section-id="{{ section.id }}">
   <div
@@ -23,11 +38,23 @@
       blog-posts
       spacing-style
       size-style
+      {% if snosha_style %}snosha-blog-page{% endif %}
     "
     data-testid="blog-posts"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {% content_for 'blocks' %}
+
+    {%- if snosha_style -%}
+      {%- assign snosha_home_label = 'content.breadcrumb_home' | t -%}
+      <div class="snosha-blog-page__band">
+        {%- render 'snosha-breadcrumbs',
+          home_label: snosha_home_label,
+          aria_label: section.settings.snosha_breadcrumbs_label,
+          class: 'snosha-blog-page__breadcrumbs'
+        -%}
+      </div>
+    {%- endif -%}
 
     <div
       ref="grid"
@@ -105,6 +132,11 @@
               endif
           endcase
 
+          if snosha_style
+            assign col_span = 2
+            assign scale = 1
+            assign is_horizontal = false
+          endif
           case col_span
             when 2
               assign image_sizes = compact_image_sizes
@@ -150,6 +182,14 @@
           data-testid="blog-post-item"
           data-blog-index="{{ section.id }}-{{ forloop.index }}"
         >
+          {%- if snosha_style -%}
+            {% content_for 'block',
+              id: 'snosha-blog-post-card',
+              type: '_featured-blog-posts-card',
+              article: article,
+              closest.article: article
+            %}
+          {%- else -%}
           {% content_for 'block',
             id: 'static-blog-post-card',
             type: '_blog-post-card',
@@ -159,6 +199,7 @@
             image_fetch_priority: image_fetch_priority,
             is_horizontal: is_horizontal
           %}
+          {%- endif -%}
         </div>
       {% endfor %}
     </div>
@@ -279,6 +320,63 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha style"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha blog page style",
+      "info": "Title, breadcrumb band and an even card grid using the homepage blog card. The card (date, title, excerpt, Read more) is edited in its own block in this section.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns",
+      "label": "Cards per row (desktop)",
+      "info": "990px and wider. Tablet shows 2, mobile 1.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "snosha_breadcrumbs_label",
+      "label": "Breadcrumbs accessible name",
+      "default": "Breadcrumbs"
+    },
+    {
+      "type": "color",
+      "id": "snosha_band_color",
+      "label": "Breadcrumb band background",
+      "default": "#F3F3F3"
+    },
+    {
+      "type": "color",
+      "id": "snosha_title_color",
+      "label": "Card title",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_date_color",
+      "label": "Card date",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_excerpt_color",
+      "label": "Card excerpt",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_accent_color",
+      "label": "Read more link",
+      "default": "{{ settings.color_palette.color3 }}"
     }
   ]
 }

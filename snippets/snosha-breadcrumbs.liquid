@@ -1,5 +1,5 @@
 {%- doc -%}
-  Snosha breadcrumbs: Home → (collection) → (product) for the current page, with schema.org
+  Snosha breadcrumbs: Home → (collection) → (product), or Home → (blog), for the current page, with schema.org
   BreadcrumbList data. Horizon 4.4 has no breadcrumbs component. Styles: assets/dev1.css
   (.snosha-breadcrumbs). The separator chevron points in the reading direction (mirrored in LTR).
 
@@ -24,6 +24,11 @@
   if collection != blank and collection.title != blank
     assign names = names | append: '|||' | append: collection.title
     assign urls = urls | append: '|||' | append: collection.url
+  endif
+  # Blog listing page (sections/main-blog.liquid, Snosha style): Home → blog
+  if blog != blank and blog.title != blank and product == blank and collection == blank
+    assign names = names | append: '|||' | append: blog.title
+    assign urls = urls | append: '|||' | append: blog.url
   endif
   if product != blank
     assign names = names | append: '|||' | append: product.title

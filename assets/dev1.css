@@ -1486,21 +1486,6 @@
     }
   }
 
-  /* Figma "Icon / arrow-left" (inline SVG from snosha-icon), 18px, follows the link color;
-     points to the inline end in RTL, mirrored in LTR */
-  :is(
-    .featured-blog-posts__view-all-icon,
-    .featured-blog-posts-card__read-more-icon
-  ) {
-    flex: none;
-    inline-size: 18px;
-    block-size: 18px;
-
-    &:dir(ltr) {
-      scale: -1 1;
-    }
-  }
-
   /* ---------------- Carousel geometry ---------------- */
   slideshow-component.resource-list__carousel
     > slideshow-container
@@ -1580,6 +1565,26 @@
     &::before,
     &::after {
       content: none;
+    }
+  }
+}
+
+/* Blog card — shared by the homepage blog (.snosha-blog, sections/featured-blog-posts.liquid) and the blog
+   page (.snosha-blog-page, sections/main-blog.liquid "Snosha style"): both render _featured-blog-posts-card.
+   Colors: --snosha-blog-* from the owning section's settings. */
+:is(.snosha-blog, .snosha-blog-page) {
+  /* Figma "Icon / arrow-left" (inline SVG from snosha-icon), 18px, follows the link color;
+     points to the inline end in RTL, mirrored in LTR */
+  :is(
+    .featured-blog-posts__view-all-icon,
+    .featured-blog-posts-card__read-more-icon
+  ) {
+    flex: none;
+    inline-size: 18px;
+    block-size: 18px;
+
+    &:dir(ltr) {
+      scale: -1 1;
     }
   }
 
@@ -1677,6 +1682,81 @@
     font-size: 16px;
     line-height: 26px;
     text-decoration: none;
+  }
+}
+
+
+/* =========================================================================
+   SNOSHA — BLOG PAGE  (sections/main-blog.liquid, setting "Snosha blog page style")
+   Title (native text block) → full-width breadcrumb band (snippets/snosha-breadcrumbs) → even card grid
+   with the homepage blog card (shared card rules above). Columns: section setting (>= 990), 2 (750–989),
+   1 (< 750). Page width: the theme's page width instead of Horizon's narrow blog width.
+   Colors: --snosha-blog-* (section setting bridge in main-blog.liquid).
+   ========================================================================= */
+.snosha-blog-page {
+  /* Horizon's .blog-posts narrows the page; use the theme page width (inherited from the body) */
+  --page-content-width: inherit;
+  --page-width: inherit;
+  --columns-gap: 24px;
+  --rows-gap: 44px;
+  --blog-page-columns: var(--snosha-blog-columns-desktop, 3);
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    --blog-page-columns: 2;
+  }
+
+  @media screen and (max-width: 749px) {
+    --blog-page-columns: 1;
+    --rows-gap: 32px;
+  }
+
+  /* Title: native text block (H1 = blog title) */
+  & > .text-block h1 {
+    margin: 0;
+  }
+
+  /* Breadcrumb band: full bleed, content aligned with the page column */
+  .snosha-blog-page__band {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+    margin-block: 24px 44px;
+    padding-block: 10px;
+    background-color: var(--snosha-blog-band);
+
+    @media screen and (max-width: 749px) {
+      margin-block: 16px 28px;
+    }
+  }
+
+  .snosha-blog-page__breadcrumbs {
+    --snosha-ch-text: var(--snosha-blog-excerpt);
+    --snosha-ch-title: var(--color-foreground);
+    --snosha-ch-accent: var(--snosha-blog-accent);
+
+    grid-column: 2;
+  }
+
+  /* Even grid: every post one cell (Horizon's hero / mixed spans are not used in this style) */
+  .blog-posts-container {
+    grid-template-columns: repeat(var(--blog-page-columns), minmax(0, 1fr));
+  }
+
+  .blog-post-item {
+    grid-column: auto;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+
+  /* Card image keeps the homepage card's proportion (Figma 429.333 x 268) at any card width */
+  .featured-blog-posts-card__image {
+    aspect-ratio: 429.333 / 268;
+    block-size: auto;
+
+    @media screen and (min-width: 750px) {
+      block-size: auto;
+    }
   }
 }
 
