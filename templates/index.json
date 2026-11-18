@@ -222,22 +222,13 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "collection-title"
-          ]
+          "block_order": ["collection-title"]
         }
       },
-      "block_order": [
-        "heading"
-      ],
+      "block_order": ["heading"],
       "name": "Snosha collections",
       "settings": {
-        "collection_list": [
-          "best-seller",
-          "snosha-n2",
-          "باندل",
-          "الأكسسوارات"
-        ],
+        "collection_list": ["best-seller", "snosha-n2", "باندل", "الأكسسوارات"],
         "layout_type": "carousel",
         "icons_style": "chevron",
         "cards_desktop": 4,
@@ -570,12 +561,7 @@
           }
         }
       },
-      "block_order": [
-        "spec_tank",
-        "spec_modes",
-        "spec_pressure",
-        "spec_heads"
-      ],
+      "block_order": ["spec_tank", "spec_modes", "spec_pressure", "spec_heads"],
       "settings": {
         "tag": "SNOSHA F1",
         "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
@@ -1206,10 +1192,7 @@
                       ]
                     }
                   },
-                  "block_order": [
-                    "benefit_1_icon",
-                    "benefit_1_text"
-                  ]
+                  "block_order": ["benefit_1_icon", "benefit_1_text"]
                 },
                 "benefit_2": {
                   "type": "group",
@@ -1362,10 +1345,7 @@
                       ]
                     }
                   },
-                  "block_order": [
-                    "benefit_2_icon",
-                    "benefit_2_text"
-                  ]
+                  "block_order": ["benefit_2_icon", "benefit_2_text"]
                 },
                 "benefit_3": {
                   "type": "group",
@@ -1518,10 +1498,7 @@
                       ]
                     }
                   },
-                  "block_order": [
-                    "benefit_3_icon",
-                    "benefit_3_text"
-                  ]
+                  "block_order": ["benefit_3_icon", "benefit_3_text"]
                 },
                 "benefit_4": {
                   "type": "group",
@@ -1674,10 +1651,7 @@
                       ]
                     }
                   },
-                  "block_order": [
-                    "benefit_4_icon",
-                    "benefit_4_text"
-                  ]
+                  "block_order": ["benefit_4_icon", "benefit_4_text"]
                 }
               },
               "block_order": [
@@ -1706,18 +1680,10 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "heading",
-            "body",
-            "benefits",
-            "button"
-          ]
+          "block_order": ["heading", "body", "benefits", "button"]
         }
       },
-      "block_order": [
-        "comparison",
-        "content"
-      ],
+      "block_order": ["comparison", "content"],
       "name": "Snosha before / after",
       "settings": {
         "padding_top": 60,
@@ -2019,19 +1985,10 @@
               "blocks": {}
             }
           },
-          "block_order": [
-            "f1_spec_1",
-            "f1_spec_3",
-            "f1_spec_2",
-            "f1_spec_4"
-          ]
+          "block_order": ["f1_spec_1", "f1_spec_3", "f1_spec_2", "f1_spec_4"]
         }
       },
-      "block_order": [
-        "care_tongue",
-        "care_n2",
-        "care_f1"
-      ],
+      "block_order": ["care_tongue", "care_n2", "care_f1"],
       "settings": {
         "heading": "اختار العناية المناسبة لاحتياجاتك",
         "subtitle": "ثلاث منتجات لروتين متكامل , اختار اللي يناسب احتياجك.",
@@ -2080,10 +2037,7 @@
           }
         }
       },
-      "block_order": [
-        "component_kids",
-        "component_n2"
-      ],
+      "block_order": ["component_kids", "component_n2"],
       "settings": {
         "bundle_product": "باندل-snosha",
         "bundle_image_override": "shopify://shop_images/03a64635d7e30f9b63be44fce161e0e4baa12a4a_66a0425b-ed62-4abc-9645-e588eab0f6cd.png",
@@ -2723,9 +2677,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_cash_on_delivery": {
               "type": "_accordion-row",
@@ -2764,9 +2716,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_authentic": {
               "type": "_accordion-row",
@@ -2805,9 +2755,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             }
           },
           "block_order": [
@@ -2883,9 +2831,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_returns": {
               "type": "_accordion-row",
@@ -2924,9 +2870,7 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             },
             "faq_free_shipping": {
               "type": "_accordion-row",
@@ -2965,16 +2909,10 @@
                   "blocks": {}
                 }
               },
-              "block_order": [
-                "answer"
-              ]
+              "block_order": ["answer"]
             }
           },
-          "block_order": [
-            "faq_warranty",
-            "faq_returns",
-            "faq_free_shipping"
-          ]
+          "block_order": ["faq_warranty", "faq_returns", "faq_free_shipping"]
         },
         "heading": {
           "type": "text",
@@ -3029,10 +2967,7 @@
           "blocks": {}
         }
       },
-      "block_order": [
-        "column_1",
-        "column_2"
-      ],
+      "block_order": ["column_1", "column_2"],
       "name": "Snosha FAQ",
       "settings": {
         "background_color": "{{ settings.color_palette.background }}",
