@@ -85,6 +85,15 @@
     gap: 12px;
   }
 
+  /* CLS: while the response is still streaming, the content can paint before the stage exists and then be
+     pushed down by it. Until the stage arrives, reserve its box (stage size below + the 12px gap). Margin
+     percentages resolve against the same width the stage uses, so the reserved space matches exactly. */
+  @media screen and (max-width: 989px) {
+    .snosha-hero__content:only-child {
+      margin-block-start: calc(min(100%, 480px) * 330 / 342 + 12px);
+    }
+  }
+
   /* ---------- Content column (Figma Hero Content 382:4562 / 190:3821) ---------- */
   .snosha-hero__content {
     display: flex;
@@ -5942,4 +5951,19 @@ body:has(.product-information) .snosha-faq {
 /* Header "Show language selector in the mobile menu" off: hide Horizon's drawer language selector */
 #header-component.snosha-header--no-drawer-language .menu-drawer__localization {
   display: none;
+}
+
+/* =========================================================================
+   SNOSHA — CLS: RESOURCE-LIST CAROUSEL SLIDES (collections, product lists, blog posts, recommendations).
+   Native slides use content-visibility: auto (snippets/slideshow-styles.liquid; neighbour slides of the
+   selected one in snippets/resource-list-carousel.liquid, specificity 0,2,2). A carousel below the fold
+   therefore skips rendering its slides, and when it scrolls into view Chrome lays their content out for the
+   first time and records it as layout shifts (nothing visibly moves, but they count toward CLS: about 0.02–0.14
+   per carousel on the mobile homepage). Keeping the outer slides rendered removes those entries. [aria-hidden]
+   is on every slide (server + slideshow.js), so this matches all of them and outranks the native rules.
+   Nested card image galleries keep their native lazy rendering; scrolling, snapping, arrows and the
+   progress bar are unchanged.
+   ========================================================================= */
+.resource-list__carousel slideshow-slide.resource-list__slide[aria-hidden] {
+  content-visibility: visible;
 }
