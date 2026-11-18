@@ -851,6 +851,13 @@
     letter-spacing: -4.2px;
   }
 
+  /* English (LTR): mirror the mobile watermark to the banner's right edge. :dir() is read on the backdrop
+     (the watermark itself always has dir="ltr" for its letters). */
+  .snosha-f1-banner__backdrop:dir(ltr) .snosha-f1-banner__watermark--mobile {
+    right: -20px;
+    left: auto;
+  }
+
   /* ---------- Layout ---------- */
   .snosha-f1-banner__layout {
     display: flex;
@@ -1312,22 +1319,6 @@
       align-items: center;
       align-self: stretch;
     }
-
-    /* English (LTR): keep the approved physical arrangement — product stage on the left, copy on the right.
-       The grid tracks follow the inline direction, so without this the LTR copy moves to the left. The copy's
-       24px edge padding stays on its outer (right) side, as in RTL. Text inside the copy stays LTR / start. */
-    .snosha-f1-banner__layout:dir(ltr) {
-      grid-template-columns: minmax(0, 752fr) minmax(0, 584fr);
-    }
-
-    .snosha-f1-banner__stage:dir(ltr) {
-      order: -1;
-    }
-
-    .snosha-f1-banner__content:dir(ltr) {
-      padding-inline: 0 24px;
-    }
-
     .snosha-f1-banner__canvas {
       width: 100%;
       height: auto;
@@ -1384,6 +1375,15 @@
       width: calc(465 / 752 * 100%);
       container-type: inline-size;
       pointer-events: none;
+    }
+
+    /* English (LTR): the stage sits on the right, so mirror the watermark to the stage's right edge — the
+       banner's far right, the same distance from it as the RTL watermark from the far left. The letters
+       themselves are not mirrored (the text keeps dir="ltr"); :dir() is read on the box, which inherits the
+       page direction. */
+    .snosha-f1-banner__watermark-box:dir(ltr) {
+      right: calc(-41 / 752 * 100%);
+      left: auto;
     }
 
     .snosha-f1-banner__watermark--desktop {
