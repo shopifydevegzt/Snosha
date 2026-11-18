@@ -12,6 +12,28 @@
     "snosha_hero": {
       "type": "snosha-hero",
       "blocks": {
+        "slide_Y7mMwE": {
+          "type": "slide",
+          "settings": {
+            "image_desktop_ar": "shopify://shop_images/SNOSHA_F1_Desktop.jpg",
+            "image_mobile_ar": "shopify://shop_images/SNOSHA_F1_Mobile.jpg",
+            "image_desktop_en": "shopify://shop_images/SNOSHA_F1_blue_gradient_banner.png",
+            "image_mobile_en": "shopify://shop_images/SNOSHA_F1_After-Brushing_Campaign_Banner.png",
+            "image_fit": "cover",
+            "link": ""
+          }
+        },
+        "slide_gWm7Vc": {
+          "type": "slide",
+          "settings": {
+            "image_desktop_ar": "shopify://shop_images/SNOSHA_N2_Desktop.jpg",
+            "image_mobile_ar": "shopify://shop_images/SNOSHA_N2_Mobile_v2.jpg",
+            "image_desktop_en": "shopify://shop_images/SNOSHA_N2_EN_Desktop.jpg",
+            "image_mobile_en": "shopify://shop_images/SNOSHA_N2_EN_Mobile.jpg",
+            "image_fit": "cover",
+            "link": ""
+          }
+        },
         "spec_chip_sonic": {
           "type": "spec_chip",
           "settings": {
@@ -94,6 +116,8 @@
         }
       },
       "block_order": [
+        "slide_Y7mMwE",
+        "slide_gWm7Vc",
         "spec_chip_sonic",
         "spec_chip_battery",
         "spec_chip_modes",
@@ -114,6 +138,9 @@
         "image": "shopify://shop_images/36ca2f3a97861d7a5e52eaad601f402e982e7c01.png",
         "desktop_height": 500,
         "padding_block_end": 0,
+        "enable_slideshow": true,
+        "show_slideshow_arrows": true,
+        "show_slideshow_dots": false,
         "gradient_start": "#63cdff",
         "gradient_middle": "{{ settings.color_palette.color3 }}",
         "gradient_end": "#0f64a8",
@@ -222,13 +249,22 @@
               "blocks": {}
             }
           },
-          "block_order": ["collection-title"]
+          "block_order": [
+            "collection-title"
+          ]
         }
       },
-      "block_order": ["heading"],
+      "block_order": [
+        "heading"
+      ],
       "name": "Snosha collections",
       "settings": {
-        "collection_list": ["best-seller", "snosha-n2", "باندل", "الأكسسوارات"],
+        "collection_list": [
+          "best-seller",
+          "snosha-n2",
+          "باندل",
+          "الأكسسوارات"
+        ],
         "layout_type": "carousel",
         "icons_style": "chevron",
         "cards_desktop": 4,
@@ -561,13 +597,18 @@
           }
         }
       },
-      "block_order": ["spec_tank", "spec_modes", "spec_pressure", "spec_heads"],
+      "block_order": [
+        "spec_tank",
+        "spec_modes",
+        "spec_pressure",
+        "spec_heads"
+      ],
       "settings": {
         "tag": "SNOSHA F1",
         "heading": "تنظيف بين الأسنان… <em>بخطوة أسهل</em>",
         "text": "جهاز تنظيف الأسنان بالماء من SNOSHA — تدفق ماء بضغط قابل للاختيار للوصول بين الأسنان، حول خط اللثة والمناطق صعبة الوصول.",
         "button_label": "عرض المنتج",
-        "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+        "product": "جهاز-تنظيف-الأسنان-بالماء-snosha-f1",
         "button_link": "",
         "image": "shopify://shop_images/ce3a9d782ccce2c0f43df794cac8294fc07edd36.png",
         "watermark": "F1",
@@ -1192,7 +1233,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_1_icon", "benefit_1_text"]
+                  "block_order": [
+                    "benefit_1_icon",
+                    "benefit_1_text"
+                  ]
                 },
                 "benefit_2": {
                   "type": "group",
@@ -1345,7 +1389,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_2_icon", "benefit_2_text"]
+                  "block_order": [
+                    "benefit_2_icon",
+                    "benefit_2_text"
+                  ]
                 },
                 "benefit_3": {
                   "type": "group",
@@ -1498,7 +1545,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_3_icon", "benefit_3_text"]
+                  "block_order": [
+                    "benefit_3_icon",
+                    "benefit_3_text"
+                  ]
                 },
                 "benefit_4": {
                   "type": "group",
@@ -1651,7 +1701,10 @@
                       ]
                     }
                   },
-                  "block_order": ["benefit_4_icon", "benefit_4_text"]
+                  "block_order": [
+                    "benefit_4_icon",
+                    "benefit_4_text"
+                  ]
                 }
               },
               "block_order": [
@@ -1680,10 +1733,18 @@
               "blocks": {}
             }
           },
-          "block_order": ["heading", "body", "benefits", "button"]
+          "block_order": [
+            "heading",
+            "body",
+            "benefits",
+            "button"
+          ]
         }
       },
-      "block_order": ["comparison", "content"],
+      "block_order": [
+        "comparison",
+        "content"
+      ],
       "name": "Snosha before / after",
       "settings": {
         "padding_top": 60,
@@ -1985,10 +2046,19 @@
               "blocks": {}
             }
           },
-          "block_order": ["f1_spec_1", "f1_spec_3", "f1_spec_2", "f1_spec_4"]
+          "block_order": [
+            "f1_spec_1",
+            "f1_spec_3",
+            "f1_spec_2",
+            "f1_spec_4"
+          ]
         }
       },
-      "block_order": ["care_tongue", "care_n2", "care_f1"],
+      "block_order": [
+        "care_tongue",
+        "care_n2",
+        "care_f1"
+      ],
       "settings": {
         "heading": "اختار العناية المناسبة لاحتياجاتك",
         "subtitle": "ثلاث منتجات لروتين متكامل , اختار اللي يناسب احتياجك.",
@@ -2037,7 +2107,10 @@
           }
         }
       },
-      "block_order": ["component_kids", "component_n2"],
+      "block_order": [
+        "component_kids",
+        "component_n2"
+      ],
       "settings": {
         "bundle_product": "باندل-snosha",
         "bundle_image_override": "shopify://shop_images/03a64635d7e30f9b63be44fce161e0e4baa12a4a_66a0425b-ed62-4abc-9645-e588eab0f6cd.png",
@@ -2677,7 +2750,9 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             },
             "faq_cash_on_delivery": {
               "type": "_accordion-row",
@@ -2716,7 +2791,9 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             },
             "faq_authentic": {
               "type": "_accordion-row",
@@ -2755,7 +2832,9 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             }
           },
           "block_order": [
@@ -2831,7 +2910,9 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             },
             "faq_returns": {
               "type": "_accordion-row",
@@ -2870,7 +2951,9 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             },
             "faq_free_shipping": {
               "type": "_accordion-row",
@@ -2909,10 +2992,16 @@
                   "blocks": {}
                 }
               },
-              "block_order": ["answer"]
+              "block_order": [
+                "answer"
+              ]
             }
           },
-          "block_order": ["faq_warranty", "faq_returns", "faq_free_shipping"]
+          "block_order": [
+            "faq_warranty",
+            "faq_returns",
+            "faq_free_shipping"
+          ]
         },
         "heading": {
           "type": "text",
@@ -2967,7 +3056,10 @@
           "blocks": {}
         }
       },
-      "block_order": ["column_1", "column_2"],
+      "block_order": [
+        "column_1",
+        "column_2"
+      ],
       "name": "Snosha FAQ",
       "settings": {
         "background_color": "{{ settings.color_palette.background }}",
