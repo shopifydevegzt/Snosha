@@ -940,6 +940,13 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    /* LTR (English): a plain row from the inline start, so the specs read 1, 2, 3 left to right like the
+       Figma order. Mirroring the RTL row-reverse would show them backwards (3, 2, 1). */
+    &:dir(ltr) {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
   }
 
   /* 38px tall like Figma (Figma strokes don't take layout space): padding = Figma padding - 1px border.
@@ -5836,15 +5843,23 @@ body:has(.product-information) .snosha-faq {
 }
 
 /* =========================================================================
-   SNOSHA — HEADER LANGUAGE DROPDOWN (snippets/snosha-language-switcher.liquid, header "Snosha layout" on).
-   Closed: current language + caret. Open: panel under the trigger, options stacked and centred, current one
-   on a light-grey tint. Behaviour (toggle, outside click, Escape) is Horizon's dropdown-localization-component;
-   visibility (>= 750px, menu mode) is Horizon's .dropdown-localization rule. Mobile uses the drawer selector.
+   SNOSHA — LANGUAGE DROPDOWN (snippets/snosha-language-switcher.liquid): header ("Snosha layout" on) and
+   footer (blocks/snosha-footer-language.liquid, .snosha-language--footer). One shared rule set.
+   Closed: current language + caret. Open: panel under the trigger (above it in the footer), options stacked
+   and centred, current one on a light-grey tint. Behaviour (toggle, outside click, Escape) is Horizon's
+   dropdown-localization-component. Header visibility (>= 750px, menu mode) is Horizon's .dropdown-localization
+   rule and mobile uses the drawer selector; the footer one is visible at every width.
+   Context differences go through custom properties (--snosha-nav-color, --snosha-nav-active-color,
+   --snosha-language-panel-start / -end), so the header keeps its exact values.
    ========================================================================= */
 #header-component.snosha-header .snosha-language {
+  order: 4; /* after cart, search, account in the Snosha icon row */
+}
+
+#header-component.snosha-header .snosha-language,
+.snosha-language.snosha-language--footer {
   position: relative;
   align-items: center;
-  order: 4; /* after cart, search, account in the Snosha icon row */
 
   .snosha-language__trigger {
     display: inline-flex;
@@ -5891,7 +5906,8 @@ body:has(.product-information) .snosha-faq {
   .snosha-language__panel {
     position: absolute;
     z-index: var(--layer-temporary);
-    inset-block-start: calc(100% + var(--padding-2xs));
+    inset-block-start: var(--snosha-language-panel-start, calc(100% + var(--padding-2xs)));
+    inset-block-end: var(--snosha-language-panel-end, auto);
     left: 50%; /* stylelint-disable-line csstools/use-logical -- centring pair with translate(-50%) */
     translate: -50% 0;
     min-inline-size: 7.5rem;
@@ -5951,6 +5967,70 @@ body:has(.product-information) .snosha-faq {
 /* Header "Show language selector in the mobile menu" off: hide Horizon's drawer language selector */
 #header-component.snosha-header--no-drawer-language .menu-drawer__localization {
   display: none;
+}
+
+/* Footer context: bottom row opposite the copyright (the footer-utilities grid places it at the inline end,
+   so it mirrors between RTL and LTR); muted footer text color like the copyright; panel opens upward so it
+   stays on screen at the bottom of the page. Visible at every width (no mobile:hidden). */
+.snosha-language.snosha-language--footer {
+  --snosha-nav-color: var(--color-utilities, var(--color-foreground-muted));
+  --snosha-nav-active-color: var(--color-foreground);
+  --snosha-language-panel-start: auto;
+  --snosha-language-panel-end: calc(100% + var(--padding-2xs));
+  display: inline-flex;
+}
+
+/* =========================================================================
+   SNOSHA — FOOTER SOCIAL ICONS (blocks/social-links.liquid, opt-in "Snosha circular icons" →
+   .social-icons--snosha). Each platform link in an outlined circle: touch-target sized, centred icon,
+   border color from the block setting (--snosha-social-border, palette default), icon color from the block's
+   native "Color" setting (--color-utilities). Order, wrapping and alignment stay native (centred on mobile,
+   inline start from 750px, so right in RTL and left in LTR).
+   ========================================================================= */
+.social-icons__wrapper.social-icons--snosha {
+  gap: var(--gap-sm);
+
+  & > .social-icons__icon-wrapper {
+    width: var(--button-size);
+    height: var(--button-size);
+  }
+
+  & a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    block-size: 100%;
+    border: 1px solid var(--snosha-social-border, currentcolor);
+    border-radius: 50%;
+    color: var(--color-utilities, currentcolor);
+    transition: border-color var(--animation-speed) var(--animation-easing);
+
+    &:hover {
+      border-color: currentcolor;
+    }
+
+    &:focus-visible {
+      outline: var(--focus-outline-width, 2px) solid currentcolor;
+      outline-offset: 2px;
+    }
+  }
+
+  & .social-icons__icon {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+  }
+}
+
+/* =========================================================================
+   SNOSHA — CONTACT FORM PHONE FIELD (blocks/contact-form.liquid, Horizon native)
+   HTML gives input[type=tel] LTR directionality (browsers render it with direction: ltr) so digits, "+" and
+   country codes keep their order. On RTL pages its text-align: start then resolves to the left, unlike the
+   other fields. Keep the LTR value and align it with the page's reading start instead. The direction test is
+   on the form container: the tel input itself never matches :dir(rtl).
+   ========================================================================= */
+.contact-form:dir(rtl) .contact-form__input[type="tel"] {
+  text-align: end; /* the field is LTR, so its end is the right edge = the RTL page's start */
 }
 
 /* =========================================================================

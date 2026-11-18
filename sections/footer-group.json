@@ -331,12 +331,35 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "social_links_snosha": {
+              "type": "social-links",
+              "settings": {
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "snosha_style": true,
+                "snosha_border_color": "{{ settings.color_palette.color4 }}",
+                "facebook_url": "https://www.facebook.com/snoshacom/",
+                "instagram_url": "https://www.instagram.com/snosha_com/",
+                "youtube_url": "https://www.youtube.com/channel/UC9BTeFPaOZqh7XaaTMpubtQ",
+                "tiktok_url": "https://www.tiktok.com/@snosha_com",
+                "twitter_url": "",
+                "threads_url": "",
+                "linkedin_url": "",
+                "bluesky_url": "",
+                "snapchat_url": "",
+                "pinterest_url": "",
+                "tumblr_url": "",
+                "vimeo_url": "",
+                "custom_url": ""
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "text_LWt8Pz",
             "text_f9CFLH",
-            "email_signup_crihX7"
+            "email_signup_crihX7",
+            "social_links_snosha"
           ]
         }
       },
@@ -386,24 +409,10 @@
           },
           "blocks": {}
         },
-        "social_links_Ew63Kq": {
-          "type": "social-links",
-          "disabled": true,
+        "footer_language_snosha": {
+          "type": "snosha-footer-language",
           "settings": {
-            "icon_color": "",
-            "facebook_url": "https://www.facebook.com/",
-            "instagram_url": "https://www.instagram.com/",
-            "youtube_url": "https://www.youtube.com/",
-            "tiktok_url": "https://www.tiktok.com/",
-            "twitter_url": "https://x.com/",
-            "threads_url": "",
-            "linkedin_url": "",
-            "bluesky_url": "",
-            "snapchat_url": "",
-            "pinterest_url": "",
-            "tumblr_url": "",
-            "vimeo_url": "",
-            "custom_url": ""
+            "show_language": true
           },
           "blocks": {}
         }
@@ -411,7 +420,7 @@
       "block_order": [
         "footer_copyright_jweRK8",
         "footer_policy_list_VCdnpa",
-        "social_links_Ew63Kq"
+        "footer_language_snosha"
       ],
       "name": "t:names.utilities",
       "settings": {

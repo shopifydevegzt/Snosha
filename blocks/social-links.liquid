@@ -1,12 +1,21 @@
 
+{%- comment -%}
+  Snosha (project addition): opt-in "Snosha circular icons" adds .social-icons--snosha (outlined circles,
+  styles in assets/main.css) and bridges the border color. Off by default: other instances stay native.
+{%- endcomment -%}
 <div
-  class="social-icons__wrapper social-icons__wrapper--{{ block.id }}"
+  class="social-icons__wrapper social-icons__wrapper--{{ block.id }}{% if block.settings.snosha_style %} social-icons--snosha{% endif %}"
   {{ block.shopify_attributes }}
 >
-  {% if block.settings.icon_color != blank %}
+  {% if block.settings.icon_color != blank or block.settings.snosha_style %}
     {% style %}
       .social-icons__wrapper--{{ block.id }} {
-        --color-utilities: {{ block.settings.icon_color }};
+        {%- if block.settings.icon_color != blank %}
+          --color-utilities: {{ block.settings.icon_color }};
+        {%- endif %}
+        {%- if block.settings.snosha_style %}
+          --snosha-social-border: {{ block.settings.snosha_border_color }};
+        {%- endif %}
       }
     {% endstyle %}
   {% endif %}
@@ -181,6 +190,20 @@
       "id": "icon_color",
       "label": "t:settings.color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha circular icons",
+      "info": "Shows each icon in an outlined circle (Snosha footer design).",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "snosha_border_color",
+      "label": "Circle border color",
+      "default": "{{ settings.color_palette.color4 }}",
+      "visible_if": "{{ block.settings.snosha_style }}"
     },
     {
       "type": "header",

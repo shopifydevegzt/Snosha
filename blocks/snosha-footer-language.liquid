@@ -1,0 +1,42 @@
+{%- doc -%}
+  Snosha (project file): footer language selector for the bottom row (sections/footer-utilities.liquid), placed
+  opposite the copyright by the section's native start / end grid (mirrors automatically in RTL / LTR).
+  Reuses snippets/snosha-language-switcher.liquid (native localization form + Horizon's
+  <dropdown-localization-component>) in its footer context. Shown only with 2+ storefront languages, like
+  Horizon's own selectors. Styles: assets/main.css (.snosha-language--footer).
+{%- enddoc -%}
+{%- if block.settings.show_language and localization.available_languages.size > 1 -%}
+  <div
+    class="snosha-footer-language"
+    {{ block.shopify_attributes }}
+  >
+    {%- render 'snosha-language-switcher', section: section, context: 'footer', id_suffix: block.id -%}
+  </div>
+{%- elsif request.design_mode -%}
+  <div
+    class="snosha-footer-language"
+    {{ block.shopify_attributes }}
+  ></div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Language selector",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_language",
+      "label": "Show footer language selector",
+      "info": "Visible when the store has two or more published languages.",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Language selector",
+      "category": "t:categories.footer"
+    }
+  ]
+}
+{% endschema %}

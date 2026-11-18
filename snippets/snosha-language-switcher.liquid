@@ -1,28 +1,45 @@
 {%- doc -%}
-  Snosha (project file): desktop header language dropdown (header "Snosha layout" on, language selector only).
+  Snosha (project file): language dropdown shared by the header (desktop, "Snosha layout" on, language
+  selector only) and the footer (blocks/snosha-footer-language.liquid).
   Native Shopify switching: a {% form 'localization' %} whose options are submit buttons named language_code;
   Shopify returns to the localized version of the current page. Open / close, outside click,
-  Escape and aria-expanded come from Horizon's <dropdown-localization-component> (assets/localization.js).
-  Rendered only when the header shows the language selector (2+ storefront languages). Styles: assets/main.css.
+  Escape and aria-expanded come from Horizon's <dropdown-localization-component> (assets/localization.js),
+  one instance per render, so header and footer work independently. Callers render it only with 2+
+  storefront languages. Styles: assets/main.css.
 
-  @param {object} section - The header section.
+  @param {object} section - The section rendering the switcher.
   @param {string} [form_style] - Horizon's localization font variables (--menu-localization-font…).
+  @param {string} [context] - 'header' (default) or 'footer': footer is visible at every width and its panel opens upward.
+  @param {string} [id_suffix] - Unique suffix for the panel / form ids (default: section.id).
 
   @example
   {% render 'snosha-language-switcher', section: section, form_style: form_style %}
+  {% render 'snosha-language-switcher', section: section, context: 'footer', id_suffix: block.id %}
 {%- enddoc -%}
 
 {%- liquid
+  assign switcher_context = context | default: 'header'
+  assign switcher_suffix = id_suffix | default: section.id
   assign current_language = localization.language
-  assign panel_id = 'SnoshaLanguage-' | append: section.id
-  assign form_id = 'SnoshaLanguageForm-' | append: section.id
+  assign panel_id = 'SnoshaLanguage-' | append: switcher_suffix
+  assign form_id = 'SnoshaLanguageForm-' | append: switcher_suffix
   assign language_label = 'content.language' | t
+
+  assign switcher_visible = true
+  assign switcher_class = 'mobile:hidden'
+  if switcher_context == 'footer'
+    assign switcher_class = 'snosha-language--footer'
+  elsif section.settings.snosha_language_desktop == false
+    assign switcher_visible = false
+  endif
 -%}
 
-{%- if section.settings.snosha_language_desktop != false -%}
+{%- if switcher_visible -%}
   <dropdown-localization-component
-    class="dropdown-localization snosha-language mobile:hidden"
-    style="{{ form_style }}"
+    class="dropdown-localization snosha-language {{ switcher_class }}"
+    {% if form_style != blank %}
+      style="{{ form_style }}"
+    {% endif %}
   >
     <button
       type="button"
