@@ -69,7 +69,7 @@
           "name": "t:names.button",
           "settings": {
             "label": "اكمل التسوق",
-            "link": "shopify://collections/فرشاة-الأسنان-الكهربائية",
+            "link": "shopify://collections/snosha-n2",
             "open_in_new_tab": false,
             "style_class": "button",
             "custom_button_background": "{{ settings.color_palette.foreground }}",
