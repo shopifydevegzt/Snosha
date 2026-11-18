@@ -2340,129 +2340,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "accordion_row_YWatef": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "ما طرق الدفع المتاحة؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_tLmL3w": {
-                  "type": "text",
-                  "settings": {
-                    "text": "",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_tLmL3w"
-              ]
-            },
-            "accordion_row_AtGm7a": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "هل يوجد دفع عند الاستلام؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_gEJD8z": {
-                  "type": "text",
-                  "settings": {
-                    "text": "",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_gEJD8z"
-              ]
-            },
-            "accordion_row_7UqQnE": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "هل منتجات SNOSHA أصلية ومعتمدة؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_9KMKqA": {
-                  "type": "text",
-                  "settings": {
-                    "text": "",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_9KMKqA"
-              ]
-            },
             "accordion_row_f1faq01": {
               "type": "_accordion-row",
               "settings": {
@@ -2834,9 +2711,6 @@
             }
           },
           "block_order": [
-            "accordion_row_YWatef",
-            "accordion_row_AtGm7a",
-            "accordion_row_7UqQnE",
             "accordion_row_f1faq01",
             "accordion_row_f1faq02",
             "accordion_row_f1faq03",
@@ -2878,129 +2752,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "accordion_row_q7hAzK": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "هل يوجد ضمان على المنتجات؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_nPNdFX": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_nPNdFX"
-              ]
-            },
-            "accordion_row_zgijkw": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "ما مدة الاستبدال والاسترجاع؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_iwBRmr": {
-                  "type": "text",
-                  "settings": {
-                    "text": "",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_iwBRmr"
-              ]
-            },
-            "accordion_row_NTN8jk": {
-              "type": "_accordion-row",
-              "settings": {
-                "heading": "هل يوجد شحن مجاني؟",
-                "open_by_default": false,
-                "icon": "none",
-                "width": 20,
-                "snosha_icon": "none",
-                "hide_when_empty": false
-              },
-              "blocks": {
-                "text_kcCTpX": {
-                  "type": "text",
-                  "settings": {
-                    "text": "",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_kcCTpX"
-              ]
-            },
             "accordion_row_f1faq10": {
               "type": "_accordion-row",
               "settings": {
@@ -3372,9 +3123,6 @@
             }
           },
           "block_order": [
-            "accordion_row_q7hAzK",
-            "accordion_row_zgijkw",
-            "accordion_row_NTN8jk",
             "accordion_row_f1faq10",
             "accordion_row_f1faq11",
             "accordion_row_f1faq12",
