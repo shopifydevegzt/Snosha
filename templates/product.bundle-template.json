@@ -126,21 +126,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "review_snosha_rating": {
-                  "type": "review",
-                  "name": "Rating (Judge.me / reviews)",
-                  "settings": {
-                    "stars_style": "shaded",
-                    "show_number": false,
-                    "show_rating_value": true,
-                    "label": "",
-                    "text_color": "{{ settings.color_palette.color3 }}",
-                    "type_preset": "paragraph",
-                    "width": "fit-content",
-                    "alignment": "left"
-                  },
-                  "blocks": {}
-                },
                 "text_xrnftG": {
                   "type": "text",
                   "name": "t:names.product_title",
@@ -157,6 +142,47 @@
                     "case": "none",
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.color3 }}",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "review_snosha_rating": {
+                  "type": "review",
+                  "name": "Rating (Judge.me / reviews)",
+                  "settings": {
+                    "stars_style": "shaded",
+                    "show_number": false,
+                    "show_rating_value": true,
+                    "label": "",
+                    "text_color": "{{ settings.color_palette.color3 }}",
+                    "type_preset": "paragraph",
+                    "width": "fit-content",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                },
+                "text_bundle_subheadline": {
+                  "type": "text",
+                  "name": "Subheadline",
+                  "settings": {
+                    "text": "<p>روتين واحد لفم نضيف ونفَس منعش… ليك وللي معاك.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "{{ settings.color_palette.color1 }}",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -184,32 +210,6 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "text_color": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_bundle_subheadline": {
-                  "type": "text",
-                  "name": "Subheadline",
-                  "settings": {
-                    "text": "<p>روتين واحد لفم نضيف ونفَس منعش… ليك وللي معاك.</p>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "paragraph",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "{{ settings.color_palette.color1 }}",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
@@ -431,13 +431,13 @@
                 },
                 "trust_online_payment": {
                   "type": "_snosha-trust-item",
+                  "disabled": true,
                   "settings": {
                     "text": "شحن مجاني عند الدفع أونلاين",
                     "icon": "cart",
                     "link": ""
                   },
-                  "blocks": {},
-                  "disabled": true
+                  "blocks": {}
                 },
                 "trust_delivery": {
                   "type": "_snosha-trust-item",
@@ -831,6 +831,133 @@
         "snosha_border_color": "{{ settings.color_palette.color2 }}",
         "snosha_shadow_color": "#0d408012",
         "custom_class": ""
+      }
+    },
+    "snosha_why_bundle": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/4aeb684217e4567f22b1769af6191a1e.jpg",
+            "link": "",
+            "video_loop": true,
+            "video_autoplay": false,
+            "image_position": "cover",
+            "video_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16
+          },
+          "blocks": {
+            "why_heading": {
+              "type": "text",
+              "name": "Heading",
+              "settings": {
+                "text": "<h2>ليه الباقة دي؟</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "why_subtitle": {
+              "type": "text",
+              "name": "Subtitle",
+              "settings": {
+                "text": "<p>نضافة سنانك نص الحكاية بس</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "why_text": {
+              "type": "text",
+              "name": "Text",
+              "settings": {
+                "text": "<p>الفرشاة بتنظف السنان، لكن اللسان كمان بيتجمع عليه طبقة بيضا فيها بكتيريا وبواقي أكل، والفرشاة لوحدها مش بتشيلها كويس. علشان كده عملنا الباقة دي: فرشاة سونيك للسنان واللثة، ومنظف لسان للطبقة اللي على اللسان. والنتيجة روتين كامل ونفَس منعش طول اليوم.<br/>وعشان فرشة السنان شخصية ومينفعش تتشارك، كل واحد فيكم بياخد فرشته ومنظفه ولونه، بنفس الجودة.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "why_heading",
+            "why_subtitle",
+            "why_text"
+          ]
+        }
+      },
+      "name": "SNOSHA — Why This Bundle",
+      "settings": {
+        "media_position": "right",
+        "media_width": "medium",
+        "media_height": "auto",
+        "section_width": "page-width",
+        "extend_media": false,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 48,
+        "padding-block-end": 48,
+        "snosha_mobile_media_position": "top",
+        "snosha_hide_empty_media": true,
+        "custom_class": "snosha-why-bundle"
       }
     },
     "snosha_product_comparison_QWa4Cb": {
@@ -3781,89 +3908,6 @@
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "custom_class": ""
-      }
-    },
-    "snosha_why_bundle": {
-      "type": "media-with-content",
-      "name": "SNOSHA — Why This Bundle",
-      "blocks": {
-        "media": {
-          "type": "_media-without-appearance",
-          "static": true,
-          "settings": {
-            "media_type": "image",
-            "image_position": "cover"
-          },
-          "blocks": {}
-        },
-        "content": {
-          "type": "_content-without-appearance",
-          "static": true,
-          "settings": {
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 16
-          },
-          "blocks": {
-            "why_heading": {
-              "type": "text",
-              "name": "Heading",
-              "settings": {
-                "text": "<h2>ليه الباقة دي؟</h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h2",
-                "text_color": "{{ settings.color_palette.color6 }}"
-              },
-              "blocks": {}
-            },
-            "why_text": {
-              "type": "text",
-              "name": "Text",
-              "settings": {
-                "text": "<p>الفرشاة بتنظف السنان، لكن اللسان كمان بيتجمع عليه طبقة بيضا فيها بكتيريا وبواقي أكل، والفرشاة لوحدها مش بتشيلها كويس. علشان كده عملنا الباقة دي: فرشاة سونيك للسنان واللثة، ومنظف لسان للطبقة اللي على اللسان. والنتيجة روتين كامل ونفَس منعش طول اليوم.</p><p>وعشان فرشة السنان شخصية ومينفعش تتشارك، كل واحد فيكم بياخد فرشته ومنظفه ولونه، بنفس الجودة.</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "text_color": "{{ settings.color_palette.color1 }}"
-              },
-              "blocks": {}
-            },
-            "why_subtitle": {
-              "type": "text",
-              "name": "Subtitle",
-              "settings": {
-                "text": "<p>نضافة سنانك نص الحكاية بس</p>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h4",
-                "text_color": "{{ settings.color_palette.color6 }}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "why_heading",
-            "why_subtitle",
-            "why_text"
-          ]
-        }
-      },
-      "settings": {
-        "media_position": "right",
-        "media_width": "medium",
-        "media_height": "auto",
-        "section_width": "page-width",
-        "extend_media": false,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48,
-        "snosha_mobile_media_position": "top",
-        "snosha_hide_empty_media": true,
-        "custom_class": "snosha-why-bundle"
       }
     }
   },
