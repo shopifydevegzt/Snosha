@@ -7,7 +7,8 @@
     three — copy | image | list columns (Sonic technology, Figma 190:10531)
     two   — copy with the list under it | image (Box contents, Figma 190:10552)
   Below 990 px the panel stacks: copy, then the image, then the list ("stacked", Figma 190:11241),
-  or copy above a row with the image beside the list ("beside", Figma 190:11264).
+  or copy above a row with the image beside the list ("beside", Figma 190:11264), or the image first,
+  then copy, then the list ("top").
   Column widths are Figma reference pixels; they become proportional (fr) columns, so the panel
   keeps the Figma proportions at every desktop width without a fixed height.
 {%- endcomment -%}
@@ -142,7 +143,8 @@
   "tag": null,
   "blocks": [
     { "type": "_snosha-ld-item" },
-    { "type": "_snosha-ld-indicator" }
+    { "type": "_snosha-ld-indicator" },
+    { "type": "_snosha-ld-cta" }
   ],
   "settings": [
     {
@@ -336,6 +338,7 @@
       "id": "mobile_media",
       "label": "Image position",
       "options": [
+        { "value": "top", "label": "Above the text (image first)" },
         { "value": "stacked", "label": "Between text and list" },
         { "value": "beside_start", "label": "Beside the list (text side)" },
         { "value": "beside_end", "label": "Beside the list (opposite side)" },

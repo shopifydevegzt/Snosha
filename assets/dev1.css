@@ -464,7 +464,9 @@
      (16px), sized to the shadow, and the slides stop clipping it, so the carousels show the collection grid's
      shadow in full. Card size and position are unchanged. */
   @media screen and (min-width: 750px) {
-    slideshow-component.resource-list__carousel > slideshow-container > slideshow-slides {
+    slideshow-component.resource-list__carousel
+      > slideshow-container
+      > slideshow-slides {
       padding-block: 20px 44px;
       margin-block: -20px -44px;
     }
@@ -1684,7 +1686,6 @@
     text-decoration: none;
   }
 }
-
 
 /* =========================================================================
    SNOSHA — BLOG PAGE  (sections/main-blog.liquid, setting "Snosha blog page style")
@@ -3821,6 +3822,9 @@
       gap: var(--snosha-contact-gap);
     }
   }
+  .snosha-contact__content.snosha-gift {
+    align-items: start;
+  }
 
   .snosha-contact__logo {
     inline-size: var(--snosha-contact-logo-width-mobile);
@@ -3870,6 +3874,9 @@
 
     @media screen and (min-width: 750px) {
       font-size: var(--snosha-contact-text-size);
+    }
+    .snosha-gift {
+      max-width: 750px;
     }
   }
 

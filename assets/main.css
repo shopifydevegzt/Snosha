@@ -4642,6 +4642,22 @@ media-gallery.media-gallery--snosha {
       grid-template-areas: "copy";
     }
 
+    /* Panel "Image position" = Above the text: image first, then copy, then the list */
+    .snosha-long-description__panel--mobile-top:not(
+      .snosha-long-description__panel--no-media
+    ) {
+      grid-template-areas:
+        "media"
+        "copy"
+        "list";
+
+      &.snosha-long-description__panel--no-items {
+        grid-template-areas:
+          "media"
+          "copy";
+      }
+    }
+
     /* Figma Box contents: text above a row with the image on the text side, the list beside it */
     .snosha-long-description__panel--mobile-beside_start:not(
       .snosha-long-description__panel--no-media,
@@ -4835,7 +4851,8 @@ media-gallery.media-gallery--snosha {
     overflow: hidden;
     inline-size: var(--snosha-ld-media-width-mobile, 100%);
     max-inline-size: 100%;
-    margin-inline: auto;
+    /* margin-inline: auto; */
+    width: 100%;
     aspect-ratio: var(--snosha-ld-media-ratio-mobile, 1);
     border-radius: var(--snosha-ld-media-radius-mobile, 16px);
     transform: rotate(var(--snosha-ld-media-tilt-mobile, 0deg));
@@ -5010,6 +5027,8 @@ media-gallery.media-gallery--snosha {
 
     /* Stacked images (Sonic, Battery) stop growing past 480 px on large phones (Figma: 350 at 390). */
     .snosha-long-description__panel--mobile-stacked
+      .snosha-long-description__media-frame,
+    .snosha-long-description__panel--mobile-top
       .snosha-long-description__media-frame {
       max-inline-size: min(100%, 480px);
     }
@@ -5045,7 +5064,9 @@ media-gallery.media-gallery--snosha {
   @media screen and (min-width: 990px) {
     .snosha-long-description__media-frame {
       inline-size: var(--snosha-ld-media-width, 100%);
-      max-inline-size: none;
+      /* Image block "Maximum height": a max width of height × frame ratio, so the frame (and the whole
+         image) never grows taller than it and keeps its proportions; none when not set. */
+      max-inline-size: var(--snosha-ld-media-max-inline, none);
       /* Aligned to the outer edge, optionally inset from it (Figma Box image: 44 px). */
       margin-inline: auto var(--snosha-ld-media-offset, 0px);
       /* Spill above / below the panel without changing the panel's height (no fixed heights);
@@ -5058,6 +5079,15 @@ media-gallery.media-gallery--snosha {
       aspect-ratio: var(--snosha-ld-media-ratio, 1);
       border-radius: var(--snosha-ld-media-radius, 24px);
       transform: rotate(var(--snosha-ld-media-tilt, 0deg));
+    }
+
+    /* Image block "Alignment in its column" (when the image is narrower than its column) */
+    .snosha-long-description__media-frame--align-center {
+      /* margin-inline: auto; */
+    }
+
+    .snosha-long-description__media-frame--align-inner {
+      margin-inline: var(--snosha-ld-media-offset, 0px) auto;
     }
 
     /* Figma "Mode Image": drop shadow -14 24 44 that follows the product's outline (alpha), not the
@@ -6794,5 +6824,43 @@ body:has(.product-information) .snosha-faq {
     font-size: var(--font-size--sm);
     line-height: 1.6;
     opacity: 0.9;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — LONG DESCRIPTION: PRODUCT CTA BUTTON  (blocks/_snosha-ld-cta.liquid)
+   A row of the panel list holding Horizon's native .button / .button-secondary (theme button styles,
+   hover and focus states). Alignment follows the block setting; optionally full width below 750px.
+   ========================================================================= */
+.snosha-long-description .snosha-long-description__cta {
+  display: flex;
+  justify-content: flex-start;
+  margin-block-start: 8px;
+
+  &.snosha-long-description__cta--center {
+    justify-content: center;
+  }
+
+  &.snosha-long-description__cta--end {
+    justify-content: flex-end;
+  }
+
+  .snosha-long-description__cta-button {
+    max-inline-size: 100%;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+  }
+
+  @media screen and (max-width: 749px) {
+    &.snosha-long-description__cta--full-mobile
+      .snosha-long-description__cta-button {
+      inline-size: 100%;
+    }
+  }
+
+  &.snosha-long-description__cta--empty {
+    font-size: var(--font-size--sm);
+    opacity: 0.7;
   }
 }

@@ -89,7 +89,7 @@
     ></span>
   {%- endif -%}
   <div
-    class="snosha-long-description__media-frame snosha-long-description__media-frame--{{ bs.image_fit | default: 'cover' }}{% if bs.shadow %} snosha-long-description__media-frame--shadow{% endif %}{% if bs.border_style != 'none' %} snosha-long-description__media-frame--border{% endif %}"
+    class="snosha-long-description__media-frame snosha-long-description__media-frame--{{ bs.image_fit | default: 'cover' }} snosha-long-description__media-frame--align-{{ bs.align_desktop | default: 'outer' }}{% if bs.shadow %} snosha-long-description__media-frame--shadow{% endif %}{% if bs.border_style != 'none' %} snosha-long-description__media-frame--border{% endif %}"
     style="
       --snosha-ld-media-ratio: {{ ratio | default: '1' }};
       --snosha-ld-media-ratio-mobile: {{ ratio_mobile | default: '1' }};
@@ -97,6 +97,7 @@
       --snosha-ld-media-radius-mobile: {{ bs.radius_mobile }}px;
       --snosha-ld-media-width: {{ bs.width }}%;
       --snosha-ld-media-offset: {{ bs.offset }}px;
+      {%- if bs.max_height > 0 %} --snosha-ld-media-max-inline: calc({{ bs.max_height }}px * ({{ ratio | default: '1' }}));{% endif %}
       --snosha-ld-media-spill-top: {{ bs.spill_top }}px;
       --snosha-ld-media-spill-bottom: {{ bs.spill_bottom }}px;
       {%- if bs.width_mobile > 0 %} --snosha-ld-media-width-mobile: {{ bs.width_mobile }}px;{% endif %}
@@ -215,6 +216,29 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "range",
+      "id": "max_height",
+      "label": "Maximum height",
+      "info": "0 = no limit. The width follows the image ratio, so the whole image stays visible (no crop, no stretch).",
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "align_desktop",
+      "label": "Alignment in its column",
+      "info": "Used when the image is narrower than its column.",
+      "options": [
+        { "value": "outer", "label": "Outer edge" },
+        { "value": "center", "label": "Center" },
+        { "value": "inner", "label": "Inner edge" }
+      ],
+      "default": "outer"
     },
     {
       "type": "range",

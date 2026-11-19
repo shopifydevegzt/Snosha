@@ -1,0 +1,89 @@
+{%- comment -%}
+  Long Description — Product CTA Button (private theme block of blocks/_snosha-ld-panel.liquid).
+  A link to the product chosen in the Theme Editor (native product picker). product.url is the localized
+  storefront URL (e.g. /en/products/... on the English storefront). Without a product nothing is rendered on
+  the storefront (the Theme Editor shows a note), so there is never a dead button. Rendered as a row of the
+  panel list, so it can be dragged among the list rows. Uses Horizon's button classes; styles:
+  assets/main.css (.snosha-long-description__cta).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign cta_product = bs.product
+  assign label = bs.label | strip
+  assign custom_class = bs.custom_class | strip | escape
+  assign button_class = 'button'
+  if bs.style == 'secondary'
+    assign button_class = 'button button-secondary'
+  endif
+-%}
+{%- if cta_product != blank and label != blank -%}
+  <li
+    class="snosha-long-description__cta snosha-long-description__cta--{{ bs.alignment }}{% if bs.full_width_mobile %} snosha-long-description__cta--full-mobile{% endif %}{% if custom_class != blank %} {{ custom_class }}{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    <a class="{{ button_class }} snosha-long-description__cta-button" href="{{ cta_product.url }}">
+      {{- label | escape -}}
+    </a>
+  </li>
+{%- elsif request.design_mode -%}
+  <li class="snosha-long-description__cta snosha-long-description__cta--empty" {{ block.shopify_attributes }}>
+    Product CTA Button: choose a product and a label to show the button.
+  </li>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Product CTA Button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "عرف كل تفاصيل الفرشاة"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "The button opens this product's page. Without a product the button is hidden."
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "end", "label": "End" }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_mobile",
+      "label": "Full width on mobile",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product CTA Button"
+    }
+  ]
+}
+{% endschema %}
