@@ -21,6 +21,12 @@
       assign show_custom_badge = true
     endif
   endif
+  # Snosha: automatic "Savings bundle" badge for products tagged exactly "باقة التوفير" (array match, not substring).
+  # The label comes from the theme locales (content.savings_bundle); the tag itself is never translated.
+  assign show_savings_badge = false
+  if product.tags contains 'باقة التوفير'
+    assign show_savings_badge = true
+  endif
 %}
 
 {% capture children %}
@@ -32,7 +38,7 @@
     </div>
   {%- endif -%}
   {% unless product == blank %}
-    {%- if product.available == false or product.compare_at_price > product.price or show_custom_badge -%}
+    {%- if product.available == false or product.compare_at_price > product.price or show_custom_badge or show_savings_badge -%}
       <div
         class="product-badges product-badges--{{ settings.badge_position }}"
         style="
@@ -43,6 +49,11 @@
         {%- if show_custom_badge -%}
           <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--custom">
             {{- custom_badge_text | escape -}}
+          </div>
+        {%- endif -%}
+        {%- if show_savings_badge -%}
+          <div class="product-badges__badge product-badges__badge--rectangle product-badges__badge--custom product-badges__badge--savings">
+            {{- 'content.savings_bundle' | t -}}
           </div>
         {%- endif -%}
         {%- if product.available == false or product.compare_at_price > product.price -%}

@@ -4358,12 +4358,22 @@ media-gallery.media-gallery--snosha {
     }
   }
 
-  /* ---------------- Best-seller badge (product tag) ---------------- */
-  .media-gallery__snosha-badge {
+  /* ---------------- Product-tag badges: best seller (block setting) + savings bundle (tag "باقة التوفير") ----------------
+     One stack at the stage's top inline-start corner (top right in Arabic, top left in English); several badges
+     sit under each other with the cards' 6px gap instead of overlapping. */
+  .media-gallery__snosha-badges {
     position: absolute;
     z-index: 2;
     inset-block-start: 20px;
     inset-inline-start: calc(var(--snosha-stage-inset) + 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    pointer-events: none;
+  }
+
+  .media-gallery__snosha-badge {
     padding: 4px 12px;
     border-radius: 8px;
     background: var(--snosha-badge-bg);

@@ -402,11 +402,16 @@
 
     # Best-seller badge: only on products carrying the exact tag (same tag convention as the homepage cards)
     assign snosha_show_badge = false
+    assign snosha_show_savings_badge = false
     if snosha_stage
       assign snosha_badge_text = block_settings.snosha_badge_text | strip
       assign snosha_badge_tag = block_settings.snosha_badge_tag | strip
       if snosha_badge_text != blank and snosha_badge_tag != blank and selected_product.tags contains snosha_badge_tag
         assign snosha_show_badge = true
+      endif
+      # Automatic "Savings bundle" badge: exact product tag "باقة التوفير", label from content.savings_bundle
+      if selected_product.tags contains 'باقة التوفير'
+        assign snosha_show_savings_badge = true
       endif
     endif
   -%}
@@ -436,8 +441,15 @@
     data-presentation="{{ media_presentation }}"
     {{ block_shopify_attributes }}
   >
-    {%- if snosha_show_badge -%}
-      <span class="media-gallery__snosha-badge">{{ snosha_badge_text | escape }}</span>
+    {%- if snosha_show_badge or snosha_show_savings_badge -%}
+      <span class="media-gallery__snosha-badges">
+        {%- if snosha_show_badge -%}
+          <span class="media-gallery__snosha-badge">{{ snosha_badge_text | escape }}</span>
+        {%- endif -%}
+        {%- if snosha_show_savings_badge -%}
+          <span class="media-gallery__snosha-badge media-gallery__snosha-badge--savings">{{ 'content.savings_bundle' | t }}</span>
+        {%- endif -%}
+      </span>
     {%- endif -%}
     {% capture slides %}
       {% for media in sorted_media %}

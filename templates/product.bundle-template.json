@@ -225,24 +225,6 @@
                 "price_tVjtKg"
               ]
             },
-            "snosha_capsule_promo": {
-              "type": "snosha-capsule",
-              "settings": {
-                "text": "باقة توفير",
-                "link": "",
-                "icon": "discount",
-                "full_width_mobile": true,
-                "background_color": "{{ settings.color_palette.color5 }}",
-                "border_color": "#176bb08c",
-                "border_style": "dashed",
-                "border_width": 1.2,
-                "corner_radius": 10,
-                "text_color": "{{ settings.color_palette.color3 }}",
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "custom_class": ""
-              },
-              "blocks": {}
-            },
             "snosha_benefits_list": {
               "type": "snosha-benefits",
               "settings": {
@@ -814,7 +796,6 @@
             }
           },
           "block_order": [
-            "snosha_capsule_promo",
             "group_icgrde",
             "snosha_benefits_list",
             "variant_picker_R3rGDr",
@@ -3828,10 +3809,10 @@
               "type": "text",
               "name": "Heading",
               "settings": {
-                "text": "<h2>نضافة سنانك نص الحكاية بس</h2>",
+                "text": "<h2>ليه الباقة دي؟</h2>",
                 "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "center",
                 "type_preset": "h2",
                 "text_color": "{{ settings.color_palette.color6 }}"
               },
@@ -3849,10 +3830,24 @@
                 "text_color": "{{ settings.color_palette.color1 }}"
               },
               "blocks": {}
+            },
+            "why_subtitle": {
+              "type": "text",
+              "name": "Subtitle",
+              "settings": {
+                "text": "<p>نضافة سنانك نص الحكاية بس</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h4",
+                "text_color": "{{ settings.color_palette.color6 }}"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "why_heading",
+            "why_subtitle",
             "why_text"
           ]
         }
