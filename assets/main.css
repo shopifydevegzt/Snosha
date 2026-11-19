@@ -6337,6 +6337,15 @@ body:has(.product-information) .snosha-faq {
   }
 }
 
+/* Bundle "Why this bundle" (custom class snosha-why-bundle, page width): stacked below 750px the native text
+   panel keeps padding-block 2 × page margin (48px) inside the section's own padding, so the text ended ~80px above
+   the next section (other sections: 40px). One page margin between image and text, the section padding below. */
+@media screen and (max-width: 749px) {
+  .section.media-with-content.snosha-why-bundle .media-with-content__content > .group-block-content {
+    padding-block: var(--page-margin) 0;
+  }
+}
+
 /* =========================================================================
    SNOSHA — BUNDLE COLOUR SWATCHES (blocks/snosha-bundle-swatches.liquid + <snosha-bundle-swatches> in main.js)
    The rows reuse the Buy Box N2 swatch rules (.product-information.snosha-buy-box: .variant-option--swatches,
