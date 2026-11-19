@@ -756,6 +756,9 @@ class SnoshaBundleSwatches extends HTMLElement {
   #observer;
   /** @type {Record<string, {label: string, color: string}>} */
   #colours = {};
+  /** App group label → displayed (translatable) group name */
+  /** @type {Record<string, string>} */
+  #groups = {};
   static #count = 0;
 
   connectedCallback() {
@@ -763,6 +766,11 @@ class SnoshaBundleSwatches extends HTMLElement {
       this.#colours = JSON.parse(this.querySelector('[data-snosha-bundle-colours]')?.textContent || '{}');
     } catch {
       this.#colours = {};
+    }
+    try {
+      this.#groups = JSON.parse(this.querySelector('[data-snosha-bundle-groups]')?.textContent || '{}');
+    } catch {
+      this.#groups = {};
     }
     const scope = this.closest('.shopify-section') || document;
     this.#observer = new MutationObserver(() => this.#render(scope));
@@ -807,7 +815,7 @@ class SnoshaBundleSwatches extends HTMLElement {
     const fieldset = document.createElement('fieldset');
     fieldset.className = 'variant-option variant-option--buttons variant-option--swatches snosha-bundle-swatches__group';
     const legend = document.createElement('legend');
-    legend.textContent = labelText.trim();
+    legend.textContent = this.#groups[labelText.trim()] || labelText.trim();
     const current = document.createElement('span');
     current.className = 'variant-option__swatch-value';
     legend.append(current);

@@ -6,7 +6,7 @@
   "change"). This block does not add inputs: <snosha-bundle-swatches> (assets/main.js) waits for the app's
   selects, draws one N2-style swatch row per select here, and on a choice sets the app's select value and
   fires its "change" event. The app's selects are then hidden (still in the form, still submitted).
-  Option values must match the app's values exactly; names are the displayed (translatable) labels.
+  Option values and group labels must match the app's exactly; names are the displayed (translatable) labels.
   Styles: the Buy Box swatch rules in assets/main.css (.snosha-buy-box) + .snosha-bundle-swatches.
 {%- endcomment -%}
 {%- liquid
@@ -29,6 +29,23 @@
       assign colours = colours | append: entry
     endif
   endfor
+
+  # Group names: the app's group label (exact, never translated) → displayed name (translatable)
+  assign groups = ''
+  for i in (1..4)
+    assign group_value_key = 'group_value_' | append: i
+    assign group_label_key = 'group_label_' | append: i
+    assign group_value = bs[group_value_key] | strip
+    assign group_label = bs[group_label_key] | strip
+    if group_value != blank and group_label != blank
+      assign group_value_json = group_value | json
+      assign group_label_json = group_label | json
+      if groups != ''
+        assign groups = groups | append: ','
+      endif
+      assign groups = groups | append: group_value_json | append: ':' | append: group_label_json
+    endif
+  endfor
 -%}
 {%- comment -%} Stable in-page anchor (server-rendered, independent of the app): e.g. the gift "Order" button links here {%- endcomment -%}
 <snosha-bundle-swatches
@@ -39,6 +56,7 @@
   {{ block.shopify_attributes }}
 >
   <script type="application/json" data-snosha-bundle-colours>{ {{ colours }} }</script>
+  <script type="application/json" data-snosha-bundle-groups>{ {{ groups }} }</script>
   {%- if request.design_mode -%}
     <p class="snosha-bundle-swatches__editor-note" data-snosha-bundle-note>
       Simple Bundles colour swatches appear here when the product is an Infinite Options bundle.
@@ -97,6 +115,22 @@
     { "type": "text", "id": "value_6", "label": "App value", "default": "أخضر" },
     { "type": "text", "id": "label_6", "label": "Name", "default": "أخضر" },
     { "type": "color", "id": "color_6", "label": "Colour", "default": "#3A9D5D" },
+    {
+      "type": "header",
+      "content": "Group names"
+    },
+    {
+      "type": "paragraph",
+      "content": "\"App group\" must match the group label set in Simple Bundles exactly (it is never changed). \"Name\" is what customers see and can be translated (Translate & Adapt)."
+    },
+    { "type": "text", "id": "group_value_1", "label": "App group 1", "default": "لون الفرشاة الأولى" },
+    { "type": "text", "id": "group_label_1", "label": "Name 1", "default": "لون الفرشاة الأولى" },
+    { "type": "text", "id": "group_value_2", "label": "App group 2", "default": "لون الفرشاة الثانية" },
+    { "type": "text", "id": "group_label_2", "label": "Name 2", "default": "لون الفرشاة الثانية" },
+    { "type": "text", "id": "group_value_3", "label": "App group 3", "default": "لون منظف اللسان الأول" },
+    { "type": "text", "id": "group_label_3", "label": "Name 3", "default": "لون منظف اللسان الأول" },
+    { "type": "text", "id": "group_value_4", "label": "App group 4", "default": "لون منظف اللسان الثاني" },
+    { "type": "text", "id": "group_label_4", "label": "Name 4", "default": "لون منظف اللسان الثاني" },
     {
       "type": "header",
       "content": "Padding"
