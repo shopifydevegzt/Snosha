@@ -3822,10 +3822,6 @@
       gap: var(--snosha-contact-gap);
     }
   }
-  .snosha-contact__content.snosha-gift {
-    align-items: start;
-  }
-
   .snosha-contact__logo {
     inline-size: var(--snosha-contact-logo-width-mobile);
     max-inline-size: 100%;
@@ -3875,8 +3871,24 @@
     @media screen and (min-width: 750px) {
       font-size: var(--snosha-contact-text-size);
     }
-    .snosha-gift {
-      max-width: 750px;
+  }
+  /* Gift instance (section "Custom CSS class" = snosha-gift, set on this .snosha-contact root): content
+     aligned to the inline start, text capped at 750px and free to shrink below it. Other contact
+     instances are unaffected. */
+  &.snosha-gift {
+    .snosha-contact__content {
+      align-items: start;
+    }
+
+    .snosha-contact__text {
+      max-inline-size: 750px;
+      text-align: right;
+    }
+    .snosha-contact__actions {
+      @media screen and (min-width: 750px) {
+        justify-content: start;
+        align-items: start;
+      }
     }
   }
 

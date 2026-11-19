@@ -1,0 +1,186 @@
+{%- comment -%}
+  Contact — In-page CTA (private STATIC theme block of sections/snosha-contact.liquid, id "cta").
+  A pill link to an anchor on the same page, e.g. the bundle colour swatches (#bundle-color-options,
+  set on blocks/snosha-bundle-swatches.liquid). Native anchor navigation: no reload, no form, no script,
+  so the current colour selections stay as they are. Off by default ("Show button"), so other contact
+  instances never show it. Same pill styles as the WhatsApp / email buttons (assets/dev1.css
+  .snosha-contact__button); "Primary" = filled pill (WhatsApp look), "Secondary" = glass pill (email look).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign label = bs.label | strip
+  assign target = bs.target | strip
+  if target != blank
+    assign first_char = target | slice: 0, 1
+    unless first_char == '#' or first_char == '/'
+      assign target = '#' | append: target
+    endunless
+  endif
+  assign style_modifier = 'whatsapp'
+  if bs.style == 'secondary'
+    assign style_modifier = 'email'
+  endif
+-%}
+{%- if bs.show_button and label != blank and target != blank -%}
+  <a
+    class="snosha-contact__button snosha-contact__button--{{ style_modifier }} snosha-contact__button--cta"
+    href="{{ target | escape }}"
+    style="
+      --snosha-cta-bg: {{ bs.background }};
+      --snosha-cta-bg-hover: {{ bs.hover_background }};
+      --snosha-cta-color: {{ bs.text_color }};
+      --snosha-cta-border: {{ bs.border_color }};
+      --snosha-cta-border-width: {{ bs.border_width }}px;
+      --snosha-cta-focus: {{ bs.border_color }};
+      --snosha-cta-radius: {{ bs.radius }}px;
+      --snosha-cta-shadow: {{ bs.shadow_color }};
+      --snosha-cta-glow: {{ bs.glow_color }};
+      --snosha-cta-blur: 7px;
+      --snosha-cta-size: {{ bs.font_size }}px;
+      --snosha-cta-size-mobile: {{ bs.font_size_mobile }}px;
+      --snosha-cta-padding-block: {{ bs.padding_block }}px;
+      --snosha-cta-padding-inline: {{ bs.padding_inline }}px;
+    "
+    {{ block.shopify_attributes }}
+  >
+    <span class="snosha-contact__label">{{ label | escape }}</span>
+  </a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Order button",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show button",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "اطلب الباقة"
+    },
+    {
+      "type": "text",
+      "id": "target",
+      "label": "Link target",
+      "info": "An anchor on this page. The bundle colour swatches are #bundle-color-options.",
+      "default": "#bundle-color-options"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Primary (filled)" },
+        { "value": "secondary", "label": "Secondary (outline)" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "header",
+      "content": "Colors and size"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "hover_background",
+      "label": "Hover background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border and focus ring",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow",
+      "default": "#001A4066"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow",
+      "default": "#63CDFF66"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Text size (desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Text size (mobile)",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_block",
+      "label": "Vertical padding",
+      "min": 6,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "padding_inline",
+      "label": "Horizontal padding",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 28
+    }
+  ]
+}
+{% endschema %}

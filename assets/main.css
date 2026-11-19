@@ -6347,6 +6347,8 @@ body:has(.product-information) .snosha-faq {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  /* In-page anchor (#bundle-color-options): land below the sticky header (header.js sets --header-height) */
+  scroll-margin-block-start: calc(var(--header-height, 0px) + 16px);
 
   .snosha-bundle-swatches__group {
     display: flex;
@@ -6860,6 +6862,37 @@ body:has(.product-information) .snosha-faq {
   }
 
   &.snosha-long-description__cta--empty {
+    font-size: var(--font-size--sm);
+    opacity: 0.7;
+  }
+}
+
+/* =========================================================================
+   SNOSHA — PRODUCT LINK  (blocks/snosha-product-link.liquid, e.g. under an FAQ answer)
+   Inherits the surrounding text size and colour; the link uses the theme link colour and underline.
+   ========================================================================= */
+.snosha-product-link {
+  margin: 0;
+
+  .snosha-product-link__link {
+    color: var(--color-primary, currentcolor);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentcolor;
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+  }
+
+  &.snosha-product-link--empty {
     font-size: var(--font-size--sm);
     opacity: 0.7;
   }

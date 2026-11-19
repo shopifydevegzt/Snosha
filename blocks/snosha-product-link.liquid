@@ -1,0 +1,49 @@
+{%- comment -%}
+  Snosha — Product link (public theme block; e.g. inside an FAQ accordion row, under the answer text).
+  A text link to the product chosen with the native product picker. product.url is the localized storefront
+  URL (/en/products/... on the English storefront). The link text is the "Link text" setting, or the
+  product's own title when empty. Without a product nothing is rendered (no broken link); the Theme Editor
+  shows a short note instead. Styles: assets/main.css (.snosha-product-link).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign link_product = bs.product
+  assign link_text = bs.label | strip
+  if link_text == blank and link_product != blank
+    assign link_text = link_product.title
+  endif
+-%}
+{%- if link_product != blank -%}
+  <p class="snosha-product-link" {{ block.shopify_attributes }}>
+    <a class="snosha-product-link__link" href="{{ link_product.url }}">{{ link_text | escape }}</a>
+  </p>
+{%- elsif request.design_mode -%}
+  <p class="snosha-product-link snosha-product-link--empty" {{ block.shopify_attributes }}>
+    Product link: choose a product to show the link.
+  </p>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product link",
+  "tag": null,
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Link text",
+      "info": "Leave empty to use the product's title."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product link"
+    }
+  ]
+}
+{% endschema %}

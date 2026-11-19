@@ -4,7 +4,7 @@
   Content and buttons are private STATIC theme blocks (one each, can't be duplicated or reordered),
   so their controls stay off this schema (Theme Check 40-setting advisory):
     _snosha-contact-content (id "content"), _snosha-contact-whatsapp (id "whatsapp"),
-    _snosha-contact-email (id "email").
+    _snosha-contact-email (id "email"), _snosha-contact-cta (id "cta", in-page order link, off by default).
   Button order: DOM WhatsApp → email. Mobile stacks them (WhatsApp on top, as in Figma); desktop
   uses row-reverse so WhatsApp sits on the left and email on the right in RTL, as in Figma.
   Decorations (Figma 190:10847–10851, 190:10868–10871; 190:10846 is an empty vector in Figma and is
@@ -17,6 +17,8 @@
 {%- liquid
   assign ss = section.settings
   capture buttons_markup
+    # Snosha: optional in-page "Order" button (off by default; e.g. the gift instance links to the bundle swatches)
+    content_for 'block', type: '_snosha-contact-cta', id: 'cta'
     content_for 'block', type: '_snosha-contact-whatsapp', id: 'whatsapp'
     content_for 'block', type: '_snosha-contact-email', id: 'email'
   endcapture

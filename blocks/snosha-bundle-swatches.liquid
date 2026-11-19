@@ -30,7 +30,9 @@
     endif
   endfor
 -%}
+{%- comment -%} Stable in-page anchor (server-rendered, independent of the app): e.g. the gift "Order" button links here {%- endcomment -%}
 <snosha-bundle-swatches
+  id="bundle-color-options"
   class="snosha-bundle-swatches spacing-style"
   style="{% render 'spacing-style', settings: bs %}"
   data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}"
