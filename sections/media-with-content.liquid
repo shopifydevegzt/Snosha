@@ -10,6 +10,18 @@
   if section.settings.media_position == 'right'
     assign media_class_modifier = media_class_modifier | append: ' media-with-content--media-right'
   endif
+  # Snosha (project branch, styles in assets/main.css): mobile media order, hide an empty media slot on the
+  # storefront (the Theme Editor keeps the placeholder), custom class. Defaults keep the native layout.
+  if section.settings.snosha_mobile_media_position == 'bottom'
+    assign media_class_modifier = media_class_modifier | append: ' snosha-mwc--media-bottom-mobile'
+  endif
+  if section.settings.snosha_hide_empty_media and request.design_mode == false
+    assign media_class_modifier = media_class_modifier | append: ' snosha-mwc--hide-empty-media'
+  endif
+  assign snosha_custom_class = section.settings.custom_class | strip | escape
+  if snosha_custom_class != blank
+    assign media_class_modifier = media_class_modifier | append: ' ' | append: snosha_custom_class
+  endif
 %}
 
 {% liquid
@@ -328,6 +340,38 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha"
+    },
+    {
+      "type": "select",
+      "id": "snosha_mobile_media_position",
+      "label": "Mobile media position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Above the text"
+        },
+        {
+          "value": "bottom",
+          "label": "Below the text"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_hide_empty_media",
+      "label": "Hide media when no image or video is selected",
+      "info": "Storefront only; the Theme Editor keeps the placeholder so the slot can be filled.",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
     }
   ],
   "presets": [

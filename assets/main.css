@@ -6250,3 +6250,38 @@ body:has(.product-information) .snosha-faq {
 .resource-list__carousel slideshow-slide.resource-list__slide[aria-hidden] {
   content-visibility: visible;
 }
+
+/* =========================================================================
+   SNOSHA — MEDIA WITH TEXT options (sections/media-with-content.liquid, "Snosha" settings)
+   - Mobile media position "Below the text": the content row comes first below 750px.
+   - "Hide media when no image or video is selected": on the storefront an empty media slot (native
+     placeholder) is removed and the text uses the page column; the Theme Editor keeps the placeholder.
+   ========================================================================= */
+@media screen and (max-width: 749px) {
+  .media-with-content.snosha-mwc--media-bottom-mobile {
+    grid-template-areas: "content content content" "media media media";
+
+    &.section--page-width {
+      grid-template-areas:
+        "margin-left content margin-right"
+        "margin-left media margin-right";
+    }
+
+    &.media-with-content--media-extend {
+      grid-template-areas:
+        "margin-left content margin-right"
+        "media media media";
+    }
+  }
+}
+
+.media-with-content.snosha-mwc--hide-empty-media:has(
+    > .media-block .media-block__placeholder
+  ) {
+  grid-template-columns: var(--full-page-grid-with-margins);
+  grid-template-areas: "margin-left content margin-right";
+
+  & > .media-block {
+    display: none;
+  }
+}
