@@ -3882,7 +3882,7 @@
 
     .snosha-contact__text {
       max-inline-size: 750px;
-      text-align: right;
+      text-align: start;
     }
     .snosha-contact__actions {
       @media screen and (min-width: 750px) {
