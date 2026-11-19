@@ -112,6 +112,7 @@
     "variant_button_width": "equal-width-buttons",
     "seo_org_name": "Snosha",
     "seo_org_alternate_name": "سنوشا",
+    "seo_org_same_as": "https://www.facebook.com/snoshacom/\nhttps://www.instagram.com/snosha_com/\nhttps://www.tiktok.com/@snosha_com\nhttps://www.youtube.com/channel/UC9BTeFPaOZqh7XaaTMpubtQ",
     "seo_org_contact": true,
     "seo_org_phone": "+201116263080",
     "seo_org_email": "info@snosha.com",
@@ -122,13 +123,24 @@
     "seo_org_country_code": "EG",
     "seo_org_country_name": "Egypt",
     "seo_faq_page": "faq",
-    "seo_org_same_as": "https://www.facebook.com/snoshacom/\nhttps://www.instagram.com/snosha_com/\nhttps://www.tiktok.com/@snosha_com\nhttps://www.youtube.com/channel/UC9BTeFPaOZqh7XaaTMpubtQ",
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "124348908681409149": {
+        "type": "shopify://apps/simple-bundles-kits/blocks/simple-bundles-v2/e553276b-36b2-446d-b80a-aa47fe5f96ac",
+        "disabled": false,
+        "settings": {
+          "select_placeholder": "اختر اللون",
+          "disable_oos_options": true,
+          "show_price_variance": false,
+          "rank_options_by_price_diff": true,
+          "custom_css": "",
+          "custom_js": ""
+        }
       }
     },
     "color_palette": {
