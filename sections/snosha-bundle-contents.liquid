@@ -1,0 +1,299 @@
+{%- comment -%}
+  Snosha — Bundle contents (product page, e.g. the bundle template).
+  Heading + subtitle, then one card per "Item" block: icon tile (snippets/snosha-icon, the N2 long-description
+  tile treatment), quantity badge and item text. Desktop: 3-column card grid; tablet: 2 columns; mobile: compact
+  rows (tile · text · quantity). Content, icons and colours are Theme Editor settings; styles: assets/main.css
+  (.snosha-bundle-contents). No JavaScript.
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+  assign subtitle = ss.subtitle | strip
+  assign custom_class = ss.custom_class | strip | escape
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-bundle-contents {
+    --snosha-bc-background: {{ ss.background_color }};
+    --snosha-bc-heading: {{ ss.heading_color }};
+    --snosha-bc-subtitle: {{ ss.subtitle_color }};
+    --snosha-bc-text: {{ ss.text_color }};
+    --snosha-bc-card: {{ ss.card_background }};
+    --snosha-bc-border: {{ ss.card_border }};
+    --snosha-bc-accent: {{ ss.accent_color }};
+    --snosha-bc-accent-text: {{ ss.accent_text_color }};
+    --snosha-bc-tile: {{ ss.tile_background }};
+    --snosha-bc-columns: {{ ss.columns_desktop }};
+    --snosha-bc-padding-start: {{ ss.padding_top }}px;
+    --snosha-bc-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-bc-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-bc-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-bundle-contents{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-bundle-contents__inner">
+      {%- if heading != blank or subtitle != blank -%}
+        <header class="snosha-bundle-contents__header">
+          {%- if heading != blank -%}
+            <h2 class="snosha-bundle-contents__heading h2">{{ heading }}</h2>
+          {%- endif -%}
+          {%- if subtitle != blank -%}
+            <p class="snosha-bundle-contents__subtitle">{{ subtitle }}</p>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="snosha-bundle-contents__list" role="list">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign bs = block.settings
+              assign text = bs.text | strip
+              assign quantity = bs.quantity | strip
+              assign show_icon = false
+              if bs.show_icon and bs.icon != 'none'
+                assign show_icon = true
+              endif
+            -%}
+            {%- if text != blank or quantity != blank or request.design_mode -%}
+              <li
+                class="snosha-bundle-contents__item{% unless show_icon %} snosha-bundle-contents__item--no-icon{% endunless %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if show_icon -%}
+                  <span class="snosha-bundle-contents__tile" aria-hidden="true">
+                    {%- render 'snosha-icon', icon: bs.icon, uid: block.id -%}
+                  </span>
+                {%- endif -%}
+                {%- if quantity != blank -%}
+                  <span class="snosha-bundle-contents__quantity" dir="ltr">{{ quantity | escape }}</span>
+                {%- endif -%}
+                {%- if text != blank -%}
+                  <span class="snosha-bundle-contents__text">{{ text | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SNOSHA — Bundle Contents",
+  "tag": "section",
+  "class": "snosha-bundle-contents-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Item text",
+          "default": "فرشاة SNOSHA N2 الكهربائية"
+        },
+        {
+          "type": "text",
+          "id": "quantity",
+          "label": "Quantity",
+          "info": "Shown as written, e.g. \"× 2\".",
+          "default": "× 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show icon",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "brush_body", "label": "Toothbrush" },
+            { "value": "brush_head", "label": "Toothbrush head" },
+            { "value": "tooth", "label": "Tooth" },
+            { "value": "tooth_outline", "label": "Tooth (outline)" },
+            { "value": "sparkle_detail", "label": "Cleaning" },
+            { "value": "sparkle", "label": "Sparkles" },
+            { "value": "drop", "label": "Water drop" },
+            { "value": "package", "label": "Package / case" },
+            { "value": "stand", "label": "Holder / stand" },
+            { "value": "cable", "label": "Cable" },
+            { "value": "battery", "label": "Battery" },
+            { "value": "sonic", "label": "Sonic" },
+            { "value": "timer", "label": "Timer" },
+            { "value": "check", "label": "Check" },
+            { "value": "shield_check", "label": "Shield" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "diamond", "label": "Diamond" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "brush_body"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "محتويات الباقة"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "كل اللي محتاجينه في باقة واحدة"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Cards per row (desktop)",
+      "info": "990px and wider. Tablet shows 2; mobile shows a list.",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Item text",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Card border",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_background",
+      "label": "Icon tile",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Icon and quantity badge",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Quantity badge text",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SNOSHA — Bundle Contents",
+      "blocks": [
+        { "type": "item", "settings": { "text": "فرشاة SNOSHA N2 الكهربائية", "quantity": "× 2", "icon": "brush_body" } },
+        { "type": "item", "settings": { "text": "رؤوس فرشاة (12 DuPont للتنظيف العميق + 4 للأسنان الحساسة)", "quantity": "× 16", "icon": "brush_head" } },
+        { "type": "item", "settings": { "text": "منظف لسان Snoshax ستانلس ستيل بجرابه", "quantity": "× 2", "icon": "sparkle_detail" } },
+        { "type": "item", "settings": { "text": "حقيبة سفر", "quantity": "× 2", "icon": "package" } },
+        { "type": "item", "settings": { "text": "حامل فرشاة", "quantity": "× 2", "icon": "stand" } },
+        { "type": "item", "settings": { "text": "كابل شحن Type-C", "quantity": "× 2", "icon": "cable" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

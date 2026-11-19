@@ -1,0 +1,408 @@
+{%- comment -%}
+  Snosha — Bundle value comparison (product page, e.g. the bundle template).
+  Heading + subtitle, then a breakdown card (one row per "Product row" block + the separate-purchase total,
+  struck through) next to a highlighted bundle panel (bundle price + savings). Savings are carried by text,
+  strike-through and an icon, not by colour alone. Display only: nothing here changes the checkout price.
+
+  Bundle price source (setting): "Manual" shows the entered texts. "Product price" shows the current product's
+  price with Shopify's money filter; when the product has a higher compare-at price, the total and the savings
+  are taken from it too (otherwise the entered total / savings texts are kept).
+  Styles: assets/main.css (.snosha-bundle-value). No JavaScript.
+{%- endcomment -%}
+{%- liquid
+  assign ss = section.settings
+  assign heading = ss.heading | strip
+  assign subtitle = ss.subtitle | strip
+  assign custom_class = ss.custom_class | strip | escape
+
+  assign total_amount = ss.total_amount | strip | escape
+  assign bundle_amount = ss.bundle_amount | strip | escape
+  assign savings_amount = ss.savings_amount | strip | escape
+  assign value_product = closest.product | default: product
+  if ss.price_source == 'product' and value_product != blank
+    assign bundle_amount = value_product.price | money
+    if value_product.compare_at_price > value_product.price
+      assign total_amount = value_product.compare_at_price | money
+      assign savings_amount = value_product.compare_at_price | minus: value_product.price | money
+    endif
+  endif
+-%}
+{% style %}
+  #shopify-section-{{ section.id }} .snosha-bundle-value {
+    --snosha-bv-background: {{ ss.background_color }};
+    --snosha-bv-heading: {{ ss.heading_color }};
+    --snosha-bv-subtitle: {{ ss.subtitle_color }};
+    --snosha-bv-text: {{ ss.text_color }};
+    --snosha-bv-muted: {{ ss.muted_color }};
+    --snosha-bv-card: {{ ss.card_background }};
+    --snosha-bv-border: {{ ss.card_border }};
+    --snosha-bv-tile: {{ ss.tile_background }};
+    --snosha-bv-accent: {{ ss.accent_color }};
+    --snosha-bv-panel-start: {{ ss.panel_gradient_start }};
+    --snosha-bv-panel-end: {{ ss.panel_gradient_end }};
+    --snosha-bv-panel-text: {{ ss.panel_text_color }};
+    --snosha-bv-padding-start: {{ ss.padding_top }}px;
+    --snosha-bv-padding-end: {{ ss.padding_bottom }}px;
+    --snosha-bv-padding-start-mobile: {{ ss.padding_top_mobile }}px;
+    --snosha-bv-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+  }
+{% endstyle %}
+
+<div class="snosha-bundle-value{% if custom_class != blank %} {{ custom_class }}{% endif %}">
+  <div class="section section--page-width">
+    <div class="snosha-bundle-value__inner">
+      {%- if heading != blank or subtitle != blank -%}
+        <header class="snosha-bundle-value__header">
+          {%- if heading != blank -%}
+            <h2 class="snosha-bundle-value__heading h2">{{ heading }}</h2>
+          {%- endif -%}
+          {%- if subtitle != blank -%}
+            <p class="snosha-bundle-value__subtitle">{{ subtitle }}</p>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+
+      <div class="snosha-bundle-value__grid">
+        <div class="snosha-bundle-value__breakdown">
+          {%- if section.blocks.size > 0 -%}
+            <dl class="snosha-bundle-value__rows">
+              {%- for block in section.blocks -%}
+                {%- liquid
+                  assign bs = block.settings
+                  assign name = bs.name | strip
+                  assign price = bs.price | strip
+                  assign show_icon = false
+                  if bs.show_icon and bs.icon != 'none'
+                    assign show_icon = true
+                  endif
+                -%}
+                {%- if name != blank or price != blank or request.design_mode -%}
+                  <div class="snosha-bundle-value__row" {{ block.shopify_attributes }}>
+                    <dt class="snosha-bundle-value__item">
+                      {%- if show_icon -%}
+                        <span class="snosha-bundle-value__tile" aria-hidden="true">
+                          {%- render 'snosha-icon', icon: bs.icon, uid: block.id -%}
+                        </span>
+                      {%- endif -%}
+                      <span class="snosha-bundle-value__item-name">{{ name | escape }}</span>
+                    </dt>
+                    <dd class="snosha-bundle-value__item-price">{{ price | escape }}</dd>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </dl>
+          {%- endif -%}
+        </div>
+
+        {%- comment -%}
+          Price panel: label → separate-purchase total (struck through; "Total label" is its screen-reader text)
+          → bundle price → savings.
+        {%- endcomment -%}
+        <div class="snosha-bundle-value__panel">
+          <dl class="snosha-bundle-value__bundle">
+            <dt class="snosha-bundle-value__bundle-label">{{ ss.bundle_label | escape }}</dt>
+            {%- if total_amount != blank -%}
+              <dd class="snosha-bundle-value__compare">
+                <span class="visually-hidden">{{ ss.total_label | escape }}</span>
+                <s class="snosha-bundle-value__compare-amount">{{ total_amount }}</s>
+              </dd>
+            {%- endif -%}
+            <dd class="snosha-bundle-value__bundle-amount h2">{{ bundle_amount }}</dd>
+          </dl>
+          {%- if savings_amount != blank -%}
+            <p class="snosha-bundle-value__savings">
+              {%- render 'snosha-icon', icon: 'discount', uid: section.id, class: 'snosha-bundle-value__savings-icon' -%}
+              <span class="snosha-bundle-value__savings-label">{{ ss.savings_label | escape }}</span>
+              <strong class="snosha-bundle-value__savings-amount">{{ savings_amount }}</strong>
+            </p>
+          {%- endif -%}
+          {%- assign note = ss.panel_note | strip -%}
+          {%- if note != blank -%}
+            <p class="snosha-bundle-value__note">{{ note }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SNOSHA — Bundle Value",
+  "tag": "section",
+  "class": "snosha-bundle-value-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Product row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Item name",
+          "default": "فرشاة SNOSHA N2 × 2"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price label",
+          "info": "Shown as written, e.g. \"6,200 ج\".",
+          "default": "6,200 ج"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show icon",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "brush_body", "label": "Toothbrush" },
+            { "value": "brush_head", "label": "Toothbrush head" },
+            { "value": "tooth", "label": "Tooth" },
+            { "value": "tooth_outline", "label": "Tooth (outline)" },
+            { "value": "sparkle_detail", "label": "Cleaning" },
+            { "value": "sparkle", "label": "Sparkles" },
+            { "value": "drop", "label": "Water drop" },
+            { "value": "package", "label": "Package / case" },
+            { "value": "stand", "label": "Holder / stand" },
+            { "value": "cable", "label": "Cable" },
+            { "value": "battery", "label": "Battery" },
+            { "value": "check", "label": "Check" },
+            { "value": "shield_check", "label": "Shield" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "discount", "label": "Discount" },
+            { "value": "wallet", "label": "Wallet" },
+            { "value": "cart", "label": "Cart" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "brush_body"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "جدول القيمة"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "لو اشتريتهم كل واحد لوحده"
+    },
+    {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
+      "type": "paragraph",
+      "content": "Display only: these values never change the checkout price."
+    },
+    {
+      "type": "select",
+      "id": "price_source",
+      "label": "Bundle price source",
+      "options": [
+        { "value": "manual", "label": "Manual (texts below)" },
+        { "value": "product", "label": "Product price" }
+      ],
+      "default": "manual",
+      "info": "Product price: the current product's price. When the product has a higher compare-at price, the total and the savings follow it too."
+    },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Total label",
+      "default": "الإجمالي"
+    },
+    {
+      "type": "text",
+      "id": "total_amount",
+      "label": "Total amount",
+      "default": "7,200 ج"
+    },
+    {
+      "type": "text",
+      "id": "bundle_label",
+      "label": "Bundle price label",
+      "default": "سعر الباقة"
+    },
+    {
+      "type": "text",
+      "id": "bundle_amount",
+      "label": "Bundle price amount",
+      "default": "5,599 ج"
+    },
+    {
+      "type": "text",
+      "id": "savings_label",
+      "label": "Savings label",
+      "default": "وفرت"
+    },
+    {
+      "type": "text",
+      "id": "savings_amount",
+      "label": "Savings amount",
+      "default": "1,601 ج"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "panel_note",
+      "label": "Note under the bundle price",
+      "info": "Optional."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Row text",
+      "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Total (struck through)",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Breakdown background",
+      "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "color",
+      "id": "card_border",
+      "label": "Borders and dividers",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_background",
+      "label": "Icon tile",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Icons",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_gradient_start",
+      "label": "Bundle panel gradient start",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_gradient_end",
+      "label": "Bundle panel gradient end",
+      "default": "{{ settings.color_palette.color6 }}"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Bundle panel text",
+      "default": "{{ settings.color_palette.background }}"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SNOSHA — Bundle Value",
+      "blocks": [
+        { "type": "row", "settings": { "name": "فرشاة SNOSHA N2 × 2", "price": "6,200 ج", "icon": "brush_body" } },
+        { "type": "row", "settings": { "name": "منظف لسان Snoshax × 2", "price": "1,000 ج", "icon": "sparkle_detail" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

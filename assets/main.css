@@ -6387,3 +6387,412 @@ body:has(.product-information) .snosha-faq {
 [data-simple-bundles-options][data-snosha-swatches] {
   display: none;
 }
+
+/* =========================================================================
+   SNOSHA — BUNDLE CONTENTS  (sections/snosha-bundle-contents.liquid)
+   Header (H2 preset + subtitle), then one card per item: icon tile (N2 long-description tile treatment,
+   snippets/snosha-icon), quantity badge, item text. >= 990: N cards per row (section setting); 750–989: 2;
+   < 750: compact rows (tile, text, quantity). Colours: --snosha-bc-* (section setting bridge).
+   Text sizes: Horizon --font-size--* tokens.
+   ========================================================================= */
+.snosha-bundle-contents {
+  padding-block: var(--snosha-bc-padding-start-mobile)
+    var(--snosha-bc-padding-end-mobile);
+  background-color: var(--snosha-bc-background);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-bc-padding-start) var(--snosha-bc-padding-end);
+  }
+
+  .snosha-bundle-contents__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-block-end: 24px;
+    text-align: center;
+
+    @media screen and (min-width: 750px) {
+      margin-block-end: 40px;
+    }
+  }
+
+  .snosha-bundle-contents__heading {
+    margin: 0;
+    color: var(--snosha-bc-heading);
+  }
+
+  .snosha-bundle-contents__subtitle {
+    margin: 0;
+    color: var(--snosha-bc-subtitle);
+    font-size: var(--font-size--md);
+    line-height: 1.7;
+  }
+
+  .snosha-bundle-contents__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(
+        var(--snosha-bc-columns, 3),
+        minmax(0, 1fr)
+      );
+      gap: 24px;
+    }
+  }
+
+  /* Mobile row: tile, text, quantity */
+  .snosha-bundle-contents__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "tile text quantity";
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--snosha-bc-border);
+    border-radius: 16px;
+    background-color: var(--snosha-bc-card);
+
+    &.snosha-bundle-contents__item--no-icon {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas: "text quantity";
+    }
+
+    /* >= 750: card with the tile and quantity on top and the text below; equal heights per grid row */
+    @media screen and (min-width: 750px) {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "tile quantity"
+        "text text";
+      align-items: start;
+      gap: 16px;
+      padding: 24px;
+      border-radius: 20px;
+
+      &.snosha-bundle-contents__item--no-icon {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+          "quantity"
+          "text";
+      }
+    }
+  }
+
+  .snosha-bundle-contents__tile {
+    --snosha-icon-accent: var(--snosha-bc-accent);
+    --snosha-icon-fill: var(--snosha-bc-card);
+
+    grid-area: tile;
+    display: grid;
+    place-items: center;
+    inline-size: 48px;
+    block-size: 48px;
+    border: 1px solid var(--snosha-bc-border);
+    border-radius: 50%;
+    background-color: var(--snosha-bc-tile);
+    color: var(--snosha-bc-accent);
+
+    svg {
+      display: block;
+      inline-size: 24px;
+      block-size: auto;
+    }
+
+    @media screen and (min-width: 750px) {
+      inline-size: 56px;
+      block-size: 56px;
+    }
+  }
+
+  .snosha-bundle-contents__quantity {
+    grid-area: quantity;
+    justify-self: end;
+    padding: 2px 12px;
+    border-radius: 999px;
+    background-color: var(--snosha-bc-accent);
+    color: var(--snosha-bc-accent-text);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--md);
+    line-height: 1.7;
+    white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      align-self: center;
+      font-size: var(--font-size--lg);
+    }
+  }
+
+  .snosha-bundle-contents__text {
+    grid-area: text;
+    color: var(--snosha-bc-text);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--sm);
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--font-size--md);
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — BUNDLE VALUE  (sections/snosha-bundle-value.liquid)
+   Header, then a breakdown card (product rows only) beside a highlighted price panel (label, struck-through
+   separate total, bundle price, savings pill with an icon). >= 990: two columns (breakdown 3fr at the
+   inline start, panel 2fr at the inline end); < 990: stacked, breakdown first.
+   Savings are conveyed by text, strike-through and the icon, not by colour alone.
+   Colours: --snosha-bv-* (section setting bridge). Text sizes: Horizon --font-size--* tokens / H2 preset.
+   ========================================================================= */
+.snosha-bundle-value {
+  padding-block: var(--snosha-bv-padding-start-mobile)
+    var(--snosha-bv-padding-end-mobile);
+  background-color: var(--snosha-bv-background);
+
+  @media screen and (min-width: 750px) {
+    padding-block: var(--snosha-bv-padding-start) var(--snosha-bv-padding-end);
+  }
+
+  .snosha-bundle-value__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-block-end: 24px;
+    text-align: center;
+
+    @media screen and (min-width: 750px) {
+      margin-block-end: 40px;
+    }
+  }
+
+  .snosha-bundle-value__heading {
+    margin: 0;
+    color: var(--snosha-bv-heading);
+  }
+
+  .snosha-bundle-value__subtitle {
+    margin: 0;
+    color: var(--snosha-bv-subtitle);
+    font-size: var(--font-size--md);
+    line-height: 1.7;
+  }
+
+  :is(dl, dt, dd) {
+    margin: 0;
+  }
+
+  .snosha-bundle-value__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    inline-size: 100%;
+    max-inline-size: 1040px;
+    margin-inline: auto;
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      gap: 24px;
+    }
+  }
+
+  /* ---------- Breakdown card ---------- */
+  .snosha-bundle-value__breakdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4px 16px;
+    border: 1px solid var(--snosha-bv-border);
+    border-radius: 20px;
+    background-color: var(--snosha-bv-card);
+
+    @media screen and (min-width: 750px) {
+      padding: 8px 28px;
+    }
+  }
+
+  .snosha-bundle-value__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 14px;
+    border-block-end: 1px dashed var(--snosha-bv-border);
+
+    &:last-child {
+      border-block-end: 0;
+    }
+  }
+
+  .snosha-bundle-value__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-inline-size: 0;
+  }
+
+  .snosha-bundle-value__tile {
+    --snosha-icon-accent: var(--snosha-bv-accent);
+    --snosha-icon-fill: var(--snosha-bv-card);
+
+    flex: none;
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    border: 1px solid var(--snosha-bv-border);
+    border-radius: 50%;
+    background-color: var(--snosha-bv-tile);
+    color: var(--snosha-bv-accent);
+
+    svg {
+      display: block;
+      inline-size: 22px;
+      block-size: auto;
+    }
+  }
+
+  .snosha-bundle-value__item-name {
+    color: var(--snosha-bv-text);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--sm);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--font-size--md);
+    }
+  }
+
+  .snosha-bundle-value__item-price {
+    flex: none;
+    color: var(--snosha-bv-text);
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--md);
+    line-height: 1.6;
+    white-space: nowrap;
+
+    @media screen and (min-width: 750px) {
+      font-size: var(--font-size--lg);
+    }
+  }
+
+  /* Separate-purchase total inside the price panel: struck through and quieter than the bundle price */
+  .snosha-bundle-value__compare {
+    color: color-mix(in srgb, var(--snosha-bv-panel-text) 80%, transparent);
+    line-height: 1.6;
+  }
+
+  .snosha-bundle-value__compare-amount {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--lg);
+    white-space: nowrap;
+    text-decoration-thickness: 2px;
+  }
+
+  /* ---------- Bundle panel ---------- */
+  .snosha-bundle-value__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px 20px;
+    border-radius: 20px;
+    background-image: linear-gradient(
+      135deg,
+      var(--snosha-bv-panel-start),
+      var(--snosha-bv-panel-end)
+    );
+    color: var(--snosha-bv-panel-text);
+    text-align: center;
+
+    @media screen and (min-width: 750px) {
+      padding: 32px 28px;
+    }
+  }
+
+  .snosha-bundle-value__bundle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .snosha-bundle-value__bundle-label {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--md);
+    line-height: 1.6;
+  }
+
+  .snosha-bundle-value__bundle-amount {
+    margin: 0;
+    color: inherit;
+    white-space: nowrap;
+  }
+
+  .snosha-bundle-value__savings {
+    --snosha-icon-accent: var(--snosha-bv-panel-text);
+    --snosha-icon-fill: transparent;
+
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 8px;
+    margin: 0;
+    padding: 8px 18px;
+    border: 1px solid
+      color-mix(in srgb, var(--snosha-bv-panel-text) 45%, transparent);
+    border-radius: 999px;
+    background-color: color-mix(
+      in srgb,
+      var(--snosha-bv-panel-text) 14%,
+      transparent
+    );
+    font-size: var(--font-size--md);
+    line-height: 1.6;
+  }
+
+  .snosha-bundle-value__savings-icon {
+    flex: none;
+    inline-size: 20px;
+    block-size: auto;
+  }
+
+  .snosha-bundle-value__savings-label {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+  }
+
+  .snosha-bundle-value__savings-amount {
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: var(--font-size--lg);
+    white-space: nowrap;
+  }
+
+  .snosha-bundle-value__note {
+    margin: 0;
+    font-size: var(--font-size--sm);
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+}
