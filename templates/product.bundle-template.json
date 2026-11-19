@@ -171,7 +171,7 @@
                   "type": "text",
                   "name": "Subheadline",
                   "settings": {
-                    "text": "<p>روتين واحد لفم نضيف ونفَس منعش… ليك وللي معاك.</p>",
+                    "text": "{{ closest.product.description }}",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -793,12 +793,18 @@
                 "row_returns",
                 "row_warranty"
               ]
+            },
+            "snosha_bundle_swatches": {
+              "type": "snosha-bundle-swatches",
+              "settings": {},
+              "blocks": {}
             }
           },
           "block_order": [
             "group_icgrde",
             "snosha_benefits_list",
             "variant_picker_R3rGDr",
+            "snosha_bundle_swatches",
             "buy_buttons_eYQEYi",
             "snosha_trust_pills",
             "snosha_complementary_routine",

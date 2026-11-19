@@ -19,6 +19,9 @@
    section's 10px padding the bar is 44px at both sizes (the icon sets the mobile row height).
    The block's inline --line-height: 1 stays native; the text line height is set on the text.
    ========================================================================= */
+.why-coohse-bundle {
+  border-radius: 12px;
+}
 .snosha-language__form {
   flex: 1;
 }
@@ -865,7 +868,11 @@
     & button {
       --color: color-mix(in srgb, var(--snosha-hero-text) 50%, transparent);
       --color-active: var(--snosha-hero-text);
-      --color-hover: color-mix(in srgb, var(--snosha-hero-text) 75%, transparent);
+      --color-hover: color-mix(
+        in srgb,
+        var(--snosha-hero-text) 75%,
+        transparent
+      );
 
       inline-size: auto;
       block-size: auto;
@@ -879,8 +886,10 @@
         block-size: 8px;
         border-radius: 4px;
         box-shadow: none;
-        transition: inline-size var(--animation-speed, 0.2s) var(--animation-easing, ease),
-          background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+        transition:
+          inline-size var(--animation-speed, 0.2s) var(--animation-easing, ease),
+          background-color var(--animation-speed, 0.2s)
+            var(--animation-easing, ease);
       }
 
       &[aria-selected="true"] {
@@ -6042,7 +6051,9 @@ body:has(.product-information) .snosha-faq {
    Integration (dev1 worktree owns dev1.css): move the clamp into the shared title rule there and drop the
    collection-grid copy, then remove this block.
    ========================================================================= */
-.snosha-featured-collection .product-card__content.product-grid__card .text-block.h5 {
+.snosha-featured-collection
+  .product-card__content.product-grid__card
+  .text-block.h5 {
   &,
   & > * {
     display: -webkit-box;
@@ -6294,4 +6305,85 @@ body:has(.product-information) .snosha-faq {
   & > .media-block {
     display: none;
   }
+}
+
+/* =========================================================================
+   SNOSHA — BUNDLE COLOUR SWATCHES (blocks/snosha-bundle-swatches.liquid + <snosha-bundle-swatches> in main.js)
+   The rows reuse the Buy Box N2 swatch rules (.product-information.snosha-buy-box: .variant-option--swatches,
+   .variant-option__button-label--has-swatch, :has(:checked)). The Simple Bundles selects stay in the product
+   form (they are what the cart receives) and are hidden only after the swatches are drawn.
+   ========================================================================= */
+.snosha-bundle-swatches {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .snosha-bundle-swatches__group {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  /* Radios are visually hidden but stay focusable (arrow keys move inside a group) */
+  .variant-option__button-label {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .variant-option__button-label input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  .variant-option__button-label:has(:focus-visible) .swatch {
+    outline: var(--focus-outline-width, 2px) solid var(--color-foreground);
+    outline-offset: 6px;
+  }
+
+  .snosha-bundle-swatches__item--sold-out {
+    cursor: not-allowed;
+
+    .swatch,
+    .variant-option__swatch-label {
+      opacity: var(--opacity-subdued-text, 0.6);
+    }
+
+    .swatch {
+      background-image: linear-gradient(
+        to top right,
+        transparent calc(50% - 1px),
+        currentcolor calc(50% - 1px),
+        currentcolor calc(50% + 1px),
+        transparent calc(50% + 1px)
+      );
+    }
+  }
+
+  .snosha-bundle-swatches__editor-note {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+}
+
+/* Bundle rows: label + selected colour on the first line, the swatches on their own row below.
+   The Buy Box N2 rule floats the legend beside the swatches; one more class here overrides it for the
+   bundle block only (the N2 / F1 colour rows keep the inline layout). */
+.product-information.snosha-buy-box
+  .snosha-bundle-swatches
+  .variant-option--swatches.snosha-bundle-swatches__group
+  legend {
+  float: none;
+  inline-size: 100%;
+  margin: 0 0 6px;
+  white-space: normal;
+}
+
+/* App selects: replaced by the swatches above (still submitted with the form) */
+[data-simple-bundles-options][data-snosha-swatches] {
+  display: none;
 }

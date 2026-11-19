@@ -741,3 +741,126 @@ class SnoshaHeroSlideshow extends HTMLElement {
 if (!customElements.get('snosha-hero-slideshow')) {
   customElements.define('snosha-hero-slideshow', SnoshaHeroSlideshow);
 }
+
+/**
+ * <snosha-bundle-swatches> (blocks/snosha-bundle-swatches.liquid, bundle product template).
+ * Simple Bundles "Infinite Options" renders <select name="properties[...]"> fields inside the product form
+ * ([data-simple-bundles-options]) and re-renders them shortly after load; it only reacts to each select's
+ * "change" event. This element mirrors every app select as a row of N2-style colour swatches (radio buttons
+ * outside the form, so nothing extra is submitted), writes the chosen value back to the app's select and
+ * dispatches "change", and hides the app's selects once the swatches are drawn. The app's own option order,
+ * default (selected) option and disabled / sold-out options are used as they are.
+ */
+class SnoshaBundleSwatches extends HTMLElement {
+  /** @type {MutationObserver | undefined} */
+  #observer;
+  /** @type {Record<string, {label: string, color: string}>} */
+  #colours = {};
+  static #count = 0;
+
+  connectedCallback() {
+    try {
+      this.#colours = JSON.parse(this.querySelector('[data-snosha-bundle-colours]')?.textContent || '{}');
+    } catch {
+      this.#colours = {};
+    }
+    const scope = this.closest('.shopify-section') || document;
+    this.#observer = new MutationObserver(() => this.#render(scope));
+    this.#observer.observe(scope, { childList: true, subtree: true });
+    this.#render(scope);
+  }
+
+  disconnectedCallback() {
+    this.#observer?.disconnect();
+    this.#observer = undefined;
+  }
+
+  /** @param {ParentNode} scope */
+  #render(scope) {
+    const container = scope.querySelector('form [data-simple-bundles-options]');
+    const selects = container ? [...container.querySelectorAll('select[name^="properties["]')] : [];
+    const key = selects.map((s) => s.name).join('|');
+    // Same app selects as last time: nothing to rebuild (the observer also fires for our own rows)
+    if (selects.length && selects.every((s) => s.dataset.snoshaSwatched === 'true') && this.dataset.key === key) return;
+    this.dataset.key = key;
+    this.querySelectorAll('.snosha-bundle-swatches__group').forEach((group) => group.remove());
+    if (!container || !selects.length) {
+      container?.removeAttribute('data-snosha-swatches');
+      return;
+    }
+
+    for (const select of selects) {
+      select.dataset.snoshaSwatched = 'true';
+      this.append(this.#group(select));
+    }
+    this.querySelector('[data-snosha-bundle-note]')?.remove();
+    container.setAttribute('data-snosha-swatches', '');
+  }
+
+  /** @param {HTMLSelectElement} select */
+  #group(select) {
+    const id = `snosha-bundle-${++SnoshaBundleSwatches.#count}`;
+    const labelText =
+      (select.id && select.closest('[data-simple-bundles-options]')?.querySelector(`label[for="${CSS.escape(select.id)}"]`)?.textContent) ||
+      select.name.replace(/^properties\[|\]$/g, '');
+
+    const fieldset = document.createElement('fieldset');
+    fieldset.className = 'variant-option variant-option--buttons variant-option--swatches snosha-bundle-swatches__group';
+    const legend = document.createElement('legend');
+    legend.textContent = labelText.trim();
+    const current = document.createElement('span');
+    current.className = 'variant-option__swatch-value';
+    legend.append(current);
+    fieldset.append(legend);
+
+    const update = () => {
+      const option = select.selectedOptions[0];
+      current.textContent = option && option.value ? this.#colours[option.value]?.label || option.value.trim() : '';
+      for (const input of fieldset.querySelectorAll('input')) {
+        if (input instanceof HTMLInputElement) input.checked = input.value === select.value;
+      }
+    };
+
+    for (const option of select.options) {
+      if (!option.value) continue; // the app's "choose a colour" placeholder
+      const colour = this.#colours[option.value];
+      const name = colour?.label || option.value.trim();
+      const label = document.createElement('label');
+      label.className = 'variant-option__button-label variant-option__button-label--has-swatch';
+      if (option.disabled) label.classList.add('snosha-bundle-swatches__item--sold-out');
+
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.name = id;
+      input.value = option.value;
+      input.disabled = option.disabled;
+      input.setAttribute('aria-label', option.disabled ? `${name} - ${this.dataset.soldOutLabel || ''}` : name);
+      input.addEventListener('change', () => {
+        if (!input.checked || select.value === option.value) return;
+        select.value = option.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        update();
+      });
+
+      const swatch = document.createElement('span');
+      swatch.className = 'swatch swatch--unscaled';
+      swatch.style.setProperty('--swatch-background', colour?.color || 'transparent');
+
+      const text = document.createElement('span');
+      text.className = 'variant-option__swatch-label';
+      text.setAttribute('aria-hidden', 'true');
+      text.textContent = name;
+
+      label.append(input, swatch, text);
+      fieldset.append(label);
+    }
+
+    select.addEventListener('change', update);
+    update();
+    return fieldset;
+  }
+}
+
+if (!customElements.get('snosha-bundle-swatches')) {
+  customElements.define('snosha-bundle-swatches', SnoshaBundleSwatches);
+}

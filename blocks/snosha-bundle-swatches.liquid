@@ -1,0 +1,129 @@
+{%- comment -%}
+  Snosha — colour swatches for Simple Bundles "Infinite Options" bundles (product page, bundle template).
+
+  The Simple Bundles app embed renders its own <select name="properties[...]"> fields inside the product form
+  and keeps them as the only submitted inputs (it mirrors them into hidden inputs and _bundle_selection on
+  "change"). This block does not add inputs: <snosha-bundle-swatches> (assets/main.js) waits for the app's
+  selects, draws one N2-style swatch row per select here, and on a choice sets the app's select value and
+  fires its "change" event. The app's selects are then hidden (still in the form, still submitted).
+  Option values must match the app's values exactly; names are the displayed (translatable) labels.
+  Styles: the Buy Box swatch rules in assets/main.css (.snosha-buy-box) + .snosha-bundle-swatches.
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign colours = ''
+  for i in (1..6)
+    assign value_key = 'value_' | append: i
+    assign label_key = 'label_' | append: i
+    assign colour_key = 'color_' | append: i
+    assign value = bs[value_key] | strip
+    if value != blank
+      assign label = bs[label_key] | strip | default: value
+      assign value_json = value | json
+      assign label_json = label | json
+      assign colour_json = bs[colour_key] | json
+      assign entry = value_json | append: ':{"label":' | append: label_json | append: ',"color":' | append: colour_json | append: '}'
+      if colours != ''
+        assign colours = colours | append: ','
+      endif
+      assign colours = colours | append: entry
+    endif
+  endfor
+-%}
+<snosha-bundle-swatches
+  class="snosha-bundle-swatches spacing-style"
+  style="{% render 'spacing-style', settings: bs %}"
+  data-sold-out-label="{{ 'products.product.sold_out' | t | escape }}"
+  {{ block.shopify_attributes }}
+>
+  <script type="application/json" data-snosha-bundle-colours>{ {{ colours }} }</script>
+  {%- if request.design_mode -%}
+    <p class="snosha-bundle-swatches__editor-note" data-snosha-bundle-note>
+      Simple Bundles colour swatches appear here when the product is an Infinite Options bundle.
+    </p>
+  {%- endif -%}
+</snosha-bundle-swatches>
+
+{% schema %}
+{
+  "name": "Snosha bundle swatches",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Turns the Simple Bundles colour dropdowns into swatches. \"App value\" must match the value set in Simple Bundles exactly; \"Name\" is what customers see (translatable)."
+    },
+    {
+      "type": "header",
+      "content": "Colour 1"
+    },
+    { "type": "text", "id": "value_1", "label": "App value", "default": "وردي" },
+    { "type": "text", "id": "label_1", "label": "Name", "default": "وردي" },
+    { "type": "color", "id": "color_1", "label": "Colour", "default": "#FFC0CB" },
+    {
+      "type": "header",
+      "content": "Colour 2"
+    },
+    { "type": "text", "id": "value_2", "label": "App value", "default": "أزرق" },
+    { "type": "text", "id": "label_2", "label": "Name", "default": "أزرق" },
+    { "type": "color", "id": "color_2", "label": "Colour", "default": "#282099" },
+    {
+      "type": "header",
+      "content": "Colour 3"
+    },
+    { "type": "text", "id": "value_3", "label": "App value", "default": "أبيض" },
+    { "type": "text", "id": "label_3", "label": "Name", "default": "أبيض" },
+    { "type": "color", "id": "color_3", "label": "Colour", "default": "#FFFFFF" },
+    {
+      "type": "header",
+      "content": "Colour 4"
+    },
+    { "type": "text", "id": "value_4", "label": "App value", "default": "أسود" },
+    { "type": "text", "id": "label_4", "label": "Name", "default": "أسود" },
+    { "type": "color", "id": "color_4", "label": "Colour", "default": "#000000" },
+    {
+      "type": "header",
+      "content": "Colour 5"
+    },
+    { "type": "text", "id": "value_5", "label": "App value", "default": "برتقالي" },
+    { "type": "text", "id": "label_5", "label": "Name", "default": "برتقالي" },
+    { "type": "color", "id": "color_5", "label": "Colour", "default": "#F28C28" },
+    {
+      "type": "header",
+      "content": "Colour 6"
+    },
+    { "type": "text", "id": "value_6", "label": "App value", "default": "أخضر" },
+    { "type": "text", "id": "label_6", "label": "Name", "default": "أخضر" },
+    { "type": "color", "id": "color_6", "label": "Colour", "default": "#3A9D5D" },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Snosha bundle swatches"
+    }
+  ]
+}
+{% endschema %}
