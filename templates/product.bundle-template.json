@@ -337,8 +337,6 @@
                 "value_6": "أخضر",
                 "label_6": "أخضر",
                 "color_6": "#3a9d5d",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
                 "group_value_1": "لون الفرشاة الأولى",
                 "group_label_1": "لون الفرشاة الأولى",
                 "group_value_2": "لون الفرشاة الثانية",
@@ -346,7 +344,9 @@
                 "group_value_3": "لون منظف اللسان الأول",
                 "group_label_3": "لون منظف اللسان الأول",
                 "group_value_4": "لون منظف اللسان الثاني",
-                "group_label_4": "لون منظف اللسان الثاني"
+                "group_label_4": "لون منظف اللسان الثاني",
+                "padding-block-start": 0,
+                "padding-block-end": 0
               },
               "blocks": {}
             },
@@ -2253,7 +2253,7 @@
                 "text_nPNdFX": {
                   "type": "text",
                   "settings": {
-                    "text": "",
+                    "text": "<p>لأ. الفرشاة أداة شخصية ومينفعش تتشارك لأسباب صحية، وده سبب إن الباقة فيها فرشتين.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
