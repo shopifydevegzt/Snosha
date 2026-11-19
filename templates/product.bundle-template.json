@@ -126,6 +126,21 @@
                 "padding-inline-end": 0
               },
               "blocks": {
+                "review_snosha_rating": {
+                  "type": "review",
+                  "name": "Rating (Judge.me / reviews)",
+                  "settings": {
+                    "stars_style": "shaded",
+                    "show_number": false,
+                    "show_rating_value": true,
+                    "label": "",
+                    "text_color": "{{ settings.color_palette.color3 }}",
+                    "type_preset": "paragraph",
+                    "width": "fit-content",
+                    "alignment": "left"
+                  },
+                  "blocks": {}
+                },
                 "text_xrnftG": {
                   "type": "text",
                   "name": "t:names.product_title",
@@ -149,21 +164,6 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "review_snosha_rating": {
-                  "type": "review",
-                  "name": "Rating (Judge.me / reviews)",
-                  "settings": {
-                    "stars_style": "shaded",
-                    "show_number": false,
-                    "show_rating_value": true,
-                    "label": "",
-                    "text_color": "{{ settings.color_palette.color3 }}",
-                    "type_preset": "paragraph",
-                    "width": "fit-content",
-                    "alignment": "left"
                   },
                   "blocks": {}
                 },
@@ -219,8 +219,8 @@
                 }
               },
               "block_order": [
-                "text_xrnftG",
                 "review_snosha_rating",
+                "text_xrnftG",
                 "text_bundle_subheadline",
                 "price_tVjtKg"
               ]
@@ -1221,7 +1221,7 @@
             "heading_trim": 0,
             "body_max_width": 400,
             "list_gap": 10,
-            "mobile_media": "stacked",
+            "mobile_media": "top",
             "stack_gap_mobile": 10,
             "copy_gap_mobile": 0,
             "heading_fit_mobile": false,
@@ -1539,6 +1539,29 @@
     "snosha_contact_9VQAzM": {
       "type": "snosha-contact",
       "blocks": {
+        "cta": {
+          "type": "_snosha-contact-cta",
+          "static": true,
+          "settings": {
+            "show_button": true,
+            "label": "اطلب الباقة",
+            "target": "#bundle-color-options",
+            "style": "primary",
+            "background": "{{ settings.color_palette.background }}",
+            "hover_background": "{{ settings.color_palette.color5 }}",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "border_color": "{{ settings.color_palette.background }}",
+            "border_width": 0,
+            "radius": 100,
+            "shadow_color": "#001a4066",
+            "glow_color": "#63cdff66",
+            "font_size": 16,
+            "font_size_mobile": 14,
+            "padding_block": 13,
+            "padding_inline": 28
+          },
+          "blocks": {}
+        },
         "whatsapp": {
           "type": "_snosha-contact-whatsapp",
           "disabled": true,
@@ -1609,17 +1632,6 @@
             "description_color": "#ffffffcc",
             "description_size": 21,
             "description_size_mobile": 13
-          },
-          "blocks": {}
-        },
-        "cta": {
-          "type": "_snosha-contact-cta",
-          "static": true,
-          "settings": {
-            "show_button": true,
-            "label": "اطلب الباقة",
-            "target": "#bundle-color-options",
-            "style": "primary"
           },
           "blocks": {}
         }
@@ -1755,12 +1767,148 @@
         "progress_start": "#63cdff",
         "progress_end": "#0f64a8",
         "background": "{{ settings.color_palette.background }}",
-        "padding_top": 60,
+        "padding_top": 0,
         "padding_bottom": 60,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "show_when_empty": false,
         "anchor": "snosha-reviews",
+        "custom_class": ""
+      }
+    },
+    "snosha_how_to_use_UGazpy": {
+      "type": "snosha-how-to-use",
+      "blocks": {
+        "snosha_how_to_use_step_jRT8qU": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "الفرشاة غير مناسبة لمن يستخدم جهاز تنظيم ضربات القلب أو أي جهاز طبي مزروع.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_zt8FMT": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "الأطفال يستخدموها تحت إشراف شخص بالغ فقط.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_ENHQAg": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "في حالة وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_gABLKf": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "فك الجهاز أو العبث بمكوناته يلغي الضمان.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_qqiTzH": {
+          "type": "_snosha-how-to-use-step",
+          "settings": {
+            "text": "يحتوي الجهاز على بطارية ليثيوم، فيجب إبعاده عن مصادر الحرارة العالية.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_WcKF3k": {
+          "type": "_snosha-how-to-use-step",
+          "disabled": true,
+          "settings": {
+            "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_rjzCet": {
+          "type": "_snosha-how-to-use-step",
+          "disabled": true,
+          "settings": {
+            "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "snosha_how_to_use_step_49AW6L": {
+          "type": "_snosha-how-to-use-step",
+          "disabled": true,
+          "settings": {
+            "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر.",
+            "text_mobile": ""
+          },
+          "blocks": {}
+        },
+        "note": {
+          "type": "_snosha-how-to-use-note",
+          "static": true,
+          "settings": {
+            "text": "يحتاج بعض المستخدمين من 3 إلى 5 أيام للتأقلم مع الإحساس الجديد لفرشاة الأسنان الكهربائية — وهذا أمر طبيعي تمامًا.",
+            "text_mobile": "",
+            "text_size": 14,
+            "text_size_mobile": 11,
+            "background": "{{ settings.color_palette.background }}",
+            "border_color": "{{ settings.color_palette.color2 }}",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "radius": 14,
+            "padding_block": 14,
+            "padding_inline": 20,
+            "show_icon": true,
+            "icon": "sparkle_detail",
+            "icon_color": "{{ settings.color_palette.color3 }}",
+            "icon_size": 18
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "snosha_how_to_use_step_jRT8qU",
+        "snosha_how_to_use_step_zt8FMT",
+        "snosha_how_to_use_step_ENHQAg",
+        "snosha_how_to_use_step_gABLKf",
+        "snosha_how_to_use_step_qqiTzH",
+        "snosha_how_to_use_step_WcKF3k",
+        "snosha_how_to_use_step_rjzCet",
+        "snosha_how_to_use_step_49AW6L"
+      ],
+      "name": "Snosha how to use",
+      "settings": {
+        "heading": "شروط الاستخدام",
+        "heading_color": "{{ settings.color_palette.color6 }}",
+        "heading_size": 32,
+        "heading_size_mobile": 22,
+        "heading_gap": 18,
+        "heading_gap_mobile": 14,
+        "background": "{{ settings.color_palette.background }}",
+        "panel_background": "{{ settings.color_palette.color5 }}",
+        "panel_border": "{{ settings.color_palette.color2 }}",
+        "panel_shadow": "#0d40800f",
+        "panel_radius": 16,
+        "panel_padding": 24,
+        "panel_padding_mobile": 14,
+        "show_note": false,
+        "step_gap": 16,
+        "step_text_color": "{{ settings.color_palette.color1 }}",
+        "step_size": 16,
+        "step_size_mobile": 12.5,
+        "step_line_height": 28,
+        "badge_start": "#63cdff",
+        "badge_end": "#0f64a8",
+        "badge_text_color": "{{ settings.color_palette.background }}",
+        "badge_size": 30,
+        "badge_font_size": 14,
+        "badge_font_size_mobile": 11,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
         "custom_class": ""
       }
     },
@@ -2323,18 +2471,10 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {}
-                },
-                "product_link_replacement_heads": {
-                  "type": "snosha-product-link",
-                  "settings": {
-                    "label": ""
-                  },
-                  "blocks": {}
                 }
               },
               "block_order": [
-                "text_bundlefaq12",
-                "product_link_replacement_heads"
+                "text_bundlefaq12"
               ]
             }
           },
@@ -2422,331 +2562,32 @@
         "custom_class": ""
       }
     },
-    "snosha_how_to_use_UGazpy": {
-      "type": "snosha-how-to-use",
-      "blocks": {
-        "snosha_how_to_use_step_jRT8qU": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "الفرشاة غير مناسبة لمن يستخدم جهاز تنظيم ضربات القلب أو أي جهاز طبي مزروع.",
-            "text_mobile": ""
-          },
-          "blocks": {}
-        },
-        "snosha_how_to_use_step_zt8FMT": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "الأطفال يستخدموها تحت إشراف شخص بالغ فقط.",
-            "text_mobile": ""
-          },
-          "blocks": {}
-        },
-        "snosha_how_to_use_step_ENHQAg": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "في حالة وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام.",
-            "text_mobile": ""
-          },
-          "blocks": {}
-        },
-        "snosha_how_to_use_step_gABLKf": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "فك الجهاز أو العبث بمكوناته يلغي الضمان.",
-            "text_mobile": ""
-          },
-          "blocks": {}
-        },
-        "snosha_how_to_use_step_qqiTzH": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "يحتوي الجهاز على بطارية ليثيوم، فيجب إبعاده عن مصادر الحرارة العالية.",
-            "text_mobile": ""
-          },
-          "blocks": {}
-        },
-        "snosha_how_to_use_step_WcKF3k": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "قسّم الفم إلى 4 أرباع، ونظّف كل ربع لمدة 30 ثانية تقريبًا — المؤقت الذكي ينبّهك تلقائيًا بنبضة خفيفة عند نهاية كل ربع.",
-            "text_mobile": ""
-          },
-          "blocks": {},
-          "disabled": true
-        },
-        "snosha_how_to_use_step_rjzCet": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "بعد الانتهاء، اضغط مطولًا على زر التشغيل لمدة 3 ثوانٍ لإيقاف الجهاز.",
-            "text_mobile": ""
-          },
-          "blocks": {},
-          "disabled": true
-        },
-        "snosha_how_to_use_step_49AW6L": {
-          "type": "_snosha-how-to-use-step",
-          "settings": {
-            "text": "لاستخدام حقيبة السفر: افتحها، ضع جسم الفرشاة مع إمكانية إضافة رأسين إضافيين، وأغلقها بإحكام لحماية الفرشاة أثناء السفر.",
-            "text_mobile": ""
-          },
-          "blocks": {},
-          "disabled": true
-        },
-        "note": {
-          "type": "_snosha-how-to-use-note",
-          "static": true,
-          "settings": {
-            "text": "يحتاج بعض المستخدمين من 3 إلى 5 أيام للتأقلم مع الإحساس الجديد لفرشاة الأسنان الكهربائية — وهذا أمر طبيعي تمامًا.",
-            "text_mobile": "",
-            "text_size": 14,
-            "text_size_mobile": 11,
-            "background": "{{ settings.color_palette.background }}",
-            "border_color": "{{ settings.color_palette.color2 }}",
-            "text_color": "{{ settings.color_palette.color3 }}",
-            "radius": 14,
-            "padding_block": 14,
-            "padding_inline": 20,
-            "show_icon": true,
-            "icon": "sparkle_detail",
-            "icon_color": "{{ settings.color_palette.color3 }}",
-            "icon_size": 18
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "snosha_how_to_use_step_jRT8qU",
-        "snosha_how_to_use_step_zt8FMT",
-        "snosha_how_to_use_step_ENHQAg",
-        "snosha_how_to_use_step_gABLKf",
-        "snosha_how_to_use_step_qqiTzH",
-        "snosha_how_to_use_step_WcKF3k",
-        "snosha_how_to_use_step_rjzCet",
-        "snosha_how_to_use_step_49AW6L"
-      ],
-      "name": "Snosha how to use",
-      "settings": {
-        "heading": "شروط الاستخدام",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "heading_size": 32,
-        "heading_size_mobile": 22,
-        "heading_gap": 18,
-        "heading_gap_mobile": 14,
-        "background": "{{ settings.color_palette.background }}",
-        "panel_background": "{{ settings.color_palette.color5 }}",
-        "panel_border": "{{ settings.color_palette.color2 }}",
-        "panel_shadow": "#0d40800f",
-        "panel_radius": 16,
-        "panel_padding": 24,
-        "panel_padding_mobile": 14,
-        "show_note": false,
-        "step_gap": 16,
-        "step_text_color": "{{ settings.color_palette.color1 }}",
-        "step_size": 16,
-        "step_size_mobile": 12.5,
-        "step_line_height": 28,
-        "badge_start": "#63cdff",
-        "badge_end": "#0f64a8",
-        "badge_text_color": "{{ settings.color_palette.background }}",
-        "badge_size": 30,
-        "badge_font_size": 14,
-        "badge_font_size_mobile": 11,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "custom_class": ""
-      }
-    },
-    "snosha_storage_care_KBtGfB": {
-      "type": "snosha-storage-care",
-      "blocks": {
-        "snosha_storage_tab_Wz4FBr": {
-          "type": "_snosha-storage-tab",
-          "settings": {
-            "title": "للاستخدام الآمن",
-            "title_mobile": "",
-            "default_open": true
-          },
-          "blocks": {
-            "snosha_storage_item_QLMg8b": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "المنتج مخصص لاستخدام البالغين، ويُستخدم من قِبل الأطفال تحت إشراف شخص بالغ فقط.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_YjTDdr": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_4hyPLW": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "في حال وجود أمراض في الفم أو اللثة، يُفضّل استشارة طبيب الأسنان قبل الاستخدام.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_Hqh7e4": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "يُمنع مشاركة فرشاة الأسنان مع الآخرين لأسباب صحية.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_xFmRt3": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "استخدم فقط الملحقات الأصلية المعتمدة من سنوشا.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_nBq6pw": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "فك الجهاز أو العبث بمكوناته الداخلية يؤدي لإلغاء الضمان.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            },
-            "snosha_storage_item_iDEgMM": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "يحتوي الجهاز على بطارية ليثيوم مدمجة، لذا يجب إبعاده عن مصادر الحرارة العالية لتفادي أي خطر.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "snosha_storage_item_QLMg8b",
-            "snosha_storage_item_YjTDdr",
-            "snosha_storage_item_4hyPLW",
-            "snosha_storage_item_Hqh7e4",
-            "snosha_storage_item_xFmRt3",
-            "snosha_storage_item_nBq6pw",
-            "snosha_storage_item_iDEgMM"
-          ]
-        },
-        "snosha_storage_tab_6VVbyy": {
-          "type": "_snosha-storage-tab",
-          "settings": {
-            "title": "للتنظيف والصيانة",
-            "title_mobile": "",
-            "default_open": false
-          },
-          "blocks": {
-            "snosha_storage_item_Gf3rTQ": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "snosha_storage_item_Gf3rTQ"
-          ]
-        },
-        "snosha_storage_tab_M7KaMq": {
-          "type": "_snosha-storage-tab",
-          "settings": {
-            "title": "للتخزين",
-            "title_mobile": "",
-            "default_open": false
-          },
-          "blocks": {
-            "snosha_storage_item_ecyQ68": {
-              "type": "_snosha-storage-item",
-              "settings": {
-                "text": "غير مناسب لمن يستخدم أجهزة تنظيم ضربات القلب أو أي أجهزة طبية مزروعة.",
-                "text_mobile": ""
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "snosha_storage_item_ecyQ68"
-          ]
-        },
-        "tab_style": {
-          "type": "_snosha-storage-tab-style",
-          "static": true,
-          "settings": {
-            "tab_font_size": 16,
-            "tab_font_size_mobile": 11.5,
-            "tab_padding_block": 10,
-            "tab_padding_block_mobile": 6,
-            "tab_padding": 24,
-            "tab_padding_mobile": 10,
-            "tab_radius": 100,
-            "tab_gap": 10,
-            "tab_gap_mobile": 6,
-            "tabs_card_gap": 22,
-            "tabs_card_gap_mobile": 16,
-            "tab_background": "{{ settings.color_palette.background }}",
-            "tab_text": "{{ settings.color_palette.color3 }}",
-            "tab_border": "{{ settings.color_palette.color2 }}",
-            "tab_active_start": "#63cdff",
-            "tab_active_end": "#0f64a8",
-            "tab_active_text": "{{ settings.color_palette.background }}",
-            "tab_active_shadow": "#0f64a84d"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "snosha_storage_tab_Wz4FBr",
-        "snosha_storage_tab_6VVbyy",
-        "snosha_storage_tab_M7KaMq"
-      ],
-      "disabled": true,
-      "name": "Snosha storage & care",
-      "settings": {
-        "heading": "شروط الاستخدام والتخزين",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "heading_size": 32,
-        "heading_size_mobile": 22,
-        "heading_gap": 18,
-        "heading_gap_mobile": 14,
-        "background": "{{ settings.color_palette.background }}",
-        "hide_empty_tabs": false,
-        "empty_message": "سيتم إضافة المحتوى قريبًا",
-        "card_background": "{{ settings.color_palette.background }}",
-        "card_border": "{{ settings.color_palette.color2 }}",
-        "card_shadow": "#0d40800f",
-        "card_radius": 16,
-        "card_padding": 28,
-        "card_padding_mobile": 14,
-        "card_padding_top": 24,
-        "card_padding_bottom": 26,
-        "item_gap": 12,
-        "text_color": "{{ settings.color_palette.color1 }}",
-        "text_size": 16,
-        "text_size_mobile": 13,
-        "line_height": 28,
-        "show_marker": true,
-        "marker_color": "#63cdff",
-        "marker_size": 26,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "custom_class": ""
-      }
-    },
     "snosha_contact_ddCeP6": {
       "type": "snosha-contact",
       "blocks": {
+        "cta": {
+          "type": "_snosha-contact-cta",
+          "static": true,
+          "settings": {
+            "show_button": false,
+            "label": "اطلب الباقة",
+            "target": "#bundle-color-options",
+            "style": "primary",
+            "background": "{{ settings.color_palette.background }}",
+            "hover_background": "{{ settings.color_palette.color5 }}",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "border_color": "{{ settings.color_palette.background }}",
+            "border_width": 0,
+            "radius": 100,
+            "shadow_color": "#001a4066",
+            "glow_color": "#63cdff66",
+            "font_size": 16,
+            "font_size_mobile": 14,
+            "padding_block": 13,
+            "padding_inline": 28
+          },
+          "blocks": {}
+        },
         "whatsapp": {
           "type": "_snosha-contact-whatsapp",
           "static": true,
@@ -2863,9 +2704,8 @@
     "snosha_long_description",
     "snosha_contact_9VQAzM",
     "snosha_judgeme_reviews_XzyhEW",
-    "snosha_faq_raP3iT",
     "snosha_how_to_use_UGazpy",
-    "snosha_storage_care_KBtGfB",
+    "snosha_faq_raP3iT",
     "snosha_contact_ddCeP6"
   ]
 }
