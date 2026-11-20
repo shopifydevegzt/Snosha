@@ -2366,13 +2366,38 @@
       }
     },
     "snosha_faq_raP3iT": {
-      "type": "snosha-faq",
+      "type": "section",
+      "name": "Snosha FAQ (native)",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "border": "none",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "custom_class": "snosha-faq-native",
+        "snosha_grid": true,
+        "snosha_columns_desktop": 2,
+        "snosha_columns_tablet": 2,
+        "snosha_columns_mobile": 1,
+        "snosha_mobile_padding": true,
+        "snosha_padding_top_mobile": 40,
+        "snosha_padding_bottom_mobile": 40
+      },
       "blocks": {
         "accordion_xHANdD": {
           "type": "accordion",
           "settings": {
             "icon": "caret",
-            "snosha_style": false,
+            "snosha_style": true,
             "snosha_row_background": "{{ settings.color_palette.background }}",
             "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
             "snosha_row_border": "{{ settings.color_palette.color2 }}",
@@ -2532,7 +2557,7 @@
           "type": "accordion",
           "settings": {
             "icon": "caret",
-            "snosha_style": false,
+            "snosha_style": true,
             "snosha_row_background": "{{ settings.color_palette.background }}",
             "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
             "snosha_row_border": "{{ settings.color_palette.color2 }}",
@@ -2690,7 +2715,6 @@
         },
         "heading": {
           "type": "text",
-          "static": true,
           "settings": {
             "text": "<h2>الأسئلة الشائعة</h2>",
             "width": "100%",
@@ -2703,7 +2727,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.color6 }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -2716,7 +2740,6 @@
         },
         "subtitle": {
           "type": "text",
-          "static": true,
           "settings": {
             "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
             "width": "100%",
@@ -2729,7 +2752,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.color1 }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -2742,26 +2765,11 @@
         }
       },
       "block_order": [
+        "heading",
+        "subtitle",
         "accordion_xHANdD",
         "accordion_gRT6CA"
-      ],
-      "name": "Snosha FAQ",
-      "settings": {
-        "background_color": "{{ settings.color_palette.background }}",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "subtitle_color": "{{ settings.color_palette.color1 }}",
-        "question_color": "{{ settings.color_palette.foreground }}",
-        "answer_color": "{{ settings.color_palette.color1 }}",
-        "chevron_color": "{{ settings.color_palette.color3 }}",
-        "item_background_color": "{{ settings.color_palette.background }}",
-        "item_open_background_color": "{{ settings.color_palette.color5 }}",
-        "border_color": "{{ settings.color_palette.color2 }}",
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "custom_class": ""
-      }
+      ]
     },
     "snosha_how_to_use_UGazpy": {
       "type": "snosha-how-to-use",

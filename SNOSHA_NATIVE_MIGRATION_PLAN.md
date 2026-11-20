@@ -158,6 +158,43 @@ One component per branch or commit, with a full check before the next one starts
 - **Risk:** Low (homepage only, static).
 
 ### M2 — `snosha-faq` → native `section`
+
+> **Status 2026-11-20: migrated on the development theme only (local, not committed).**
+>
+> **Instances (4, all migrated, same IDs and positions):**
+> - `index.json → snosha_faq` (12 / 12);
+> - `product.json → snosha_faq_raP3iT` (9 / 15);
+> - `product.f1-product.json → snosha_faq_raP3iT` (8 / 14);
+> - `product.bundle-template.json → snosha_faq_raP3iT` (10 / 11).
+>
+> **Composition:** native `section`, with `heading` / `subtitle` text blocks and the existing two `accordion` → `_accordion-row` → `text` blocks as direct children. All IDs, rows, answers and "open by default" flags are unchanged.
+>
+> **Reused, no new settings:**
+> - generic grid opt-in (columns 2 / 2 / 1);
+> - mobile padding opt-in (old mobile values);
+> - native background, padding and Gap (24 = the column gap);
+> - each accordion's existing "Snosha card style" carries the old section colours (row, open row, border, question, chevron, answer);
+> - heading and subtitle colours live on the text blocks.
+>
+> **CSS:** `.snosha-faq-native` in `assets/main.css`, holding only the differences from the card style plus the section rhythm, and the product-page 14px mobile rule. No JavaScript (native `accordion-custom`).
+>
+> **QA (dev theme, real pages):**
+> - Original vs native: 0 / 40 runs differ (4 pages, RTL + LTR, 1480 / 990 / 768 / 390 / 320), covering initial, click-toggle and keyboard-toggle states, the focus ring, the Buy Box accordion control, overflow and JS errors.
+> - Editor-equivalent setting tests passed and were restored byte-for-byte.
+> - Fixed during QA: the subtitle grid row collapsed at ≥ 750 because its negative margin exceeded its height (+23px).
+>
+> **Translations:** 87 / 87 keys and digests identical. The dev bundle FAQ's 25 English strings survived the swap (0 outdated), so no registration is needed.
+>
+> **Pre-existing, unrelated to the migration:** 5 live homepage answers are outdated and all hold the warranty answer. The correction is prepared in `tools/translations/snosha-faq/faq-en.json` (dry run: 5 updates; not registered). The F1 FAQ has no English (38 keys); 1 bundle answer has no English.
+>
+> **Theme Editor UI:** UNVERIFIED (no admin session).
+>
+> **Pre-push preparation (2026-11-20).**
+> - **M1 Why gap fix:** rows keep the design rhythm (32 / 12); Gap drives the horizontal benefit gap only. The heading and subtitle spacing moved to their bottom margins, so no grid row collapses at any Gap (0–100). Before the fix the subtitle row collapsed above Gap 32.
+>   - Verified: Gap 20 / 32 / 40 / 48 in RTL + LTR at 1480 / 768 / 390, and the original geometry at Gap 32 (10 / 10).
+> - **M2 FAQ:** static integrity check 4 / 4 instances; visual smoke 16 / 16 match the original.
+> - **Translations:** FAQ correction dry run = 5 updates on live (not registered). Free-shipping answer on hold: policy conflict.
+> - **Dev theme:** equals local.
 - **Native reuse:** stock "FAQ section" composition: `section` (column) → `group` [heading `text`, subtitle `text`] + `group` (row, `vertical_on_mobile: true`) → 2 × `accordion` (`snosha_style: true`, same 9 colour settings already on the block) → `_accordion-row` → `text`.
 - **Content migration:** the existing `accordion` and `_accordion-row` blocks are copied with **their settings unchanged** (questions, answers, `open_by_default` on the warranty row, `snosha_icon`, `hide_when_empty`). The section colours map as follows:
 

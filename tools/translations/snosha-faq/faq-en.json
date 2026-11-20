@@ -1,0 +1,11 @@
+{
+  "_comment": "Homepage FAQ (templates/index.json → sections.snosha_faq). The native migration keeps every translation key and digest (87 / 87 verified 2026-11-20), so NO registration is needed for the migration itself. This file only corrects 5 PRE-EXISTING live English answers that are marked outdated and currently all hold the warranty answer. Arabic source exactly as stored → English. Not registered: approval required; dry run only. Never translate custom_class. Policy check 2026-11-20 (storefront /policies + /pages): payment methods, cash on delivery, authenticity and returns (7 days) are consistent; FREE SHIPPING conflicts: the Arabic source says 'from 2,000 EGP' but the published shipping policy says 'free on all orders paid online, 100 EGP on other payment methods' (the bundle FAQ and some product pills say the same). Hold the free-shipping entry until the merchant confirms the rule and the Arabic source is aligned.",
+  "scope": "section.index.json.snosha_faq.",
+  "theme": {
+    "<p>يمكنك اختيار طريقة الدفع المناسبة لك من الخيارات المتاحة عند إتمام الطلب. لمعرفة طرق الدفع المتوفرة حاليًا، يُرجى مراجعة صفحة إتمام الشراء.</p>": "<p>You can choose the payment method that suits you from the options available at checkout. To see the payment methods currently available, please check the checkout page.</p>",
+    "<p>نعم، نوفر إمكانية الدفع عند الاستلام ضمن خيارات الدفع المتاحة، لتتسوق براحة وثقة.</p>": "<p>Yes, cash on delivery is one of the available payment options, so you can shop with comfort and confidence.</p>",
+    "<p>نعم، جميع المنتجات المعروضة عبر متجر SNOSHA الرسمي هي منتجات أصلية من العلامة التجارية، ونحرص على تقديم منتجات عالية الجودة للعناية بالفم والأسنان.</p>": "<p>Yes, all products offered in the official SNOSHA store are genuine brand products, and we are committed to providing high-quality oral and dental care products.</p>",
+    "<p>يمكنك طلب الاستبدال أو الاسترجاع خلال 7 أيام، وفقًا للشروط الموضحة في سياسة الاستبدال والاسترجاع الخاصة بالمتجر.</p>": "<p>You can request an exchange or return within 7 days, according to the conditions in the store's exchange and return policy.</p>",
+    "<p>نعم، نوفر شحنًا مجانيًا للطلبات بقيمة 2,000 جنيه مصري فأكثر، مع خدمة توصيل لجميع أنحاء مصر.</p>": "<p>Yes, we offer free shipping on orders of EGP 2,000 or more, with delivery across Egypt.</p>"
+  }
+}
