@@ -118,9 +118,21 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
+{%- liquid
+  # Snosha (project addition): fallback when the resource has no SEO description, so every
+  # indexable page has one (Lighthouse meta-description). Resource content first, then the
+  # store description (Admin → Preferences). A merchant-written SEO description always wins.
+  assign meta_description = page_description
+  if meta_description == blank and request.page_type == 'collection'
+    assign meta_description = collection.description | strip_html | replace: '&nbsp;', ' ' | replace: '&amp;', '&' | strip_newlines | strip | truncate: 160
+  endif
+  if meta_description == blank
+    assign meta_description = shop.description
+  endif
+-%}
+{% if meta_description != blank %}
   <meta
     name="description"
-    content="{{ page_description | escape }}"
+    content="{{ meta_description | escape }}"
   >
 {% endif %}
