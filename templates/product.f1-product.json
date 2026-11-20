@@ -1088,7 +1088,8 @@
       }
     },
     "snosha_before_after_product": {
-      "type": "snosha-before-after",
+      "type": "section",
+      "name": "Snosha before / after (native)",
       "blocks": {
         "heading": {
           "type": "text",
@@ -1173,7 +1174,9 @@
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-end": 0,
+            "snosha_grip_color": "{{ settings.color_palette.foreground }}",
+            "snosha_shadow_color": "#0f64a8"
           },
           "blocks": {}
         }
@@ -1183,16 +1186,24 @@
         "body",
         "comparison"
       ],
-      "name": "Snosha before / after",
       "settings": {
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "label_text_color": "{{ settings.color_palette.color6 }}",
-        "grip_color": "{{ settings.color_palette.foreground }}",
-        "shadow_color": "#0f64a8",
-        "custom_class": "snosha-before-after--product"
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "border": "none",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "custom_class": "snosha-before-after--product",
+        "snosha_mobile_padding": true,
+        "snosha_padding_top_mobile": 40,
+        "snosha_padding_bottom_mobile": 40
       }
     },
     "snosha_judgeme_reviews_XzyhEW": {

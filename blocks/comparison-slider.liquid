@@ -41,7 +41,7 @@
     {% if block.settings.slider_bg_color != blank %} --color-background: {{ block.settings.slider_bg_color }};{% endif %}
     {% if block.settings.slider_handle_color != blank %}
       --handle-color: {{ block.settings.slider_handle_color }};
-    {% endif %}
+    {% endif %}{% comment %} Snosha opt-in colours (blank = no output; consumed only by scoped Snosha CSS) {% endcomment %}{% if block.settings.snosha_grip_color != blank %} --snosha-cs-grip: {{ block.settings.snosha_grip_color }};{% endif %}{% if block.settings.snosha_shadow_color != blank %} --snosha-cs-shadow: {{ block.settings.snosha_shadow_color }};{% endif %}{% if block.settings.snosha_grip_color != blank or block.settings.snosha_shadow_color != blank %}{% if block.settings.text_color != blank %} --snosha-cs-label: {{ block.settings.text_color }};{% endif %}{% endif %}
     {% render 'spacing-style', settings: block.settings %}
     {% render 'size-style', settings: block.settings %}
     {% render 'border-override', settings: block.settings %}
@@ -698,6 +698,18 @@
       "id": "slider_handle_color",
       "label": "t:settings.slider_inner_color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "snosha_grip_color",
+      "label": "Handle grip lines",
+      "info": "Optional (Snosha style). Leave empty for Horizon's default handle."
+    },
+    {
+      "type": "color",
+      "id": "snosha_shadow_color",
+      "label": "Handle and label shadow",
+      "info": "Optional (Snosha style). Leave empty for no Snosha shadow."
     },
     {
       "type": "select",

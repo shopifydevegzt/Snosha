@@ -265,6 +265,45 @@ One component per branch or commit, with a full check before the next one starts
 - **Risk:** Low–Medium. Merchant-visible editor change: settings move to the native "Collection list" panel.
 
 ### M4 — `snosha-before-after` → native `section`
+
+> **Status 2026-11-20: migrated on the development theme only (local, not committed).**
+>
+> **Instances (3, same IDs and positions):**
+> - `index.json → snosha_before_after` (6 / 12);
+> - `product.json → snosha_before_after_product` (5 / 15);
+> - `product.f1-product.json → snosha_before_after_product` (4 / 14).
+>
+> All blocks are unchanged (homepage `comparison` + `content` group with 4 benefits + CTA; product `heading` + `body` + `comparison`).
+>
+> **Native:** `sections/section.liquid` (existing `custom_class` + mobile-padding opt-ins; native padding and Gap 20 homepage / 24 product) + the existing native blocks. The slider is Horizon's `comparison-slider` (range input; pointer, touch, keyboard, intro animation). No new section, block or JS.
+>
+> **Extension:** `blocks/comparison-slider.liquid` gains 2 opt-in colours, blank = no output: "Handle grip lines" `--snosha-cs-grip` and "Handle and label shadow" `--snosha-cs-shadow`. When either is set, the block's Text color is also exposed as `--snosha-cs-label` for the focus ring.
+>
+> **Old → new settings:**
+> - section `label_text_color` → the block's native Text color;
+> - `grip_color` / `shadow_color` → the 2 new block settings;
+> - desktop padding → native Top / Bottom;
+> - mobile padding → the mobile-padding opt-in;
+> - `custom_class` → native `custom_class`.
+>
+> **Translation safety:** the product pages keep `custom_class` **"snosha-before-after--product" unchanged**, because that value has a registered English "translation" on live and a changed value would leave `/en` with the old class. The homepage uses "snosha-before-after-native". CSS scope: `:is(.snosha-before-after-native, .snosha-before-after--product):not(.snosha-before-after)`, so the legacy section, still in the theme for rollback, is never double-styled.
+>
+> **CSS:** `assets/main.css` (re-scoped original rules); legacy rules in `dev1.css` / `main.css` kept for rollback.
+>
+> **QA (dev theme, real pages, RTL + LTR, 1480 / 990 / 768 / 390 / 320):**
+> - Original vs native: 0 / 30 runs differ (geometry, typography, images / cover, chips, divider, handle, grip, shadow, clip-paths, initial value 50, keyboard ArrowRight ×5 = 55 with focus ring, overflow, JS errors).
+> - Dedicated drag test (slider kept in view): mouse → 23–25 at 25 % of the width, touch → 75–77 at 75 %; page never scrolls; 30 / 30.
+> - Fixed during QA:
+>   - the 0.7 spacing scale at 750–989 (the variable has to sit on the `.spacing-style` wrapper);
+>   - the content column 0.8px narrower at ≥ 990 (Horizon's `width: 100%`);
+>   - label offset (see Figma note).
+> - Editor-equivalent tests passed and were restored: three slider colours, focus ring follows the label colour, padding, mobile padding, Gap, block reorder, product heading edit, cleared grip / shadow fall back to foreground / none.
+>
+> **Translations:** 30 / 30 keys, digests and Arabic sources unchanged (including the product `custom_class` key); 1 new key (homepage `custom_class`, untranslated by design).
+>
+> **Figma note:** the live homepage (and product mobile) chips sit 11.2px from the slider top, Horizon's native `--padding-sm`, because the legacy 16 / 12px rules never won the cascade. Figma says 16 desktop / 12 mobile. The migration keeps the live 11.2px; aligning to Figma is a separate design decision. Product desktop keeps Figma's 26px.
+>
+> **Theme Editor UI:** UNVERIFIED (no admin session).
 - **Native reuse:** stock "Image compare" composition: `section` (row, `vertical_on_mobile: true`, `custom_class: snosha-before-after`) → `comparison-slider` + `group` [H2 `text`, body `text`, benefits `group` (4 × `group` → `snosha-icon` + `text`), `button`]. These child blocks **already exist in the current instance**, so the nested tree is copied as it is.
 - **Slider colours** (`label_text_color`, `grip_color`, `shadow_color`): add an opt-in group to `blocks/comparison-slider.liquid` (already modified; it is used only inside `snosha-before-after` today) **or** turn them into CSS tokens under the class. The second option is recommended: no further core change.
 - **Instances:**

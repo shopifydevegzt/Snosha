@@ -7463,3 +7463,334 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — BEFORE / AFTER, NATIVE  (sections/section.liquid + native comparison-slider / group / text /
+   button blocks; Wave 1 migration M4 of sections/snosha-before-after.liquid)
+   Figma 1fqyznLFgS65tTjGvBYPBm: homepage desktop 190:3903, mobile 190:4222; product page desktop
+   190:10376, mobile 190:11087.
+   Scope: the native section's Custom CSS class. Homepage "snosha-before-after-native"; product pages
+   keep their existing class "snosha-before-after--product" unchanged (that class value has a registered
+   English "translation" on the live theme; changing it would leave the English storefront with the old
+   class). :not(.snosha-before-after) keeps these rules off the legacy custom section (rollback).
+   Native settings: Top / Bottom padding (unscaled from 750px), Gap (homepage 20 = slider → content;
+   product 24 from 750px), mobile padding (section opt-in), slider label colour (comparison-slider
+   "Text color"), image ratio / radius / pickers / labels on the block. Opt-in comparison-slider colours:
+   "Handle grip lines" (--snosha-cs-grip) and "Handle and label shadow" (--snosha-cs-shadow).
+   The slider itself is Horizon's comparison-slider (range input, pointer / touch / keyboard, intro).
+   ========================================================================= */
+:is(.snosha-before-after-native, .snosha-before-after--product):not(
+    .snosha-before-after
+  ) {
+  /* ---------------- Layout ---------------- */
+  .section-content-wrapper {
+    /* Horizon scales padding and gap to 0.7 below 990px (set on this .spacing-style element itself);
+       the design keeps the desktop values from 750px up */
+    @media screen and (min-width: 750px) {
+      --spacing-scale: 1;
+      --gap-scale: 1;
+    }
+
+    @media screen and (min-width: 990px) {
+      display: grid;
+      grid-template-columns: minmax(0, 557fr) minmax(0, 774fr);
+      column-gap: 27px;
+      align-items: center;
+      /* auto (not Horizon's 100%) so the -2px end margin widens the grid, as in the original layout */
+      width: auto;
+      padding-inline-start: 20px;
+      margin-inline-end: -2px;
+
+      > comparison-slider-component {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      > .group-block {
+        grid-column: 1;
+        grid-row: 1;
+      }
+    }
+  }
+
+  /* ---------------- Comparison slider (native block) ---------------- */
+  .comparison-slider {
+    aspect-ratio: 342 / 248.38;
+    border-radius: 24px;
+
+    @media screen and (min-width: 750px) {
+      border-radius: 18px;
+    }
+
+    @media screen and (min-width: 990px) {
+      aspect-ratio: 774 / 535;
+    }
+  }
+
+  /* Both images share the slider's exact viewport and framing */
+  :is(.before-image, .after-image, .comparison-slider__placeholder) {
+    aspect-ratio: auto;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Divider: Figma 3px, no shadow */
+  .comparison-slider__media-wrapper[data-orientation="horizontal"]::after {
+    width: 3px;
+    box-shadow: none;
+  }
+
+  /* Handle: Figma 34 x 58 (mobile 29 x 48), radius 17, three 2 x 16 grip lines 4px apart */
+  .cs-slider__handle {
+    width: 34px;
+    height: 58px;
+    padding: 0;
+    gap: 0;
+    border-radius: 17px;
+    box-shadow: 0 12px 32px
+      color-mix(in srgb, var(--snosha-cs-shadow, transparent) 10%, transparent);
+
+    @media screen and (max-width: 749px) {
+      width: 29px;
+      height: 48px;
+    }
+
+    &::before {
+      content: "";
+      inline-size: 14px;
+      block-size: 16px;
+      background: repeating-linear-gradient(
+        to right,
+        color-mix(
+            in srgb,
+            var(--snosha-cs-grip, var(--color-foreground)) 85%,
+            transparent
+          )
+          0 2px,
+        transparent 2px 6px
+      );
+    }
+
+    .cs-slider__chevron {
+      display: none;
+    }
+  }
+
+  /* The range input is invisible: show keyboard focus on the handle */
+  .comparison-slider__media-wrapper:has(.cs-slider:focus-visible)
+    .cs-slider__handle {
+    outline: 2px solid var(--snosha-cs-label, currentColor);
+    outline-offset: 2px;
+  }
+
+  /* Labels (native "text on images"): Figma chips; text colour = the block's native Text color.
+     Top offset: Horizon's native 0.7rem (11.2px), as on the current storefront (the legacy 16 / 12px
+     declarations never won the cascade there; Figma: 16 desktop / 12 mobile). Product pages set 26px
+     from 750px below. */
+  [data-orientation="horizontal"] .comparison-slider__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    box-shadow: 0 12px 32px
+      color-mix(in srgb, var(--snosha-cs-shadow, transparent) 10%, transparent);
+
+    > * {
+      margin: 0;
+      color: var(--color);
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 13px;
+      line-height: 18px;
+      white-space: nowrap;
+    }
+
+    @media screen and (max-width: 749px) {
+      inline-size: 45px;
+      block-size: 21px;
+      padding: 0;
+      border-radius: 20px;
+
+      > * {
+        font-size: 12px;
+      }
+    }
+  }
+
+  [data-orientation="horizontal"] .comparison-slider__text--before {
+    inset-inline-start: 16px;
+
+    @media screen and (max-width: 749px) {
+      inset-inline-start: 3px; /* Figma mobile: "قبل" chip 3px from the edge */
+    }
+  }
+
+  [data-orientation="horizontal"] .comparison-slider__text--after {
+    inset-inline-end: 16px;
+  }
+
+  /* RTL: Horizon positions the divider and clips the layers with physical left/right, but the range
+     input runs right-to-left in RTL and the labels follow the inline direction. Keep the input
+     physical so the divider follows the pointer, and mirror the layers so the "before" image sits
+     at the inline start (right), under its label, as in Figma. LTR keeps the native layout. */
+  .cs-slider {
+    direction: ltr;
+  }
+
+  [data-orientation="horizontal"]:dir(rtl) {
+    .comparison-slider__layer--before {
+      clip-path: inset(0 0 0 calc(var(--compare) * 1%));
+    }
+
+    .comparison-slider__layer--after {
+      clip-path: inset(0 calc((100 - var(--compare)) * 1%) 0 0);
+    }
+  }
+
+  /* ---------------- Content (native group / text / button) ---------------- */
+  .section-content-wrapper > .group-block > .group-block-content {
+    @media screen and (max-width: 749px) {
+      gap: 14px; /* Figma mobile content gap */
+    }
+  }
+
+  :is(h2, p) {
+    margin: 0;
+  }
+
+  /* Body: Paragraph preset, Figma 18 / 32 */
+  .text-block.paragraph {
+    font-size: 18px;
+    line-height: 32px;
+
+    & p {
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+
+  /* Benefit rows: a group whose first block is a snosha-icon tile */
+  .group-block-content:has(> .snosha-icon-block) {
+    .text-block.h5 {
+      &,
+      & > * {
+        font-family: var(--font-accent--family);
+        font-weight: var(--font-accent--weight);
+        font-size: 16px;
+        line-height: 27px;
+        text-transform: none;
+      }
+    }
+
+    .text-block.paragraph {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+
+  /* CTA: native secondary button (palette tokens); Figma 1.5px border, 13 x 28 padding, 16 / 26 */
+  .button-secondary {
+    --button-border-width: 1.5px;
+    --button-padding-block: 13px;
+    --button-padding-inline: 28px;
+
+    font-family: var(--font-accent--family);
+    font-weight: var(--font-accent--weight);
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+/* ---------------- Product-page variant (Custom CSS class "snosha-before-after--product") ----------------
+   Stacked centred heading / description / slider at every width (Figma 190:10376 / 190:11087). */
+.snosha-before-after--product:not(.snosha-before-after) {
+  /* Figma mobile gutter 20 px (the theme's page margin is 24 px at 390) */
+  @media screen and (max-width: 749px) {
+    --page-margin: 20px;
+  }
+
+  /* Stacked at every width; 12 px gaps on mobile, the native Gap (24) from 750px */
+  .section-content-wrapper {
+    @media screen and (max-width: 749px) {
+      gap: 12px;
+    }
+
+    @media screen and (min-width: 750px) {
+      padding-inline: 20px;
+    }
+
+    @media screen and (min-width: 990px) {
+      display: flex;
+      margin-inline-end: 0;
+    }
+  }
+
+  .section-content-wrapper > .group-block > .group-block-content {
+    @media screen and (max-width: 749px) {
+      gap: 12px;
+    }
+  }
+
+  /* Heading: H2 preset (desktop 32 / 52 / 600 = Figma); mobile 22 / 52 in Figma's 328 px box */
+  .text-block.h2 {
+    @media screen and (max-width: 749px) {
+      --font-h2--size: 22px;
+      --font-h2--line-height: 52px;
+
+      max-inline-size: 328px;
+      margin-inline: auto;
+    }
+  }
+
+  /* Description: 18 / 32 in an 860 px centred column; mobile 12 / 32 full width */
+  .text-block.paragraph {
+    max-inline-size: 860px;
+    margin-inline: auto;
+
+    @media screen and (max-width: 749px) {
+      max-inline-size: none;
+      font-size: 12px;
+    }
+  }
+
+  /* Slider: full content width, Figma ratios (mobile 358 / 260; desktop 1336 / 560), radius 24 */
+  .comparison-slider {
+    aspect-ratio: 358 / 260;
+    border-radius: 24px;
+
+    @media screen and (min-width: 990px) {
+      aspect-ratio: 1336 / 560;
+    }
+  }
+
+  /* Chips: Figma desktop 20 / 18 SemiBold, 8 × 20 padding, pill, 26 px from the top, "قبل" 21 px from
+     the start, "بعد" 23 px from the end. Mobile: 45 × 21 chip, 12 px from the top, 11 / 24 px in. */
+  [data-orientation="horizontal"] .comparison-slider__text {
+    @media screen and (min-width: 750px) {
+      inset-block-start: 26px;
+      padding: 8px 20px;
+      border-radius: 999px;
+
+      > * {
+        font-size: 20px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  [data-orientation="horizontal"] .comparison-slider__text--before {
+    inset-inline-start: 11px;
+
+    @media screen and (min-width: 750px) {
+      inset-inline-start: 21px;
+    }
+  }
+
+  [data-orientation="horizontal"] .comparison-slider__text--after {
+    inset-inline-end: 24px;
+
+    @media screen and (min-width: 750px) {
+      inset-inline-end: 23px;
+    }
+  }
+}
