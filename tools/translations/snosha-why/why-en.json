@@ -1,0 +1,15 @@
+{
+  "_comment": "Arabic source value (exactly as stored in templates/index.json → sections.snosha_why) -> English. Keys are unchanged by the native migration (section.index.json.snosha_why.*, same digests, verified 2026-11-20). Only the subtitle differs from the live English (\"skincare\" corrected to \"oral care\"). custom_class is never translated. Not registered: approval required.",
+  "theme": {
+    "<h2>لماذا SNOSHA؟</h2>": "<h2>Why SNOSHA?</h2>",
+    "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>": "<p>Smart technology and thoughtful design, for a simpler oral care routine every day.</p>",
+    "<p>روتين أبسط</p>": "<p>A simpler routine</p>",
+    "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>": "<p>Smart features without unnecessary complexity.</p>",
+    "<p>تفاصيل تصنع الفرق</p>": "<p>Details that make a difference</p>",
+    "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>": "<p>Thoughtfully designed features centered around real everyday use.</p>",
+    "<p>مصممة لاحتياجاتك</p>": "<p>Designed for your needs</p>",
+    "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>": "<p>Solutions designed for different routines and different smiles.</p>",
+    "<p>تقنية أذكى</p>": "<p>Smarter technology</p>",
+    "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>": "<p>Smart technology designed to make daily oral care easier.</p>"
+  }
+}

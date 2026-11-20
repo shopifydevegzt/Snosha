@@ -1120,6 +1120,11 @@ Each mouse and CDP-touch run is 14 gestures per direction, more than one 12-revi
 
 ---
 
+| 2026-11-20 | **Native migration M1 (#13 Why SNOSHA): proof of concept, local only, not committed.** Native `section` (new optional `custom_class`, blank = unchanged) + `group` / `text` / `snosha-icon` (new optional `tile_shadow_color`), CSS `.snosha-why-native` in `assets/main.css`. Preview-only `templates/page.snosha-dev-why-native.json` (original + native side by side; delete before any commit). Measured on dev theme `#168066810072` at 1480 / 990 / 768 / 390 / 320, RTL + LTR: identical to the original (≤ 0.5px, same computed styles) and to Figma `190:4024` / `190:4361`. `index.json` untouched. Theme Check total unchanged (190 = HEAD; the "baseline 10" in `CLAUDE.md` is outdated). |
+| 2026-11-20 | **M1 switched on the development theme only** (local `templates/index.json`, synced by `theme dev` to `#168066810072`; not committed, live untouched). Dev homepage native `snosha_why` = original in 10 / 10 measured runs. Translation keys and digests identical to live (10 / 10), so no re-registration is needed. Subtitle EN wording fix prepared (`tools/translations/snosha-why/why-en.json`), not registered. Theme Editor UI not verified. |
+| 2026-11-20 | **M1 editor flexibility restored (dev theme only).** Native `section` gains two off-by-default opt-ins: "Arrange blocks in a grid" (columns desktop / tablet / mobile) and "Custom mobile padding". `snosha_why` uses 4 / 4 / 2 and 60 / 48. Measured: homepage = original 10 / 10; control behaviour = original at 3 / 2 / 1 and 30 / 20, 10 / 10. Other native `section` instances keep their exact markup. Theme Check 190 = HEAD. Theme Editor UI unverified. |
+| 2026-11-20 | **M1 final pre-push validation (dev theme).** The native Gap setting drives the benefit gap from 750px (scoped; mobile 12). Preview template deleted (local and dev theme). Dev theme = local. Homepage = original geometry 10 / 10, no overflow or JS errors. Translations ready (10 / 10 keys and digests unchanged; subtitle EN "oral care" prepared, not registered). Not committed. |
+
 ## H. Next section
 
 **Hero + Trust Strip** (#3) is `IMPLEMENTED`; manual QA pending (see below). Next target: not yet chosen by the user. In page order it would be **#4 Collections carousel**. Don't start it without the user's request and node URLs.

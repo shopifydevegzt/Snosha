@@ -4,11 +4,27 @@
   {% content_for 'blocks' %}
 {% endcapture %}
 
+{%- liquid
+  # Snosha opt-in extensions (all off by default; blank output = Horizon's original markup).
+  assign section_custom_class = section.settings.custom_class | strip | escape
+  assign section_custom_style = ''
+  if section.settings.snosha_grid
+    assign section_custom_class = section_custom_class | append: ' section--snosha-grid' | strip
+    assign section_custom_style = section_custom_style | append: '--snosha-grid-columns-desktop: ' | append: section.settings.snosha_columns_desktop | append: '; --snosha-grid-columns-tablet: ' | append: section.settings.snosha_columns_tablet | append: '; --snosha-grid-columns-mobile: ' | append: section.settings.snosha_columns_mobile | append: ';'
+  endif
+  if section.settings.snosha_mobile_padding
+    assign section_custom_class = section_custom_class | append: ' section--snosha-mobile-padding' | strip
+    assign section_custom_style = section_custom_style | append: ' --snosha-padding-top-mobile: ' | append: section.settings.snosha_padding_top_mobile | append: 'px; --snosha-padding-bottom-mobile: ' | append: section.settings.snosha_padding_bottom_mobile | append: 'px;' | strip
+  endif
+-%}
+
 {% render 'section',
   section: section,
   children: children,
   section_id: section.id,
-  background_color: section.settings.background_color
+  background_color: section.settings.background_color,
+  custom_class: section_custom_class,
+  custom_style: section_custom_style
 %}
 
 {% schema %}
@@ -435,6 +451,85 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class",
+      "info": "Optional. Adds a class to the section for scoped styles (e.g. snosha-why-native). Leave empty for the default look."
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_grid",
+      "label": "Arrange blocks in a grid",
+      "info": "Optional. Text blocks span the full width; other blocks fill the columns. Gap uses the Gap setting above. Off = Horizon's default layout.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_desktop",
+      "label": "Columns (desktop)",
+      "info": "990px and wider.",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.snosha_grid }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_tablet",
+      "label": "Columns (tablet)",
+      "info": "750–989px.",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "visible_if": "{{ section.settings.snosha_grid }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_mobile",
+      "label": "Columns (mobile)",
+      "info": "Below 750px.",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "visible_if": "{{ section.settings.snosha_grid }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_mobile_padding",
+      "label": "Custom mobile padding",
+      "info": "Optional. Off = the Top / Bottom padding above, scaled down on small screens.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_top_mobile",
+      "label": "Top (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40,
+      "visible_if": "{{ section.settings.snosha_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_padding_bottom_mobile",
+      "label": "Bottom (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40,
+      "visible_if": "{{ section.settings.snosha_mobile_padding }}"
     }
   ],
   "presets": [

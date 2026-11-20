@@ -26,6 +26,9 @@
     --snosha-icon-tile-start: {{ block_settings.tile_start_color }};
     --snosha-icon-tile-end: {{ block_settings.tile_end_color }};
     --snosha-icon-tile-border: {{ block_settings.tile_border_color }};
+    {%- if block_settings.tile_shadow_color != blank %}
+      --snosha-icon-tile-shadow: {{ block_settings.tile_shadow_color }};
+    {%- endif %}
   "
   {{ block.shopify_attributes }}
 >
@@ -135,6 +138,13 @@
       "label": "Tile border",
       "default": "{{ settings.color_palette.color2 }}",
       "visible_if": "{{ block.settings.show_tile }}"
+    },
+    {
+      "type": "color",
+      "id": "tile_shadow_color",
+      "label": "Tile shadow",
+      "info": "Large size only. Leave empty to use the hosting section's shadow color.",
+      "visible_if": "{{ block.settings.show_tile and block.settings.size == 'large' }}"
     }
   ],
   "presets": [

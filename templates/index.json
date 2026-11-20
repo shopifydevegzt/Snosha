@@ -2304,307 +2304,35 @@
       }
     },
     "snosha_why": {
-      "type": "snosha-why",
+      "type": "section",
+      "name": "Snosha why (native)",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 32,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.color5 }}",
+        "border": "none",
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "custom_class": "snosha-why-native",
+        "snosha_grid": true,
+        "snosha_columns_desktop": 4,
+        "snosha_columns_tablet": 4,
+        "snosha_columns_mobile": 2,
+        "snosha_mobile_padding": true,
+        "snosha_padding_top_mobile": 60,
+        "snosha_padding_bottom_mobile": 48
+      },
       "blocks": {
-        "benefit_simple_routine": {
-          "type": "_snosha-why-item",
-          "settings": {},
-          "blocks": {
-            "illustration": {
-              "type": "snosha-icon",
-              "static": true,
-              "settings": {
-                "icon": "illustration_simple_routine",
-                "size": "large",
-                "show_tile": true,
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "icon_fill_color": "{{ settings.color_palette.color2 }}",
-                "tile_start_color": "{{ settings.color_palette.background }}",
-                "tile_end_color": "{{ settings.color_palette.color5 }}",
-                "tile_border_color": "{{ settings.color_palette.color2 }}"
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>روتين أبسط</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "description": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        },
-        "benefit_details": {
-          "type": "_snosha-why-item",
-          "settings": {},
-          "blocks": {
-            "illustration": {
-              "type": "snosha-icon",
-              "static": true,
-              "settings": {
-                "icon": "illustration_details",
-                "size": "large",
-                "show_tile": true,
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "icon_fill_color": "{{ settings.color_palette.color2 }}",
-                "tile_start_color": "{{ settings.color_palette.background }}",
-                "tile_end_color": "{{ settings.color_palette.color5 }}",
-                "tile_border_color": "{{ settings.color_palette.color2 }}"
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>تفاصيل تصنع الفرق</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "description": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        },
-        "benefit_your_needs": {
-          "type": "_snosha-why-item",
-          "settings": {},
-          "blocks": {
-            "illustration": {
-              "type": "snosha-icon",
-              "static": true,
-              "settings": {
-                "icon": "illustration_your_needs",
-                "size": "large",
-                "show_tile": true,
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "icon_fill_color": "{{ settings.color_palette.color2 }}",
-                "tile_start_color": "{{ settings.color_palette.background }}",
-                "tile_end_color": "{{ settings.color_palette.color5 }}",
-                "tile_border_color": "{{ settings.color_palette.color2 }}"
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>مصممة لاحتياجاتك</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "description": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        },
-        "benefit_smart_tech": {
-          "type": "_snosha-why-item",
-          "settings": {},
-          "blocks": {
-            "illustration": {
-              "type": "snosha-icon",
-              "static": true,
-              "settings": {
-                "icon": "illustration_smart_tech",
-                "size": "large",
-                "show_tile": true,
-                "icon_color": "{{ settings.color_palette.color3 }}",
-                "icon_fill_color": "{{ settings.color_palette.color2 }}",
-                "tile_start_color": "{{ settings.color_palette.background }}",
-                "tile_end_color": "{{ settings.color_palette.color5 }}",
-                "tile_border_color": "{{ settings.color_palette.color2 }}"
-              },
-              "blocks": {}
-            },
-            "title": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>تقنية أذكى</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "description": {
-              "type": "text",
-              "static": true,
-              "settings": {
-                "text": "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>",
-                "width": "100%",
-                "max_width": "none",
-                "alignment": "center",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": []
-        },
         "heading": {
           "type": "text",
-          "static": true,
           "settings": {
             "text": "<h2>لماذا SNOSHA؟</h2>",
             "width": "100%",
@@ -2617,7 +2345,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.color6 }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -2625,12 +2353,10 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
-          },
-          "blocks": {}
+          }
         },
         "subtitle": {
           "type": "text",
-          "static": true,
           "settings": {
             "text": "<p>تكنولوجيا ذكية وتصميم مدروس ، من أجل روتين عناية أبسط كل يوم.</p>",
             "width": "100%",
@@ -2643,7 +2369,7 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "text_color": "{{ settings.color_palette.color1 }}",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -2651,34 +2377,385 @@
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
+          }
+        },
+        "benefit_simple_routine": {
+          "type": "group",
+          "name": "Benefit",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "width_mobile": "fill",
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
-          "blocks": {}
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "settings": {
+                "icon": "illustration_simple_routine",
+                "size": "large",
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}",
+                "tile_shadow_color": "#0f64a8"
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>روتين أبسط</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "text",
+              "settings": {
+                "text": "<p>وظائف ذكية بدون تعقيد غير ضروري.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "illustration",
+            "title",
+            "description"
+          ]
+        },
+        "benefit_details": {
+          "type": "group",
+          "name": "Benefit",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "width_mobile": "fill",
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "settings": {
+                "icon": "illustration_details",
+                "size": "large",
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}",
+                "tile_shadow_color": "#0f64a8"
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>تفاصيل تصنع الفرق</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "text",
+              "settings": {
+                "text": "<p>خصائص مدروسة مصممة حول الاستخدام اليومي الحقيقي.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "illustration",
+            "title",
+            "description"
+          ]
+        },
+        "benefit_your_needs": {
+          "type": "group",
+          "name": "Benefit",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "width_mobile": "fill",
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "settings": {
+                "icon": "illustration_your_needs",
+                "size": "large",
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}",
+                "tile_shadow_color": "#0f64a8"
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>مصممة لاحتياجاتك</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "text",
+              "settings": {
+                "text": "<p>حلول مصممة لروتينات مختلفة وابتسامات مختلفة.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "illustration",
+            "title",
+            "description"
+          ]
+        },
+        "benefit_smart_tech": {
+          "type": "group",
+          "name": "Benefit",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 6,
+            "width": "fill",
+            "width_mobile": "fill",
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "illustration": {
+              "type": "snosha-icon",
+              "settings": {
+                "icon": "illustration_smart_tech",
+                "size": "large",
+                "show_tile": true,
+                "icon_color": "{{ settings.color_palette.color3 }}",
+                "icon_fill_color": "{{ settings.color_palette.color2 }}",
+                "tile_start_color": "{{ settings.color_palette.background }}",
+                "tile_end_color": "{{ settings.color_palette.color5 }}",
+                "tile_border_color": "{{ settings.color_palette.color2 }}",
+                "tile_shadow_color": "#0f64a8"
+              },
+              "blocks": {}
+            },
+            "title": {
+              "type": "text",
+              "settings": {
+                "text": "<p>تقنية أذكى</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "h4",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color6 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "description": {
+              "type": "text",
+              "settings": {
+                "text": "<p>تكنولوجيا ذكية مصممة لتجعل العناية اليومية بالفم أسهل.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.color1 }}",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "illustration",
+            "title",
+            "description"
+          ]
         }
       },
       "block_order": [
+        "heading",
+        "subtitle",
         "benefit_simple_routine",
         "benefit_details",
         "benefit_your_needs",
         "benefit_smart_tech"
-      ],
-      "name": "Snosha why",
-      "settings": {
-        "columns_desktop": 4,
-        "columns_tablet": 4,
-        "columns_mobile": 2,
-        "background_color": "{{ settings.color_palette.color5 }}",
-        "heading_color": "{{ settings.color_palette.color6 }}",
-        "subtitle_color": "{{ settings.color_palette.color1 }}",
-        "title_color": "{{ settings.color_palette.color6 }}",
-        "description_color": "{{ settings.color_palette.color1 }}",
-        "shadow_color": "#0f64a8",
-        "show_sparkles": false,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 60,
-        "padding_bottom_mobile": 48,
-        "custom_class": ""
-      }
+      ]
     },
     "snosha_faq": {
       "type": "snosha-faq",

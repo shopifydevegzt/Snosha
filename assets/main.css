@@ -6906,3 +6906,164 @@ body:has(.product-information) .snosha-faq {
     opacity: 0.7;
   }
 }
+
+/* =========================================================================
+   SNOSHA — NATIVE SECTION OPT-INS  (sections/section.liquid; off by default)
+   .section--snosha-grid            "Arrange blocks in a grid": columns per breakpoint from
+                                    --snosha-grid-columns-{mobile,tablet,desktop} (< 750 / 750–989 /
+                                    >= 990); text blocks span the full width, other blocks fill the
+                                    columns; the native Gap setting (--gap) is the grid gap.
+   .section--snosha-mobile-padding  "Custom mobile padding": top / bottom below 750px.
+   Neither class is output while its setting is off, so other sections keep Horizon's layout.
+   ========================================================================= */
+.section--snosha-grid .section-content-wrapper {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--snosha-grid-columns-mobile, 2),
+    minmax(0, 1fr)
+  );
+  align-items: start;
+
+  @media screen and (min-width: 750px) {
+    grid-template-columns: repeat(
+      var(--snosha-grid-columns-tablet, 4),
+      minmax(0, 1fr)
+    );
+  }
+
+  @media screen and (min-width: 990px) {
+    grid-template-columns: repeat(
+      var(--snosha-grid-columns-desktop, 4),
+      minmax(0, 1fr)
+    );
+  }
+
+  > * {
+    min-inline-size: 0;
+  }
+
+  > .text-block {
+    grid-column: 1 / -1;
+  }
+}
+
+.section--snosha-mobile-padding .section-content-wrapper {
+  @media screen and (max-width: 749px) {
+    padding-block: var(--snosha-padding-top-mobile)
+      var(--snosha-padding-bottom-mobile);
+  }
+}
+
+/* =========================================================================
+   SNOSHA — WHY SNOSHA, NATIVE  (sections/section.liquid, Custom CSS class "snosha-why-native")
+   Wave 1 native migration of sections/snosha-why.liquid (SNOSHA_NATIVE_MIGRATION_PLAN.md M1).
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:4024 (1480), mobile 190:4361 (390).
+   Native composition (all direct section children keep the old IDs, so translation keys can match):
+     text "heading" (h2) · text "subtitle" (paragraph) · group "benefit_*" (column, gap 6) →
+     snosha-icon "illustration" (large tile) · text "title" (h4) · text "description" (paragraph).
+   Native settings: colors, background, desktop padding, alignment, gaps inside a benefit, and
+   (opt-in, see above) grid columns per breakpoint (4 / 4 / 2) and mobile padding (60 / 48).
+   Gap: the native Gap setting (32) drives the gap between benefits from 750px (unscaled);
+   below 750px it is the design's fixed 12px. Heading spacing stays 6 / 26 whatever the Gap.
+   Here: mobile gap, unscaled desktop padding / gap, left-to-right fill order, heading / subtitle
+   spacing and Figma type sizes. Values match the original .snosha-why rules in assets/dev1.css.
+   - >= 750px  60 / 60 padding (unscaled), 20px inset (1336 inner at 1480), heading → subtitle 6,
+                subtitle → grid 26, 4 equal columns with 32px gaps.
+   - <  750px  60 / 48 padding, page margin only (342 at 390), heading → subtitle 6,
+                subtitle → grid 18, 2 x 2 grid with 12px gaps, subtitle aligned to the start.
+   Grid order: Figma keeps the same physical left-to-right order in RTL and LTR, so the grid flows
+   left to right; each cell keeps the page direction. Without the class the section falls back to
+   Horizon's default vertical stack.
+   ========================================================================= */
+.snosha-why-native {
+  .section-content-wrapper {
+    /* Horizon scales padding and gap to 0.7 below 990px; the design keeps the desktop values from
+       750px up. Below 750px the section's "Custom mobile padding" setting applies (60 / 48). */
+    --spacing-scale: 1;
+    --gap-scale: 1;
+
+    /* Gap between benefits: the section's native Gap setting (--gap, design 32) from 750px;
+       the design's fixed 12px below 750px (Horizon has no mobile gap setting). Columns come from
+       the section's grid settings (.section--snosha-grid). */
+    --snosha-why-row-gap: 12px;
+
+    gap: var(--snosha-why-row-gap);
+    direction: ltr;
+
+    @media screen and (min-width: 750px) {
+      --snosha-why-row-gap: var(--gap);
+
+      padding-inline: 20px;
+    }
+
+    /* Heading and subtitle span the grid (.section--snosha-grid). Their spacing is set relative
+       to the row gap. */
+    > .text-block {
+      margin: 0;
+    }
+
+    > .text-block.paragraph {
+      margin-block: calc(6px - var(--snosha-why-row-gap))
+        calc(18px - var(--snosha-why-row-gap));
+      font-size: 18px;
+      line-height: 32px;
+
+      @media screen and (min-width: 750px) {
+        margin-block-end: calc(26px - var(--snosha-why-row-gap));
+      }
+
+      @media screen and (max-width: 749px) {
+        font-size: 13px;
+        line-height: 22px;
+
+        /* Figma mobile: subtitle aligned to the start (right in RTL) */
+        & > * {
+          text-align: start;
+        }
+      }
+
+      & > * {
+        font-size: inherit;
+        line-height: inherit;
+      }
+    }
+
+    :is(h2, p) {
+      margin: 0;
+    }
+  }
+
+  &:dir(rtl) .section-content-wrapper > * {
+    direction: rtl;
+  }
+
+  /* Benefit: illustration → title 14 (native gap 6 + 8), title → description 6 (native gap) */
+  .group-block .snosha-icon-block {
+    margin-block-end: 8px;
+  }
+
+  /* Benefit title: Figma 18 / 30, SemiBold */
+  .group-block .text-block.h4 {
+    &,
+    & > * {
+      margin: 0;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 18px;
+      line-height: 30px;
+      text-transform: none;
+    }
+  }
+
+  /* Benefit description: Figma 13 / 22 */
+  .group-block .text-block.paragraph {
+    font-size: 13px;
+    line-height: 22px;
+
+    & > * {
+      margin: 0;
+      font-size: inherit;
+      line-height: inherit;
+    }
+  }
+}

@@ -5,6 +5,8 @@
   @param {string} children - The children of the section
   @param {string} section_id - The ID of the section
   @param {string} background_color - The background color of the section
+  @param {string} [custom_class] - Optional extra class(es) on the section element (Snosha: sections/section.liquid "Custom CSS class" and opt-in layout classes; blank = unchanged output)
+  @param {string} [custom_style] - Optional extra CSS custom properties on the section element (Snosha opt-in grid / mobile padding; blank = unchanged output)
 {%- enddoc -%}
 
 {% liquid
@@ -21,7 +23,7 @@
 
 <div class="section-background color-custom-{{ section_id }}"></div>
 <div
-  class="section section--{{ section.settings.section_width }} color-custom-{{ section_id }}"
+  class="section section--{{ section.settings.section_width }} color-custom-{{ section_id }}{% if custom_class != blank %} {{ custom_class }}{% endif %}"
   data-testid="ui-test-section"
 
   {% if request.visual_preview_mode %}
@@ -39,7 +41,7 @@
 
     {% if section.settings.section_height != '' %}
      --section-preview-height: 600px;
-     {% endif %}
+     {% endif %}{% if custom_style != blank %}{{ custom_style }}{% endif %}
   "
 >
   <div class="custom-section-background">
