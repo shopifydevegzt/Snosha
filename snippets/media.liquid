@@ -44,10 +44,24 @@
   {%- if show_image -%}
     {% capture image_tag %}
       {% if block_settings.image != blank %}
+        {%- comment -%}
+          Snosha (project addition): lazy after the 3rd section (Horizon's background-media threshold), and on
+          product pages after the main product section, which always fills the first viewport. Otherwise the
+          attribute is omitted, exactly as before.
+        {%- endcomment -%}
+        {%- liquid
+          assign media_loading = null
+          if section.index > 3
+            assign media_loading = 'lazy'
+          elsif request.page_type == 'product' and section.index > 1
+            assign media_loading = 'lazy'
+          endif
+        -%}
         {% render 'image',
           image: block_settings.image,
           class: 'media-block__media border-style',
-          unset_image_tag: unset_image_tag
+          unset_image_tag: unset_image_tag,
+          loading: media_loading
         %}
       {% else %}
         <div class="media-block__media border-style">

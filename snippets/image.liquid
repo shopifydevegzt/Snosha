@@ -8,6 +8,7 @@
   @param {boolean} [unset_image_tag] - if true, ignores the image focal point
   @param {string} [style] - additional styles
   @param {string} [alt_text_fallback] - Optional text to display if image alt text is blank
+  @param {string} [loading] - Optional loading attribute ('lazy' / 'eager'); omitted when blank (Snosha addition)
 
   @example
   {% render 'image', image: product.featured_image, height: 300, class: 'product-image' %}
@@ -31,7 +32,7 @@
   {{
     image
     | image_url: height: image_height
-    | image_tag: class: class, srcset: image_srcset, style: style_value, alt: image_alt_text
+    | image_tag: class: class, srcset: image_srcset, style: style_value, alt: image_alt_text, loading: loading
   }}
 {% elsif text_fallback %}
   {{ text_fallback }}

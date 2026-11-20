@@ -85,13 +85,21 @@
       when 'grid', 'carousel'
         assign calculated_width = 100 | divided_by: section_settings.columns | append: 'vw'
         assign sizes = '(min-width: 750px) [calc-width], 100vw' | replace: '[calc-width]', calculated_width
+        # Snosha (project addition): grid / carousel images after the 3rd section load lazily (they were
+        # always eager), the same threshold Horizon uses in background-media.liquid; `auto` then lets the
+        # browser use the rendered card width. Section Rendering API (index blank) stays eager.
+        if section.index > 3
+          assign loading = 'lazy'
+          assign sizes = 'auto, ' | append: sizes
+        endif
       when 'editorial', 'bento'
         assign loading = 'lazy'
         assign sizes = lazy_sizes
     endcase
   endif
 
-  assign widths = '240, 352, 832, 1200, 1600, 1920, 2560, 3840'
+  # Snosha (project addition): 480 / 640 steps added (352 → 832 jump oversized mobile cards)
+  assign widths = '240, 352, 480, 640, 832, 1200, 1600, 1920, 2560, 3840'
 
   # Generate placeholder info based on content type
   if content_type == 'articles'
