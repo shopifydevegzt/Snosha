@@ -7193,3 +7193,273 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — COLLECTIONS CAROUSEL, NATIVE  (sections/collection-list.liquid, "Snosha collections style"
+   → .snosha-collections-native on the native .section)
+   Wave 1 native migration of sections/snosha-collections.liquid (SNOSHA_NATIVE_MIGRATION_PLAN.md M3).
+   Figma 1fqyznLFgS65tTjGvBYPBm: desktop 190:3830 (1480), mobile 190:4133 (390).
+   Same native render path as before (heading text block → resource-list → resource-list-carousel →
+   slideshow, static _collection-card); the geometry below is the original .snosha-collections rules
+   (assets/dev1.css) re-scoped onto the native section. Native settings now drive: desktop padding
+   (Top / Bottom, unscaled from 750px), heading → carousel gap (Gap, unscaled from 750px), desktop
+   cards per row (Columns) and the desktop horizontal gap (Horizontal gap). Snosha settings: tablet /
+   mobile cards per row, mobile padding, arrow and progress colors (variables from the section).
+   The mobile progress bar is the shared "CAROUSEL PROGRESS" block in assets/dev1.css.
+   ========================================================================= */
+.snosha-collections-native {
+  /* Figma mobile: section padding 35 / 9, heading → carousel 20 */
+  @media screen and (max-width: 749px) {
+    padding-block: var(--snosha-collections-padding-top-mobile)
+      var(--snosha-collections-padding-bottom-mobile);
+    row-gap: 20px;
+  }
+
+  /* Figma desktop 50 / 101 and heading → carousel 40 are the native Top / Bottom and Gap settings;
+     Horizon scales both to 0.7 below 990px, the design keeps them from 750px up */
+  @media screen and (min-width: 750px) {
+    --spacing-scale: 1;
+    --gap-scale: 1;
+  }
+
+  /* Native text block with the H2 preset: 24 / 38 mobile, 32 / 52 desktop (global tokens) */
+  .section-resource-list__content {
+    text-align: center;
+
+    & h2 {
+      margin: 0;
+    }
+  }
+
+  /* ---------- Carousel geometry ----------
+     Card width = (carousel width - both gutters - gaps - peek) / cards per row, so the cards-per-row
+     settings decide how many whole cards are in view and the cards share that width. 100cqi is the
+     native slideshow-container (full-bleed carousel). The peek is the part of the next card left
+     visible (Figma: 39px at 390 -> 3 x 97px; 96px at 1480 -> 4 x 292px). Card height = width (square
+     image) + the title area (Figma 55 mobile, 76 desktop). */
+  .resource-list__carousel {
+    /* Start/end gutter: Figma mobile 20px at 390 (page margin 24 - 4) */
+    --snosha-collections-gutter-adjust: -4px;
+    --snosha-collections-gutter: calc(
+      var(--util-page-margin-offset) + var(--snosha-collections-gutter-adjust)
+    );
+    --resource-list-column-gap: 10px;
+    --snosha-collections-peek-size: 39px;
+    --snosha-collections-title-space: 55px;
+    --snosha-collections-per-row: var(--snosha-collections-columns-mobile, 3);
+    /* Adaptive row: when the collections fit the per-row setting they share the whole row and no
+       peek is reserved; with more collections than the setting, the setting and the peek apply. */
+    --snosha-collections-columns: min(
+      var(--snosha-collections-per-row),
+      var(--snosha-collections-count, 99)
+    );
+    --snosha-collections-peek: calc(
+      var(--snosha-collections-peek-size) *
+        clamp(
+          0,
+          var(--snosha-collections-count, 99) -
+            var(--snosha-collections-per-row),
+          1
+        )
+    );
+    --snosha-collections-card: calc(
+      (
+          100cqi - var(--snosha-collections-peek) - 2 *
+            (
+              max(
+                  var(--page-margin),
+                  (
+                      100cqi -
+                        min(
+                          var(--page-content-width),
+                          100cqi - 2 * var(--page-margin)
+                        )
+                    ) /
+                    2
+                ) +
+                var(--snosha-collections-gutter-adjust)
+            ) -
+            (var(--snosha-collections-columns) - 1) *
+            var(--resource-list-column-gap)
+        ) /
+        var(--snosha-collections-columns)
+    );
+  }
+
+  /* Selectors repeat the native parent chain: Horizon's compiled section CSS loads after this file,
+     so equal-specificity rules would lose. The padding also replaces the native slide gutters. */
+  .resource-list__carousel > slideshow-container > slideshow-slides {
+    /* Figma mobile carousel: 8px above and below the 152px cards */
+    margin-block: 0;
+    padding-block: 8px;
+    padding-inline: var(--snosha-collections-gutter);
+    scroll-padding-inline: var(--snosha-collections-gutter);
+  }
+
+  .resource-list__carousel .resource-list__slide {
+    --slide-width: var(--snosha-collections-card);
+
+    inline-size: var(--snosha-collections-card);
+  }
+
+  /* Figma mobile card 97 x 152: 97px square image, 18px gap, 11px title in a 40px band; long titles
+     show two lines (17px) and end with an ellipsis if a third would be needed. */
+  .resource-list__item {
+    block-size: calc(
+      var(--snosha-collections-card) + var(--snosha-collections-title-space)
+    );
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-card .text-block.h3 {
+      flex-direction: column;
+      justify-content: center;
+      min-block-size: 40px;
+    }
+
+    .collection-card .text-block.h3 > * {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+      font-size: 11px;
+      line-height: 17px;
+    }
+  }
+
+  /* ---------- Mobile progress (Figma Progress Row: 20px inset, 4px, 20px below the carousel) ---------- */
+  slideshow-component.resource-list__carousel {
+    --snosha-progress-inset: var(--snosha-collections-gutter);
+    --snosha-progress-space: 20px;
+    --snosha-progress-initial: 0.4;
+    --snosha-progress-track: var(--snosha-collections-progress-track);
+    --snosha-progress-start: var(--snosha-collections-progress-start);
+    --snosha-progress-end: var(--snosha-collections-progress-end);
+  }
+
+  /* Every card fits (native data-overflow): nothing to scroll, so no bar */
+  slideshow-component.resource-list__carousel[data-overflow="false"] {
+    --snosha-progress-on: 0;
+    --snosha-progress-content: none;
+  }
+
+  slideshow-arrows {
+    display: none;
+  }
+
+  /* ---------- >= 750px: Figma desktop ---------- */
+  @media screen and (min-width: 750px) {
+    .resource-list__carousel {
+      /* Start/end gutter: Figma 72px at 1480 (page margin 52 + 20) */
+      --snosha-collections-gutter-adjust: 20px;
+      /* Native "Horizontal gap" (design 24) */
+      --resource-list-column-gap: var(--resource-list-column-gap-desktop);
+      --snosha-collections-peek-size: 96px;
+      /* Figma desktop card 292 x 368: 292px square image, 18px gap, 24 / 40 title (H3 preset) */
+      --snosha-collections-title-space: 76px;
+      --snosha-collections-per-row: var(--snosha-collections-columns-tablet, 3);
+
+      @media screen and (min-width: 990px) {
+        --snosha-collections-per-row: var(
+          --snosha-collections-columns-desktop,
+          4
+        );
+      }
+    }
+
+    /* Keep Horizon's 16px hover/shadow allowance without changing the card row */
+    .resource-list__carousel > slideshow-container > slideshow-slides {
+      margin-block: -16px;
+      padding-block: 16px;
+    }
+
+    /* Figma's 101px bottom padding = the native Bottom setting (max 100) + this 1px below the list */
+    div.resource-list.resource-list__carousel {
+      margin-block-end: 1px;
+    }
+
+    .resource-list__item {
+      block-size: auto;
+      min-block-size: calc(
+        var(--snosha-collections-card) + var(--snosha-collections-title-space)
+      );
+    }
+
+    .collection-card .text-block.h3 > * {
+      font-size: 24px;
+      line-height: 40px;
+    }
+
+    /* Arrows: Figma 44 x 44 at 50px from the viewport edges, vertically centred on the cards */
+    .resource-list__carousel slideshow-arrows {
+      display: flex;
+      padding-inline: calc(var(--util-page-margin-offset) - 2px);
+      mix-blend-mode: normal;
+    }
+
+    slideshow-arrows .slideshow-control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      inline-size: 44px;
+      block-size: 44px;
+      min-inline-size: 44px;
+      min-block-size: 44px;
+      padding: 0;
+      border: 1px solid var(--snosha-collections-arrow-border);
+      border-radius: 50%;
+      background-color: color-mix(
+        in srgb,
+        var(--snosha-collections-arrow-bg) 97%,
+        transparent
+      );
+      box-shadow: 0 8px 18px
+        color-mix(
+          in srgb,
+          var(--snosha-collections-arrow-shadow) 16%,
+          transparent
+        );
+      color: var(--snosha-collections-arrow-icon);
+      opacity: 1;
+      animation: none;
+      transition: background-color var(--animation-speed, 0.2s)
+        var(--animation-easing, ease);
+
+      /* Figma chevron (22 x 22, 2px stroke) drawn as a mask in the arrow's text color; the native
+         button keeps its markup, label and RTL flip */
+      & .svg-wrapper {
+        display: none;
+      }
+
+      &::before {
+        content: "";
+        inline-size: 22px;
+        block-size: 22px;
+        background-color: currentColor;
+        mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none'%3E%3Cpath d='M9.16667 4.58333L15.5833 11L9.16667 17.4167' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+          center / 22px 22px no-repeat;
+      }
+
+      &:hover:not([disabled]) {
+        background-color: color-mix(
+          in srgb,
+          var(--snosha-collections-arrow-bg) 90%,
+          var(--snosha-collections-arrow-border)
+        );
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--snosha-collections-arrow-icon);
+        outline-offset: 2px;
+      }
+
+      /* Native resource-list carousels hide a disabled arrow; keep it visible but dimmed */
+      &[disabled] {
+        display: flex;
+        opacity: 0.4;
+        cursor: default;
+      }
+    }
+  }
+}

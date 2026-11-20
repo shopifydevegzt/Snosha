@@ -211,6 +211,36 @@ One component per branch or commit, with a full check before the next one starts
 - **Risk:** Low–Medium (4 templates; translations of up to 14 question/answer strings must be re-registered).
 
 ### M3 — `snosha-collections` → native `collection-list`
+
+> **Status 2026-11-20: migrated on the development theme only (local, not committed).**
+>
+> **Instance (1):** `index.json → snosha_collections`, position 2 / 12, same ID. Collections, heading block and static `_collection-card` (image + title) are unchanged.
+>
+> **Native:** `sections/collection-list.liquid`, using the same render path as before (resource-list → carousel → slideshow).
+>
+> **New opt-in** (off by default; with it off a plain collection-list renders no Snosha class, attribute, variable or script — checked on a temporary template, since removed). "Snosha collections style" adds:
+> - the `.snosha-collections-native` scope;
+> - the shared mobile progress bar (`data-snosha-carousel-progress` + fallback script);
+> - arrows that hide when every card fits (`data-carousel-arrows="auto"`);
+> - settings: tablet / mobile cards per row, mobile padding, 4 arrow colours and 3 progress colours (13 settings in all, with `custom_class`; the section now has 30).
+>
+> **Native settings now driving the design:**
+> - Columns (desktop cards per row, 4);
+> - Horizontal gap (desktop, 24);
+> - Gap (heading → carousel, 40);
+> - Top / Bottom (50 / 100, plus a 1px CSS constant because the setting stops at 100);
+> - Arrows (chevron).
+>
+> **CSS:** `.snosha-collections-native` in `assets/main.css`; `dev1.css` shared progress selector + `.snosha-collections-native`. Old `.snosha-collections` CSS is kept for rollback. No new JS.
+>
+> **QA:**
+> - Original vs native: 0 / 10 runs differ (RTL + LTR, 1480 / 990 / 768 / 390 / 320), covering geometry, cards, links, images, arrows, Next click, keyboard Enter, focus ring, progress track and fill, scroll direction, overflow and JS errors.
+> - Fixed during QA: the 1px for Figma's 101px bottom first sat inside the carousel box; it now sits below the list.
+> - Editor-equivalent tests passed and were restored: columns 3 / 2 / 2 give whole cards + peek; gaps, padding, arrow colour, collection reorder, arrows off, 3 collections (adaptive, no peek).
+>
+> **Translations:** 1 key (heading), same key / digest / Arabic; the live English "SNOSHA Collections" stays attached. Collection titles come from collection data.
+>
+> **Theme Editor UI:** UNVERIFIED (no admin session).
 - **Native extension (follow `sections/product-list.liquid` exactly):** add to `sections/collection-list.liquid` an opt-in group, default off:
   - `custom_class`;
   - `snosha_style` (adds the `snosha-collections` scope and the `data-snosha-carousel-progress` flag, and loads `snosha-carousel-progress.js` like `product-list.liquid:181`);

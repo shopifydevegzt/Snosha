@@ -20,6 +20,33 @@
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
 %}
+{%- comment -%}
+  Snosha opt-in "Snosha collections style" (off by default = Horizon's original output). Adds the
+  .snosha-collections-native scope (assets/main.css), the shared carousel progress bar
+  (data-snosha-carousel-progress + assets/snosha-carousel-progress.js fallback), arrows that hide when
+  every card fits (data-carousel-arrows="auto", assets/slideshow.js) and the variables below.
+  Desktop cards per row = native "Columns"; tablet / mobile = the Snosha settings.
+{%- endcomment -%}
+{%- assign snosha_style = section.settings.snosha_style -%}
+{%- if snosha_style -%}
+  {% style %}
+    #shopify-section-{{ section.id }} .snosha-collections-native {
+      --snosha-collections-columns-desktop: {{ section.settings.columns }};
+      --snosha-collections-columns-tablet: {{ section.settings.snosha_columns_tablet }};
+      --snosha-collections-columns-mobile: {{ section.settings.snosha_columns_mobile }};
+      --snosha-collections-count: {{ max_items }};
+      --snosha-collections-padding-top-mobile: {{ section.settings.snosha_mobile_padding_top }}px;
+      --snosha-collections-padding-bottom-mobile: {{ section.settings.snosha_mobile_padding_bottom }}px;
+      --snosha-collections-arrow-bg: {{ section.settings.snosha_arrow_background }};
+      --snosha-collections-arrow-border: {{ section.settings.snosha_arrow_border }};
+      --snosha-collections-arrow-icon: {{ section.settings.snosha_arrow_icon }};
+      --snosha-collections-arrow-shadow: {{ section.settings.snosha_arrow_shadow }};
+      --snosha-collections-progress-track: {{ section.settings.snosha_progress_track }};
+      --snosha-collections-progress-start: {{ section.settings.snosha_gradient_start }};
+      --snosha-collections-progress-end: {{ section.settings.snosha_gradient_end }};
+    }
+  {% endstyle %}
+{%- endif -%}
 
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
@@ -33,12 +60,18 @@
     section-resource-list
     spacing-style
     gap-style
+    {% if snosha_style %}snosha-collections-native{% endif %}
+    {% if section.settings.custom_class != blank %}{{ section.settings.custom_class | escape }}{% endif %}
   "
   style="
     {% render 'spacing-style', settings: section.settings %}
     {% render 'gap-style', value: section.settings.gap %}
   "
   data-testid="collection-list"
+  {% if snosha_style %}
+    data-snosha-carousel-progress
+    data-carousel-arrows="auto"
+  {% endif %}
 >
   <div class="section-resource-list__content">
     {%- content_for 'blocks' -%}
@@ -77,6 +110,10 @@
     content_type: 'collections',
     test_id: 'collections-list-grid'
   %}
+  {%- if snosha_style and section.settings.layout_type == 'carousel' -%}
+    {%- comment -%} The mobile progress bar is CSS (assets/dev1.css); this module is only a fallback for browsers without scroll-driven animations. {%- endcomment -%}
+    <script src="{{ 'snosha-carousel-progress.js' | asset_url }}" type="module" fetchpriority="low"></script>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -360,6 +397,116 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class",
+      "info": "Optional. Adds a class to the section for scoped styles. Leave empty for the default look."
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_style",
+      "label": "Snosha collections style",
+      "info": "Optional. Figma collections carousel: whole cards per row with a peek of the next card, round arrows that hide when every card fits, and a mobile progress bar. Desktop cards per row = Columns; horizontal gap on desktop = Horizontal gap. Off = Horizon's default look.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_tablet",
+      "label": "Cards per row (tablet)",
+      "info": "750–989px.",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_columns_mobile",
+      "label": "Cards per row (mobile)",
+      "info": "Below 750px.",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_top",
+      "label": "Top padding (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 35,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "range",
+      "id": "snosha_mobile_padding_bottom",
+      "label": "Bottom padding (mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 9,
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_arrow_background",
+      "label": "Arrow background",
+      "default": "{{ settings.color_palette.background }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_arrow_border",
+      "label": "Arrow border",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_arrow_icon",
+      "label": "Arrow icon",
+      "default": "{{ settings.color_palette.color3 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_arrow_shadow",
+      "label": "Arrow shadow",
+      "default": "#0D4080",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_progress_track",
+      "label": "Mobile progress track",
+      "default": "{{ settings.color_palette.color2 }}",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_start",
+      "label": "Mobile progress gradient start",
+      "default": "#63CDFF",
+      "visible_if": "{{ section.settings.snosha_style }}"
+    },
+    {
+      "type": "color",
+      "id": "snosha_gradient_end",
+      "label": "Mobile progress gradient end",
+      "default": "#0F64A8",
+      "visible_if": "{{ section.settings.snosha_style }}"
     }
   ],
   "presets": [

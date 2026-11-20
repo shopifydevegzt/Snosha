@@ -984,7 +984,12 @@
    Each section supplies: --snosha-progress-inset / -space / -initial / -track / -start / -end.
    ========================================================================= */
 
-:is(.snosha-collections, .snosha-featured-collection, .snosha-blog) {
+:is(
+    .snosha-collections,
+    .snosha-collections-native,
+    .snosha-featured-collection,
+    .snosha-blog
+  ) {
   div.resource-list.resource-list__carousel {
     timeline-scope: --snosha-carousel-scroll;
   }

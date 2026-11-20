@@ -160,7 +160,8 @@
       }
     },
     "snosha_collections": {
-      "type": "snosha-collections",
+      "type": "collection-list",
+      "name": "Snosha collections (native)",
       "blocks": {
         "heading": {
           "type": "text",
@@ -257,7 +258,6 @@
       "block_order": [
         "heading"
       ],
-      "name": "Snosha collections",
       "settings": {
         "collection_list": [
           "best-seller",
@@ -266,18 +266,29 @@
           "الأكسسوارات"
         ],
         "layout_type": "carousel",
+        "carousel_on_mobile": false,
+        "columns": 4,
+        "mobile_card_size": "60cqw",
+        "columns_gap": 24,
         "icons_style": "chevron",
-        "cards_desktop": 4,
-        "cards_tablet": 3,
-        "cards_mobile": 3,
-        "arrow_background": "{{ settings.color_palette.background }}",
-        "arrow_border": "{{ settings.color_palette.color2 }}",
-        "arrow_icon": "{{ settings.color_palette.color3 }}",
-        "arrow_shadow": "#0d4080",
-        "progress_track": "{{ settings.color_palette.color2 }}",
-        "progress_start": "#63cdff",
-        "progress_end": "#0f64a8",
-        "custom_class": ""
+        "icons_shape": "none",
+        "section_width": "page-width",
+        "gap": 40,
+        "padding-block-start": 50,
+        "padding-block-end": 100,
+        "custom_class": "",
+        "snosha_style": true,
+        "snosha_columns_tablet": 3,
+        "snosha_columns_mobile": 3,
+        "snosha_mobile_padding_top": 35,
+        "snosha_mobile_padding_bottom": 9,
+        "snosha_arrow_background": "{{ settings.color_palette.background }}",
+        "snosha_arrow_border": "{{ settings.color_palette.color2 }}",
+        "snosha_arrow_icon": "{{ settings.color_palette.color3 }}",
+        "snosha_arrow_shadow": "#0d4080",
+        "snosha_progress_track": "{{ settings.color_palette.color2 }}",
+        "snosha_gradient_start": "#63cdff",
+        "snosha_gradient_end": "#0f64a8"
       }
     },
     "product_list_fa6P9H": {
