@@ -87,6 +87,8 @@ Every entry is a precedent for skill §5.4: blank/off = stock output.
 | `sections/product-information.liquid` | `custom_class`; `snosha_buy_box` group (details width, gap, breadcrumbs, colors) | Product buy box |
 | `sections/product-recommendations.liquid` | `custom_class`; `snosha_style` (+ gradients) | Product recommendations |
 | `sections/media-with-content.liquid` | `custom_class`; `snosha_mobile_media_position`, `snosha_hide_empty_media` | Bundle "why" |
+| `sections/hero.liquid` | `custom_class` (optional text; blank = stock class attribute, verified on `page.faq`) — added 2026-11-22 | About Us (`snosha-about*` scopes in `main.css`); FAQ heroes unchanged |
+| `snippets/custom-design-tokens.liquid` | token `--snosha-palette-color4` (palette `color4` as a CSS variable; read only by project scopes) — added 2026-11-22 | About Us highlighted words |
 | `sections/header.liquid` | `custom_class`; `snosha_layout` + many `snosha_*` (nav, icons, drawer) | Header group |
 | `sections/footer.liquid`, `sections/footer-utilities.liquid` | `custom_class`; `snosha_layout` + colors / mobile padding | Footer group |
 | `blocks/accordion.liquid`, `blocks/_accordion-row.liquid` | `snosha_style` group (row/title/chevron/tile/icon colors); `snosha_icon` | FAQ |

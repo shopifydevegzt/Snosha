@@ -7794,3 +7794,290 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
     }
   }
 }
+
+/* =========================================================================
+   SNOSHA — ABOUT US (templates/page.about-us.json), native sections only.
+   Stock `hero` (opt-in custom_class, Snosha extension) and `section` (custom_class).
+   Scopes (merchant custom_class values): .snosha-about on every band, plus
+   .snosha-about-hero | -mission | -designed | -banner.
+   Highlighted words: wrap them in <em> in the heading (italic in the Theme Editor).
+   Colours come from block settings and the palette token --snosha-palette-color4.
+   ========================================================================= */
+.snosha-about {
+  --snosha-about-highlight: var(--snosha-palette-color4);
+
+  /* Headings: project mobile tokens (H1 28 / H2 24) below 750px, 44px from 750px.
+     `.text-block` raises specificity to match Horizon's `.text-block.h1 :is(h1…h6)` preset rule. */
+  & .text-block h1 {
+    font-size: var(--font-size--h1);
+    line-height: var(--font-h1--line-height);
+  }
+
+  & .text-block h2 {
+    font-size: var(--font-size--h2);
+    line-height: var(--font-h2--line-height);
+  }
+
+  & .rte p {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  @media screen and (min-width: 750px) {
+    & .text-block :is(h1, h2) {
+      font-size: 44px;
+      line-height: 1.45;
+    }
+
+    & .rte p {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+  }
+
+  /* Text blocks: the block (not its child) carries the width, so the native flex alignment
+     of the parent places it at start / centre / end. */
+  & .text-block > * {
+    max-inline-size: 100%;
+  }
+
+  /* Highlighted word + curved underline (mask drawn in currentColor, no layout shift). */
+  & :is(h1, h2) em {
+    position: relative;
+    display: inline-block;
+    font-style: normal;
+    color: var(--snosha-about-highlight);
+    view-timeline: --snosha-about-highlight block;
+  }
+
+  & :is(h1, h2) em::after {
+    content: '';
+    position: absolute;
+    inset-inline: -0.06em;
+    inset-block-end: -0.12em;
+    block-size: 0.22em;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M2 3.5 Q50 13 98 3.5' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E")
+      center / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  /* Reveal from the inline-start edge when the word enters the viewport (CSS view timeline).
+     Browsers without view timelines, and reduced motion, show the underline statically. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      & :is(h1, h2) em::after {
+        animation: snosha-about-underline-rtl linear both;
+        animation-timeline: --snosha-about-highlight;
+        animation-range: entry 20% entry 100%;
+      }
+
+      & :is(h1, h2) em:dir(ltr)::after {
+        animation-name: snosha-about-underline-ltr;
+      }
+    }
+  }
+}
+
+@keyframes snosha-about-underline-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes snosha-about-underline-ltr {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+/* Hero (first band, already in view on load): the underline draws once after load. */
+.snosha-about-hero {
+  @media (prefers-reduced-motion: no-preference) {
+    & :is(h1, h2) em::after {
+      animation: snosha-about-underline-rtl 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.4s both;
+      animation-timeline: auto;
+    }
+
+    & :is(h1, h2) em:dir(ltr)::after {
+      animation-name: snosha-about-underline-ltr;
+    }
+  }
+
+  & .hero__content-wrapper > .text-block:not(:first-child) {
+    max-inline-size: 44rem;
+  }
+}
+
+/* Mission: centred column, readable measure. */
+.snosha-about-mission {
+  & .section-content-wrapper > .text-block:not(:first-child) {
+    max-inline-size: 42rem;
+  }
+
+  & .rte strong {
+    font-weight: 600;
+  }
+}
+
+/* Designed with purpose: text column beside an overlapping product collage.
+   Card boxes measured on the reference (collage 564 x 506): percentages of the collage,
+   inline-start based so LTR mirrors RTL. Card order = block order in the collage group:
+   1 kit (back), 2 tongue scraper, 3 brush heads, 4 toothbrush (front). */
+.snosha-about-designed {
+  & .section-content-wrapper {
+    justify-content: center;
+    align-items: center;
+    gap: clamp(32px, 5vw, 72px);
+  }
+
+  & .section-content-wrapper > .group-block:first-child {
+    flex: 0 1 35.25rem;
+    inline-size: min(100%, 35.25rem);
+  }
+
+  & .section-content-wrapper > .group-block:last-child {
+    flex: 0 1 27.5rem;
+    inline-size: auto;
+  }
+
+  & .section-content-wrapper > .group-block:first-child > .group-block-content {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: 564 / 506;
+  }
+
+  & .group-block:first-child .image-block {
+    position: absolute;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--color-background);
+    box-shadow: 0 14px 36px rgb(19 19 17 / 0.08);
+  }
+
+  & .group-block:first-child .image-block__image {
+    inline-size: 100%;
+    block-size: 100%;
+    aspect-ratio: auto;
+    object-fit: cover;
+  }
+
+  & .group-block:first-child .image-block:nth-child(1) {
+    inset-inline-start: 62.8%;
+    inset-block-start: 10.9%;
+    inline-size: 37.2%;
+    block-size: 49.8%;
+  }
+
+  & .group-block:first-child .image-block:nth-child(2) {
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    inline-size: 36.7%;
+    block-size: 50%;
+
+    & .image-block__image {
+      object-fit: contain;
+    }
+  }
+
+  & .group-block:first-child .image-block:nth-child(3) {
+    inset-inline-start: 12.6%;
+    inset-block-start: 59.1%;
+    inline-size: 28.4%;
+    block-size: 40.9%;
+  }
+
+  & .group-block:first-child .image-block:nth-child(4) {
+    z-index: 1;
+    inset-inline-start: 28.6%;
+    inset-block-start: 23.5%;
+    inline-size: 49.8%;
+    block-size: 69.6%;
+
+    & .image-block__image {
+      object-fit: contain;
+    }
+  }
+
+  /* Mobile: heading and text first, then the collage at full width. */
+  @media screen and (max-width: 749px) {
+    & .section-content-wrapper > .group-block:last-child {
+      order: -1;
+      flex-basis: auto;
+      inline-size: 100%;
+    }
+
+    & .section-content-wrapper > .group-block:first-child {
+      flex-basis: auto;
+      inline-size: 100%;
+    }
+  }
+}
+
+/* Photo banners: the text column keeps a readable width; the native content alignment
+   (start / centre / end) positions it. */
+.snosha-about-banner {
+  & .hero__content-wrapper > .text-block {
+    max-inline-size: 34rem;
+  }
+
+  & .hero__content-wrapper > .text-block--align-center {
+    max-inline-size: 44rem;
+  }
+
+  & .button-custom {
+    border-radius: 999px;
+    padding-block: 0.5rem;
+    padding-inline: 2.75rem;
+  }
+}
+
+/* Hero heights (all four About Us heroes): from 750px each hero is 18% taller than its own native
+   height setting (same formula as Horizon's `.hero` rule, header offset included, then scaled), so the
+   merchant's height preset stays the control and the four keep their relative proportions.
+   Below 750px the native height is kept (scale 1). */
+.snosha-about.hero {
+  --snosha-about-height-scale: 1;
+
+  min-height: calc((var(--hero-min-height) - var(--hero-height-offset)) * var(--snosha-about-height-scale));
+
+  @media screen and (min-width: 750px) {
+    --snosha-about-height-scale: 1.18;
+  }
+}
+
+/* Mobile banners (< 750px): the photos are 2:1, so `cover` shows only their centre. Keep the products
+   in view (physical crop position per banner via the custom_class modifiers --focus-left / --focus-right),
+   give banners a 32rem minimum, and sit the text at the bottom over the darker end of the native
+   "to top" gradient overlay. Images, overlay and text are unchanged. */
+@media screen and (max-width: 749px) {
+  .snosha-about-banner.hero {
+    min-height: max(32rem, calc(var(--hero-min-height) - var(--hero-height-offset)));
+
+    & .hero__content-wrapper {
+      justify-content: flex-end;
+    }
+  }
+
+  .snosha-about-banner--focus-left .hero__media {
+    object-position: 0% 50%;
+  }
+
+  .snosha-about-banner--focus-right .hero__media {
+    object-position: 88% 50%;
+  }
+
+  .snosha-about-banner--focus-center-right .hero__media {
+    object-position: 70% 50%;
+  }
+}

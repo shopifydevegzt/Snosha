@@ -20,6 +20,10 @@
        Normal state, secondary buttons and disabled styles keep Horizon's values. */
     --color-primary-button-hover-background: {{ settings.color_palette.color6 }};
     --color-primary-button-hover-border: {{ settings.color_palette.color6 }};
+
+    /* Palette color4 (light brand blue) as a CSS token for project styles (e.g. highlighted words).
+       Not consumed by Horizon; only project scopes read it. */
+    --snosha-palette-color4: {{ settings.color_palette.color4 }};
   }
 
   /* Disabled primary buttons keep Horizon's computed hover color (the value before this override). */
