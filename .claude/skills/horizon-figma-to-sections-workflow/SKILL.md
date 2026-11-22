@@ -1,6 +1,6 @@
 ---
 name: horizon-figma-to-sections-workflow
-description: Reusable Shopify Horizon v4.4 Figma-to-section engineering standard. For any Horizon 4.4 project, including Snosha: inspect exact desktop/mobile Figma nodes, prioritize pixel-accurate design with the smallest safe native-first change, preserve merchant data and nested theme blocks, use merchant-editable color controls and custom_class, perform limited read-only validation, maintain a mandatory project plan, and stop after one section.
+description: Reusable Shopify Horizon v4.4 Figma-to-section engineering standard. Use BEFORE creating or rebuilding any section or theme block, implementing a Figma design, or choosing between native and custom architecture. Enforces native reuse → native + scoped CSS → minimal opt-in native extension → custom only with a verified reason, through mandatory native discovery and a written Native Decision Record; inspects exact desktop/mobile Figma nodes, preserves merchant data, nested blocks and Theme Editor flexibility, performs limited validation, maintains the project plan, and stops after one section.
 ---
 
 # Shopify Horizon v4.4 — Figma → Sections Workflow
@@ -9,11 +9,14 @@ This is a **reusable Horizon v4.4 skill**, not an AYUM/Kalles implementation. **
 
 **Operating principles:** exact Figma design is the design source of truth; reproduce it using the **smallest safe implementation**; investigate native Horizon sections, theme blocks, block groups, and settings before writing new structure; protect existing merchant content; expose meaningful merchant controls; isolate every change; report what was and was not tested.
 
+**Architecture order (mandatory, §5):** **NATIVE REUSE → NATIVE + SCOPED CSS → MINIMAL NATIVE EXTENSION → CUSTOM ONLY WHEN JUSTIFIED.** No new section or theme-block file is created without a **Native Decision Record** (§5.3). Native extensions and custom files are judged on the same evidence standard; neither is the default. Detailed procedure, extension recipe and examples: `references/native-decision-gate.md` (read it before writing the NDR).
+
 **Identity and discovery**
 
 - Target family: Shopify **Horizon v4.4.x**, with **v4.4.0** as the requested baseline. Inspect `config/settings_schema.json` → `theme_info` and current files before relying on exact version behavior; never silently update the theme.
 - Current project label: **Snosha**. Repository path, Figma URL/file key, page frames, section nodes, locales, and store integrations: **to be provided/discovered**. Never invent them.
 - Read `CLAUDE.md` if present; do not modify it unless asked.
+- **Activation:** this skill must be active before creating or rebuilding a section or theme block, implementing a Figma design, or choosing native vs custom architecture. Invoke it through the environment's skill mechanism (in Claude Code: the `Skill` tool with `horizon-figma-to-sections-workflow`, or the `/horizon-figma-to-sections-workflow` command). If invocation isn't available, read this file and `references/native-decision-gate.md` in full, and state in the report that the skill was loaded by reading. Don't start implementation before these instructions are loaded.
 - **Mandatory plan:** `SNOSHA_PROJECT_PLAN.md` for Snosha. For another Horizon project use `<PROJECT_SLUG>_PROJECT_PLAN.md` (or its existing canonical project-plan path) consistently. No previous project's plan may be reused as this project's state.
 - Shopify platform behavior and exact Horizon source code must be verified; do not assume Kalles `hdt-*`, `spacing-vars`, `btn-ultra`, `col_dk`, `themeHDN`, `ThemeEvents`, or Embla contracts.
 
@@ -23,7 +26,7 @@ This is a **reusable Horizon v4.4 skill**, not an AYUM/Kalles implementation. **
 
 - **One requested section per task, one page at a time.** Stop and report after that section; do **not** start another section or implement the whole page/site.
 - **No external orchestrator, section workers, automated task chaining, or orchestrator approval gates.** This skill is self-contained; a future user may request a separate workflow but this skill never implicitly invokes one.
-- Do not inspect, redesign, or edit unrelated sections. Reading a shared dependency to understand impact is permitted; changing it requires scope justification.
+- Do not inspect, redesign, or edit unrelated sections. Reading a shared dependency to understand impact is permitted; changing it requires scope justification. For an opt-in tier-3 extension, the NDR's consumer list and "off = identical output" line is that justification (§5.4).
 - In audit/spec/plan/report-only tasks, **do not modify storefront implementation files**. Updating the requested project plan is permitted only if the task explicitly authorizes a plan update.
 - Before normal implementation, give a pre-implementation report (§4); if asked to implement immediately, still inspect and state any serious risk, then proceed safely.
 - Manual visual/interaction QA belongs to the user; never claim browser or storefront verification without actually performing it under explicit permission.
@@ -37,6 +40,7 @@ Prioritise implementation speed and concise answers. Unless the user explicitly 
 - **No visual QA:** no pixel-by-pixel or Figma-vs-browser comparisons, measurement tables, screenshot-based responsive audits, repeated viewport sweeps or automated visual regression. Do not open a browser just to produce visual evidence.
 - **Figma MCP inspection stays on:** still read the exact nodes (`get_metadata`, `get_design_context`, `get_variable_defs`) whenever the implementation needs design data. `get_screenshot` / the screenshot in `get_design_context` may be viewed for understanding, never saved as evidence.
 - **Checks stay lightweight:** only the essential static / syntax checks for the files changed (e.g. schema / JSON parse, `node --check`, `git diff --check`, and Theme Check against the baseline in `CLAUDE.md` when the change touches Liquid / schema). If a critical function needs confirmation, one short targeted check is allowed. Anything needing browser interaction otherwise is reported as **Not visually verified**.
+- **Never shortened by speed mode:** native discovery (§2.1, §5.1), the comparison of named native alternatives, the **Native Decision Record** (§5.3), essential functionality checks (cart, variants, forms, carousels, app hooks touched by the change), consumer verification for shared extensions (§5.4), and the Theme Editor compatibility review (§8). Evidence may be terse (a few words per NDR line) but must name the files, settings and reasons. "Native alternatives failed" without naming them and the technical reason is an unsupported claim. A native + CSS spike needed to decide the architecture counts as the one allowed targeted check.
 - **No automatic documentation:** no QA report `.md` files, screenshot docs, before/after tables, evidence folders or long implementation reports. Write documentation only when the user asks, when the project plan needs a brief status line, or to record a critical technical decision — concise and text-only. Never delete existing documentation.
 - **Answer format** (replaces the long report formats in §4, §20 and §22 unless the user asks for them):
   1. **Completed:** what changed.
@@ -44,7 +48,7 @@ Prioritise implementation speed and concise answers. Unless the user explicitly 
   3. **Checks:** only checks actually performed.
   4. **Notes:** blockers or items needing the user's manual review.
 
-All other rules of this skill (reuse ladder, native Horizon first, RTL, Figma as source of truth, Theme Editor control, scoped CSS / worktree ownership, no hard-coded tokens, no unauthorised Git or publishing, no unnecessary Shopify CLI restarts) are unchanged.
+All other rules of this skill (architecture order and decision gate, native Horizon first, RTL, Figma as source of truth, Theme Editor control, scoped CSS / worktree ownership, no hard-coded tokens, no unauthorised Git or publishing, no unnecessary Shopify CLI restarts) are unchanged.
 
 ## 1. Sources of truth and conflicts
 
@@ -58,6 +62,8 @@ Priority for design information:
 6. Current verified theme behavior and actual merchant configuration, then explicitly stated engineering assumptions.
 
 For instruction conflicts: latest explicit user request → this skill → `CLAUDE.md` → verified active repository code → mandatory project plan → verified Shopify platform constraints → engineering judgment. Shopify platform syntax/constraints cannot be overridden by design or instructions. Report irresolvable conflicts as **Needs verification** and use the least destructive path; never fabricate measurements.
+
+- **A prompt that names a new file or says a custom section is acceptable is a candidate, not a waiver of the decision gate.** Still produce the NDR (§5.3). If the gate points to native reuse or an extension, say so and ask before creating the named file. Only an explicit user instruction to skip the gate for this task (e.g. "build it as a custom section regardless") overrides it, and the NDR then records that instruction.
 
 - Inspect the exact target desktop **and** mobile node for every section (not the full page only). No desktop-to-mobile scaling assumption.
 - Record font properties, Auto Layout, gaps, paddings, alignment, fixed/hug/fill rules, min/max, constraints, responsive visibility, colors, gradients, images, corners, borders, shadows, interaction states, and exportable assets.
@@ -74,7 +80,8 @@ For instruction conflicts: latest explicit user request → this skill → `CLAU
 - Horizon uses **theme blocks** (files in `/blocks`), **section-defined blocks** (within a section schema), and **app blocks**; identify which kind is active. Do **not** assume they are interchangeable.
 - Dynamic theme-block area: `{% content_for 'blocks' %}`. Static block area: `{% content_for 'block', type: '...', id: '...' %}`. Verify the actual block file and data path; preserve static IDs and preset relationships. A theme block filename **including a leading underscore** can be the exact type.
 - Nested theme blocks are allowed only where supported by their schema. Preserve parent-child hierarchy, permitted types, order, pinned/static blocks, and the Theme Editor's selectability. Never silently flatten a nested block tree.
-- Prefer existing **Horizon section + theme blocks + settings** where they can reproduce Figma faithfully. **Do not sacrifice an important design requirement** merely to avoid a new file: document the gap and choose the smallest safe extension/new component.
+- Prefer existing **Horizon section + theme blocks + settings** where they can reproduce Figma faithfully. **Do not sacrifice an important design requirement** merely to avoid a new file — but only function, semantics/accessibility, data/app contracts, editability or platform limits can justify custom code. A *visual* requirement justifies custom only after native + scoped CSS was assessed and the NDR records why CSS can't reach it (§5).
+- **Mandatory native discovery (before any new section/block, rebuild, or native-vs-custom choice)** — inspect actual code, not filenames: (1) stock sections **and their presets**, starting with the generic `sections/section.liquid` (its presets are ready-made compositions, e.g. FAQ, image compare, icons with text, video) and the families closest to the design; (2) the block types each candidate accepts and its static `content_for` blocks; (3) stock blocks for each part of the design; (4) behavior already implemented (custom elements, slideshow/carousel, video, accordion, product form snippets); (5) the project's approved native extensions (stock files that already carry opt-in project settings); (6) the project's own custom components and other worktrees/branches (§19A). Record the 2–3 closest candidates with file paths. **A claim that Horizon lacks a component must cite the search that shows its absence.** Commands and checklist: `references/native-decision-gate.md` §2.
 - Inspect relevant Horizon components for group/layout blocks, media, product gallery, cart, navigation, sliders and forms as needed. Never assume a particular component tag, JavaScript event, slider package, or price formatter without inspecting current code.
 - No automatic changes to app-provided blocks, merchant metafields, Shopify-managed prices, checkout, subscription state, or review widgets.
 
@@ -115,6 +122,7 @@ For instruction conflicts: latest explicit user request → this skill → `CLAU
 
 - Reuse Horizon's built-in naming for native files. For genuinely project-specific components, derive a unique prefix from the project plan: for Snosha prefer `snosha-` / `snosha_` if not already occupied.
 - Avoid generic names `custom-section`, `section-1`, or overlapping custom-element names. Reuse an existing stable scope when available.
+- **A previous project custom section/block is not a native alternative.** It may be reused as a project component, but when a new section would follow an existing project custom pattern (e.g. "a thin wrapper like the last one"), re-run native discovery against stock Horizon first. A prefix such as `snosha-` names project files; it does not imply that a design section needs its own custom file.
 
 ## 3. Direct Figma MCP requirements
 
@@ -125,6 +133,19 @@ For instruction conflicts: latest explicit user request → this skill → `CLAU
 - Do not edit the Figma file unless separately authorized.
 
 ## 4. Required pre-implementation inspection and report
+
+**Figma-to-native workflow (mandatory order; never go straight from Figma inspection to a new Liquid file):**
+
+1. Inspect the exact desktop and mobile Figma nodes (§1, §3).
+2. Write the design and interaction inventory (structure, visual, behavior, data, editability, semantics, RTL).
+3. Native component discovery (§2.1).
+4. Native feasibility: reuse as is (§5 tier 1).
+5. Scoped CSS feasibility (§5 tier 2).
+6. Minimal extension assessment (§5 tier 3, recipe §5.4).
+7. Native Decision Record (§5.3).
+8. Implementation.
+9. Validation: static checks, consumer checks for shared changes, essential functions; visual checks as permitted (§21).
+10. Evidence-based final report (§0.1 / §22), including the NDR decision line.
 
 Before coding, inspect: target template + section instance; nested block tree; closest reusable native sections/blocks; relevant styles/scripts/schema; responsive/RTL patterns; saved merchant content; current customizations; shared component consumers; app hooks and accessibility.
 
@@ -142,23 +163,77 @@ The **pre-implementation report** must contain:
 10. Merchant data/static block impact, regression risk, out-of-scope areas.
 11. Plan entry and material blockers/questions not resolvable from files or Figma.
 
-In speed mode (§0.1) this report is a few lines (path, reuse choice, files, risks) unless the user asks for the full version. If user requested immediate implementation, this report may be concise, but inspection and scope checks still apply. Ask questions only when required for safe correctness; otherwise proceed using explicitly documented low-risk assumptions.
+In speed mode (§0.1) this report is a few lines (path, reuse choice, files, risks) unless the user asks for the full version — **plus the complete NDR whenever a section/block file would be created or rebuilt** (each NDR line may be terse). If user requested immediate implementation, this report may be concise, but inspection, the NDR and scope checks still apply. Ask questions only when required for safe correctness; otherwise proceed using explicitly documented low-risk assumptions.
 
-## 5. Existing-first with design fidelity
+## 5. Native-first architecture with design fidelity
 
-**Goal:** match the supplied desktop/mobile design accurately with the **smallest safe modification**, rather than using native components at the expense of design fidelity.
+**Goal:** match the supplied desktop/mobile design accurately with the **smallest safe modification**. Fidelity and reuse are both requirements: don't sacrifice a material design requirement, and don't create a file a native composition + CSS + small extension could cover.
 
-Choose the first option that meets the actual design and preserves native behavior:
+### 5.1 The four tiers (choose the first tier that meets the design and preserves native behavior)
 
-1. Configure an existing Horizon section and its theme blocks/section settings **as-is**.
-2. Re-compose existing compatible theme blocks/groups (without breaking hierarchy or changing unrelated instances).
-3. Add **scoped CSS only** to the correct existing instance.
-4. Add an instance-specific `custom_class` and/or safe additive section/block setting.
-5. Extend the closest existing theme block, section, snippet, or approved option **additively**, with blank/off defaults on shared behavior.
-6. Duplicate the nearest component only where extension risks existing live instances.
-7. Create a new block/section **only as a last resort** when existing architecture cannot safely satisfy a meaningful Figma requirement.
+| Tier | Decision | Former ladder steps |
+|---|---|---|
+| 1 | **REUSE NATIVE AS IS**: configure an existing section (or one of its presets) and its blocks/settings; re-compose compatible theme blocks/groups without breaking hierarchy or other instances | 1, 2 |
+| 2 | **REUSE NATIVE + SCOPED CSS**: add `custom_class` (or the section-ID scope) and scoped CSS in the project stylesheet | 3, 4 (class) |
+| 3 | **EXTEND NATIVE MINIMALLY**: add opt-in, default-off settings or a small additive branch to the closest section/block/snippet, following §5.4 | 4 (setting), 5 |
+| 4 | **CUSTOM REQUIRED — VERIFIED TECHNICAL REASON**: a new block/section (or an isolated duplicate where extension would change shared default output) | 6, 7 |
 
-Before creating **any** new file, explain why earlier options cannot meet the design safely. No parallel UI frameworks, unnecessary helper scripts/files, broad refactors, or duplicate slider libraries. Prefer isolated new implementation rather than damaging shared instances when a materially different structure is needed.
+- Run tiers 1–3 against **each** of the 2–3 closest candidates from discovery (§2.1). A candidate's **default appearance** differing from Figma is not a tier failure; only a gap that settings, CSS and a small extension can't close is.
+- **Missing Theme Editor controls** (including `custom_class`, colors, responsive item counts) are a tier-3 question, never a tier-4 reason by themselves.
+- **Tier 2 evidence:** name the CSS mechanism for every visual gap (or run one minimal spike). Skipping tier 2 without that is not allowed.
+- **Similarity percentages** are informational only and never decide the tier.
+- **Don't force native** where tiers 2–3 would recreate substantial component logic inside a generic wrapper or introduce unacceptable shared-component risk — that is a valid tier-4 outcome when recorded.
+
+### 5.2 Custom creation policy
+
+A new custom section or theme block requires a **verified reason**, cited with file:line or a failing spike:
+
+1. Essential behavior can't be preserved with native components, even with a tier-3 extension.
+2. The extension would effectively rebuild the component (most markup/logic duplicated behind a flag).
+3. Native reuse would cause unacceptable shared-component regressions (default output of existing consumers changes, or shared JS must be forked).
+4. Required semantics or accessibility can't be achieved safely.
+5. A data or app contract the native component can't honor.
+6. A platform limit only splitting can solve (e.g. schema setting budget), after per-item controls were moved into blocks and duplicated section-level controls removed (§8).
+
+**Not sufficient:** faster/easier; avoiding a small safe native change; default look differs; a missing control; an earlier project component uses the pattern; the prompt names a file or pre-approves custom; a similarity score.
+
+No parallel UI frameworks, unnecessary helper scripts/files, broad refactors, or duplicate slider libraries.
+
+### 5.3 Native Decision Record (NDR) — required before any new section/block file
+
+Produced in the pre-implementation report (also in speed mode) and summarised in one line in the project plan entry. Template (details: `references/native-decision-gate.md` §6):
+
+```text
+NATIVE DECISION RECORD — <section/block> (<template>; Figma desktop <id>, mobile <id>)
+1. Design/behavior inventory
+2. Candidates inspected (file + preset) and the discovery commands
+3. Native already covers
+4. Gaps: visual | configuration | function/semantics/data
+5. Scoped CSS (tier 2): mechanism per visual gap / spike result
+6. Existing settings that close configuration gaps
+7. Minimal extension (tier 3): settings · consumers · off = identical? · size
+8. Accessibility / function impact
+9. Decision: <tier> — <verified reason #, file:line or spike> (tier 4 only)
+10. Rejected candidates (one line each) and trade-offs
+```
+
+Creating a section/block file without an NDR is a prohibited failure mode (§25). Rebuilding an existing section, or replacing a native one with custom code, also needs an NDR.
+
+### 5.4 Safe native extension (tier 3) — no extra approval when all conditions hold
+
+Opt-in extension of a stock or previously extended section, block or snippet is a normal, preferred step. It needs **no separate approval** when: every new setting defaults to blank/off; default output is identical for every consumer; CSS is scoped to the opt-in class or `custom_class`; native IDs, presets, static blocks, JS hooks and accessibility are unchanged; and no global asset (base CSS, token snippets, core JS modules) changes. Procedure (full recipe in `references/native-decision-gate.md` §4):
+
+1. Enumerate every consumer (grep templates and section groups; list them in the NDR).
+2. Add optional, backward-compatible settings (grouped behind one toggle or style option; `visible_if`; mind the schema setting budget).
+3. Guard every new branch so disabled settings produce identical output.
+4. Scope CSS to the opt-in class / `custom_class`; no global selectors or `!important`.
+5. Keep native behavior and accessibility intact; don't fork the component's JS.
+6. Verify existing consumers after the change (static checks; one targeted render check in speed mode).
+7. Show how the target instance reaches the design; mark what is **Not visually verified**.
+8. Keep merchant flexibility (§8); don't hardcode values to match the screenshot.
+9. Document the extension in the project's approved-extension list / registry.
+
+Escalate (ask) only when the extension would change default output for existing consumers, fork shared JS, or touch a global asset — and record why a safer architecture (a project block inside the native section, an opt-in snippet branch, or tier 4) was or wasn't chosen.
 
 ## 6. Mandatory custom class setting
 
@@ -175,6 +250,7 @@ Suggested new section-schema setting when allowed:
 { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
 ```
 
+- **On native sections, a missing `custom_class` is a tier-3 extension (§5.4), not a reason for a wrapper or custom section.** Reuse an existing project-added `custom_class` first; otherwise add it as an optional text setting (blank = identical output) following §5.4.
 - Inspect existing schema first; never duplicate an ID or rename an equivalent setting.
 - Apply safely to the outermost stable section wrapper **without** replacing native IDs/classes or breaking editor attributes. Guard blank values, escape/sanitize class output; never turn merchant text into an HTML `id`.
 - A reusable **theme block** may use a native per-block instance scope (`block.id`, `block.shopify_attributes`) where a section-style `custom_class` control is not meaningful; do not force a setting into every shared child block unless it offers merchant value. The hosting **section** still follows the default requirement.
@@ -188,12 +264,13 @@ Suggested new section-schema setting when allowed:
 - Never rebuild a whole template JSON from a presumed default; modify only the approved paths while keeping other sections, block order, and saved settings intact.
 - Never hand-edit `config/settings_data.json`. Shared schemes are merchant state; if changes are necessary, report them as a **separate approval item** with all consumers and possible impacts.
 - Do not remove controls simply because Figma doesn't show them. Preserve editor behavior when blocks are added, removed, nested, reordered, or hidden.
-- Before extending a shared component, enumerate its existing consumers and prove new default behavior is inert on all of them (blank/false-gated overrides where appropriate).
+- Before extending a shared component, enumerate its existing consumers and prove new default behavior is inert on all of them (blank/false-gated overrides where appropriate). This is the routine §5.4 procedure, not a deterrent: an opt-in extension that passes it is preferred over a new file.
 - Shopify-owned money, discounts, taxes, inventory, shipping, and checkout are authoritative; don't reimplement with parsed formatted text or guessed prices.
 
 ## 8. Theme Editor, blocks, and presets
 
 - User-configurable content belongs in appropriate native settings, reusable theme blocks, or section schema: headings, text, CTAs, menu, product/collection picker, images, desktop/mobile media, videos, colors, alignment, visibility, spacing, and responsive layout controls when justified.
+- **Theme Editor flexibility (every implementation):** map each merchant-meaningful Figma value to an existing control first (block settings, presets, section settings). Where a control is missing, assess a tier-3 extension (§5.4) before anything else. Don't hardcode values just to reproduce the current screenshot, and don't add section-level settings that duplicate controls native blocks already provide (e.g. a section "heading color" when the `text` block has a color). Record intentional trade-offs (a value fixed in CSS, a control moved to a block) in the NDR.
 - Use compatible `image_picker`, `product`, `collection`, `url`, `video`, `color`, and other **actual Shopify schema types**; never invent unsupported types (`color_picker` is not Shopify's schema type; use `color`).
 - Preserve native Theme Editor drag/drop, nested block selection, `block.shopify_attributes` where needed, and static block visibility behavior. Don't copy `block.shopify_attributes` into decorative duplicates.
 - Section-defined blocks and theme blocks follow different schema/renderer conventions: check the target before changes. Don't blindly add both modes to the same section.
@@ -208,8 +285,8 @@ Suggested new section-schema setting when allowed:
 
 Priority:
 
-1. Existing Horizon theme color scheme/tokens, **if they match and don't change unrelated instances**.
-2. New/reused **section-level `color` settings** for independent section-wide foreground/background/accent/border colors.
+1. Existing Horizon theme color scheme/tokens, **if they match and don't change unrelated instances**; and the **color settings of the native blocks** used (e.g. `text`, `group`, `button`), which already give per-instance control.
+2. New/reused **section-level `color` settings** for independent section-wide foreground/background/accent/border colors that native block settings can't express. On a native section these are an opt-in tier-3 extension (§5.4); a native section lacking them is never on its own a reason for a custom section.
 3. New/reused **block-level `color` settings** for components requiring independent colors, including button hover/focus states, individual badges/cards.
 4. Block override → section override → native scheme/tokens, via verified scoped variables/selectors.
 
@@ -239,11 +316,11 @@ For a block-specific button, generate scoped variables only when its override to
 
 ## 9. CSS placement and safety
 
-- Confirm actual loaded stylesheet and component ownership before editing. If the project designates a central project stylesheet (recorded in `CLAUDE.md` or the project plan), put new section/component CSS there under the section's stable scope instead of in per-section `{% stylesheet %}` blocks. Otherwise prefer an existing section/block stylesheet or the current project's approved scoped asset; create a new one only if earlier options are unsafe.
+- Confirm actual loaded stylesheet and component ownership before editing. If the project designates a project stylesheet — globally or **per branch / worktree** (recorded in `CLAUDE.md` or the project plan) — put new section/component CSS in the stylesheet assigned to the **current** branch/worktree, under the section's stable scope, instead of in per-section `{% stylesheet %}` blocks. Verify that stylesheet is actually linked by the layout before relying on it. Never define the same scope in two project stylesheets. Changes to shared native CSS scopes, or to the layout's stylesheet links, need coordination when several worktrees are active (§19A). Otherwise prefer an existing section/block stylesheet or the current project's approved scoped asset; create a new one only if earlier options are unsafe.
 - For dynamic Liquid-derived variables, use scoped `{% style %}` in Liquid rather than Liquid inside static CSS.
 - CSS scope must be tied to a stable wrapper or section/block ID; no broad `.button`, `.slider`, `html`, or `body` layout overrides for one component.
 - Use logical properties (`margin-inline`, `padding-inline`, `inset-inline-start`) for RTL. Avoid unnecessary `!important`, CSS collisions, over-specific selector chains, and indexing-based selectors.
-- Do not edit generated/minified CSS or JS, or overwrite core files without documented justification and explicit approval if the edit has cross-page impact.
+- Do not edit generated/minified CSS or JS, or overwrite core files without documented justification and explicit approval if the edit has cross-page impact. "Core files" here means global assets (base CSS, token/variable snippets, core JS modules) and any edit that changes default output. **Additive opt-in settings on native section/block files that keep default output identical are tier-3 extensions (§5.4), not core overwrites.**
 - Don't apply `overflow-x: hidden` globally to conceal local overflow; fix the owning component.
 
 ## 10. Section architecture and blank states
@@ -268,7 +345,7 @@ For a block-specific button, generate scoped variables only when its override to
 - Reuse native slider, preserving touch/drag/swipe, controls, keyboard, reduced motion, resize, Theme Editor reload, and dynamic child blocks.
 - A design's partial-next-card/peek must be implemented in the verified native system, without inventing static widths or misplacing RTL padding.
 - Don't create a second slider library. Don't change a Figma grid into a slider or vice versa without instruction.
-- For **new custom** grid/carousel sections, expose merchant-editable visible-item settings for desktop, tablet and mobile **where the component meaningfully supports these modes**, using verified Horizon naming/conventions—not Kalles field names. If native Horizon already has controls, reuse them. Don't make controls that silently do nothing.
+- For **new custom** grid/carousel sections, expose merchant-editable visible-item settings for desktop, tablet and mobile **where the component meaningfully supports these modes**, using verified Horizon naming/conventions—not Kalles field names. If native Horizon already has controls, reuse them. Don't make controls that silently do nothing. When reusing a **native** grid/carousel that lacks tablet/mobile counts, add them as an opt-in tier-3 extension (§5.4); the missing counts don't justify a custom section.
 - Check interactive geometry at target Figma widths and verified breakpoint boundaries in manual QA.
 
 ## 13. Product card and commerce components
@@ -317,6 +394,15 @@ For a block-specific button, generate scoped variables only when its override to
 - `shopify theme pull` can alter the working copy, but is **not authorized** by this skill. Trust current files while noting drift from plan.
 - Refactor only when requested/necessary; explain broader effects and do not erase merchant-selected content.
 
+## 19A. Multi-session and multi-worktree component reuse
+
+Parallel sessions must not independently recreate components that already exist elsewhere.
+
+- Before creating a component, check: `git worktree list`, `git branch -a` (read-only), the project's component registry / approved-extension list (if the project keeps one), completed native extensions, and reusable snippets, blocks and custom elements in the current tree.
+- If a reusable component exists in another worktree or unmerged branch, **document the dependency** in the NDR and the project plan, and follow the project's coordination rule (reuse after merge, or ask). Don't rebuild it, and don't merge, cherry-pick, check out or copy files from another branch automatically.
+- Don't edit files another session owns (per the registry / plan / stylesheet ownership) without coordination. Shared stock files touched by two sessions need an agreed owner for the change. Each session writes CSS only to the stylesheet assigned to its own branch/worktree (§9).
+- After implementing a new component or extension, add it to the registry / plan so the next session finds it.
+
 ## 20. Follow-up / bugfix
 
 - Read current project plan entry and active code. Find root cause before patching; avoid symptom-only CSS overrides and whole-section rebuilds.
@@ -334,9 +420,12 @@ Speed mode (§0.1) applies: run only the checks relevant to the changed files, r
 - Perform **read-only** `git diff --check`, `git diff --stat`, and focused diff review; ensure no unrelated files changed.
 - Check Liquid tag balance if available; mark **Not verified** if no reliable Liquid parser exists. Static grep is not a substitute for runtime validation.
 - Read-only targeted scans for CSS scope leaks, physical left/right properties needing RTL review, new unauthorized media breakpoints, duplicate/missing block references, Figma ephemeral URLs, secrets, generated files and prohibited edits.
+- For tier-3 extensions: confirm every consumer listed in the NDR still renders with the extension off (schema parse + one targeted render check of at least one existing consumer when markup changed).
 - Report each check with its actual result, including **Not run** or **Not available**.
 
-**Not authorized unless explicitly requested:** `shopify theme check`, theme pull/push/publish, full lint/test suites, auto-fix, automated browser/screenshot visual comparison, deployment, commits or Git writes, or any destructive command.
+**Allowed when the project's `CLAUDE.md` defines a baseline:** `shopify theme check` for Liquid / schema changes, compared against that baseline (§0.1).
+
+**Not authorized unless explicitly requested:** theme pull/push/publish, full lint/test suites, auto-fix, automated browser/screenshot visual comparison, deployment, commits or Git writes, or any destructive command.
 
 **Manual QA owned by user (do not claim Passed without evidence):** desktop and mobile Figma match; tablet/intermediate width, RTL/LTR, sliders, product/cart/variants, video, keyboard/a11y, Theme Editor reload/drag/drop, block visibility/reordering, blank states, color editor independence, storefront performance.
 
@@ -350,7 +439,7 @@ Report in this order:
 
 1. Files inspected and actual active code path.
 2. Figma desktop/mobile nodes inspected (or access blockers).
-3. Existing Horizon architecture/blocks reused and design-fidelity tradeoffs.
+3. Native Decision Record (tier chosen, candidates, reason); existing Horizon architecture/blocks reused and design-fidelity tradeoffs.
 4. Files changed; files intentionally untouched.
 5. Liquid/HTML and `content_for` / block-hierarchy changes.
 6. Schema settings; new/reused theme/section/app blocks; presets/static IDs affected.
@@ -385,8 +474,9 @@ Layout: [grid / slider / media + target desktop/tablet/mobile behavior]
 Existing Horizon sections/blocks to inspect: [paths if known; discover otherwise]
 Out of scope: [explicit unrelated areas]
 
-Follow horizon-figma-to-sections-workflow SKILL.md completely.
-Match Figma with the smallest safe change; inspect native Horizon sections and nested theme blocks first.
+Follow horizon-figma-to-sections-workflow SKILL.md completely (invoke the skill; read references/native-decision-gate.md).
+Match Figma with the smallest safe change; run native discovery (stock sections + presets, blocks, approved extensions, other worktrees) first.
+Produce the Native Decision Record before creating or rebuilding any section/block file; a file named in this prompt is a candidate, not a waiver.
 Use an editable custom_class on the section, scoped CSS, and editable color settings.
 Preserve all merchant data, static block IDs, presets, and current theme behavior.
 Use only verified native Horizon breakpoints; request approval for exceptions.
@@ -404,7 +494,7 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 - Plan is **required**, not optional. For Snosha: `SNOSHA_PROJECT_PLAN.md` in the repo root unless an existing canonical plan is explicitly designated. For a different project use a project-specific filename, not Snosha's.
 - Before implementation/bugfix: read plan and relevant entry. If absent, create a **minimal, honest** plan before implementation: verified project/theme identity, Figma file/node map for scoped work, template/section inventory, statuses, decisions, blockers, implementation log. Do **not** fabricate full-site frame maps.
 - Track sections with statuses such as `NOT_STARTED`, `SPEC_READY`, `IN_PROGRESS`, `IMPLEMENTED`, `BLOCKED`, `FIX_REQUESTED`, `VERIFIED` (only after actual manual visual/functional QA confirmation).
-- Update the **same** target section entry after implementation/fix: files, decision, node IDs, checks, merchant data guarantees, unresolved QA, user approval or correction; do not duplicate entries.
+- Update the **same** target section entry after implementation/fix: files, decision, node IDs, checks, merchant data guarantees, unresolved QA, user approval or correction; do not duplicate entries. The decision line states the NDR outcome: `NDR: <tier> — candidates <files/presets> — reason <…>`.
 - Project plan is mutable project **state**; `SKILL.md` remains the reusable **rules**. Do not copy large rules into the plan or store secrets there.
 
 ## 25. Explicitly prohibited failure modes
@@ -412,6 +502,10 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 - Whole-site implementation, unrelated-section modifications, or automatic next-section execution.
 - Importing Ayum/MEATCLUB/Kalles IDs, `hdt-*` elements, product-card numbers, CSS assumptions, money formatters, breakpoints, or temporary Figma URLs.
 - Creating new blocks/sections before checking native Horizon sections, theme blocks, nested groups and settings.
+- Creating, rebuilding or replacing a section/block **without a Native Decision Record** (§5.3), or with one whose rejections don't name the candidates and technical reasons.
+- Choosing custom because a native control is missing, because it is faster, because a prompt named a file, or because an earlier project component used the pattern (§5.2).
+- Claiming Horizon lacks a component without citing the search that shows it (§2.1).
+- Rebuilding a component that exists in another worktree/branch instead of documenting the dependency (§19A).
 - Sacrificing a material Figma requirement solely to avoid a justified isolated component.
 - Editing `config/settings_data.json`, shared color schemes, generated JS/CSS, or global layout settings for one instance.
 - Removing/renaming saved schema IDs, block types, static IDs, presets, block hierarchy/order, merchant data or app integrations.
@@ -425,11 +519,15 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 
 | Situation                                               | Action                                                              |
 | ------------------------------------------------------- | ------------------------------------------------------------------- |
-| Native Horizon section/blocks match Figma with settings | Configure them; preserve existing content                           |
-| Design needs a visual change only                       | Isolated CSS using stable section scope and editable custom_class   |
-| Shared behavior requires additional option              | Additive setting/override defaulting off; review every consumer     |
-| Figma needs a new compositional structure               | Extend existing theme blocks safely before creating a new block     |
-| Shared extension would break other instances            | Isolated duplicate/new component with documented justification      |
+| Native Horizon section/blocks (or a stock preset) match Figma with settings | Tier 1: configure them; preserve existing content |
+| Design needs a visual change only                       | Tier 2: isolated CSS using stable section scope and editable custom_class |
+| Native section lacks `custom_class`, colors or item counts | Tier 3: opt-in settings (§5.4) — never a custom reason on its own |
+| Shared behavior requires additional option              | Tier 3: additive setting/override defaulting off; review every consumer |
+| Figma needs a new compositional structure               | Re-compose native blocks / extend existing theme blocks safely before creating a new block |
+| Shared extension would change default output or fork shared JS | Tier 4: isolated duplicate/new component with NDR reason 3 |
+| Native would need its logic rebuilt inside a wrapper    | Tier 4: custom component with NDR reason 2 |
+| Prompt names a new file / pre-approves custom           | Run the gate anyway; report the result before creating the file |
+| Component exists in another worktree/branch             | Document the dependency (§19A); don't rebuild or auto-merge |
 | Theme block vs section-defined block ambiguity          | Inspect real schema/`content_for` path; preserve correct model      |
 | Unsupported breakpoint necessary                        | Document conflict and request approval, no silent addition          |
 | Figma source missing / app behavior unknown             | Mark `Needs verification`; do not invent facts or fake integrations |
@@ -441,7 +539,10 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 - [ ] Correct Horizon theme/version and active page/block tree confirmed in repo.
 - [ ] Exact desktop/mobile Figma nodes inspected via MCP; no screenshot estimates treated as data.
 - [ ] `SNOSHA_PROJECT_PLAN.md` or current project's canonical plan read/created.
-- [ ] Closest native sections/theme blocks/groups and saved merchant state inspected.
+- [ ] Skill invoked (or its instructions explicitly loaded, with the limitation reported).
+- [ ] Closest native sections/theme blocks/groups and saved merchant state inspected — **evidence:** the discovery commands and the 2–3 candidate files/presets named in the NDR.
+- [ ] Other worktrees / registry checked for an existing component — **evidence:** a one-line result in the NDR.
+- [ ] Tier chosen through §5 — **evidence:** NDR lines 5–7 (CSS mechanism, settings, extension + consumers) and line 9 (tier + verified reason for tier 4).
 - [ ] Smallest-safe-change option chosen with Figma fidelity and reuse justification.
 - [ ] Custom class, color settings, safe scopes, actual breakpoints and RTL approach planned.
 - [ ] Pre-implementation report delivered; out-of-scope components identified.
@@ -449,6 +550,8 @@ For bugfix use the same header plus reported issue, screen/breakpoint, observed/
 **Before reporting done**
 
 - [ ] Native block hierarchy, static IDs/presets, settings and merchant-selected content preserved.
+- [ ] Tier-3 extensions: every listed consumer checked with the extension off; extension recorded in the project's approved-extension list / registry.
+- [ ] Theme Editor flexibility kept: merchant-meaningful values are settings; no duplicated section-level controls; trade-offs recorded.
 - [ ] No Kalles APIs, guessed theme tokens, fixed brand CSS colors, arbitrary breakpoints, new unneeded files or JS.
 - [ ] Verified dynamic colors per block/section where needed; custom_class present or documented technical exception.
 - [ ] Scoped read-only automated checks **actually run** and results recorded.
