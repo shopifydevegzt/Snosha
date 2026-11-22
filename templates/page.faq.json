@@ -20,16 +20,16 @@
         "padding-block-end": 80
       }
     },
-    "hero_hg4Udc": {
+    "hero_mpMzdA": {
       "type": "hero",
       "blocks": {
-        "text_dTGjGj": {
+        "text_UynT4N": {
           "type": "text",
           "settings": {
-            "text": "<h1>لأن العناية تبدأ بابتسامة.</h1>",
+            "text": "<h1>FAQs</h1>",
             "width": "fit-content",
             "max_width": "narrow",
-            "alignment": "left",
+            "alignment": "center",
             "type_preset": "h1",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -48,16 +48,16 @@
           },
           "blocks": {}
         },
-        "text_4dEnGT": {
+        "text_rmE6cp": {
           "type": "text",
           "settings": {
-            "text": "<p>نؤمن أن صحة الفم هي أساس الثقة اليومية. Snosha علامة تجارية مصرية، مبنية على العلم والدقة، وهدفها تبسيط العناية الحقيقية بالفم — بمنتجات عملية، نظيفة الشكل، وسهلة للاستخدام اليومي.</p>",
+            "text": "<p>إجابات على أسئلتك</p>",
             "width": "100%",
             "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
+            "alignment": "center",
+            "type_preset": "custom",
             "font": "var(--font-body--family)",
-            "font_size": "1rem",
+            "font_size": "1.125rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -75,8 +75,8 @@
         }
       },
       "block_order": [
-        "text_dTGjGj",
-        "text_4dEnGT"
+        "text_UynT4N",
+        "text_rmE6cp"
       ],
       "name": "t:names.hero",
       "settings": {
@@ -102,29 +102,29 @@
         "section_height_custom": 50,
         "background_color": "",
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#000000bd",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "custom_class": "snosha-about snosha-about-hero"
       }
     },
-    "section_HQChqd": {
+    "section_A6hPab": {
       "type": "section",
       "blocks": {
-        "text_JAHXwJ": {
+        "text_tfEj6p": {
           "type": "text",
-          "name": "t:names.heading",
           "settings": {
-            "text": "<h2>مهمتنا</h2>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
+            "text": "<h2>الأسئلة الشائعة</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
             "font": "var(--font-body--family)",
-            "font_size": "",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -140,17 +140,16 @@
           },
           "blocks": {}
         },
-        "text_LNhYNe": {
+        "text_WfX4p9": {
           "type": "text",
-          "name": "t:names.text",
           "settings": {
-            "text": "<p>تأسست Snosha بهدف واضح — رفع معيار العناية اليومية بالفم في مصر. نجمع بين أحدث تقنيات طب الأسنان والاهتمام الحقيقي بكل تفصيلة، لأننا نؤمن بأن الابتسامة الصحية هي أساس الثقة في حياتنا اليومية.</p>",
+            "text": "<p>إجابات سريعة عن الشحن والضمان والاسترجاع والدفع.</p>",
             "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
             "font": "var(--font-body--family)",
-            "font_size": "",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
@@ -166,39 +165,334 @@
           },
           "blocks": {}
         },
-        "text_TKriyj": {
-          "type": "text",
-          "name": "t:names.text",
+        "accordion_FXkTBd": {
+          "type": "accordion",
           "settings": {
-            "text": "<h4>كل منتج مبني على الدقة والراحة والنتائج الحقيقية.</h4>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.color6 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "icon": "caret",
+            "snosha_style": true,
+            "snosha_row_background": "{{ settings.color_palette.background }}",
+            "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
+            "snosha_row_border": "{{ settings.color_palette.color2 }}",
+            "snosha_title_color": "{{ settings.color_palette.foreground }}",
+            "snosha_chevron_color": "{{ settings.color_palette.color3 }}",
+            "snosha_tile_background": "{{ settings.color_palette.color5 }}",
+            "snosha_icon_color": "{{ settings.color_palette.color3 }}",
+            "snosha_content_heading_color": "{{ settings.color_palette.foreground }}",
+            "snosha_content_color": "{{ settings.color_palette.color1 }}",
+            "dividers": false,
+            "divider_color": "",
+            "type_preset": "",
+            "background_color": "",
+            "text_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {}
+          "blocks": {
+            "accordion_row_imcfDK": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما طرق الدفع المتاحة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_ckMMak": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>يمكنك اختيار طريقة الدفع المناسبة لك من الخيارات المتاحة عند إتمام الطلب. لمعرفة طرق الدفع المتوفرة حاليًا، يُرجى مراجعة صفحة إتمام الشراء.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_ckMMak"
+              ]
+            },
+            "accordion_row_GGQHNV": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد دفع عند الاستلام؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_G83Q9D": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم، نوفر إمكانية الدفع عند الاستلام ضمن خيارات الدفع المتاحة، لتتسوق براحة وثقة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_G83Q9D"
+              ]
+            },
+            "accordion_row_8X6AtX": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل منتجات SNOSHA أصلية ومعتمدة؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_aYgUQE": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم، جميع المنتجات المعروضة عبر متجر SNOSHA الرسمي هي منتجات أصلية من العلامة التجارية، ونحرص على تقديم منتجات عالية الجودة للعناية بالفم والأسنان.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_aYgUQE"
+              ]
+            }
+          },
+          "block_order": [
+            "accordion_row_imcfDK",
+            "accordion_row_GGQHNV",
+            "accordion_row_8X6AtX"
+          ]
+        },
+        "accordion_6jB9tt": {
+          "type": "accordion",
+          "settings": {
+            "icon": "caret",
+            "snosha_style": true,
+            "snosha_row_background": "{{ settings.color_palette.background }}",
+            "snosha_row_background_open": "{{ settings.color_palette.color5 }}",
+            "snosha_row_border": "{{ settings.color_palette.color2 }}",
+            "snosha_title_color": "{{ settings.color_palette.foreground }}",
+            "snosha_chevron_color": "{{ settings.color_palette.color3 }}",
+            "snosha_tile_background": "{{ settings.color_palette.color5 }}",
+            "snosha_icon_color": "{{ settings.color_palette.color3 }}",
+            "snosha_content_heading_color": "{{ settings.color_palette.foreground }}",
+            "snosha_content_color": "{{ settings.color_palette.color1 }}",
+            "dividers": false,
+            "divider_color": "",
+            "type_preset": "",
+            "background_color": "",
+            "text_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "accordion_row_F7TjkP": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد ضمان على المنتجات؟",
+                "open_by_default": true,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_UkMcLz": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم، جميع منتجات SNOSHA تأتي بضمان لمدة سنة ضد عيوب الصناعة.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_UkMcLz"
+              ]
+            },
+            "accordion_row_M7Xca8": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "ما مدة الاستبدال والاسترجاع؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_ryMFnz": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>يمكنك طلب الاستبدال أو الاسترجاع خلال 7 أيام، وفقًا للشروط الموضحة في سياسة الاستبدال والاسترجاع الخاصة بالمتجر.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_ryMFnz"
+              ]
+            },
+            "accordion_row_gDWemi": {
+              "type": "_accordion-row",
+              "settings": {
+                "heading": "هل يوجد شحن مجاني؟",
+                "open_by_default": false,
+                "icon": "none",
+                "width": 20,
+                "snosha_icon": "none",
+                "hide_when_empty": false
+              },
+              "blocks": {
+                "text_iYf874": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>نعم، نوفر شحنًا مجانيًا للطلبات بقيمة 2,000 جنيه مصري فأكثر، مع خدمة توصيل لجميع أنحاء مصر.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "left",
+                    "type_preset": "rte",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_iYf874"
+              ]
+            }
+          },
+          "block_order": [
+            "accordion_row_F7TjkP",
+            "accordion_row_M7Xca8",
+            "accordion_row_gDWemi"
+          ]
         }
       },
       "block_order": [
-        "text_JAHXwJ",
-        "text_LNhYNe",
-        "text_TKriyj"
+        "text_tfEj6p",
+        "text_WfX4p9",
+        "accordion_FXkTBd",
+        "accordion_6jB9tt"
       ],
-      "name": "t:names.rich_text_section",
+      "name": "Snosha FAQ (native)",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -206,13 +500,13 @@
         "vertical_alignment": "center",
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 25,
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 24,
         "section_width": "page-width",
-        "section_height": "small",
+        "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.background }}",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -224,37 +518,39 @@
         "border_opacity": 100,
         "border_color": "",
         "border_radius": 0,
-        "padding-block-start": 48,
-        "padding-block-end": 48,
-        "custom_class": "",
-        "snosha_grid": false,
-        "snosha_columns_desktop": 4,
-        "snosha_columns_tablet": 4,
-        "snosha_columns_mobile": 2,
-        "snosha_mobile_padding": false,
-        "snosha_padding_top_mobile": 40,
+        "padding-block-start": 60,
+        "padding-block-end": 60,
+        "custom_class": "snosha-faq-native",
+        "snosha_grid": true,
+        "snosha_columns_desktop": 2,
+        "snosha_columns_tablet": 2,
+        "snosha_columns_mobile": 1,
+        "snosha_mobile_padding": true,
+        "snosha_padding_top_mobile": 56,
         "snosha_padding_bottom_mobile": 40
       }
     },
-    "section_Lf9bWy": {
+    "section_YGDVFM": {
       "type": "section",
       "blocks": {
-        "image_HtqcRV": {
-          "type": "image",
+        "text_qtnR7c": {
+          "type": "text",
           "settings": {
-            "image": "shopify://shop_images/DSC_3520.jpg",
-            "link": "",
-            "image_ratio": "square",
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
+            "text": "<h2>ألا تجد اسئلتك؟</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "#176BB0",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -262,115 +558,85 @@
           },
           "blocks": {}
         },
-        "group_Nf6hmx": {
-          "type": "group",
+        "text_VHFFDt": {
+          "type": "text",
+          "name": "t:names.text",
           "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "text": "<p>إذا لم تجد إجابةً لسؤالك ضمن الأسئلة الشائعة، يمكنك إرسال رسالة إلينا من خلال تعبئة النموذج أدناه.</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color1 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "contact_form_TEWjqK": {
+          "type": "contact-form",
+          "settings": {
             "width": "custom",
-            "custom_width": 100,
-            "width_mobile": "fill",
+            "custom_width": 50,
+            "width_mobile": "custom",
             "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
             "background_color": "",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "border": "none",
+            "input_style": "default",
+            "input_background_color": "{{ settings.color_palette.background }}",
+            "input_text_color": "{{ settings.color_palette.foreground }}",
+            "input_border_color": "{{ settings.color_palette.foreground }}",
             "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
             "border_radius": 0,
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
           "blocks": {
-            "text_adihCd": {
-              "type": "text",
-              "name": "t:names.heading",
+            "submit-button": {
+              "type": "contact-form-submit-button",
+              "static": true,
               "settings": {
-                "text": "<h2>مصمم بهدف</h2>",
+                "label": "إرسال رسالة",
+                "style_class": "button",
+                "custom_button_background": "{{ settings.color_palette.foreground }}",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}",
                 "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h3",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "{{ settings.color_palette.color6 }}",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "text_tPrk4m": {
-              "type": "text",
-              "settings": {
-                "text": "<p>كل منتج بنطوره يبدأ باحتياج حقيقي في العناية بالفم. نختار التفاصيل بعناية — تقنية موثوقة، مواد مريحة، وتصميم عملي يناسب الاستخدام اليومي ويجعل العناية أسهل.</p>",
-                "width": "fit-content",
-                "max_width": "narrow",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "{{ settings.color_palette.color1 }}",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
               },
               "blocks": {}
             }
           },
-          "block_order": [
-            "text_adihCd",
-            "text_tPrk4m"
-          ]
+          "block_order": []
         }
       },
       "block_order": [
-        "image_HtqcRV",
-        "group_Nf6hmx"
+        "text_qtnR7c",
+        "text_VHFFDt",
+        "contact_form_TEWjqK"
       ],
-      "name": "t:names.image_with_text",
+      "name": "t:names.contact_form",
       "settings": {
-        "content_direction": "row",
+        "content_direction": "column",
         "vertical_on_mobile": true,
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 32,
         "section_width": "page-width",
@@ -389,8 +655,8 @@
         "border_opacity": 100,
         "border_color": "",
         "border_radius": 0,
-        "padding-block-start": 40,
-        "padding-block-end": 40,
+        "padding-block-start": 32,
+        "padding-block-end": 32,
         "custom_class": "",
         "snosha_grid": false,
         "snosha_columns_desktop": 4,
@@ -400,104 +666,12 @@
         "snosha_padding_top_mobile": 40,
         "snosha_padding_bottom_mobile": 40
       }
-    },
-    "hero_fMJHQP": {
-      "type": "hero",
-      "blocks": {
-        "text_JeTnaD": {
-          "type": "text",
-          "settings": {
-            "text": "<h2>أسنان نظيفة. كل يوم.</h2>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "left",
-            "type_preset": "h1",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.background }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_TNgcR3": {
-          "type": "text",
-          "settings": {
-            "text": "<p>الروتين البسيط هو أهم خطوة في صحة الفم على المدى البعيد. منتجات Snosha مصممة لتجعل هذا الروتين سهلًا وبدون تعقيد.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.background }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 32,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_JeTnaD",
-        "text_TNgcR3"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify://shop_images/snosha-n2-pink-toothbrush-dark-background-oral-care-accessories.jpg",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "background_color": "",
-        "toggle_overlay": true,
-        "overlay_color": "#00000026",
-        "overlay_style": "gradient",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
-      }
     }
   },
   "order": [
     "main",
-    "hero_hg4Udc",
-    "section_HQChqd",
-    "section_Lf9bWy",
-    "hero_fMJHQP"
+    "hero_mpMzdA",
+    "section_A6hPab",
+    "section_YGDVFM"
   ]
 }
