@@ -121,7 +121,6 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/snosha-oral-care-bundle-n2-pink-whitening-kit-tongue-scraper-dark-flatlay.jpg",
-        "custom_class": "snosha-about snosha-about-hero",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -142,13 +141,14 @@
         "section_height_custom": 50,
         "background_color": "",
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#000000BD",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "custom_class": "snosha-about snosha-about-hero"
       }
     },
     "section_VXxWwm": {
@@ -620,7 +620,6 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/snosha-n2-pink-toothbrush-dark-background-oral-care-accessories.jpg",
-        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-right",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -641,13 +640,14 @@
         "section_height_custom": 50,
         "background_color": "",
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#000000BD",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-right"
       }
     },
     "hero_about_banner2": {
@@ -712,7 +712,6 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/snosha-n2-pink-toothbrush-tongue-scraper-dark-navy-background-hero.jpg",
-        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-left",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -733,13 +732,14 @@
         "section_height_custom": 50,
         "background_color": "",
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#000000BD",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-left"
       }
     },
     "hero_about_banner3": {
@@ -805,6 +805,7 @@
             "custom_button_background": "{{ settings.color_palette.background }}",
             "custom_button_text": "{{ settings.color_palette.color3 }}",
             "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
             "width": "fit-content",
             "custom_width": 100,
             "width_mobile": "fit-content",
@@ -822,7 +823,6 @@
       "settings": {
         "media_type_1": "image",
         "image_1": "shopify://shop_images/snosha-n2-pink-toothbrush-tongue-scraper-travel-case-charging-stand-navy-flatlay-v2.jpg",
-        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-center-right",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": false,
@@ -843,13 +843,14 @@
         "section_height_custom": 50,
         "background_color": "",
         "toggle_overlay": true,
-        "overlay_color": "#00000026",
+        "overlay_color": "#000000BD",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding-block-start": 40,
-        "padding-block-end": 40
+        "padding-block-end": 40,
+        "custom_class": "snosha-about snosha-about-banner snosha-about-banner--focus-center-right"
       }
     }
   },
