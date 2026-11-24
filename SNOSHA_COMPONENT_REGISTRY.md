@@ -88,7 +88,7 @@ Every entry is a precedent for skill §5.4: blank/off = stock output.
 | `sections/product-recommendations.liquid` | `custom_class`; `snosha_style` (+ gradients) | Product recommendations |
 | `sections/media-with-content.liquid` | `custom_class`; `snosha_mobile_media_position`, `snosha_hide_empty_media` | Bundle "why" |
 | `sections/hero.liquid` | `custom_class` (optional text; blank = stock class attribute, verified on `page.faq`) — added 2026-11-22 | About Us (`snosha-about*` scopes in `main.css`); FAQ heroes unchanged |
-| `snippets/custom-design-tokens.liquid` | token `--snosha-palette-color4` (palette `color4` as a CSS variable; read only by project scopes) — added 2026-11-22 | About Us highlighted words |
+| `snippets/custom-design-tokens.liquid` | tokens `--snosha-palette-color4` (2026-11-22) and `--snosha-palette-color2/3/6` (2026-11-24): palette colors as CSS variables, read only by project scopes | About Us highlighted words; collection SEO content (`.snosha-collection-seo`) |
 | `sections/header.liquid` | `custom_class`; `snosha_layout` + many `snosha_*` (nav, icons, drawer) | Header group |
 | `sections/footer.liquid`, `sections/footer-utilities.liquid` | `custom_class`; `snosha_layout` + colors / mobile padding | Footer group |
 | `blocks/accordion.liquid`, `blocks/_accordion-row.liquid` | `snosha_style` group (row/title/chevron/tile/icon colors); `snosha_icon` | FAQ |
@@ -145,7 +145,7 @@ Known CSS exception: `assets/dev1.css` still references `.snosha-collections-nat
 | `snosha-contact` | product, f1, bundle | B | Migration candidate |
 | `snosha-reviews-screenshots` | product, f1 | B | Migration candidate |
 | `snosha-how-to-use-video` | product, f1 | B | Migration candidate (`video_section` preset exists) |
-| `snosha-collection-header` | collection | B | Migration candidate |
+| `snosha-collection-header` | collection (hidden since 2026-11-24) | B | **Replaced** by the native `section` (ID `section`, scope `snosha-collection-heading`) + `snosha-breadcrumbs` block; kept hidden for rollback. Opt-in background image (2026-11-24: collection image / picked image + mobile image, overlay; off = identical output); its CSS `.snosha-collection-header-bg` is in `main.css`, the rest of the header in `dev1.css` |
 | `snosha-bundle-value` | bundle | B | Migration candidate |
 
 "Custom required" rests on the audit's verified evidence. "Retained" and "migration candidate" are not decisions: any rebuild of these runs the native decision gate first.
@@ -154,7 +154,7 @@ Known CSS exception: `assets/dev1.css` still references `.snosha-collections-nat
 
 **Public blocks**
 
-- `snosha-icon` (Figma icon set + tile), `snosha-benefits`, `snosha-capsule`, `snosha-complementary`, `snosha-trust-list`, `snosha-bundle-swatches` (Simple Bundles fields), `snosha-footer-language`, `snosha-product-link`.
+- `snosha-icon` (Figma icon set + tile), `snosha-benefits`, `snosha-capsule`, `snosha-complementary`, `snosha-trust-list`, `snosha-bundle-swatches` (Simple Bundles fields), `snosha-footer-language`, `snosha-product-link`, `snosha-breadcrumbs` (2026-11-24: wraps `snippets/snosha-breadcrumbs`, labels + 3 colors; used in the native collection heading `section` on `collection.json`).
 - `snosha-product-rating` is not placed in any template.
 - Public blocks can be composed inside native `section` / `group`.
 

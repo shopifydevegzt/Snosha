@@ -4,7 +4,8 @@
   inline end (desktop) / above the text (mobile, opt-in). Everything comes from the current
   collection (title, description, image), so one instance works for every collection.
   Horizon 4.4 has no breadcrumbs or collection-header section; the grid, filters and sorting below
-  stay Horizon's native main-collection. Styles: assets/dev1.css (.snosha-collection-header).
+  stay Horizon's native main-collection. Styles: assets/dev1.css (.snosha-collection-header);
+  opt-in background image: assets/main.css (.snosha-collection-header-bg).
 {%- endcomment -%}
 {%- liquid
   assign ss = section.settings
@@ -19,6 +20,19 @@
     assign show_image = true
   endif
   assign title = collection.title | default: page_title
+
+  # Opt-in background image (blank / off by default = original solid-color output).
+  # Order: the collection's own image (if enabled and set) → the picked image (can be connected
+  # to a collection metafield as a dynamic source) → no image (background color only).
+  # The shared mobile image only pairs with the picked image, never with a collection's own image.
+  assign bg_image = blank
+  assign bg_image_mobile = blank
+  if ss.background_use_collection_image and collection.image != blank
+    assign bg_image = collection.image
+  elsif ss.background_image != blank
+    assign bg_image = ss.background_image
+    assign bg_image_mobile = ss.background_image_mobile
+  endif
 -%}
 
 {% style %}
@@ -35,12 +49,44 @@
     --snosha-ch-padding-end: {{ ss.padding_bottom }}px;
     --snosha-ch-padding-start-mobile: {{ ss.padding_top_mobile }}px;
     --snosha-ch-padding-end-mobile: {{ ss.padding_bottom_mobile }}px;
+    {%- if bg_image != blank %}
+      --snosha-ch-bg-overlay: {{ ss.background_overlay | default: 'transparent' }};
+      --snosha-ch-bg-position: {{ bg_image.presentation.focal_point | default: 'center' }};
+      {%- if bg_image_mobile != blank %}
+        --snosha-ch-bg-position-mobile: {{ bg_image_mobile.presentation.focal_point | default: 'center' }};
+      {%- endif %}
+    {%- endif %}
   }
 {% endstyle %}
 
 <div
-  class="snosha-collection-header snosha-collection-header--{{ ss.alignment }}{% if ss.description_lines > 0 %} snosha-collection-header--clamp{% endif %}{% if show_image %} snosha-collection-header--has-image{% unless ss.show_image_mobile %} snosha-collection-header--image-desktop-only{% endunless %}{% endif %}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}"
+  class="snosha-collection-header snosha-collection-header--{{ ss.alignment }}{% if ss.description_lines > 0 %} snosha-collection-header--clamp{% endif %}{% if show_image %} snosha-collection-header--has-image{% unless ss.show_image_mobile %} snosha-collection-header--image-desktop-only{% endunless %}{% endif %}{% if bg_image != blank %} snosha-collection-header-bg{% endif %}{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}"
 >
+  {%- if bg_image != blank -%}
+    {%- comment -%} Decorative background (alt=""): the H1 carries the meaning. Above the fold → eager + high priority (LCP). {%- endcomment -%}
+    <picture class="snosha-collection-header-bg__media" aria-hidden="true">
+      {%- if bg_image_mobile != blank -%}
+        <source
+          media="(max-width: 749px)"
+          srcset="{{ bg_image_mobile | image_url: width: 480 }} 480w, {{ bg_image_mobile | image_url: width: 750 }} 750w, {{ bg_image_mobile | image_url: width: 1100 }} 1100w, {{ bg_image_mobile | image_url: width: 1500 }} 1500w"
+          sizes="100vw"
+          width="{{ bg_image_mobile.width }}"
+          height="{{ bg_image_mobile.height }}"
+        >
+      {%- endif -%}
+      {{-
+        bg_image
+        | image_url: width: 2560
+        | image_tag:
+          class: 'snosha-collection-header-bg__image',
+          widths: '480, 750, 1100, 1500, 1920, 2560',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: ''
+      -}}
+    </picture>
+  {%- endif -%}
   <div class="section section--page-width">
     <div class="snosha-collection-header__inner">
       <div class="snosha-collection-header__text">
@@ -218,6 +264,40 @@
       "label": "Background",
       "alpha": true,
       "default": "{{ settings.color_palette.color5 }}"
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "paragraph",
+      "content": "Optional. Replaces the background color. For a different image per collection, turn on the collection image below, or connect the image to a collection metafield (dynamic source)."
+    },
+    {
+      "type": "checkbox",
+      "id": "background_use_collection_image",
+      "label": "Use the collection image as background",
+      "info": "Uses the image set on each collection (Products → Collections). Falls back to the image below.",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Background image on mobile",
+      "info": "Optional. Used with the background image above (not with a collection's own image). Falls back to the background image."
+    },
+    {
+      "type": "color",
+      "id": "background_overlay",
+      "label": "Image overlay",
+      "info": "Keeps the title readable over the image. Lower the opacity for a lighter tint.",
+      "alpha": true,
+      "default": "#F0FAFEB3"
     },
     {
       "type": "range",

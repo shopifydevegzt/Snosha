@@ -8081,3 +8081,106 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
     object-position: 70% 50%;
   }
 }
+
+/* =========================================================================
+   SNOSHA — COLLECTION HEADER BACKGROUND IMAGE (opt-in)
+   sections/snosha-collection-header.liquid → "Background image" settings. The class is only
+   output when an image is set, so the solid-color header (assets/dev1.css,
+   .snosha-collection-header) is unchanged otherwise. Values: --snosha-ch-bg-* (section bridge).
+   ========================================================================= */
+.snosha-collection-header-bg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  & .snosha-collection-header-bg__media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: block;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--snosha-ch-bg-overlay, transparent);
+    }
+  }
+
+  & .snosha-collection-header-bg__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--snosha-ch-bg-position, center);
+
+    @media screen and (max-width: 749px) {
+      object-position: var(--snosha-ch-bg-position-mobile, var(--snosha-ch-bg-position, center));
+    }
+  }
+}
+
+/* =========================================================================
+   SNOSHA — COLLECTION SEO CONTENT (templates/collection.json → native `section`
+   "Collection SEO content", custom_class `snosha-collection-seo`; text block connected to the
+   collection metafield custom.seo_content). Editorial rhythm under the product grid: thin divider,
+   brand headings, readable measure. The block's "Max width: Normal" maps to --max-width--body-normal,
+   widened here for this section only (None / Narrow keep working).
+   ========================================================================= */
+.snosha-collection-seo {
+  --max-width--body-normal: 46rem;
+
+  & .text-block {
+    border-block-start: 1px solid var(--snosha-palette-color2);
+    line-height: 1.75;
+  }
+
+  & .text-block :is(h2, h3) {
+    color: var(--snosha-palette-color6);
+    text-wrap: balance;
+  }
+
+  & .text-block h2 {
+    margin-block-end: 0.75rem;
+  }
+
+  & .text-block h3:not(:first-child) {
+    margin-block: 1.75rem 0.5rem;
+  }
+
+  & .text-block :is(p, ul, ol) {
+    margin-block: 0 1rem;
+
+    &:last-child {
+      margin-block-end: 0;
+    }
+  }
+
+  & .text-block strong {
+    color: var(--color-foreground);
+    font-weight: 700;
+  }
+
+  & .text-block :is(p, li) a {
+    color: var(--snosha-palette-color3);
+    text-decoration-line: underline;
+    text-decoration-color: var(--snosha-palette-color4);
+    text-underline-offset: 0.25em;
+
+    &:hover {
+      color: var(--snosha-palette-color6);
+      text-decoration-color: currentcolor;
+    }
+  }
+
+  & .text-block li::marker {
+    color: var(--snosha-palette-color3);
+  }
+}
+
+/* Collection introduction + SEO content: merchant text may be untranslated (Arabic shown on /en).
+   Each paragraph takes its direction from its own text, so punctuation and alignment stay correct
+   in RTL and LTR pages; translated text follows its own language automatically. */
+:is(.snosha-collection-intro, .snosha-collection-seo) .text-block :is(p, h2, h3, h4, li) {
+  unicode-bidi: plaintext;
+}

@@ -1,0 +1,63 @@
+{%- comment -%}
+  Snosha — breadcrumbs block. Horizon 4.4 has no breadcrumbs component; this public block wraps
+  snippets/snosha-breadcrumbs (Home → collection / blog / product, aria-current, BreadcrumbList JSON-LD)
+  so it can be placed inside native sections (e.g. the collection heading `section`).
+  Colors feed the snippet's --snosha-ch-* variables (assets/dev1.css .snosha-breadcrumbs).
+{%- endcomment -%}
+<div
+  class="snosha-breadcrumbs-block"
+  style="
+    {%- if block.settings.text_color != blank %}--snosha-ch-text: {{ block.settings.text_color }};{% endif -%}
+    {%- if block.settings.link_color != blank %}--snosha-ch-accent: {{ block.settings.link_color }};{% endif -%}
+    {%- if block.settings.current_color != blank %}--snosha-ch-title: {{ block.settings.current_color }};{% endif -%}
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- render 'snosha-breadcrumbs', home_label: block.settings.home_label, aria_label: block.settings.aria_label -%}
+</div>
+
+{% schema %}
+{
+  "name": "Breadcrumbs",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Home label",
+      "info": "Other languages use the theme's translated \"Home\".",
+      "default": "الرئيسية"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessible name",
+      "info": "Read by screen readers for the breadcrumbs navigation.",
+      "default": "مسار التنقل"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Links",
+      "default": "{{ settings.color_palette.color3 }}"
+    },
+    {
+      "type": "color",
+      "id": "current_color",
+      "label": "Current page",
+      "default": "{{ settings.color_palette.color6 }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumbs"
+    }
+  ]
+}
+{% endschema %}

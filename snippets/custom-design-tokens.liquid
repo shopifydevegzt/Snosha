@@ -21,9 +21,12 @@
     --color-primary-button-hover-background: {{ settings.color_palette.color6 }};
     --color-primary-button-hover-border: {{ settings.color_palette.color6 }};
 
-    /* Palette color4 (light brand blue) as a CSS token for project styles (e.g. highlighted words).
-       Not consumed by Horizon; only project scopes read it. */
+    /* Palette colors as CSS tokens for project styles (e.g. highlighted words, collection SEO content).
+       Not consumed by Horizon; only project scopes read them. */
+    --snosha-palette-color2: {{ settings.color_palette.color2 }};
+    --snosha-palette-color3: {{ settings.color_palette.color3 }};
     --snosha-palette-color4: {{ settings.color_palette.color4 }};
+    --snosha-palette-color6: {{ settings.color_palette.color6 }};
   }
 
   /* Disabled primary buttons keep Horizon's computed hover color (the value before this override). */
