@@ -2178,6 +2178,7 @@
         "total_label": "إجمالي الباندل",
         "discount_label": "خصم",
         "button_label": "اكتشف الباندل",
+        "cta_product": "snosha-couple-care-kit",
         "heading_color": "{{ settings.color_palette.color6 }}",
         "text_color": "{{ settings.color_palette.color1 }}",
         "border_color": "{{ settings.color_palette.color2 }}",
