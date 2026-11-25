@@ -2144,6 +2144,16 @@
             "mobile_y": 71
           }
         },
+        "component_wiNVWJ": {
+          "type": "component",
+          "settings": {
+            "product": "فرشاة-أسنان-كهربائية-snosha-n2-الوردي",
+            "desktop_x": 77,
+            "desktop_y": 68,
+            "mobile_x": 80,
+            "mobile_y": 71
+          }
+        },
         "component_n2": {
           "type": "component",
           "settings": {
@@ -2157,10 +2167,11 @@
       },
       "block_order": [
         "component_kids",
+        "component_wiNVWJ",
         "component_n2"
       ],
       "settings": {
-        "bundle_product": "باندل-snosha",
+        "bundle_product": "snosha-couple-care-kit",
         "bundle_image_override": "shopify://shop_images/03a64635d7e30f9b63be44fce161e0e4baa12a4a_66a0425b-ed62-4abc-9645-e588eab0f6cd.png",
         "heading": "باقات العناية المناسبة لروتينك",
         "description": "<p>كمّل روتينك في باقة واحدة بسعر أفضل، اختيارات متكاملة للعناية اليومية.</p>",
