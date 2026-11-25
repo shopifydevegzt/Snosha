@@ -71,7 +71,6 @@
     "price_filter_high": "High price"
   },
   "actions": {
-    // Quick add button on product cards, shortened version of add to cart
     "add": "Add to cart",
     "add_to_cart": "Add to cart",
     "added": "Added",
@@ -616,7 +615,8 @@
           "many": "An issue occurred while resending your gift cards. Please try again or contact us.",
           "two": "An issue occurred while resending your gift cards. Please try again or contact us.",
           "zero": "An issue occurred while resending your gift cards. Please try again or contact us."
-        }
+        },
+        "shipping_method_title": "Payment method"
       },
       "shipping": {
         "subscription_delivery_description": {
