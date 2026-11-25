@@ -777,7 +777,8 @@
           "many": "Arrives in %{count} shipments",
           "two": "Arrives in %{count} shipments",
           "zero": "Arrives in %{count} shipments"
-        }
+        },
+        "shipping_method_title": "Payment method"
       },
       "customer_account": {
         "saved_address_option_description": {
