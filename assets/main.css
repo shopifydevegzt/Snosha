@@ -2578,40 +2578,9 @@
     white-space: nowrap;
   }
 
-  /* ---------- Add to cart (Horizon product form; only the bundle product) ---------- */
-  .snosha-bundle__form,
-  .snosha-bundle__form product-form-component,
-  .snosha-bundle__form add-to-cart-component {
+  /* ---------- CTA: link to the destination / bundle product (no add to cart) ---------- */
+  .snosha-bundle__form {
     display: block;
-  }
-
-  .snosha-bundle__variant-select {
-    display: block;
-    box-sizing: border-box;
-    inline-size: 100%;
-    min-block-size: 48px;
-    margin-block-end: 12px;
-    padding-inline: 16px;
-    border: 1px solid var(--snosha-bundle-border);
-    border-radius: 12px;
-    font-family: var(--font-body--family);
-    font-size: 15px;
-  }
-
-  .snosha-bundle__error:not(.hidden) {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-block-end: 8px;
-    color: var(--snosha-bundle-text);
-    font-family: var(--font-body--family);
-    font-size: 14px;
-    line-height: 22px;
-
-    & .svg-wrapper {
-      inline-size: 16px;
-      block-size: 16px;
-    }
   }
 
   /* Figma "Button": 52px tall, radius 12, Cairo SemiBold 16 / 26 */
@@ -2635,10 +2604,6 @@
     &:hover:not(:disabled) {
       --button-background-color: var(--snosha-bundle-accent-hover);
       --button-border-color: var(--snosha-bundle-accent-hover);
-    }
-
-    &[aria-busy="true"] {
-      cursor: progress;
     }
   }
 

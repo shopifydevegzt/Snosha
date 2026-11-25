@@ -462,56 +462,6 @@ if (!customElements.get('snosha-bundle-hotspot')) {
 }
 
 /* -------------------------------------------------------------------------
-   <snosha-bundle-form> — Bundle showcase add-to-cart loading state
-   Wraps Horizon's native <product-form-component>, which does the add to cart, cart drawer, cart
-   count and error message. This only adds a busy state: from the moment the form dispatches its
-   cart update until that request settles, the button is disabled (aria-busy), so repeated clicks
-   can't add the bundle twice. The button's original disabled state (sold out) is restored after.
-   ------------------------------------------------------------------------- */
-class SnoshaBundleForm extends HTMLElement {
-  /** @type {AbortController | undefined} */
-  #controller;
-
-  connectedCallback() {
-    this.#controller = new AbortController();
-    const { signal } = this.#controller;
-
-    // Same module Horizon's product form uses; loaded lazily so a failure can't affect the rest of main.js.
-    import('@shopify/events')
-      .then(({ StandardEvents }) => {
-        if (signal.aborted) return;
-        this.addEventListener(StandardEvents.cartLinesUpdate, this.#onCartUpdate, { signal });
-      })
-      .catch(() => {});
-  }
-
-  disconnectedCallback() {
-    this.#controller?.abort();
-  }
-
-  /** @param {Event & {promise?: Promise<unknown>}} event */
-  #onCartUpdate = (event) => {
-    const button = /** @type {HTMLButtonElement | null} */ (this.querySelector('[ref="addToCartButton"]'));
-    if (!button || !event.promise || button.hasAttribute('aria-busy')) return;
-
-    const wasDisabled = button.disabled;
-    button.disabled = true;
-    button.setAttribute('aria-busy', 'true');
-
-    event.promise
-      .catch(() => {})
-      .finally(() => {
-        button.removeAttribute('aria-busy');
-        button.disabled = wasDisabled;
-      });
-  };
-}
-
-if (!customElements.get('snosha-bundle-form')) {
-  customElements.define('snosha-bundle-form', SnoshaBundleForm);
-}
-
-/* -------------------------------------------------------------------------
    Product gallery — keep the selected slide aligned after a thumbnail jump
    (Snosha gallery only: .media-gallery--snosha, product page Buy Box layout).
 
