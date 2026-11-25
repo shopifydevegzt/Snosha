@@ -400,5 +400,21 @@
       "sticky_add_to_cart": "شريط الإضافة السريعة إلى سلة التسوق",
       "color": "اللون"
     }
+  },
+  "shopify": {
+    "checkout": {
+      "thank_you": {
+        "shipping_method_title": "طرق الدفع"
+      },
+      "shipping": {
+        "shipping_method_title": "طرق الدفع",
+        "shipping_method_rollup_accessibility_label": "خيارات الدفع"
+      },
+      "review": {
+        "blocks": {
+          "shipping_method_title": "طرق الدفع"
+        }
+      }
+    }
   }
 }
