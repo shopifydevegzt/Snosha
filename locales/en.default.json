@@ -1214,6 +1214,14 @@
             "two": "Ship it separately",
             "zero": "Ship it separately"
           }
+        },
+        "bundle_removal_modal": {
+          "message": {
+            "few": "{{items}} is part of {{bundle}}. The bundle items will also be removed.",
+            "many": "{{items}} is part of {{bundle}}. The bundle items will also be removed.",
+            "two": "{{items}} is part of {{bundle}}. The bundle items will also be removed.",
+            "zero": "{{items}} is part of {{bundle}}. The bundle items will also be removed."
+          }
         }
       },
       "open_graph_meta_tag": {
