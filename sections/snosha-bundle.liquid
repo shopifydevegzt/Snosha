@@ -5,20 +5,20 @@
   Four independent product pickers, all set in the Theme Editor (no metafields, apps or product
   relationships):
   - section setting `bundle_product`: a normal product that IS the bundle. It is the only source of
-    the total price, compare-at price, discount %, availability and the variant added to the cart;
+    the total price, compare-at price and discount %, and the heading fallback (its title) when the
+    Heading setting is empty;
+  - section setting `cta_product` (optional): where the CTA link goes; empty = the bundle product.
   - up to 3 "Bundle product" blocks: display-only component products. Each block drives one row
     (image, title, short description, its own price) and one hotspot on the image (desktop and mobile
     positions). Rows and hotspots come from the same block, so reordering blocks moves both.
   Component prices are only shown, never added together.
 
-  Add to cart: Horizon's native <product-form-component> + `add-to-cart-button` snippet (product form,
-  cart drawer, cart count, error message). Only the bundle product's variant id is in the form.
-  Bundles with several variants get a native variant <select>; unavailable variants are disabled.
+  CTA (2026-11-25): a plain link styled as a Horizon `.button`, not an add-to-cart form. Rendered only
+  while `bundle_product` resolves (blank or deleted = no CTA); sold-out bundles keep the link.
 
   Why a dedicated section: Horizon's product-hotspots section has one position per hotspot and opens
   quick add (an add-to-cart for that product) on touch, and nothing native combines it with a bundle
-  total. Hotspot popups: <snosha-bundle-hotspot> in assets/main.js; loading state:
-  <snosha-bundle-form> in assets/main.js. Styles: assets/main.css (.snosha-bundle).
+  total. Hotspot popups: <snosha-bundle-hotspot> in assets/main.js. Styles: assets/main.css (.snosha-bundle).
 {%- endcomment -%}
 {%- liquid
   assign custom_class = section.settings.custom_class | strip | escape
@@ -43,19 +43,29 @@
     assign discount = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
   endif
 
-  assign can_add_to_cart = false
-  if variant.available
-    assign can_add_to_cart = true
+  # Heading: the merchant's text, else the bundle product's title, else nothing.
+  assign heading = section.settings.heading
+  assign heading_text = heading | strip_html | strip
+  if heading_text == blank
+    assign heading = ''
+    if bundle_product != blank
+      assign heading = bundle_product.title | escape
+    endif
+  endif
+
+  # CTA = navigation link (no add to cart). Shown only while the bundle product resolves; it then goes to
+  # `cta_product` if set, else to the bundle product. Sold-out bundles keep the link.
+  assign cta_url = ''
+  if bundle_product != blank
+    assign cta_url = bundle_product.url
+    if section.settings.cta_product != blank
+      assign cta_url = section.settings.cta_product.url
+    endif
   endif
 
   assign button_label = section.settings.button_label | strip | escape
   if button_label == blank
-    assign button_label = 'products.product.add_to_cart' | t
-  endif
-  if bundle_product != blank and variant == blank
-    assign button_label = 'products.product.unavailable' | t
-  elsif bundle_product != blank and can_add_to_cart == false
-    assign button_label = 'products.product.sold_out' | t
+    assign button_label = 'content.view_more_details' | t
   endif
 -%}
 
@@ -142,8 +152,8 @@
         </div>
 
         <div class="snosha-bundle__content">
-          {%- if section.settings.heading != blank -%}
-            <h2 class="snosha-bundle__title" dir="auto">{{ section.settings.heading }}</h2>
+          {%- if heading != blank -%}
+            <h2 class="snosha-bundle__title" dir="auto">{{ heading }}</h2>
           {%- endif -%}
           {%- if section.settings.description != blank -%}
             <div class="snosha-bundle__description" dir="auto">{{ section.settings.description }}</div>
@@ -237,75 +247,15 @@
             </div>
           {%- endif -%}
 
-          {%- if bundle_product != blank -%}
-            {%- assign product_form_id = 'SnoshaBundleForm-' | append: section.id -%}
-            {%- assign submit_id = 'SnoshaBundleSubmit-' | append: section.id -%}
-            <snosha-bundle-form class="snosha-bundle__form">
-              <product-form-component
-                data-section-id="{{ section.id }}"
-                data-product-id="{{ bundle_product.id }}"
-                data-product-url="{{ bundle_product.url }}"
-                data-quantity-default="1"
-                data-quantity-error-max="{{ 'products.product.quantity_error_max' | t }}"
-                on:submit="/handleSubmit"
-              >
-                <div
-                  class="visually-hidden"
-                  aria-live="assertive"
-                  role="status"
-                  aria-atomic="true"
-                  ref="liveRegion"
-                ></div>
-                {%- form 'product', bundle_product, id: product_form_id, data-type: 'add-to-cart-form' -%}
-                  {%- if bundle_product.has_only_default_variant -%}
-                    <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
-                  {%- else -%}
-                    {%- comment -%} Several variants: the customer picks one; the bundle total above shows the first available variant {%- endcomment -%}
-                    <label class="snosha-bundle__variant">
-                      <span class="visually-hidden">{{ bundle_product.options | join: ' / ' | escape }}</span>
-                      <select name="id" ref="variantId" class="snosha-bundle__variant-select">
-                        {%- for option_variant in bundle_product.variants -%}
-                          <option
-                            value="{{ option_variant.id }}"
-                            {% if option_variant.id == variant.id %}
-                              selected
-                            {% endif %}
-                            {% unless option_variant.available %}
-                              disabled
-                            {% endunless %}
-                          >
-                            {{ option_variant.title | escape }} — {{ option_variant.price | money | strip_html }}
-                          </option>
-                        {%- endfor -%}
-                      </select>
-                    </label>
-                  {%- endif -%}
-                  <input type="hidden" name="quantity" value="1">
-
-                  <span class="snosha-bundle__error hidden" ref="addToCartTextError">
-                    <span class="svg-wrapper">
-                      {{- 'icon-error.svg' | inline_asset_content -}}
-                    </span>
-                  </span>
-
-                  {%- render 'add-to-cart-button-styles' -%}
-                  {%- render 'add-to-cart-button',
-                    id: submit_id,
-                    class: 'add-to-cart-button snosha-bundle__button',
-                    can_add_to_cart: can_add_to_cart,
-                    show_icon: false,
-                    product: bundle_product,
-                    add_to_cart_text: button_label
-                  -%}
-                {%- endform -%}
-              </product-form-component>
-            </snosha-bundle-form>
-          {%- else -%}
+          {%- if cta_url != blank -%}
+            <div class="snosha-bundle__form">
+              <a class="button snosha-bundle__button" href="{{ cta_url }}">
+                {{- button_label -}}
+              </a>
+            </div>
+          {%- elsif request.design_mode -%}
             {%- comment -%} Theme Editor only (the section is hidden on the storefront without a bundle product) {%- endcomment -%}
             <div class="snosha-bundle__form">
-              <button type="button" class="button snosha-bundle__button" disabled>
-                {{- button_label -}}
-              </button>
               <p class="snosha-bundle__notice">Select the bundle product in the section settings.</p>
             </div>
           {%- endif -%}
@@ -395,7 +345,7 @@
       "type": "product",
       "id": "bundle_product",
       "label": "Bundle product",
-      "info": "The only product added to the cart. Its price and compare-at price are the bundle total. The section is hidden on the store until a product is selected."
+      "info": "Its price and compare-at price are the bundle total; the button links to it unless a CTA destination is set. The section is hidden on the store until a product is selected."
     },
     {
       "type": "image_picker",
@@ -411,6 +361,7 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
+      "info": "Leave empty to show the bundle product's title.",
       "default": "باقات العناية المناسبة لروتينك"
     },
     {
@@ -436,7 +387,13 @@
       "type": "text",
       "id": "button_label",
       "label": "Button label",
-      "default": "أضف الباندل للسلة"
+      "default": "اكتشف الباندل"
+    },
+    {
+      "type": "product",
+      "id": "cta_product",
+      "label": "CTA destination product",
+      "info": "Optional. The button opens this product's page; empty = the bundle product. The button is hidden while no bundle product is selected."
     },
     {
       "type": "header",

@@ -133,7 +133,7 @@ Known CSS exception: `assets/dev1.css` still references `.snosha-collections-nat
 | Section | Templates | Class | Status |
 |---|---|---|---|
 | `snosha-hero` | index | D | **Custom required** (chips at merchant coordinates, per-language slides) |
-| `snosha-bundle` | index | D | **Custom required** (hotspots + synced rows + bundle add-to-cart) |
+| `snosha-bundle` | index | D | **Custom required** (hotspots + synced rows; CTA is a link since 2026-11-25, `cta_product` setting) |
 | `snosha-product-comparison` | product, f1 | D | **Custom required** (table semantics). Has the known `ExcessiveSettingsCount`. |
 | `snosha-choose-care` | index | C | Custom retained (native possible, migration risk high) |
 | `snosha-reels` | index, product, f1 | C | Custom retained |
