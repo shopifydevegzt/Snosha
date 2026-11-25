@@ -2166,7 +2166,7 @@
         "description": "<p>كمّل روتينك في باقة واحدة بسعر أفضل، اختيارات متكاملة للعناية اليومية.</p>",
         "total_label": "إجمالي الباندل",
         "discount_label": "خصم",
-        "button_label": "أضف الباندل للسلة",
+        "button_label": "اكتشف الباندل",
         "heading_color": "{{ settings.color_palette.color6 }}",
         "text_color": "{{ settings.color_palette.color1 }}",
         "border_color": "{{ settings.color_palette.color2 }}",
