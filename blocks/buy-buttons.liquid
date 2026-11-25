@@ -242,6 +242,39 @@
           </span>
         {%- endif -%}
       {%- endform -%}
+      {%- comment -%}
+        Snosha (opt-in, off by default): "Notify me" for a sold-out selection. Opens the merchant's Omnisend
+        Back in Stock form (custom trigger); Omnisend keys the request to the page URL, which Horizon keeps on
+        ?variant= of the selection. Shown only for an existing variant that can't be bought (Shopify's
+        variant.available, so inventory_policy "continue" stays purchasable); <snosha-notify-me> in
+        assets/main.js follows Horizon's product:select result. Styles: assets/main.css (.snosha-notify-me).
+      {%- endcomment -%}
+      {%- assign snosha_notify_form_id = block_settings.snosha_notify_form_id | strip -%}
+      {%- if block_settings.snosha_notify_enabled and snosha_notify_form_id != blank and product.gift_card? == false -%}
+        <snosha-notify-me
+          class="snosha-notify-me"
+          data-form-id="{{ snosha_notify_form_id | escape }}"
+          data-product-id="{{ product.id }}"
+          {% unless variant and variant.available == false %}
+            hidden
+          {% endunless %}
+        >
+          <button
+            type="button"
+            class="button snosha-notify-me__button"
+            aria-haspopup="dialog"
+          >
+            {{- block_settings.snosha_notify_label | default: 'أبلغني عند توفر المنتج' | escape -}}
+          </button>
+          <p
+            class="snosha-notify-me__error"
+            role="alert"
+            hidden
+          >
+            {{- block_settings.snosha_notify_error | escape -}}
+          </p>
+        </snosha-notify-me>
+      {%- endif -%}
     </product-form-component>
   {%- else -%}
     <div class="product-form-buttons">
@@ -618,6 +651,38 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Snosha: Notify me when available"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_notify_enabled",
+      "label": "Show \"Notify me\" when sold out",
+      "info": "Opens the Omnisend Back in Stock form. Needs the Omnisend app embed (Theme settings → App embeds).",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "snosha_notify_form_id",
+      "label": "Omnisend form ID",
+      "info": "Omnisend → Forms → your Back in Stock form → Display: Custom trigger. Can be translated per language in Translate & Adapt.",
+      "visible_if": "{{ block.settings.snosha_notify_enabled }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_notify_label",
+      "label": "Button label",
+      "default": "أبلغني عند توفر المنتج",
+      "visible_if": "{{ block.settings.snosha_notify_enabled }}"
+    },
+    {
+      "type": "text",
+      "id": "snosha_notify_error",
+      "label": "Message if the form can't open",
+      "default": "تعذّر فتح نموذج التنبيه حاليًا. يرجى المحاولة لاحقًا.",
+      "visible_if": "{{ block.settings.snosha_notify_enabled }}"
     }
   ],
   "presets": [

@@ -8184,3 +8184,54 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
 :is(.snosha-collection-intro, .snosha-collection-seo) .text-block :is(p, h2, h3, h4, li) {
   unicode-bidi: plaintext;
 }
+
+/* =========================================================================
+   SNOSHA — NOTIFY ME WHEN AVAILABLE  (blocks/buy-buttons.liquid opt-in · <snosha-notify-me> in main.js)
+   Full-width row under the native purchase row (quantity + disabled "sold out" button). The button is
+   Horizon's primary .button (palette colors, hover, focus ring); inside the Snosha Buy Box it takes the
+   same size / radius / type as the Buy Box add-to-cart button.
+   ========================================================================= */
+.snosha-notify-me {
+  display: block;
+  margin-block-start: var(--gap-sm);
+
+  &[hidden] {
+    display: none;
+  }
+
+  .snosha-notify-me__button {
+    inline-size: 100%;
+    min-block-size: var(--height-buy-buttons);
+    padding-block: var(--padding-lg);
+  }
+
+  .snosha-notify-me__error {
+    margin-block: 8px 0;
+    color: var(--color-error);
+    font-size: var(--font-size--sm, 14px);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .snosha-buy-box & {
+    margin-block-start: 10px;
+
+    @media screen and (min-width: 750px) {
+      margin-block-start: 12px;
+    }
+
+    .snosha-notify-me__button {
+      min-block-size: 58px;
+      padding-block: 16px;
+      padding-inline: 28px;
+      border-radius: 12px;
+      font-family: var(--font-accent--family);
+      font-weight: var(--font-accent--weight);
+      font-size: 16px;
+      line-height: 26px;
+      text-transform: none;
+    }
+  }
+}

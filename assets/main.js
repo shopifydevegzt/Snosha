@@ -708,6 +708,116 @@ if (!customElements.get('snosha-sticky-quantity')) {
   customElements.define('snosha-sticky-quantity', SnoshaStickyQuantity);
 }
 
+/* -------------------------------------------------------------------------
+   <snosha-notify-me> — "Notify me when available" under the native buy buttons
+   (blocks/buy-buttons.liquid, opt-in "Show Notify me when sold out").
+
+   Visibility: server-rendered from Shopify's variant.available; after a variant change it follows the
+   same result Horizon's product-form.js uses to disable Add to cart (the shopify:product:select promise →
+   detail.resource.available), so it never keeps its own inventory state. A non-existent option
+   combination (resource null) is "unavailable", not sold out → hidden.
+
+   Click: opens the merchant's Omnisend form with Omnisend's documented custom trigger
+   (window.omnisend.push(['openForm', id])). The form ID comes from the block setting. Omnisend's
+   Back in Stock form reads the product / variant from the page URL, which Horizon keeps on ?variant=.
+   window.omnisend is defined by the Omnisend app embed; this element never creates it. If it's
+   missing (embed off / blocked), nothing is pushed and the merchant's error text is shown instead.
+   ------------------------------------------------------------------------- */
+const NOTIFY_REOPEN_DELAY = 1200;
+
+class SnoshaNotifyMe extends HTMLElement {
+  /** @type {AbortController | null} */
+  #abort = null;
+  #generation = 0;
+  /** @type {number | undefined} */
+  #lockTimer;
+
+  connectedCallback() {
+    this.#abort?.abort();
+    this.#abort = new AbortController();
+    const { signal } = this.#abort;
+
+    this.querySelector('.snosha-notify-me__button')?.addEventListener('click', this.#open, { signal });
+
+    // Same listener target as Horizon's product-form-component.
+    this.closest('.shopify-section, dialog, product-card')?.addEventListener('shopify:product:select', this.#onSelect, {
+      signal,
+    });
+  }
+
+  disconnectedCallback() {
+    this.#abort?.abort();
+    this.#abort = null;
+    window.clearTimeout(this.#lockTimer);
+  }
+
+  /** @param {Event} event */
+  #onSelect = async (event) => {
+    const sourceCard = event.target instanceof Element ? event.target.closest('product-card') : null;
+    if (sourceCard && !sourceCard.contains(this)) return;
+
+    const generation = ++this.#generation;
+    const { promise } = /** @type {Event & { promise?: Promise<any> }} */ (event);
+    if (!promise) return;
+
+    let detail;
+    try {
+      ({ detail } = await promise);
+    } catch {
+      return; // aborted / superseded selection
+    }
+    // Same guard as Horizon's product-form.js: only a completed section fetch updates the purchase area.
+    if (generation !== this.#generation || !detail?.html) return;
+
+    const { html, newProduct, productId, resource } = detail;
+    if (newProduct) {
+      this.dataset.productId = String(newProduct.id);
+    } else if (productId && String(productId) !== this.dataset.productId) {
+      return;
+    }
+
+    // Prefer the server-rendered state for the new selection (same Liquid condition as the first render);
+    // fall back to the variant data Horizon resolved.
+    const rendered = html.querySelector('product-form-component snosha-notify-me');
+    const soldOut = rendered ? !rendered.hasAttribute('hidden') : resource != null && resource.available === false;
+    this.hidden = !soldOut;
+    if (!soldOut) this.#setError(false);
+  };
+
+  #open = () => {
+    if (this.hidden || this.#lockTimer !== undefined) return; // ignore repeat clicks while it opens
+
+    const formId = this.dataset.formId;
+    const queue = /** @type {any} */ (window).omnisend;
+    if (!formId || !queue || typeof queue.push !== 'function') {
+      this.#setError(true);
+      return;
+    }
+
+    this.#setError(false);
+    // Omnisend never registers its popup forms in the Theme Editor (Shopify.designMode), so openForm is
+    // a no-op there by Omnisend's design; it works on the storefront and the theme preview.
+    if (/** @type {any} */ (window).Shopify?.designMode) {
+      console.info('[snosha-notify-me] Omnisend popups do not open in the Theme Editor. Test in the theme preview.');
+    }
+    queue.push(['openForm', formId]);
+
+    this.#lockTimer = window.setTimeout(() => {
+      this.#lockTimer = undefined;
+    }, NOTIFY_REOPEN_DELAY);
+  };
+
+  /** @param {boolean} show */
+  #setError(show) {
+    const error = this.querySelector('.snosha-notify-me__error');
+    if (error instanceof HTMLElement) error.hidden = !show || !error.textContent?.trim();
+  }
+}
+
+if (!customElements.get('snosha-notify-me')) {
+  customElements.define('snosha-notify-me', SnoshaNotifyMe);
+}
+
 /**
  * <snosha-hero-slideshow> (sections/snosha-hero.liquid, only when the hero has Slide blocks).
  * Horizon's slideshow marks off-screen slides aria-hidden="true" but leaves their links focusable.

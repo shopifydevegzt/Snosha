@@ -93,6 +93,7 @@ Every entry is a precedent for skill §5.4: blank/off = stock output.
 | `sections/footer.liquid`, `sections/footer-utilities.liquid` | `custom_class`; `snosha_layout` + colors / mobile padding | Footer group |
 | `blocks/accordion.liquid`, `blocks/_accordion-row.liquid` | `snosha_style` group (row/title/chevron/tile/icon colors); `snosha_icon` | FAQ |
 | `blocks/comparison-slider.liquid` | `snosha_grip_color`, `snosha_shadow_color` (+ responsive `widths`) | Before/After |
+| `blocks/buy-buttons.liquid` | `snosha_notify_enabled` + `snosha_notify_form_id` / `snosha_notify_label` / `snosha_notify_error` (2026-11-25): "Notify me" for a sold-out variant → Omnisend custom trigger; `<snosha-notify-me>` in `main.js`, `.snosha-notify-me` in `main.css` | Default product template (`product.json`) |
 | `blocks/_product-media-gallery.liquid` | `snosha_style` group (stage, thumbs, zoom, badge) | Product gallery |
 | `blocks/social-links.liquid`, `blocks/_announcement.liquid` | `snosha_style` (+ border color) | Footer, announcement |
 | `blocks/logo.liquid`, `email-signup`, `footer-copyright`, `price`, `review`, `variant-picker`, `_product-list-button`, `_product-card-gallery`, `_featured-blog-posts-card` | Small additive options (see each schema) | Various |
