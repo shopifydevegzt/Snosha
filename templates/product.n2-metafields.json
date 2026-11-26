@@ -219,15 +219,14 @@
             "snosha_benefits_list": {
               "type": "snosha-benefits",
               "settings": {
+                "snosha_items": "{{ closest.product.metafields.custom.benefits.value }}",
                 "row_gap": 8,
                 "text_color": "{{ settings.color_palette.foreground }}",
                 "tile_color": "{{ settings.color_palette.color5 }}",
                 "icon_color": "{{ settings.color_palette.color3 }}",
-                "custom_class": "",
-                "snosha_items": "{{ closest.product.metafields.custom.benefits.value }}"
+                "custom_class": ""
               },
-              "blocks": {},
-              "block_order": []
+              "blocks": {}
             },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
@@ -830,13 +829,13 @@
           "blocks": {}
         }
       },
-      "block_order": [],
       "name": "Snosha comparison",
       "settings": {
         "criterion_label": "المعيار",
         "criterion_label_mobile": "",
         "manual_label": "{{ closest.product.metafields.custom.comparison_other_label.value }}",
         "manual_label_mobile": "{{ closest.product.metafields.custom.comparison_other_label_mobile.value }}",
+        "snosha_rows": "{{ closest.product.metafields.custom.comparison_rows.value }}",
         "brand_label": "SNOSHA",
         "logo_width": 140,
         "logo_width_mobile": 114,
@@ -882,17 +881,15 @@
         "padding_bottom": 140,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 52,
-        "custom_class": "",
-        "snosha_rows": "{{ closest.product.metafields.custom.comparison_rows.value }}"
+        "custom_class": ""
       }
     },
     "snosha_reels_RrYMeW": {
       "type": "snosha-reels",
-      "blocks": {},
-      "block_order": [],
       "name": "Snosha reels",
       "settings": {
         "heading": "&nbsp;آراء الأطباء",
+        "snosha_reels": "{{ closest.product.metafields.custom.doctor_reels.value }}",
         "unavailable_label": "قريبًا",
         "padding_top_desktop": 60,
         "padding_bottom_desktop": 60,
@@ -929,8 +926,7 @@
         "progress_track": "{{ settings.color_palette.color2 }}",
         "progress_start": "#63cdff",
         "progress_end": "#0f64a8",
-        "custom_class": "",
-        "snosha_reels": "{{ closest.product.metafields.custom.doctor_reels.value }}"
+        "custom_class": ""
       }
     },
     "snosha_how_to_use_video_GapFrW": {
@@ -1238,6 +1234,7 @@
         "intro": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 1,
             "layout": "text",
             "body_color": "",
             "vertical_align": "start",
@@ -1266,8 +1263,7 @@
             "item_gap_mobile": 12,
             "item_desc_color": "",
             "item_desc_color_mobile": "",
-            "tile_border_color": "",
-            "snosha_entry": 1
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1306,6 +1302,7 @@
         "sonic": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 2,
             "layout": "three",
             "body_color": "",
             "vertical_align": "start",
@@ -1334,8 +1331,7 @@
             "item_gap_mobile": 12,
             "item_desc_color": "",
             "item_desc_color_mobile": "",
-            "tile_border_color": "",
-            "snosha_entry": 2
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1376,6 +1372,7 @@
         "box": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 3,
             "layout": "two",
             "body_color": "",
             "vertical_align": "start",
@@ -1404,8 +1401,7 @@
             "item_gap_mobile": 8,
             "item_desc_color": "#0f64a8",
             "item_desc_color_mobile": "",
-            "tile_border_color": "",
-            "snosha_entry": 3
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1447,6 +1443,7 @@
         "modes": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 4,
             "layout": "three",
             "body_color": "#4c85b3e6",
             "vertical_align": "start",
@@ -1475,8 +1472,7 @@
             "item_gap_mobile": 12,
             "item_desc_color": "#4c85b3e6",
             "item_desc_color_mobile": "",
-            "tile_border_color": "#efeded",
-            "snosha_entry": 4
+            "tile_border_color": "#efeded"
           },
           "blocks": {
             "media": {
@@ -1521,6 +1517,7 @@
         "brush": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 5,
             "layout": "two",
             "body_color": "",
             "vertical_align": "start",
@@ -1549,8 +1546,7 @@
             "item_gap_mobile": 10,
             "item_desc_color": "",
             "item_desc_color_mobile": "#71a1c5",
-            "tile_border_color": "",
-            "snosha_entry": 5
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1592,6 +1588,7 @@
         "battery": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 6,
             "layout": "three",
             "body_color": "",
             "vertical_align": "center",
@@ -1620,8 +1617,7 @@
             "item_gap_mobile": 10,
             "item_desc_color": "",
             "item_desc_color_mobile": "",
-            "tile_border_color": "",
-            "snosha_entry": 6
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1662,6 +1658,7 @@
         "water": {
           "type": "_snosha-ld-panel",
           "settings": {
+            "snosha_entry": 7,
             "layout": "two",
             "body_color": "",
             "vertical_align": "start",
@@ -1690,8 +1687,7 @@
             "item_gap_mobile": 12,
             "item_desc_color": "",
             "item_desc_color_mobile": "",
-            "tile_border_color": "",
-            "snosha_entry": 7
+            "tile_border_color": ""
           },
           "blocks": {
             "media": {
@@ -1783,6 +1779,7 @@
         "water"
       ],
       "settings": {
+        "snosha_panels": "{{ closest.product.metafields.custom.long_description.value }}",
         "padding_top": 60,
         "padding_bottom": 60,
         "padding_top_mobile": 40,
@@ -1801,17 +1798,15 @@
         "tile_color": "#ffffff",
         "tile_border_color": "{{ settings.color_palette.color2 }}",
         "tile_shadow_color": "#0d408014",
-        "custom_class": "",
-        "snosha_panels": "{{ closest.product.metafields.custom.long_description.value }}"
+        "custom_class": ""
       }
     },
     "snosha_reels_D9cggw": {
       "type": "snosha-reels",
-      "blocks": {},
-      "block_order": [],
       "name": "Snosha reels",
       "settings": {
         "heading": "تقييمات من عملاء SNOSHA",
+        "snosha_reels": "{{ closest.product.metafields.custom.customer_reels.value }}",
         "unavailable_label": "قريبًا",
         "padding_top_desktop": 60,
         "padding_bottom_desktop": 60,
@@ -1848,8 +1843,7 @@
         "progress_track": "{{ settings.color_palette.color2 }}",
         "progress_start": "#63cdff",
         "progress_end": "#0f64a8",
-        "custom_class": "",
-        "snosha_reels": "{{ closest.product.metafields.custom.customer_reels.value }}"
+        "custom_class": ""
       }
     },
     "snosha_faq_raP3iT": {
@@ -2295,9 +2289,9 @@
           "blocks": {}
         }
       },
-      "block_order": [],
       "name": "Snosha how to use",
       "settings": {
+        "snosha_steps": "{{ closest.product.metafields.custom.usage_steps.value }}",
         "heading": "كيفية الاستخدام",
         "heading_color": "{{ settings.color_palette.color6 }}",
         "heading_size": 32,
@@ -2327,8 +2321,7 @@
         "padding_bottom": 60,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "custom_class": "",
-        "snosha_steps": "{{ closest.product.metafields.custom.usage_steps.value }}"
+        "custom_class": ""
       }
     },
     "snosha_storage_care_KBtGfB": {
@@ -2360,9 +2353,9 @@
           "blocks": {}
         }
       },
-      "block_order": [],
       "name": "Snosha storage & care",
       "settings": {
+        "snosha_tabs": "{{ closest.product.metafields.custom.care_tabs.value }}",
         "heading": "شروط الاستخدام والتخزين",
         "heading_color": "{{ settings.color_palette.color6 }}",
         "heading_size": 32,
@@ -2392,8 +2385,7 @@
         "padding_bottom": 60,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "custom_class": "",
-        "snosha_tabs": "{{ closest.product.metafields.custom.care_tabs.value }}"
+        "custom_class": ""
       }
     },
     "snosha_reviews_screenshots_3qAiTE": {
