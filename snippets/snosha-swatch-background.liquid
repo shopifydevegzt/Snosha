@@ -8,8 +8,7 @@
   2. the native swatch of the same value name in another option of the product;
   3. the metaobject type named in `snosha_swatch_metaobject` (e.g. "SNOSHA Brush Colors"): the entry whose
      `name` field, handle or linked Color pattern label equals the value. Its `color` field may reference a
-     Color pattern entry (shopify--color-pattern: image or color) or be a plain color field;
-  4. the block's Value 1–6 / color pairs (backward compatibility).
+     Color pattern entry (shopify--color-pattern: image or color) or be a plain color field.
   Names are compared trimmed and case-insensitively, in the storefront's current language.
 
   @param {object} value - product option value
@@ -64,18 +63,6 @@
         if result != blank
           break
         endif
-      endif
-    endfor
-  endif
-
-  if result == blank
-    for i in (1..6)
-      assign value_key = 'snosha_swatch_value_' | append: i
-      assign color_key = 'snosha_swatch_color_' | append: i
-      assign map_name = block_settings[value_key] | strip | downcase
-      if map_name != blank and map_name == target and block_settings[color_key] != blank
-        assign result = 'rgb(' | append: block_settings[color_key].rgb | append: ')'
-        break
       endif
     endfor
   endif

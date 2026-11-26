@@ -54,7 +54,7 @@
       "type": "checkbox",
       "id": "snosha_extra_swatches",
       "label": "Show swatches for other color options",
-      "info": "Snosha. Buttons-style only. An option without native swatches becomes swatches when at least one value has a color: the native swatch of the same value in another option, then the color metaobject, then the pairs below. A value without a color shows an empty dashed swatch with its name.",
+      "info": "Snosha. Buttons-style only. An option without native swatches becomes swatches when at least one value has a color: the native swatch of the same value in another option, then the color metaobject below. A value without a color shows an empty dashed swatch with its name.",
       "default": false,
       "visible_if": "{{ block.settings.show_swatches and block.settings.variant_style == 'buttons' }}"
     },
@@ -63,79 +63,6 @@
       "id": "snosha_swatch_metaobject",
       "label": "Color metaobject type",
       "info": "Optional. Type handle of a metaobject with a \"name\" text field (the option value, e.g. بني) and a \"color\" field (Color pattern entry or color), e.g. snosha_brush_colors. Needs Storefronts access.",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_1",
-      "label": "Value 1",
-      "info": "The option value exactly as in Shopify admin (e.g. أخضر).",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_1",
-      "label": "Value 1 color",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_2",
-      "label": "Value 2",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_2",
-      "label": "Value 2 color",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_3",
-      "label": "Value 3",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_3",
-      "label": "Value 3 color",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_4",
-      "label": "Value 4",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_4",
-      "label": "Value 4 color",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_5",
-      "label": "Value 5",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_5",
-      "label": "Value 5 color",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "text",
-      "id": "snosha_swatch_value_6",
-      "label": "Value 6",
-      "visible_if": "{{ block.settings.snosha_extra_swatches }}"
-    },
-    {
-      "type": "color",
-      "id": "snosha_swatch_color_6",
-      "label": "Value 6 color",
       "visible_if": "{{ block.settings.snosha_extra_swatches }}"
     },
     {
