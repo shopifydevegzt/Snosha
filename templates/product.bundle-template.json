@@ -376,7 +376,11 @@
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "snosha_notify_enabled": false,
+                "snosha_notify_form_id": "",
+                "snosha_notify_label": "أبلغني عند توفر المنتج",
+                "snosha_notify_error": "تعذّر فتح نموذج التنبيه حاليًا. يرجى المحاولة لاحقًا."
               },
               "blocks": {
                 "quantity": {
@@ -405,7 +409,6 @@
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
-                  "disabled": true,
                   "static": true,
                   "settings": {},
                   "blocks": {}
@@ -1924,32 +1927,57 @@
     },
     "snosha_faq_raP3iT": {
       "type": "section",
-      "name": "Snosha FAQ (native)",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-start",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "",
-        "background_media": "none",
-        "background_color": "{{ settings.color_palette.background }}",
-        "border": "none",
-        "padding-block-start": 24,
-        "padding-block-end": 60,
-        "custom_class": "snosha-faq-native",
-        "snosha_grid": true,
-        "snosha_columns_desktop": 2,
-        "snosha_columns_tablet": 2,
-        "snosha_columns_mobile": 1,
-        "snosha_mobile_padding": true,
-        "snosha_padding_top_mobile": 40,
-        "snosha_padding_bottom_mobile": 40
-      },
       "blocks": {
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>الأسئلة الشائعة</h2>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color6 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "<p>إجابات سريعة عن الباقة والشحن والضمان.</p>",
+            "width": "100%",
+            "max_width": "none",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color1 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "accordion_xHANdD": {
           "type": "accordion",
           "settings": {
@@ -2521,56 +2549,6 @@
             "accordion_row_bundlefaq11",
             "accordion_row_bundlefaq12"
           ]
-        },
-        "heading": {
-          "type": "text",
-          "settings": {
-            "text": "<h2>الأسئلة الشائعة</h2>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.color6 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "subtitle": {
-          "type": "text",
-          "settings": {
-            "text": "<p>إجابات سريعة عن الباقة والشحن والضمان.</p>",
-            "width": "100%",
-            "max_width": "none",
-            "alignment": "center",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.color1 }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
         }
       },
       "block_order": [
@@ -2578,7 +2556,44 @@
         "subtitle",
         "accordion_xHANdD",
         "accordion_gRT6CA"
-      ]
+      ],
+      "name": "Snosha FAQ (native)",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 24,
+        "padding-block-end": 60,
+        "custom_class": "snosha-faq-native",
+        "snosha_grid": true,
+        "snosha_columns_desktop": 2,
+        "snosha_columns_tablet": 2,
+        "snosha_columns_mobile": 1,
+        "snosha_mobile_padding": true,
+        "snosha_padding_top_mobile": 40,
+        "snosha_padding_bottom_mobile": 40
+      }
     },
     "snosha_contact_ddCeP6": {
       "type": "snosha-contact",
