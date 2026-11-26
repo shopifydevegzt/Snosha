@@ -20,8 +20,23 @@
 {%- liquid
   assign ss = section.settings
   assign heading = ss.heading | strip
+  # Snosha opt-in product source (blank = unchanged): entries of the "Product tabs" metaobject list
+  # (snosha_care_tab: title, title_mobile, items = list of texts) replace the tab blocks, in list order;
+  # the first entry opens by default.
   capture tabs_markup
-    content_for 'blocks'
+    if ss.snosha_tabs.size > 0
+      for entry in ss.snosha_tabs
+        capture entry_items
+          for item_text in entry.items.value
+            render 'snosha-storage-item', text: item_text, show_marker: ss.show_marker, marker_image: ss.marker_image
+          endfor
+        endcapture
+        assign entry_uid = 'entry-' | append: forloop.index
+        render 'snosha-storage-tab', title: entry.title.value, title_mobile: entry.title_mobile.value, default_open: forloop.first, items_markup: entry_items, uid: entry_uid, section_id: section.id, hide_empty: ss.hide_empty_tabs, empty_message: ss.empty_message
+      endfor
+    else
+      content_for 'blocks'
+    endif
   endcapture
 
   # One entry per rendered tab: "<button>…<!--snosha-tab-split--><panel>…"
@@ -65,7 +80,8 @@
     assign panels_markup = panels_markup | append: tab_panel
   endfor
 -%}
-
+{%- comment -%} Storefront: no tab = nothing to show (no orphan heading). {%- endcomment -%}
+{%- if tab_count > 0 or request.design_mode -%}
 {% style %}
   #shopify-section-{{ section.id }} .snosha-storage-care {
     --snosha-care-bg: {{ ss.background }};
@@ -124,6 +140,7 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -140,6 +157,13 @@
     {
       "type": "paragraph",
       "content": "Tabs are blocks: add, rename, hide, remove or drag them; each tab holds its own instruction blocks. Tabs without instructions are hidden on the storefront."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_tabs",
+      "label": "Product tabs (optional)",
+      "metaobject_type": "snosha_care_tab",
+      "info": "Connect to a product metafield (list of \"SNOSHA care tab\"). When the product has entries, they replace the tab blocks, in list order; the first one opens by default. On the storefront the section is hidden when there are no tabs."
     },
     {
       "type": "header",

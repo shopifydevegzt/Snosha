@@ -1,0 +1,37 @@
+{%- doc -%}
+  Snosha: one Long Description list row (icon tile + title + optional description). Shared by
+  blocks/_snosha-ld-item.liquid (Theme Editor block) and blocks/_snosha-ld-panel.liquid (items of an
+  optional "snosha_ld_panel" metaobject entry), so both render identical markup.
+  Renders nothing when title and description are empty (unless show_empty).
+
+  @param {string} title
+  @param {string} [description]
+  @param {string} [icon] - snosha-icon name; 'none' or blank = empty tile
+  @param {object} [icon_image] - uploaded icon (replaces the icon)
+  @param {string} uid - unique id for the icon's SVG defs
+  @param {boolean} [show_empty] - Theme Editor
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- liquid
+  assign title = title | strip
+  assign description = description | strip
+-%}
+{%- if title != blank or description != blank or show_empty -%}
+  <li class="snosha-long-description__item" {{ attributes }}>
+    <span class="snosha-long-description__tile" aria-hidden="true">
+      {%- if icon_image != blank -%}
+        {{- icon_image | image_url: width: 72 | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'snosha-long-description__icon-image' -}}
+      {%- elsif icon != 'none' and icon != blank -%}
+        {%- render 'snosha-icon', icon: icon, uid: uid -%}
+      {%- endif -%}
+    </span>
+    <span class="snosha-long-description__item-text">
+      {%- if title != blank -%}
+        <span class="snosha-long-description__item-title">{{ title }}</span>
+      {%- endif -%}
+      {%- if description != blank -%}
+        <span class="snosha-long-description__item-desc">{{ description }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}

@@ -128,19 +128,39 @@
   {% endif %}
 
   {% if render_choose %}
-    <button
-      class="button quick-add__button quick-add__button--choose add-to-cart-button"
-      name="add"
-      on:click="quick-add-component/handleClick"
-    >
-      <span
-        aria-hidden="true"
-        class="svg-wrapper add-to-cart-icon"
+    {% comment %}
+      Snosha opt-in (theme setting "Open product page instead of Quick Add popup"): "Choose" is a plain
+      link to the product page (product.url keeps the locale / market prefix) and never opens the modal.
+      Off = Horizon's button + quick-add modal.
+    {% endcomment %}
+    {% if settings.snosha_choose_opens_product_page %}
+      <a
+        class="button quick-add__button quick-add__button--choose add-to-cart-button"
+        href="{{ product.url }}"
       >
-        {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
-      </span>
-      {{- choose_options_text -}}
-    </button>
+        <span
+          aria-hidden="true"
+          class="svg-wrapper add-to-cart-icon"
+        >
+          {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+        </span>
+        {{- choose_options_text -}}
+      </a>
+    {% else %}
+      <button
+        class="button quick-add__button quick-add__button--choose add-to-cart-button"
+        name="add"
+        on:click="quick-add-component/handleClick"
+      >
+        <span
+          aria-hidden="true"
+          class="svg-wrapper add-to-cart-icon"
+        >
+          {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+        </span>
+        {{- choose_options_text -}}
+      </button>
+    {% endif %}
   {% endif %}
 </quick-add-component>
 

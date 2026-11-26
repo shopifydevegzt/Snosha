@@ -13,68 +13,21 @@
     without instructions" on, empty tabs render nothing. A tab without a label never renders.
   - Theme Editor: every tab renders so it can be filled; editor-only hints explain empty states.
   Switching: <snosha-tabs> in assets/snosha-tabs.js.
+  Markup: snippets/snosha-storage-tab.liquid (shared with the section's optional metaobject tabs).
 {%- endcomment -%}
-{%- liquid
-  capture items_markup
-    content_for 'blocks'
-  endcapture
-  assign title = block.settings.title | strip
-  assign title_mobile = block.settings.title_mobile | strip
-  if title == blank
-    assign title = title_mobile
-  endif
-  assign hide_empty = section.settings.hide_empty_tabs
-  assign empty_message = section.settings.empty_message | strip
-  assign renderable = false
-  if title != blank
-    if items_markup != blank or hide_empty == false
-      assign renderable = true
-    endif
-  endif
+{%- capture items_markup -%}{%- content_for 'blocks' -%}{%- endcapture -%}
+{%- render 'snosha-storage-tab',
+  title: block.settings.title,
+  title_mobile: block.settings.title_mobile,
+  default_open: block.settings.default_open,
+  items_markup: items_markup,
+  uid: block.id,
+  section_id: section.id,
+  hide_empty: section.settings.hide_empty_tabs,
+  empty_message: section.settings.empty_message,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if renderable or request.design_mode -%}
-  <button
-    type="button"
-    class="snosha-storage-care__tab"
-    id="SnoshaCareTab-{{ section.id }}-{{ block.id }}"
-    role="tab"
-    aria-controls="SnoshaCarePanel-{{ section.id }}-{{ block.id }}"
-    aria-selected="false" tabindex="-1"
-    {%- if block.settings.default_open %} data-snosha-default{% endif %}
-  >
-    {%- if title == blank -%}
-      <span class="snosha-storage-care__text">(no label)</span>
-    {%- elsif title_mobile != blank and title_mobile != title -%}
-      <span class="snosha-storage-care__text snosha-storage-care__text--desktop">{{ title | escape }}</span>
-      <span class="snosha-storage-care__text snosha-storage-care__text--mobile">{{ title_mobile | escape }}</span>
-    {%- else -%}
-      <span class="snosha-storage-care__text">{{ title | escape }}</span>
-    {%- endif -%}
-  </button>
-  <!--snosha-tab-split-->
-  <div
-    class="snosha-storage-care__panel"
-    id="SnoshaCarePanel-{{ section.id }}-{{ block.id }}"
-    role="tabpanel"
-    aria-labelledby="SnoshaCareTab-{{ section.id }}-{{ block.id }}"
-    tabindex="0"
-    data-snosha-tab-panel hidden
-    {{ block.shopify_attributes }}
-  >
-    {%- if items_markup != blank -%}
-      <ul class="snosha-storage-care__list" role="list">
-        {{- items_markup -}}
-      </ul>
-    {%- elsif renderable == false -%}
-      <p class="snosha-storage-care__editor-hint">Theme Editor only: this tab is hidden on the storefront (no label, or no instructions while "Hide tabs without instructions" is on).</p>
-    {%- elsif empty_message != blank -%}
-      <p class="snosha-storage-care__empty">{{ empty_message }}</p>
-    {%- elsif request.design_mode -%}
-      <p class="snosha-storage-care__editor-hint">Theme Editor only: add instructions to this tab, or set an "Empty tab message" in the section settings.</p>
-    {%- endif -%}
-  </div>
-  <!--snosha-tab-end-->
-{%- endif -%}
 
 {% schema %}
 {

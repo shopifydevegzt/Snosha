@@ -78,7 +78,7 @@ Every entry is a precedent for skill §5.4: blank/off = stock output.
 
 | Stock file | Opt-in project settings / branches | Used by |
 |---|---|---|
-| `sections/section.liquid` (+ `snippets/section.liquid`) | `custom_class`; `snosha_grid` + `snosha_columns_desktop/tablet/mobile`; `snosha_mobile_padding` + `snosha_padding_top/bottom_mobile` | Why, FAQ, Before/After (native migrations) |
+| `sections/section.liquid` (+ `snippets/section.liquid`) | `custom_class`; `snosha_grid` + `snosha_columns_desktop/tablet/mobile`; `snosha_mobile_padding` + `snosha_padding_top/bottom_mobile`; `snosha_hide_without_media` (2026-11-26: storefront skips the section when its blocks have no `<img` or contain `placeholder-svg`; Theme Editor always renders) | Why, FAQ, Before/After (native migrations); `snosha_hide_without_media` only in `product.n2-metafields.json` |
 | `sections/collection-list.liquid` | `custom_class`; `snosha_style` group: `snosha_columns_tablet/mobile`, `snosha_mobile_padding_top/bottom`, `snosha_arrow_*`, `snosha_progress_track`, `snosha_gradient_start/end` | Collections (native migration) |
 | `sections/product-list.liquid` | `custom_class`; `snosha_style` group (columns, exclude current, mobile padding, colors, progress) | Best sellers, related / also-like lists |
 | `sections/featured-blog-posts.liquid` | `custom_class`; `snosha_style` group (mobile padding, colors, image height/position, progress) | Homepage blog |
@@ -97,6 +97,7 @@ Every entry is a precedent for skill §5.4: blank/off = stock output.
 | `blocks/_product-media-gallery.liquid` | `snosha_style` group (stage, thumbs, zoom, badge) | Product gallery |
 | `blocks/social-links.liquid`, `blocks/_announcement.liquid` | `snosha_style` (+ border color) | Footer, announcement |
 | `blocks/logo.liquid`, `email-signup`, `footer-copyright`, `price`, `review`, `variant-picker`, `_product-list-button`, `_product-card-gallery`, `_featured-blog-posts-card` | Small additive options (see each schema) | Various |
+| `snippets/quick-add.liquid` + `snippets/quick-add-styles.liquid` + `config/settings_schema.json` | Theme setting `snosha_choose_opens_product_page` (Product cards; **default on**, 2026-11-26): the card's "Choose" is an `<a href="{{ product.url }}">` instead of the modal button. Same classes; core selectors `button.quick-add__button` → `:is(button, a).quick-add__button` (same specificity). Off = Horizon's button + modal. "Add" unchanged. | Every quick-add render: `_product-card-gallery`, `_hotspot-product`, `_featured-product-gallery` |
 | `blocks/variant-picker.liquid` + `snippets/variant-main-picker.liquid` + `snippets/swatch.liquid` | `snosha_extra_swatches`, `snosha_swatch_metaobject` (2026-11-26; the 6 manual value/colour pairs were removed the same day): swatches for options without native swatch data, resolved by the project snippet `snosha-swatch-background` (native → same-name native → metaobject `snosha_brush_colors`; unresolved = dashed `swatch--unavailable`, rule in `assets/main.css`); `swatch` gets an optional `background` param | `product.json`, `product.bundle-template.json`, `product.bundle-template-metafield.json` |
 | Snippets: `background-media`, `util-mega-menu-img-sizes-attr`, `util-product-media-sizes-attr` | `page_width: custom_1376` branch | Global (documented in `CLAUDE.md`) |
 | Snippets: `image`, `media`, `resource-image`, `meta-tags`, `card-gallery`, `price`, `variant-main-picker`, `product-media-gallery-content`, `product-information-content`, `header-*`, `cart-*`, `search`, `theme-drawer`, `scripts` | Additive branches (loading strategy, SEO fallback, project UI); marked "Snosha (project addition)" in the files | Various |
@@ -167,6 +168,18 @@ Known CSS exception: `assets/dev1.css` still references `.snosha-collections-nat
 **Snippets**
 
 - `snosha-icon`, `snosha-breadcrumbs`, `snosha-rating-stars`, `snosha-language-switcher`, `snosha-linked-colors` / `-color-item`, `snosha-header-icon`, `snosha-menu-icon`, `snosha-drawer-title`.
+- Shared row markup (2026-11-26; block and metaobject sources render the same HTML): `snosha-benefit-item`, `snosha-comparison-row`, `snosha-how-to-use-step`, `snosha-storage-tab` / `-item`, `snosha-reel-card`, `snosha-ld-item`, `snosha-ld-indicator`.
+- **Metaobject-list sources** (opt-in, empty = block content, unchanged output). The setting is on the parent; entries replace the child blocks in list order:
+  - `snosha-benefits.snosha_items` → `snosha_content_item`;
+  - `snosha-product-comparison.snosha_rows` → `snosha_comparison_row`;
+  - `snosha-reels.snosha_reels` → `snosha_reel`;
+  - `snosha-how-to-use.snosha_steps` → `snosha_content_item`;
+  - `snosha-storage-care.snosha_tabs` → `snosha_care_tab`.
+- **Long description panels** (`snosha-long-description.snosha_panels` → `snosha_ld_panel`) are position-mapped instead: each `_snosha-ld-panel` whose `snosha_entry` is N shows entry N with its own layout and image settings. `_snosha-ld-media` takes the entry's images as `content_for` parameters. Entries with no panel are listed in an editor-only note.
+- Empty sections are hidden on the storefront in Liquid: comparison (no rows), how-to-use (no steps and no note), storage care (no tabs), long description (no panel output).
+- `metaobject_list` settings support iteration and `.size`, but index access (`list[n]`) returns blank (tested 2026-11-26).
+- Used by `product.n2-metafields.json` (22 sources connected). Definitions created 2026-11-26. Entries (`n2-*` handles) are populated on Pink N2 only.
+- `assets/main.css` `.text-block > .metafield-rich_text_field`: a connected rich-text metafield renders inside a wrapper div, so the wrapper passes the Text block's typography through. It only matches connected rich text.
 - `schema-article`, `schema-faq`, `schema-organization`.
 - `custom-font`, `custom-design-tokens`.
 

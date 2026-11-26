@@ -9,8 +9,16 @@
 {%- endcomment -%}
 {%- liquid
   assign ss = section.settings
+  # Snosha opt-in product source (blank = unchanged): entries of the "Product steps" metaobject list
+  # (title = text, title_mobile = mobile text) replace the step blocks, in list order.
   capture steps_markup
-    content_for 'blocks'
+    if ss.snosha_steps.size > 0
+      for entry in ss.snosha_steps
+        render 'snosha-how-to-use-step', text: entry.title.value, text_mobile: entry.title_mobile.value
+      endfor
+    else
+      content_for 'blocks'
+    endif
   endcapture
   if ss.show_note
     capture note_markup
@@ -18,16 +26,19 @@
     endcapture
   endif
   assign has_steps = false
-  if steps_markup != blank
+  assign steps_check = steps_markup | strip
+  if steps_check != blank
     assign has_steps = true
   endif
   assign has_note = false
-  if note_markup != blank
+  assign note_check = note_markup | strip
+  if note_check != blank
     assign has_note = true
   endif
   assign heading = ss.heading | strip
 -%}
-
+{%- comment -%} Storefront: no steps and no note = nothing to show (no orphan heading). {%- endcomment -%}
+{%- if has_steps or has_note or request.design_mode -%}
 {% style %}
   #shopify-section-{{ section.id }} .snosha-how-to-use {
     --snosha-htu-bg: {{ ss.background }};
@@ -80,6 +91,7 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -96,6 +108,13 @@
     {
       "type": "paragraph",
       "content": "Steps are blocks: add, remove or drag them to reorder; numbers update automatically. The note is the \"Usage note\" block."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_steps",
+      "label": "Product steps (optional)",
+      "metaobject_type": "snosha_content_item",
+      "info": "Connect to a product metafield (list of \"SNOSHA content item\"). When the product has entries, they replace the step blocks, in list order: title = step text, mobile title = mobile text. On the storefront the section is hidden when there are no steps and no note."
     },
     {
       "type": "header",

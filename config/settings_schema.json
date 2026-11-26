@@ -1880,6 +1880,14 @@
         "visible_if": "{{ settings.quick_add == true }}"
       },
       {
+        "type": "checkbox",
+        "id": "snosha_choose_opens_product_page",
+        "label": "Open product page instead of Quick Add popup",
+        "info": "Applies to the \"Choose\" button of products with options. Off = Horizon's Quick Add popup. \"Add\" for single-variant products is unchanged.",
+        "default": true,
+        "visible_if": "{{ settings.quick_add == true or settings.mobile_quick_add == true }}"
+      },
+      {
         "type": "header",
         "content": "t:settings.media"
       },

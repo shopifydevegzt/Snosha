@@ -1,0 +1,51 @@
+{%- doc -%}
+  Snosha: one comparison table row (criterion → SNOSHA value → other value). Shared by
+  blocks/_snosha-comparison-row.liquid (Theme Editor block) and sections/snosha-product-comparison.liquid
+  (entries of the optional "snosha_comparison_row" metaobject list), so both render identical markup.
+  Each cell: desktop text + optional mobile text (blank mobile → desktop text), toggled with CSS at 750px.
+
+  @param {string} criterion
+  @param {string} [criterion_mobile]
+  @param {string} snosha_value
+  @param {string} [snosha_value_mobile]
+  @param {string} manual_value - the other (compared) product's value
+  @param {string} [manual_value_mobile]
+  @param {boolean} [show_empty] - render the row even when every cell is empty (Theme Editor)
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- liquid
+  assign texts = criterion | strip | append: '' | append: criterion_mobile | append: snosha_value | append: snosha_value_mobile | append: manual_value | append: manual_value_mobile | strip
+-%}
+{%- if texts != blank or show_empty -%}
+  <tr class="snosha-comparison__row" {{ attributes }}>
+    {%- for cell in (1..3) -%}
+      {%- liquid
+        case cell
+          when 1
+            assign desktop_text = criterion | strip
+            assign mobile_text = criterion_mobile | strip
+            assign cell_tag = 'th'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--criterion'
+          when 2
+            assign desktop_text = snosha_value | strip
+            assign mobile_text = snosha_value_mobile | strip
+            assign cell_tag = 'td'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--brand'
+          else
+            assign desktop_text = manual_value | strip
+            assign mobile_text = manual_value_mobile | strip
+            assign cell_tag = 'td'
+            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--manual'
+        endcase
+      -%}
+      <{{ cell_tag }} class="{{ cell_class }}"{% if cell_tag == 'th' %} scope="row"{% endif %}>
+        {%- if mobile_text != blank and mobile_text != desktop_text -%}
+          <span class="snosha-comparison__text snosha-comparison__text--desktop">{{ desktop_text | escape }}</span>
+          <span class="snosha-comparison__text snosha-comparison__text--mobile">{{ mobile_text | escape }}</span>
+        {%- else -%}
+          <span class="snosha-comparison__text">{{ desktop_text | escape }}</span>
+        {%- endif -%}
+      </{{ cell_tag }}>
+    {%- endfor -%}
+  </tr>
+{%- endif -%}

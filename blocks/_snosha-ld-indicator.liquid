@@ -7,40 +7,17 @@
     ring — the light + a dashed ring (Figma "وميض أحمر": flashing, drawn statically in Figma)
   "Pulse" is an optional CSS animation, off by default, and never runs when the visitor prefers
   reduced motion. No JavaScript. The meaning is always carried by the title text, not the color.
+  Markup: snippets/snosha-ld-indicator.liquid (shared with the panel's optional metaobject items).
 {%- endcomment -%}
-{%- liquid
-  assign bs = block.settings
-  assign title = bs.title | strip
-  assign description = bs.description | strip
-  assign light_style = bs.light_style | default: 'glow'
+{%- render 'snosha-ld-indicator',
+  title: block.settings.title,
+  description: block.settings.description,
+  light_color: block.settings.light_color,
+  light_style: block.settings.light_style,
+  pulse: block.settings.pulse,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if title != blank or description != blank or request.design_mode -%}
-  <li
-    class="snosha-long-description__item snosha-long-description__item--indicator"
-    style="--snosha-ld-light: {{ bs.light_color }};"
-    {{ block.shopify_attributes }}
-  >
-    <span
-      class="snosha-long-description__tile snosha-long-description__tile--indicator{% if bs.pulse %} snosha-long-description__tile--pulse{% endif %}"
-      aria-hidden="true"
-    >
-      {%- if light_style == 'ring' -%}
-        <svg class="snosha-long-description__light-ring" viewBox="0 0 27 27" width="27" height="27" fill="none" focusable="false">
-          <circle cx="13.5" cy="13.5" r="12.75" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="3.337 3.337"/>
-        </svg>
-      {%- endif -%}
-      <span class="snosha-long-description__light"></span>
-    </span>
-    <span class="snosha-long-description__item-text">
-      {%- if title != blank -%}
-        <span class="snosha-long-description__item-title">{{ title }}</span>
-      {%- endif -%}
-      {%- if description != blank -%}
-        <span class="snosha-long-description__item-desc">{{ description }}</span>
-      {%- endif -%}
-    </span>
-  </li>
-{%- endif -%}
 
 {% schema %}
 {

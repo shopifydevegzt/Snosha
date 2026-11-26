@@ -8206,3 +8206,18 @@ body:has(.product-information) .snosha-faq-native .accordion.accordion--snosha {
     }
   }
 }
+
+/* =========================================================================
+   Text block + rich-text metafield (dynamic source)
+   A Rich text metafield connected to a native Text block renders inside
+   <div class="metafield-rich_text_field">, so Horizon's ".paragraph > *" / ".text-block.hN > *"
+   type rules hit that wrapper instead of the <p> / <hN>. The wrapper passes the block's own
+   typography through, so connected text looks like typed-in text (e.g. product.n2-metafields.json).
+   Only matches when a rich-text metafield is connected.
+   ========================================================================= */
+.text-block > .metafield-rich_text_field {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+}

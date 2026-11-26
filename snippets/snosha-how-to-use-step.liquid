@@ -1,0 +1,31 @@
+{%- doc -%}
+  Snosha: one numbered usage step (<li>). Shared by blocks/_snosha-how-to-use-step.liquid (Theme Editor
+  block) and sections/snosha-how-to-use.liquid (entries of the optional "snosha_content_item" metaobject
+  list), so both render identical markup. The number is a CSS counter (assets/dev1.css).
+  A blank main text falls back to the mobile text; a blank mobile text falls back to the main text.
+
+  @param {string} text
+  @param {string} [text_mobile]
+  @param {boolean} [show_empty] - render the step even when empty (Theme Editor)
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- liquid
+  assign desktop_text = text | strip
+  assign mobile_text = text_mobile | strip
+  if desktop_text == blank
+    assign desktop_text = mobile_text
+  endif
+-%}
+{%- if desktop_text != blank or show_empty -%}
+  <li class="snosha-how-to-use__step" {{ attributes }}>
+    <span class="snosha-how-to-use__badge"></span>
+    <span class="snosha-how-to-use__step-text">
+      {%- if mobile_text != blank and mobile_text != desktop_text -%}
+        <span class="snosha-how-to-use__text snosha-how-to-use__text--desktop">{{ desktop_text }}</span>
+        <span class="snosha-how-to-use__text snosha-how-to-use__text--mobile">{{ mobile_text }}</span>
+      {%- else -%}
+        <span class="snosha-how-to-use__text">{{ desktop_text }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}

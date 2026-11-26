@@ -45,7 +45,21 @@
   assign criterion_label_mobile = section.settings.criterion_label_mobile | strip
   assign manual_label = section.settings.manual_label | strip
   assign manual_label_mobile = section.settings.manual_label_mobile | strip
+
+  # Snosha opt-in product source (blank = unchanged): entries of the "Product rows" metaobject list
+  # replace the row blocks, in list order. On the storefront the section is not rendered without rows.
+  capture rows_markup
+    if section.settings.snosha_rows.size > 0
+      for entry in section.settings.snosha_rows
+        render 'snosha-comparison-row', criterion: entry.criterion.value, criterion_mobile: entry.criterion_mobile.value, snosha_value: entry.snosha_value.value, snosha_value_mobile: entry.snosha_value_mobile.value, manual_value: entry.other_value.value, manual_value_mobile: entry.other_value_mobile.value
+      endfor
+    else
+      content_for 'blocks'
+    endif
+  endcapture
+  assign rows_check = rows_markup | strip
 -%}
+{%- if rows_check != blank or request.design_mode -%}
 
 {% style %}
   #shopify-section-{{ section.id }} .snosha-comparison {
@@ -147,7 +161,7 @@
             </tr>
           </thead>
           <tbody>
-            {%- content_for 'blocks' -%}
+            {{- rows_markup -}}
           </tbody>
         </table>
 
@@ -218,6 +232,7 @@
     </div>
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -261,6 +276,13 @@
       "id": "manual_label_mobile",
       "label": "Compared product column (mobile, optional)",
       "default": "اليدوية العادية"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_rows",
+      "label": "Product rows (optional)",
+      "metaobject_type": "snosha_comparison_row",
+      "info": "Connect to a product metafield (list of \"SNOSHA comparison row\"). When the product has entries, they replace the row blocks, in list order. On the storefront the section is hidden when there are no rows."
     },
     {
       "type": "text",

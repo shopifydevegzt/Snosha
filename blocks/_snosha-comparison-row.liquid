@@ -6,50 +6,18 @@
   desktop text. The two variants are toggled with CSS at Horizon's 750px breakpoint
   (assets/dev1.css, .snosha-comparison__text--desktop / --mobile); display: none keeps the hidden
   variant out of the accessibility tree.
+  Markup: snippets/snosha-comparison-row.liquid (shared with the section's optional metaobject rows).
 {%- endcomment -%}
-{%- liquid
-  assign keys = 'criterion,snosha_value,manual_value' | split: ','
-  assign has_content = false
-  for key in keys
-    assign desktop_text = block.settings[key] | strip
-    assign mobile_key = key | append: '_mobile'
-    assign mobile_text = block.settings[mobile_key] | strip
-    if desktop_text != blank or mobile_text != blank
-      assign has_content = true
-    endif
-  endfor
+{%- render 'snosha-comparison-row',
+  criterion: block.settings.criterion,
+  criterion_mobile: block.settings.criterion_mobile,
+  snosha_value: block.settings.snosha_value,
+  snosha_value_mobile: block.settings.snosha_value_mobile,
+  manual_value: block.settings.manual_value,
+  manual_value_mobile: block.settings.manual_value_mobile,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if has_content or request.design_mode -%}
-  <tr class="snosha-comparison__row" {{ block.shopify_attributes }}>
-    {%- for key in keys -%}
-      {%- liquid
-        assign desktop_text = block.settings[key] | strip
-        assign mobile_key = key | append: '_mobile'
-        assign mobile_text = block.settings[mobile_key] | strip
-
-        case key
-          when 'criterion'
-            assign cell_tag = 'th'
-            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--criterion'
-          when 'snosha_value'
-            assign cell_tag = 'td'
-            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--brand'
-          else
-            assign cell_tag = 'td'
-            assign cell_class = 'snosha-comparison__cell snosha-comparison__cell--manual'
-        endcase
-      -%}
-      <{{ cell_tag }} class="{{ cell_class }}"{% if cell_tag == 'th' %} scope="row"{% endif %}>
-        {%- if mobile_text != blank and mobile_text != desktop_text -%}
-          <span class="snosha-comparison__text snosha-comparison__text--desktop">{{ desktop_text | escape }}</span>
-          <span class="snosha-comparison__text snosha-comparison__text--mobile">{{ mobile_text | escape }}</span>
-        {%- else -%}
-          <span class="snosha-comparison__text">{{ desktop_text | escape }}</span>
-        {%- endif -%}
-      </{{ cell_tag }}>
-    {%- endfor -%}
-  </tr>
-{%- endif -%}
 
 {% schema %}
 {

@@ -1,0 +1,47 @@
+{%- doc -%}
+  Snosha: one storage & care instruction (<li>: decorative marker + text). Shared by
+  blocks/_snosha-storage-item.liquid (Theme Editor block) and sections/snosha-storage-care.liquid
+  (items of the optional "snosha_care_tab" metaobject entries), so both render identical markup.
+  A blank main text falls back to the mobile text; a blank mobile text falls back to the main text.
+
+  @param {string} text
+  @param {string} [text_mobile]
+  @param {boolean} show_marker - section setting "Show marker"
+  @param {object} [marker_image] - section setting "Marker image"
+  @param {boolean} [show_empty] - render even when empty (Theme Editor)
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- liquid
+  assign desktop_text = text | strip
+  assign mobile_text = text_mobile | strip
+  if desktop_text == blank
+    assign desktop_text = mobile_text
+  endif
+-%}
+{%- if desktop_text != blank or show_empty -%}
+  <li class="snosha-storage-care__item" {{ attributes }}>
+    {%- if show_marker -%}
+      <span class="snosha-storage-care__marker" aria-hidden="true">
+        {%- if marker_image != blank -%}
+          {{
+            marker_image
+            | image_url: width: 80
+            | image_tag: alt: '', loading: 'lazy', class: 'snosha-storage-care__marker-image'
+          }}
+        {%- else -%}
+          <svg class="snosha-storage-care__marker-svg" viewBox="0 0 7 26" width="7" height="26" fill="none" focusable="false">
+            <circle cx="3.5" cy="13.5" r="3.5" fill="currentColor"/>
+          </svg>
+        {%- endif -%}
+      </span>
+    {%- endif -%}
+    <span class="snosha-storage-care__item-text">
+      {%- if mobile_text != blank and mobile_text != desktop_text -%}
+        <span class="snosha-storage-care__text snosha-storage-care__text--desktop">{{ desktop_text }}</span>
+        <span class="snosha-storage-care__text snosha-storage-care__text--mobile">{{ mobile_text }}</span>
+      {%- else -%}
+        <span class="snosha-storage-care__text">{{ desktop_text }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}

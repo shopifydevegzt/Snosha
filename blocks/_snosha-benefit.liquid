@@ -6,20 +6,13 @@
   assign block_settings = block.settings
   assign benefit_text = block_settings.text | strip
 -%}
-{%- if benefit_text != blank -%}
-  <li class="snosha-benefits__item" {{ block.shopify_attributes }}>
-    {%- if block_settings.image != blank -%}
-      <span class="snosha-benefits__tile snosha-benefits__tile--image" aria-hidden="true">
-        {{- block_settings.image | image_url: width: 66 | image_tag: width: 22, height: 22, alt: '', loading: 'lazy' -}}
-      </span>
-    {%- elsif block_settings.icon != 'none' -%}
-      <span class="snosha-benefits__tile" aria-hidden="true">
-        {%- render 'snosha-icon', icon: block_settings.icon, uid: block.id -%}
-      </span>
-    {%- endif -%}
-    <span class="snosha-benefits__text">{{ benefit_text }}</span>
-  </li>
-{%- endif -%}
+{%- render 'snosha-benefit-item',
+  text: benefit_text,
+  icon: block_settings.icon,
+  image: block_settings.image,
+  uid: block.id,
+  attributes: block.shopify_attributes
+-%}
 
 {% schema %}
 {

@@ -6,27 +6,14 @@
   never leave a gap. The counter is generated content, so screen readers announce it with the step.
   A blank mobile text falls back to the main text; the two variants are toggled with CSS at
   Horizon's 750px breakpoint (display: none keeps the hidden one out of the accessibility tree).
+  Markup: snippets/snosha-how-to-use-step.liquid (shared with the section's optional metaobject steps).
 {%- endcomment -%}
-{%- liquid
-  assign desktop_text = block.settings.text | strip
-  assign mobile_text = block.settings.text_mobile | strip
-  if desktop_text == blank
-    assign desktop_text = mobile_text
-  endif
+{%- render 'snosha-how-to-use-step',
+  text: block.settings.text,
+  text_mobile: block.settings.text_mobile,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if desktop_text != blank or request.design_mode -%}
-  <li class="snosha-how-to-use__step" {{ block.shopify_attributes }}>
-    <span class="snosha-how-to-use__badge"></span>
-    <span class="snosha-how-to-use__step-text">
-      {%- if mobile_text != blank and mobile_text != desktop_text -%}
-        <span class="snosha-how-to-use__text snosha-how-to-use__text--desktop">{{ desktop_text }}</span>
-        <span class="snosha-how-to-use__text snosha-how-to-use__text--mobile">{{ mobile_text }}</span>
-      {%- else -%}
-        <span class="snosha-how-to-use__text">{{ desktop_text }}</span>
-      {%- endif -%}
-    </span>
-  </li>
-{%- endif -%}
 
 {% schema %}
 {

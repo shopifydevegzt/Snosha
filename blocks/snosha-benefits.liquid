@@ -1,9 +1,29 @@
 {%- doc -%}
   Snosha — Buy Box benefit list (Figma 190:10244 desktop, 190:10955 mobile).
   Each row is a _snosha-benefit block (add / remove / reorder / hide in the Theme Editor).
+  Optional product source (Snosha opt-in, blank = unchanged): "Product benefits" (metaobject list of
+  snosha_content_item, e.g. connected to the product metafield custom.benefits). When the list has
+  entries they replace the rows, in list order (title = text, icon, icon_image); when it is empty the
+  rows below are used.
   Static styles: assets/main.css (.snosha-benefits).
 {%- enddoc -%}
-{%- assign block_settings = block.settings -%}
+{%- liquid
+  assign block_settings = block.settings
+  capture rows_markup
+    if block_settings.snosha_items.size > 0
+      for entry in block_settings.snosha_items
+        assign entry_text = entry.title.value | strip
+        assign entry_uid = block.id | append: '-' | append: forloop.index
+        assign entry_icon = entry.icon.value | strip | default: 'check'
+        render 'snosha-benefit-item', text: entry_text, icon: entry_icon, image: entry.icon_image.value, uid: entry_uid
+      endfor
+    else
+      content_for 'blocks'
+    endif
+  endcapture
+  assign rows_check = rows_markup | strip
+-%}
+{%- if rows_check != blank or request.design_mode -%}
 <ul
   class="snosha-benefits{% if block_settings.custom_class != blank %} {{ block_settings.custom_class | strip | escape }}{% endif %}"
   role="list"
@@ -15,8 +35,9 @@
   "
   {{ block.shopify_attributes }}
 >
-  {%- content_for 'blocks' -%}
+  {{- rows_markup -}}
 </ul>
+{%- endif -%}
 
 {% schema %}
 {
@@ -27,6 +48,13 @@
     {
       "type": "paragraph",
       "content": "Rows are shared by every product using this template. For product-specific rows, connect a row's text to a product metafield (dynamic source); rows with empty text are not shown."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_items",
+      "label": "Product benefits (optional)",
+      "metaobject_type": "snosha_content_item",
+      "info": "Connect to a product metafield (list of \"SNOSHA content item\"). When the product has entries, they replace the rows below, in list order: title = text, icon = icon name (default check), icon image. Empty = the rows below."
     },
     {
       "type": "range",

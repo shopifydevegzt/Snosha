@@ -37,14 +37,39 @@
   }
 {% endstyle %}
 
+{%- liquid
+  capture panels_markup
+    content_for 'blocks'
+  endcapture
+  assign panels_check = panels_markup | strip
+
+  # Snosha opt-in "Product panels" list: entries are shown by panels whose "Product entry number" points
+  # to them. Theme Editor only: list the entries that no panel shows (nothing is dropped silently).
+  assign unshown_entries = ''
+  if request.design_mode and ss.snosha_panels.size > 0
+    for entry in ss.snosha_panels
+      assign marker = '<!--snosha-ld-entry:' | append: forloop.index | append: '-->'
+      unless panels_markup contains marker
+        assign unshown_entries = unshown_entries | append: ' ' | append: forloop.index
+      endunless
+    endfor
+    assign unshown_entries = unshown_entries | strip
+  endif
+-%}
+{%- comment -%} Storefront: no panel output = nothing to show. {%- endcomment -%}
+{%- if panels_check != blank or request.design_mode -%}
 <div class="snosha-long-description{% if ss.custom_class != blank %} {{ ss.custom_class | escape }}{% endif %}">
   {% content_for 'block', type: '_snosha-ld-typography', id: 'typography' %}
   <div class="section section--page-width section--mobile-full-width">
     <div class="snosha-long-description__panels">
-      {% content_for 'blocks' %}
+      {{ panels_markup }}
+      {%- if unshown_entries != blank -%}
+        <p class="snosha-long-description__note">Theme Editor only: entries {{ unshown_entries }} of this product’s “Product panels” list have no panel. Add a Panel block and set its “Product entry number” to show them.</p>
+      {%- endif -%}
     </div>
   </div>
 </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -61,6 +86,13 @@
     {
       "type": "paragraph",
       "content": "Each content group is a \"Panel\" block: add, remove or drag panels to reorder them. Text sizes are in the \"Typography\" block."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_panels",
+      "label": "Product panels (optional)",
+      "metaobject_type": "snosha_ld_panel",
+      "info": "Connect to a product metafield (list of \"SNOSHA description panel\"). Each Panel block with a \"Product entry number\" N shows entry N of this list with its own layout and image settings. On the storefront the section is hidden when no panel has content."
     },
     {
       "type": "header",

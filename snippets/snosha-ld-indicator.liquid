@@ -1,0 +1,47 @@
+{%- doc -%}
+  Snosha: one Long Description indicator-light row (52 px tile with a glowing light + title + description).
+  Shared by blocks/_snosha-ld-indicator.liquid (Theme Editor block) and blocks/_snosha-ld-panel.liquid
+  (items of an optional "snosha_ld_panel" metaobject entry that have a light color), so both render
+  identical markup. Styles: glow = light only (steady); ring = light + dashed ring (flashing).
+  The meaning is always carried by the title text, not the color.
+
+  @param {string} title
+  @param {string} [description]
+  @param {string} light_color - CSS color
+  @param {string} [light_style] - 'glow' (default) or 'ring'
+  @param {boolean} [pulse] - optional CSS animation (never with prefers-reduced-motion)
+  @param {boolean} [show_empty] - Theme Editor
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- liquid
+  assign title = title | strip
+  assign description = description | strip
+  assign light_style = light_style | default: 'glow'
+-%}
+{%- if title != blank or description != blank or show_empty -%}
+  <li
+    class="snosha-long-description__item snosha-long-description__item--indicator"
+    style="--snosha-ld-light: {{ light_color }};"
+    {{ attributes }}
+  >
+    <span
+      class="snosha-long-description__tile snosha-long-description__tile--indicator{% if pulse %} snosha-long-description__tile--pulse{% endif %}"
+      aria-hidden="true"
+    >
+      {%- if light_style == 'ring' -%}
+        <svg class="snosha-long-description__light-ring" viewBox="0 0 27 27" width="27" height="27" fill="none" focusable="false">
+          <circle cx="13.5" cy="13.5" r="12.75" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="3.337 3.337"/>
+        </svg>
+      {%- endif -%}
+      <span class="snosha-long-description__light"></span>
+    </span>
+    <span class="snosha-long-description__item-text">
+      {%- if title != blank -%}
+        <span class="snosha-long-description__item-title">{{ title }}</span>
+      {%- endif -%}
+      {%- if description != blank -%}
+        <span class="snosha-long-description__item-desc">{{ description }}</span>
+      {%- endif -%}
+    </span>
+  </li>
+{%- endif -%}

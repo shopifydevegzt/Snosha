@@ -16,8 +16,18 @@
     assign section_custom_class = section_custom_class | append: ' section--snosha-mobile-padding' | strip
     assign section_custom_style = section_custom_style | append: ' --snosha-padding-top-mobile: ' | append: section.settings.snosha_padding_top_mobile | append: 'px; --snosha-padding-bottom-mobile: ' | append: section.settings.snosha_padding_bottom_mobile | append: 'px;' | strip
   endif
+  assign snosha_hidden = false
+  if section.settings.snosha_hide_without_media and request.design_mode == false
+    unless children contains '<img'
+      assign snosha_hidden = true
+    endunless
+    if children contains 'placeholder-svg'
+      assign snosha_hidden = true
+    endif
+  endif
 -%}
 
+{% unless snosha_hidden -%}
 {% render 'section',
   section: section,
   children: children,
@@ -26,6 +36,7 @@
   custom_class: section_custom_class,
   custom_style: section_custom_style
 %}
+{%- endunless %}
 
 {% schema %}
 {
@@ -530,6 +541,13 @@
       "unit": "px",
       "default": 40,
       "visible_if": "{{ section.settings.snosha_mobile_padding }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "snosha_hide_without_media",
+      "label": "Hide when images are missing",
+      "info": "Optional, for images from product metafields (e.g. before / after). On the storefront the section isn't shown when it has no image or shows an image placeholder. The Theme Editor always shows it. Off = Horizon's default.",
+      "default": false
     }
   ],
   "presets": [

@@ -22,11 +22,19 @@
     they count too). The middle reel uses the same count: floor((count - 1) / 2).
   endcomment
   assign reel_count = 0
-  for block in section.blocks
-    if block.settings.video != blank or request.design_mode
-      assign reel_count = reel_count | plus: 1
-    endif
-  endfor
+  if section.settings.snosha_reels.size > 0
+    for entry in section.settings.snosha_reels
+      if entry.video.value != blank or request.design_mode
+        assign reel_count = reel_count | plus: 1
+      endif
+    endfor
+  else
+    for block in section.blocks
+      if block.settings.video != blank or request.design_mode
+        assign reel_count = reel_count | plus: 1
+      endif
+    endfor
+  endif
   assign initial_index = reel_count | minus: 1 | divided_by: 2
 
   assign root_class = 'snosha-reels'
@@ -107,154 +115,39 @@
           {% endif %}
         >
           <ul class="snosha-reels__track" role="list">
-            {%- assign reel_index = 0 -%}
-            {%- for block in section.blocks -%}
-              {%- liquid
-                assign video = block.settings.video
-                if video == blank and request.design_mode == false
-                  continue
-                endif
-
-                assign product = block.settings.product
-                assign poster = block.settings.poster | default: video.preview_image
-                assign reel_label = block.settings.label | default: video.alt | default: product.title | strip | escape
-                if reel_label != blank
-                  assign play_label = 'blocks.load_video' | t: description: reel_label
-                else
-                  assign play_label = 'accessibility.play_video' | t
-                endif
-              -%}
-              <li
-                class="snosha-reel{% if reel_index == initial_index %} snosha-reel--initial{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                <div class="snosha-reel__frame">
-                  {%- if video != blank -%}
-                    <deferred-media class="snosha-reel__media">
-                      <button
-                        type="button"
-                        class="deferred-media__poster-button snosha-reel__poster"
-                        ref="deferredMediaPlayButton"
-                        on:click="/showDeferredMedia"
-                        aria-label="{{ play_label }}"
-                      >
-                        {%- if poster != blank -%}
-                          {{
-                            poster
-                            | image_url: width: 870
-                            | image_tag:
-                              widths: '248, 290, 496, 580, 744, 870',
-                              sizes: poster_sizes,
-                              loading: 'lazy',
-                              alt: '',
-                              class: 'deferred-media__poster-image snosha-reel__poster-image'
-                          }}
-                        {%- endif -%}
-                        <span class="snosha-reel__play" aria-hidden="true">
-                          <img
-                            src="{{ 'snosha-reels-play.svg' | asset_url }}"
-                            alt=""
-                            width="24"
-                            height="24"
-                            loading="lazy"
-                          >
-                        </span>
-                      </button>
-                      <template>
-                        {{-
-                          video
-                          | video_tag:
-                            image_size: '1080x',
-                            autoplay: true,
-                            controls: true,
-                            playsinline: true,
-                            muted: false,
-                            preload: 'metadata',
-                            class: 'snosha-reel__video'
-                        -}}
-                      </template>
-                    </deferred-media>
-                  {%- else -%}
-                    {%- comment -%}
-                      Theme Editor only: no playable video on this block (none chosen/saved, or the
-                      upload hasn't finished processing). Shows the chosen cover if there is one; the
-                      generic placeholder only when the block has no media at all.
-                    {%- endcomment -%}
-                    <div class="snosha-reel__placeholder">
-                      {%- if block.settings.poster != blank -%}
-                        {{
-                          block.settings.poster
-                          | image_url: width: 870
-                          | image_tag:
-                            widths: '248, 290, 496, 580, 744, 870',
-                            sizes: poster_sizes,
-                            loading: 'lazy',
-                            alt: '',
-                            class: 'snosha-reel__poster-image'
-                        }}
-                      {%- else -%}
-                        {{ 'hero-apparel-3' | placeholder_svg_tag: 'snosha-reel__placeholder-svg' }}
-                      {%- endif -%}
-                      <span class="snosha-reel__editor-hint">
-                        No video yet: choose a Shopify video for this reel. A new upload appears once Shopify has
-                        finished processing it. Reels without a video are hidden on the storefront.
-                      </span>
-                      <span class="snosha-reel__play" aria-hidden="true">
-                        <img
-                          src="{{ 'snosha-reels-play.svg' | asset_url }}"
-                          alt=""
-                          width="24"
-                          height="24"
-                          loading="lazy"
-                        >
-                      </span>
-                    </div>
-                  {%- endif -%}
-                </div>
-
-                {%- if product != blank -%}
-                  <a class="snosha-reel__product" href="{{ product.url }}">
-                    <span class="snosha-reel__thumb">
-                      {%- if product.featured_image != blank -%}
-                        {{
-                          product.featured_image
-                          | image_url: width: 129
-                          | image_tag: widths: '43, 86, 129', sizes: '43px', loading: 'lazy', alt: ''
-                        }}
-                      {%- else -%}
-                        {{ 'product-1' | placeholder_svg_tag }}
-                      {%- endif -%}
-                    </span>
-                    <span class="snosha-reel__info">
-                      <span class="snosha-reel__title" dir="auto">{{ product.title | escape }}</span>
-                      <span class="snosha-reel__price">
-                        {%- if product.available == false -%}
-                          {%- if section.settings.unavailable_label != blank -%}
-                            {{- section.settings.unavailable_label | escape -}}
-                          {%- else -%}
-                            {{- 'products.product.sold_out' | t -}}
-                          {%- endif -%}
-                        {%- else -%}
-                          {%- liquid
-                            if use_currency_code
-                              assign product_price = product.price | money_with_currency
-                            else
-                              assign product_price = product.price | money
-                            endif
-                          -%}
-                          {%- if product.price_varies -%}
-                            {{- 'content.price_from' | t: price: product_price -}}
-                          {%- else -%}
-                            {{- product_price -}}
-                          {%- endif -%}
-                        {%- endif -%}
-                      </span>
-                    </span>
-                  </a>
-                {%- endif -%}
-              </li>
-              {%- assign reel_index = reel_index | plus: 1 -%}
-            {%- endfor -%}
+            {%- liquid
+              # Snosha opt-in product source (blank = unchanged): entries of the "Product reels" metaobject
+              # list (snosha_reel: video, cover, label, product) replace the Reel blocks, in list order.
+              if section.settings.snosha_reels.size > 0
+                assign reel_index = 0
+                for entry in section.settings.snosha_reels
+                  assign video = entry.video.value
+                  if video == blank and request.design_mode == false
+                    continue
+                  endif
+                  assign is_initial = false
+                  if reel_index == initial_index
+                    assign is_initial = true
+                  endif
+                  render 'snosha-reel-card', video: video, cover: entry.cover.value, product: entry.product.value, label: entry.label.value, initial: is_initial, poster_sizes: poster_sizes, unavailable_label: section.settings.unavailable_label, use_currency_code: use_currency_code
+                  assign reel_index = reel_index | plus: 1
+                endfor
+              else
+                assign reel_index = 0
+                for block in section.blocks
+                  assign video = block.settings.video
+                  if video == blank and request.design_mode == false
+                    continue
+                  endif
+                  assign is_initial = false
+                  if reel_index == initial_index
+                    assign is_initial = true
+                  endif
+                  render 'snosha-reel-card', video: video, cover: block.settings.poster, product: block.settings.product, label: block.settings.label, initial: is_initial, poster_sizes: poster_sizes, unavailable_label: section.settings.unavailable_label, use_currency_code: use_currency_code, attributes: block.shopify_attributes
+                  assign reel_index = reel_index | plus: 1
+                endfor
+              endif
+            -%}
           </ul>
         </snosha-reels-carousel>
 
@@ -317,6 +210,13 @@
       "id": "heading",
       "label": "Heading",
       "default": "اكتشف عالم SNOSHA"
+    },
+    {
+      "type": "metaobject_list",
+      "id": "snosha_reels",
+      "label": "Product reels (optional)",
+      "metaobject_type": "snosha_reel",
+      "info": "Connect to a product metafield (list of \"SNOSHA reel\"). When the product has entries, they replace the Reel blocks, in list order. On the storefront the section is hidden when there is no video."
     },
     {
       "type": "text",

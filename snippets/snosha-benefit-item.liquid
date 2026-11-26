@@ -1,0 +1,25 @@
+{%- doc -%}
+  Snosha: one Buy Box benefit row. Shared by blocks/_snosha-benefit.liquid (Theme Editor block) and
+  blocks/snosha-benefits.liquid (entries of the optional "snosha_content_item" metaobject list), so both
+  sources render identical markup. Renders nothing when the text is empty.
+
+  @param {string} text - row text (already stripped)
+  @param {string} [icon] - snosha-icon name; 'none' or blank = no icon
+  @param {object} [image] - custom icon image (replaces the icon)
+  @param {string} uid - unique id for the icon's SVG defs
+  @param {string} [attributes] - block.shopify_attributes (Theme Editor blocks only)
+{%- enddoc -%}
+{%- if text != blank -%}
+  <li class="snosha-benefits__item" {{ attributes }}>
+    {%- if image != blank -%}
+      <span class="snosha-benefits__tile snosha-benefits__tile--image" aria-hidden="true">
+        {{- image | image_url: width: 66 | image_tag: width: 22, height: 22, alt: '', loading: 'lazy' -}}
+      </span>
+    {%- elsif icon != 'none' and icon != blank -%}
+      <span class="snosha-benefits__tile" aria-hidden="true">
+        {%- render 'snosha-icon', icon: icon, uid: uid -%}
+      </span>
+    {%- endif -%}
+    <span class="snosha-benefits__text">{{ text }}</span>
+  </li>
+{%- endif -%}

@@ -7,10 +7,23 @@
   (Figma "Box Image" 805 × 560 inside a 920 × 476 stage: 87.5 % wide, 44 px from the outer edge,
   18 px above and 66 px below). The spill uses negative margins, never a fixed height.
 {%- endcomment -%}
+{%- doc -%}
+  @param {boolean} [snosha_entry_mode] - set by _snosha-ld-panel in product entry mode
+  @param {object} [snosha_image] - entry image (entry mode)
+  @param {object} [snosha_image_mobile] - entry mobile / tablet image (entry mode)
+{%- enddoc -%}
 {%- liquid
   assign bs = block.settings
-  assign image = bs.image | default: bs.image_mobile
-  assign image_mobile = bs.image_mobile | default: image
+  # Snosha: a panel in "product entry" mode passes the entry's images (snosha_entry_mode); the block's
+  # own image pickers are then ignored, and every layout setting below still applies.
+  if snosha_entry_mode
+    assign own_mobile_image = snosha_image_mobile
+    assign image = snosha_image | default: snosha_image_mobile
+  else
+    assign own_mobile_image = bs.image_mobile
+    assign image = bs.image | default: bs.image_mobile
+  endif
+  assign image_mobile = own_mobile_image | default: image
 
   if image != blank
     assign alt = bs.image_alt | default: image.alt | strip_html | escape
@@ -118,7 +131,7 @@
   >
     {%- if image != blank -%}
       <picture>
-        {%- if bs.image_mobile != blank -%}
+        {%- if own_mobile_image != blank -%}
           <source
             media="(max-width: 989px)"
             srcset="{{ image_mobile | image_url: width: 400 }} 400w, {{ image_mobile | image_url: width: 600 }} 600w, {{ image_mobile | image_url: width: 800 }} 800w, {{ image_mobile | image_url: width: 1200 }} 1200w"

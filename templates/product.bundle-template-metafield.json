@@ -301,18 +301,6 @@
                 "show_swatch_labels": true,
                 "snosha_extra_swatches": true,
                 "snosha_swatch_metaobject": "snosha_brush_colors",
-                "snosha_swatch_value_1": "",
-                "snosha_swatch_color_1": "",
-                "snosha_swatch_value_2": "",
-                "snosha_swatch_color_2": "",
-                "snosha_swatch_value_3": "",
-                "snosha_swatch_color_3": "",
-                "snosha_swatch_value_4": "",
-                "snosha_swatch_color_4": "",
-                "snosha_swatch_value_5": "",
-                "snosha_swatch_color_5": "",
-                "snosha_swatch_value_6": "",
-                "snosha_swatch_color_6": "",
                 "option_label_text_color": "",
                 "variant_style_class": "default",
                 "custom_variant_background": "{{ settings.color_palette.background }}",
@@ -960,7 +948,7 @@
           "type": "item",
           "settings": {
             "text": "فرشاة SNOSHA N2 الكهربائية",
-            "quantity": "× 2",
+            "quantity": "× 3",
             "show_icon": true,
             "icon": "brush_body"
           }
@@ -972,15 +960,6 @@
             "quantity": "× 16",
             "show_icon": true,
             "icon": "brush_head"
-          }
-        },
-        "item_BC7rBh": {
-          "type": "item",
-          "settings": {
-            "text": "منظف لسان Snoshax ستانلس ستيل بجرابه",
-            "quantity": "× 2",
-            "show_icon": true,
-            "icon": "sparkle_detail"
           }
         },
         "item_6pRXEF": {
@@ -1014,7 +993,6 @@
       "block_order": [
         "item_fpngWi",
         "item_QG6dJ6",
-        "item_BC7rBh",
         "item_6pRXEF",
         "item_zJRyrA",
         "item_baN6zL"
@@ -1046,25 +1024,15 @@
         "row_zQD9yV": {
           "type": "row",
           "settings": {
-            "name": "فرشاة SNOSHA N2 × 2",
-            "price": "6,200 ج",
+            "name": "فرشاة SNOSHA N2 × 3",
+            "price": "5200 ج",
             "show_icon": true,
             "icon": "brush_body"
-          }
-        },
-        "row_wMYbhF": {
-          "type": "row",
-          "settings": {
-            "name": "منظف لسان Snoshax × 2",
-            "price": "1,000 ج",
-            "show_icon": true,
-            "icon": "sparkle_detail"
           }
         }
       },
       "block_order": [
-        "row_zQD9yV",
-        "row_wMYbhF"
+        "row_zQD9yV"
       ],
       "name": "SNOSHA — Bundle Value",
       "settings": {
@@ -1072,11 +1040,11 @@
         "subtitle": "لو اشتريتهم كل واحد لوحده",
         "price_source": "manual",
         "total_label": "الإجمالي",
-        "total_amount": "7,200 ج",
+        "total_amount": "5,200 ج",
         "bundle_label": "سعر الباقة",
-        "bundle_amount": "5,599 ج",
+        "bundle_amount": "4,500 ج",
         "savings_label": "وفرت",
-        "savings_amount": "1,601 ج",
+        "savings_amount": "700 ج",
         "panel_note": "",
         "background_color": "{{ settings.color_palette.background }}",
         "heading_color": "{{ settings.color_palette.color6 }}",

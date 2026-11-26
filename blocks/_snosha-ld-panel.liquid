@@ -11,13 +11,42 @@
   then copy, then the list ("top").
   Column widths are Figma reference pixels; they become proportional (fr) columns, so the panel
   keeps the Figma proportions at every desktop width without a fixed height.
+  Product entry mode (Snosha opt-in, blank = unchanged): "Product entry number" N > 0 takes ALL content
+  (heading, subtitle, body, note, list label, images, list items) from entry N of the section's
+  "Product panels" metaobject list (snosha_ld_panel); this panel's own text, items and image pickers
+  are ignored, its layout and image settings still apply. No entry N → nothing on the storefront.
 {%- endcomment -%}
 {%- liquid
   assign bs = block.settings
   assign layout = bs.layout | default: 'three'
 
+  assign entry_number = bs.snosha_entry | default: 0
+  assign entry_mode = false
+  assign entry = blank
+  if entry_number > 0
+    assign entry_mode = true
+    # Index access ([n]) isn't supported on metaobject_list settings; look the entry up by position.
+    for candidate in section.settings.snosha_panels
+      if forloop.index == entry_number
+        assign entry = candidate
+        break
+      endif
+    endfor
+  endif
+
   capture items_markup
-    content_for 'blocks'
+    if entry_mode
+      for item in entry.items.value
+        if item.light_color.value != blank
+          render 'snosha-ld-indicator', title: item.title.value, description: item.description.value, light_color: item.light_color.value, light_style: item.light_style.value
+        else
+          assign item_uid = block.id | append: '-' | append: forloop.index
+          render 'snosha-ld-item', title: item.title.value, description: item.description.value, icon: item.icon.value, icon_image: item.icon_image.value, uid: item_uid
+        endif
+      endfor
+    else
+      content_for 'blocks'
+    endif
   endcapture
   assign items_markup = items_markup | strip
   assign has_items = false
@@ -28,7 +57,11 @@
   assign has_media = false
   if layout != 'text'
     capture media_markup
-      content_for 'block', type: '_snosha-ld-media', id: 'media'
+      if entry_mode
+        content_for 'block', type: '_snosha-ld-media', id: 'media', snosha_entry_mode: true, snosha_image: entry.image.value, snosha_image_mobile: entry.image_mobile.value
+      else
+        content_for 'block', type: '_snosha-ld-media', id: 'media'
+      endif
     endcapture
     assign media_markup = media_markup | strip
     if media_markup != blank
@@ -36,11 +69,22 @@
     endif
   endif
 
-  assign heading = bs.heading | strip
-  assign subtitle = bs.subtitle | strip
-  assign body = bs.body | strip
-  assign note = bs.note | strip
-  assign list_label = bs.list_label | strip
+  if entry_mode
+    assign heading = entry.heading.value | strip | escape
+    assign subtitle = entry.subtitle.value | strip | escape
+    assign body = ''
+    if entry.body.value != blank
+      assign body = entry.body | metafield_tag | strip
+    endif
+    assign note = entry.note.value | strip | escape
+    assign list_label = entry.list_label.value | strip
+  else
+    assign heading = bs.heading | strip
+    assign subtitle = bs.subtitle | strip
+    assign body = bs.body | strip
+    assign note = bs.note | strip
+    assign list_label = bs.list_label | strip
+  endif
   assign heading_tag = 'h3'
   if layout == 'text'
     assign heading_tag = 'h2'
@@ -70,7 +114,18 @@
   unless has_items
     assign classes = classes | append: ' snosha-long-description__panel--no-items'
   endunless
+
+  # Entry mode without entry N: nothing on the storefront; an editor-only note in the Theme Editor.
+  assign hide_panel = false
+  if entry_mode and entry == blank
+    if request.design_mode
+      assign note = 'Theme Editor only: this panel shows entry ' | append: entry_number | append: ' of the product’s “Product panels” list; the previewed product has no such entry, so the panel is hidden on the storefront.'
+    else
+      assign hide_panel = true
+    endif
+  endif
 -%}
+{%- unless hide_panel -%}
 <div
   class="{{ classes }}"
   style="
@@ -100,6 +155,7 @@
   "
   {{ block.shopify_attributes }}
 >
+  {%- if entry_mode and entry != blank %}<!--snosha-ld-entry:{{ entry_number }}-->{% endif -%}
   {%- if heading != blank or subtitle != blank or body != blank or note != blank -%}
     <div class="snosha-long-description__copy">
       {%- if heading != blank -%}
@@ -136,6 +192,7 @@
     {%- endif -%}
   {%- endif -%}
 </div>
+{%- endunless -%}
 
 {% schema %}
 {
@@ -147,6 +204,12 @@
     { "type": "_snosha-ld-cta" }
   ],
   "settings": [
+    {
+      "type": "number",
+      "id": "snosha_entry",
+      "label": "Product entry number (optional)",
+      "info": "Empty = this panel's own content. A number N shows entry N of the section's \"Product panels\" list instead (heading, texts, images, list items); this panel keeps its layout and image settings. No entry N for the product = panel hidden on the storefront."
+    },
     {
       "type": "select",
       "id": "layout",

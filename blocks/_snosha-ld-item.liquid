@@ -4,31 +4,17 @@
   The icon comes from snippets/snosha-icon.liquid, or from an uploaded image. Tile size, gaps and
   text sizes come from the panel's "Icon tile style" and the section's Typography block.
   Renders nothing on the storefront when both title and description are empty.
+  Markup: snippets/snosha-ld-item.liquid (shared with the panel's optional metaobject items).
 {%- endcomment -%}
-{%- liquid
-  assign bs = block.settings
-  assign title = bs.title | strip
-  assign description = bs.description | strip
+{%- render 'snosha-ld-item',
+  title: block.settings.title,
+  description: block.settings.description,
+  icon: block.settings.icon,
+  icon_image: block.settings.icon_image,
+  uid: block.id,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if title != blank or description != blank or request.design_mode -%}
-  <li class="snosha-long-description__item" {{ block.shopify_attributes }}>
-    <span class="snosha-long-description__tile" aria-hidden="true">
-      {%- if bs.icon_image != blank -%}
-        {{- bs.icon_image | image_url: width: 72 | image_tag: width: 24, height: 24, alt: '', loading: 'lazy', class: 'snosha-long-description__icon-image' -}}
-      {%- elsif bs.icon != 'none' -%}
-        {%- render 'snosha-icon', icon: bs.icon, uid: block.id -%}
-      {%- endif -%}
-    </span>
-    <span class="snosha-long-description__item-text">
-      {%- if title != blank -%}
-        <span class="snosha-long-description__item-title">{{ title }}</span>
-      {%- endif -%}
-      {%- if description != blank -%}
-        <span class="snosha-long-description__item-desc">{{ description }}</span>
-      {%- endif -%}
-    </span>
-  </li>
-{%- endif -%}
 
 {% schema %}
 {

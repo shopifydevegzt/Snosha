@@ -4,41 +4,16 @@
   at y 13.5) inlined with currentColor, or the section's custom marker image; both are aria-hidden.
   Marker visibility, image, size and color are shared section settings (section.settings / CSS vars).
   A blank mobile text falls back to the main text (CSS toggle at Horizon's 750px breakpoint).
+  Markup: snippets/snosha-storage-item.liquid (shared with the section's optional metaobject tabs).
 {%- endcomment -%}
-{%- liquid
-  assign desktop_text = block.settings.text | strip
-  assign mobile_text = block.settings.text_mobile | strip
-  if desktop_text == blank
-    assign desktop_text = mobile_text
-  endif
+{%- render 'snosha-storage-item',
+  text: block.settings.text,
+  text_mobile: block.settings.text_mobile,
+  show_marker: section.settings.show_marker,
+  marker_image: section.settings.marker_image,
+  show_empty: request.design_mode,
+  attributes: block.shopify_attributes
 -%}
-{%- if desktop_text != blank or request.design_mode -%}
-  <li class="snosha-storage-care__item" {{ block.shopify_attributes }}>
-    {%- if section.settings.show_marker -%}
-      <span class="snosha-storage-care__marker" aria-hidden="true">
-        {%- if section.settings.marker_image != blank -%}
-          {{
-            section.settings.marker_image
-            | image_url: width: 80
-            | image_tag: alt: '', loading: 'lazy', class: 'snosha-storage-care__marker-image'
-          }}
-        {%- else -%}
-          <svg class="snosha-storage-care__marker-svg" viewBox="0 0 7 26" width="7" height="26" fill="none" focusable="false">
-            <circle cx="3.5" cy="13.5" r="3.5" fill="currentColor"/>
-          </svg>
-        {%- endif -%}
-      </span>
-    {%- endif -%}
-    <span class="snosha-storage-care__item-text">
-      {%- if mobile_text != blank and mobile_text != desktop_text -%}
-        <span class="snosha-storage-care__text snosha-storage-care__text--desktop">{{ desktop_text }}</span>
-        <span class="snosha-storage-care__text snosha-storage-care__text--mobile">{{ mobile_text }}</span>
-      {%- else -%}
-        <span class="snosha-storage-care__text">{{ desktop_text }}</span>
-      {%- endif -%}
-    </span>
-  </li>
-{%- endif -%}
 
 {% schema %}
 {
