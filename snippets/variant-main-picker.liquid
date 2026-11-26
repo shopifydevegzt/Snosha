@@ -110,6 +110,23 @@
             endif
           endif
 
+          # Snosha (opt-in `snosha_extra_swatches`, buttons style): an option with no native swatches is shown as
+          # swatches when at least one value resolves a color (snippets/snosha-swatch-background.liquid). Values
+          # that don't resolve stay selectable as Horizon's empty dashed swatch + their name; an option where no
+          # value resolves keeps buttons. Detection uses the values, never the option's name or position.
+          if swatch_count == 0 and block_settings.show_swatches and block_settings.snosha_extra_swatches and block_settings.variant_style == 'buttons'
+            for snosha_value in product_option.values
+              capture snosha_background
+                render 'snosha-swatch-background', value: snosha_value, product_resource: product_resource, block_settings: block_settings
+              endcapture
+              assign snosha_background = snosha_background | strip
+              if snosha_background != blank
+                assign variant_style = 'swatch'
+                break
+              endif
+            endfor
+          endif
+
           if variant_style == 'buttons' and settings.variant_button_width == 'equal-width-buttons'
             assign fieldset_id = section.id | append: '-' | append: product_resource.id | append: '-' | append: product_option.name | handleize
             assign option_id_attribute = 'data-option-id="' | append: fieldset_id | append: '"'
@@ -185,15 +202,30 @@
                     if featured_media == blank and product_option_value.product_url
                       assign featured_media = product_option_value.variant.product.featured_media
                     endif
+
+                    # Snosha: values without their own native swatch get the resolved background (or none:
+                    # Horizon's dashed "no color" swatch, with the name always shown so it is never a blank circle)
+                    assign snosha_background = ''
+                    assign snosha_unresolved = false
+                    if product_option_value.swatch == nil and block_settings.snosha_extra_swatches
+                      capture snosha_background
+                        render 'snosha-swatch-background', value: product_option_value, product_resource: product_resource, block_settings: block_settings
+                      endcapture
+                      assign snosha_background = snosha_background | strip
+                      if snosha_background == blank
+                        assign snosha_unresolved = true
+                      endif
+                    endif
                   %}
 
                   {% render 'swatch',
                     swatch: product_option_value.swatch,
                     variant_image: featured_media,
-                    mode: 'unscaled'
+                    mode: 'unscaled',
+                    background: snosha_background
                   %}
                   {%- comment -%} Snosha: visible value name under the swatch (opt-in; the input already carries the accessible name) {%- endcomment -%}
-                  {%- if block_settings.show_swatch_labels -%}
+                  {%- if block_settings.show_swatch_labels or snosha_unresolved -%}
                     <span class="variant-option__swatch-label" aria-hidden="true">{{ product_option_value | escape }}</span>
                   {%- endif -%}
                 {% else %}

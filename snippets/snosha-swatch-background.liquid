@@ -1,0 +1,84 @@
+{%- doc -%}
+  Snosha: resolves a swatch background for a product option value that has no native swatch of its own.
+  Outputs a CSS background (`rgb(…)` or `url(…)`), or nothing when no color is known (never a guess).
+  Used by snippets/variant-main-picker.liquid (opt-in `snosha_extra_swatches` on the variant picker block).
+
+  Priority, all merchant data, no value names in code:
+  1. (caller) the value's own native swatch;
+  2. the native swatch of the same value name in another option of the product;
+  3. the metaobject type named in `snosha_swatch_metaobject` (e.g. "SNOSHA Brush Colors"): the entry whose
+     `name` field, handle or linked Color pattern label equals the value. Its `color` field may reference a
+     Color pattern entry (shopify--color-pattern: image or color) or be a plain color field;
+  4. the block's Value 1–6 / color pairs (backward compatibility).
+  Names are compared trimmed and case-insensitively, in the storefront's current language.
+
+  @param {object} value - product option value
+  @param {object} product_resource - the product
+  @param {object} block_settings - variant picker block settings
+
+  @example
+  {% render 'snosha-swatch-background', value: product_option_value, product_resource: product_resource, block_settings: block_settings %}
+{%- enddoc -%}
+{%- liquid
+  assign target = value.name | strip | downcase
+  assign target_handle = value.name | handleize
+  assign result = ''
+
+  for other_option in product_resource.options_with_values
+    for other_value in other_option.values
+      if other_value.swatch
+        assign other_name = other_value.name | strip | downcase
+        if other_name == target
+          if other_value.swatch.image
+            assign image_src = other_value.swatch.image | image_url: width: 80
+            assign result = 'url(' | append: image_src | append: ')'
+          elsif other_value.swatch.color
+            assign result = 'rgb(' | append: other_value.swatch.color.rgb | append: ')'
+          endif
+          break
+        endif
+      endif
+    endfor
+    if result != blank
+      break
+    endif
+  endfor
+
+  assign metaobject_type = block_settings.snosha_swatch_metaobject | strip
+  if result == blank and metaobject_type != blank
+    for entry in metaobjects[metaobject_type].values
+      assign entry_name = entry.name.value | strip | downcase
+      assign pattern = entry.color.value
+      assign pattern_label = pattern.label.value | strip | downcase
+      if entry_name == target or entry.system.handle == target_handle or pattern_label == target
+        if entry.color.type == 'color'
+          if pattern.rgb != blank
+            assign result = 'rgb(' | append: pattern.rgb | append: ')'
+          endif
+        elsif pattern.image.value != blank
+          assign image_src = pattern.image.value | image_url: width: 80
+          assign result = 'url(' | append: image_src | append: ')'
+        elsif pattern.color.value != blank
+          assign result = 'rgb(' | append: pattern.color.value.rgb | append: ')'
+        endif
+        if result != blank
+          break
+        endif
+      endif
+    endfor
+  endif
+
+  if result == blank
+    for i in (1..6)
+      assign value_key = 'snosha_swatch_value_' | append: i
+      assign color_key = 'snosha_swatch_color_' | append: i
+      assign map_name = block_settings[value_key] | strip | downcase
+      if map_name != blank and map_name == target and block_settings[color_key] != blank
+        assign result = 'rgb(' | append: block_settings[color_key].rgb | append: ')'
+        break
+      endif
+    endfor
+  endif
+
+  echo result
+-%}

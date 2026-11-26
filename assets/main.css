@@ -3417,6 +3417,12 @@
         transition: box-shadow var(--animation-speed) var(--animation-easing);
       }
 
+      /* Value without color data (Horizon's swatch--unavailable, e.g. a new option value nobody has given a
+         color yet): keep Horizon's dashed outline so it never reads as a white dot; its name is always shown */
+      .swatch.swatch--unavailable {
+        border: 1px dashed var(--snosha-bb-muted);
+      }
+
       &:hover .swatch {
         box-shadow:
           0 0 0 4px var(--color-background),

@@ -290,6 +290,8 @@
                 "variant_style": "buttons",
                 "show_swatches": true,
                 "show_swatch_labels": true,
+                "snosha_extra_swatches": true,
+                "snosha_swatch_metaobject": "snosha_brush_colors",
                 "option_label_text_color": "",
                 "variant_style_class": "default",
                 "custom_variant_background": "{{ settings.color_palette.background }}",
